@@ -22,6 +22,7 @@ configuration.json
 confi.php
 cert.crt
 cert.key
+*.lock
 
 npm-debug.log*
 yarn-debug.log*

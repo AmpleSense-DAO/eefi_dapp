@@ -1,0 +1,40 @@
+{
+  
+"compilerOptions": {
+  "esModuleInterop": true,
+  "lib": ["es5", "es2015", "es2016", "dom"],
+  "module": "esnext",
+  "moduleResolution": "node",
+    "outDir": "./public/",      // path to output directory
+    "strictNullChecks": true,   // enable strict null checks as a best practice
+    "jsx": "react",             // use typescript to transpile jsx to js
+    // "declaration": false,
+    // "strictFunctionTypes": true,
+    // "forceConsistentCasingInFileNames": true,
+    // "noUnusedLocals": true,
+    // "alwaysStrict": true,
+    "allowSyntheticDefaultImports": true,
+    //"allowUnreachableCode": false,
+    //"allowUnusedLabels": false,
+    //"newLine": "LF",
+    //"stripInternal": true,
+    // "strict": true,
+    //"removeComments": true,
+    "pretty": true,
+    // "locale": "en-us",
+    "sourceMap": true,
+    "allowJs": true,
+    "target": "ES5", //set to es5 to support IE11
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "noImplicitAny": false, //this need to be false for object-assign polyfill to work
+    "suppressImplicitAnyIndexErrors": true,
+    "forceConsistentCasingInFileNames": false,
+    "typeRoots": ["@types"],
+    "types": ["node"]
+  },
+  "exclude": ["node_modules"],
+  "compileOnSave": false,
+  "include": [ "./src/" ]
+}
+
