@@ -90,7 +90,35 @@ class Sidebar extends React.Component {
                 />
               )}
             </LinksGroup>
+       
+            <LinksGroup
+              onActiveSidebarItemChange={activeItem =>
+                this.props.dispatch(changeActiveSidebarItem(activeItem))
+              }
+              activeItem={this.props.activeItem}
+              header="VaultSummary"
+              isHeader
+              link="/app/main/vault-summary"
+              index="main"
+            >
+              {window.location.href.includes("vault-summary") ? (
+                <img
+                  src={darkDashboardIcon}
+                  alt="lightDashboard"
+                  width={"24px"}
+                  height={"24px"}
+                />
+              ) : (
+                <img
+                  src={lightDashboardIcon}
+                  alt="lightDashboard"
+                  width={"24px"}
+                  height={"24px"}
+                />
+              )}
+            </LinksGroup>
           </ul>
+
           <h5 className={s.navTitle}>TEMPLATE</h5>
           <ul className={s.nav}>
             <LinksGroup

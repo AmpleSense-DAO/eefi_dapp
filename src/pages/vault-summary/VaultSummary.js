@@ -12,7 +12,7 @@ import { chartData } from "./chartsMock";
 
 import Widget from "../../components/Widget";
 
-import s from "./Dashboard.module.scss";
+import s from "./VaultSummary.module.scss";
 import ApexChart from "react-apexcharts";
 
 //people
@@ -362,7 +362,7 @@ const splineArea = {
   },
 };
 
-class Dashboard extends React.Component {
+class VaultSummary extends React.Component {
   constructor() {
     super();
     this.forceUpdate = this.forceUpdate.bind(this)
@@ -389,7 +389,7 @@ class Dashboard extends React.Component {
         <Row>
           <Col xl={4}>
             <Widget
-              title={<p style={{ fontWeight: 700 }}>Average Order Value Gilles</p>}
+              title={<p style={{ fontWeight: 700 }}>Average Order Value</p>}
               customDropDown
             >
               <Row className={`justify-content-between mt-3`} noGutters>
@@ -847,4 +847,4 @@ class Dashboard extends React.Component {
   }
 }
 
-export default Dashboard;
+export default VaultSummary;

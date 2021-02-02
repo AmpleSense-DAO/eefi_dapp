@@ -6,6 +6,7 @@ import { TransitionGroup, CSSTransition } from "react-transition-group";
 import Hammer from "rc-hammerjs";
 
 import Dashboard from "../../pages/dashboard";
+import VaultSummary from "../../pages/vault-summary";
 import Header from "../Header";
 import Sidebar from "../Sidebar";
 import {
@@ -115,6 +116,11 @@ class Layout extends React.Component {
                       path="/app/main/dashboard"
                       exact
                       component={Dashboard}
+                    />
+                    <Route
+                      path="/app/main/vault-summary"
+                      exact
+                      component={VaultSummary}
                     />
                     <Route path={"/app/typography"} component={Typography} />
                     <Route path={"/app/tables"} component={Tables} />
