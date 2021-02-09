@@ -1,0 +1,6 @@
+{
+  "name": "vault-summary",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./VaultSummary.js"
+}
