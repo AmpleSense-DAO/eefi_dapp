@@ -36,75 +36,19 @@ import p6 from "../../images/tokens/system_white.png";
 
 class Landing extends React.Component {
   static propTypes = {
-    dispatch: PropTypes.func.isRequired,
+    
   };
-
-  static isAuthenticated(token) {
-    // We check if app runs with backend mode
-    if (!config.isBackend && token) return true;
-    if (!token) return;
-    const date = new Date().getTime() / 1000;
-    const data = jwt.decode(token);
-    return date < data.exp;
-  }
 
   constructor(props) {
     super(props);
-
-    this.state = {
-      email: "admin@flatlogic.com",
-      password: "password",
-    };
-
-    this.doLogin = this.doLogin.bind(this);
-    this.googleLogin = this.googleLogin.bind(this);
-    this.microsoftLogin = this.microsoftLogin.bind(this);
-    this.changeEmail = this.changeEmail.bind(this);
-    this.changePassword = this.changePassword.bind(this);
-    this.signUp = this.signUp.bind(this);
-  }
-
-  changeEmail(event) {
-    this.setState({ email: event.target.value });
-  }
-
-  changePassword(event) {
-    this.setState({ password: event.target.value });
-  }
-
-  doLogin(e) {
-
-          return <Redirect to='/app/main/vault-summary' />;
-
-    e.preventDefault();
-    this.props.dispatch(
-      loginUser({ email: this.state.email, password: this.state.password })
-    );
-  }
-
-  googleLogin() {
-    this.props.dispatch(loginUser({ social: "google" }));
-  }
-
-  microsoftLogin() {
-    this.props.dispatch(loginUser({ social: "microsoft" }));
   }
 
   componentDidMount() {
-    const params = new URLSearchParams(this.props.location.search);
-    const token = params.get("token");
-    if (token) {
-      this.props.dispatch(receiveToken(token));
-    }
-  }
-
-  signUp() {
-    this.props.history.push("/register");
   }
 
   render() {
     const { from } = this.props.location.state || {
-      from: { pathname: "/app" },
+      from: { pathname: "/landing" },
     }; // eslint-disable-line
 
  
@@ -137,7 +81,7 @@ class Landing extends React.Component {
                 <p>&nbsp;</p>
 
                   <p className={"d-flex align-items-center "} responsive>
-                    <Link to="/app/main/vault-summary"><Button color="info" size="lg" className="mb-md mr-sm" responsive>Launch App</Button>
+                    <Link to="/app"><Button color="info" size="lg" className="mb-md mr-sm" responsive>Launch App</Button>
                     </Link>
                   </p>
                 </div>
