@@ -18,10 +18,10 @@ export default {
       light: "#FFFFFF",
     },
     themeColors: {
-      warning: '#FEBE69',
+      warning: '#C29412',
       danger: '#f5695a',
       success: '#3bbf97',
-      info: '#12b4de'
+      info: '#1240c2'
     }
   }
 };

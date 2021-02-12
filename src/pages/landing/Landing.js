@@ -74,7 +74,7 @@ class Landing extends React.Component {
 
   doLogin(e) {
 
-          return <Redirect to='/app/main/vault-summary' />;
+          return <Redirect to='/app/home/vault-summary' />;
 
     e.preventDefault();
     this.props.dispatch(
@@ -115,40 +115,51 @@ class Landing extends React.Component {
 
          {/* Color options */}
             {/* Size variants */}
-            <Col md={6} sm={12} xs={12}>
-               <Widget>
+            <Col md={12} sm={12} xs={12}>
+              <Widget>
                 <div>
 
-                <Table className="table-hover " responsive>
-                <thead>
+                <Table className="table-hover" responsive>
                   <tr >
-                    <th key={0} width="33%"   scope="col" className={"pl-0 text-info"}>
-                     <p>&nbsp;</p>
-                     <h2>
+                    <td key={0}   scope="col" className={"pl-0 text-info"}>
+                     <p className={"d-flex  align-items-center"} >&nbsp;
+                     <h1 className="display-4">
                         Unleash the power of your elastic assets
-                     </h2>
+                     </h1>
+                     </p>
+                     <p className={"d-flex  align-items-center"} responsive>&nbsp;
+
                      <h4>
                       Earn token rewards, hedge against negative rebase and more
                      </h4>
-                   </th>                      
-                  </tr>
-                </thead>
-           </Table>
-                <p>&nbsp;</p>
+                     </p>
+                         <p className={"d-flex align-items-center "} responsive>
 
-                  <p className={"d-flex align-items-center "} responsive>
-                    <Link to="/app/main/vault-summary"><Button color="info" size="lg" className="mb-md mr-sm" responsive>Launch App</Button>
+                    <Link to="/app/home/vault-summary"><Button color="info" size="lg" className="mb-md mr-sm" responsive>Launch App</Button>
                     </Link>
-                  </p>
+                    </p>
+
+                   </td>  
+
+                 <td key={1}   scope="col" className={"pl-0 text-info"}>
+                     
+               <img height="180" src={p1} alt="" className={"mr-3 mt-2"} />
+
+              
+                   </td>       
+
+                  </tr>
+           </Table>
+
+                  
+                    
                 </div>
-              </Widget>
+            </Widget>
+
             </Col>
 
-            <Col md={6} sm={12} xs={12}>
-                <p>&nbsp;</p>
+          
 
-               <img height="280" src={p1} alt="" className={"mr-3 "} />
-            </Col>
      <Col sm={12}>
             <Widget>
                 <Table width="50%" className=" table-bordered" responsive>

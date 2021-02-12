@@ -9,6 +9,7 @@ import Dashboard from "../../pages/dashboard";
 import VaultSummary from "../../pages/vault-summary";
 import VaultDetail from "../../pages/vault-detail";
 import VaultGenPage from "../../pages/vault-gen-page";
+import VaultEefiPage from "../../pages/vault-eefi";
 import VaultNFTs from "../../pages/vault-nfts";
 
 import { SidebarTypes } from "../../reducers/layout";
@@ -151,7 +152,6 @@ class Layout extends React.Component {
 
           <Hammer onSwipe={this.handleSwipe}>
             <main className={s.content}>
-              <BreadcrumbHistory url={this.props.location.pathname} />
               <TransitionGroup>
                 <CSSTransition
                   key={this.props.location.key}
@@ -160,32 +160,37 @@ class Layout extends React.Component {
                 >
                   <Switch>
                     <Route
-                      path="/app/main"
+                      path="/app/home"
                       exact
-                      render={() => <Redirect to="/app/main/dashboard" />}
+                      render={() => <Redirect to="/app/home/dashboard" />}
                     />
                     <Route
-                      path="/app/main/dashboard"
+                      path="/app/home/dashboard"
                       exact
                       component={Dashboard}
                     />
                <Route
-                      path="/app/main/vault-summary"
+                      path="/app/home/vault-summary"
                       exact
                       component={VaultSummary}
                     />
                     <Route
-                      path="/app/main/vault-detail"
+                      path="/app/home/vault-detail"
                       exact
                       component={VaultDetail}
                     />
                    <Route
-                      path="/app/main/vault-gen-page"
+                      path="/app/home/vault-gen-page"
                       exact
                       component={VaultGenPage}
                     />
+                     <Route
+                      path="/app/home/vault-eefi"
+                      exact
+                      component={VaultEefiPage}
+                    /> 
                    <Route
-                      path="/app/main/vault-nfts"
+                      path="/app/home/vault-nfts"
                       exact
                       component={VaultNFTs}
                     />

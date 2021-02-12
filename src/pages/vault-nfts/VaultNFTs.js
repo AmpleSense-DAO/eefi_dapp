@@ -143,6 +143,13 @@ class VaultNFTs extends React.Component {
   render() {
     return (
       <div>
+
+
+      <p>
+        <h2>
+        Pioneer Fund Vault I: NTFs
+        </h2>
+        </p>
         {/* Tabs */}
         <Row>
           <Col md="12" xs="12">
@@ -154,7 +161,7 @@ class VaultNFTs extends React.Component {
                     className={classnames({ active: this.state.activeFirstTab === 'tab11' })}
                     onClick={() => { this.toggleFirstTabs('tab11'); }}
                   >
-                    <span>Manage ZEUS NFTs</span>
+                    <span>Manage Zeus NFTs</span>
                   </NavLink>
                 </NavItem>
                 <NavItem>
@@ -179,24 +186,28 @@ class VaultNFTs extends React.Component {
          {/* Color options */}
             <Col md={6} sm={12} xs={12}>
               <Widget
-                title={<p style={{ fontWeight: 700 }}>Zeus NFT Wallet Balance: 83,569 $</p>} 
+                title={<p style={{ fontWeight: 700 }}>Zeus NFT Wallet Balance: 8,569 NFT(s)</p>} 
               >
                 <div>
                 
-                  <FormGroup>
-                       <Label for="search-input1">
+                   <FormGroup>
+                        <Label for="bar">
                           Amount to Deposit
                         </Label>
                         <InputGroup>
-                          <Input type="text" id="search-input1" />
+                          <Input type="text" id="bar" />
                           <InputGroupAddon addonType="append">
-                            <Button color="default"> MAX </Button>
+                            <ButtonGroup>
+                              <Button color="ample1"><i className="fa " />25%</Button>
+                              <Button color="ample2"><i className="fa " />50%</Button>
+                              <Button color="ample3"><i className="fa " />75%</Button>
+                              <Button color="ample4"><i className="fa " />100%</Button>
+                            </ButtonGroup>
                           </InputGroupAddon>
                         </InputGroup>
-                   </FormGroup>
-                  <p className="fs-mini text-muted">
-                    Deposits for 90 days.
-                  </p>
+                      </FormGroup>
+
+                  
                   <p className={"d-flex align-items-center "} align="center">
                     <Button color="default" size="lg" align="center" className="mb-md mr-sm">Deposit</Button>
                   </p>
@@ -207,24 +218,28 @@ class VaultNFTs extends React.Component {
             {/* Size variants */}
             <Col md={6} sm={12} xs={12}>
                     <Widget
-                title={<p style={{ fontWeight: 700 }}>Zeus NFT Available to Withdraw: 83,569 $</p>} 
+                title={<p style={{ fontWeight: 700 }}>Zeus NFT Available to Withdraw: 369 NFT(s)</p>} 
               >
                 <div>
                 
-                  <FormGroup>
-                       <Label for="search-input1">
-                          Amount to Withdraw
+                    <FormGroup>
+                        <Label for="bar">
+                          Amount to Deposit
                         </Label>
                         <InputGroup>
-                          <Input type="text" id="search-input1" />
+                          <Input type="text" id="bar" />
                           <InputGroupAddon addonType="append">
-                            <Button color="default"> MAX </Button>
+                            <ButtonGroup>
+                              <Button color="ample1"><i className="fa " />25%</Button>
+                              <Button color="ample2"><i className="fa " />50%</Button>
+                              <Button color="ample3"><i className="fa " />75%</Button>
+                              <Button color="ample4"><i className="fa " />100%</Button>
+                            </ButtonGroup>
                           </InputGroupAddon>
                         </InputGroup>
-                   </FormGroup>
-                  <p className="fs-mini text-muted">
-                    Unlocked Zeus NFT
-                  </p>
+                      </FormGroup>
+
+                 
                   <p className={"d-flex align-items-center "}>
                     <Button color="default" size="lg" className="mb-md mr-sm">Withdraw</Button>
                   </p>
@@ -237,6 +252,9 @@ class VaultNFTs extends React.Component {
        <Row>
           <Col sm={12}>
             <Widget>
+              <p>
+              <h3>Your Staked Balance and Rewards</h3>
+            </p>
             <p>
                 <Table className="table-hover table-bordered" responsive>
                 <thead>
@@ -244,9 +262,7 @@ class VaultNFTs extends React.Component {
                     <th key={0} width="50%"  scope="col" className={"pl-0"}>
                       &nbsp;Supply
                     </th>
-                    <th key={1} width="25%" scope="col" className={"pl-0"}>
-                      &nbsp;APY
-                    </th>
+                   
                     <th key={2} scope="col" className={"pl-0"}>
                       &nbsp;Rewards
                     </th>                  
@@ -255,23 +271,20 @@ class VaultNFTs extends React.Component {
                 <tbody className="text-dark">
                   <tr key={0}>
                     <td className="fw-thin pl-0 fw-thin">
-                      
+                      <h3>
                         &nbsp;9 Zeus NFT
+                      </h3>  
                     </td>
-                    <td className={"pl-0 fw-thin"}>         
-                      &nbsp;220 %
-                    </td>
+                    
                     <td className={"pl-0 fw-thin"}>
                     
-                   
-                      <img height="30" src={p2} alt="" className={"mr-3"} />
-                      <span align="right">
-                       &nbsp;309.23 EEFI</span> 
-                       
                       <p>
+                      <h4>
                         <img height="30" src={p5} alt="" className={"mr-3"} />
                         <span align="right">
+                        
                         &nbsp;9.23 ETH</span>  
+                        </h4>
                         </p>
                       <p>
                         <Button color="primary" className="mb-md mr-md">Claim</Button>
@@ -345,24 +358,28 @@ class VaultNFTs extends React.Component {
          {/* Color options */}
             <Col md={6} sm={12} xs={12}>
               <Widget
-                title={<p style={{ fontWeight: 700 }}>Apollo NFT Wallet Balance: 8,569 $</p>} 
+                title={<p style={{ fontWeight: 700 }}>Apollo NFT Wallet Balance: 8,569 NFT(s)</p>} 
               >
                 <div>
                 
-                  <FormGroup>
-                       <Label for="search-input1">
+                    <FormGroup>
+                        <Label for="bar">
                           Amount to Deposit
                         </Label>
                         <InputGroup>
-                          <Input type="text" id="search-input1" />
+                          <Input type="text" id="bar" />
                           <InputGroupAddon addonType="append">
-                            <Button color="default"> MAX </Button>
+                            <ButtonGroup>
+                              <Button color="ample1"><i className="fa " />25%</Button>
+                              <Button color="ample2"><i className="fa " />50%</Button>
+                              <Button color="ample3"><i className="fa " />75%</Button>
+                              <Button color="ample4"><i className="fa " />100%</Button>
+                            </ButtonGroup>
                           </InputGroupAddon>
                         </InputGroup>
-                   </FormGroup>
-                  <p className="fs-mini text-muted">
-                    Deposits for 90 days.
-                  </p>
+                      </FormGroup>
+
+                  
                   <p className={"d-flex align-items-center "} align="center">
                     <Button color="default" size="lg" align="center" className="mb-md mr-sm">Deposit</Button>
                   </p>
@@ -373,24 +390,28 @@ class VaultNFTs extends React.Component {
             {/* Size variants */}
             <Col md={6} sm={12} xs={12}>
                     <Widget
-                title={<p style={{ fontWeight: 700 }}>Apollo NFT Available to Withdraw: 83,569 $</p>} 
+                title={<p style={{ fontWeight: 700 }}>Apollo NFT Available to Withdraw: 69 NFT(s)</p>} 
               >
                 <div>
                 
-                  <FormGroup>
-                       <Label for="search-input1">
-                          Amount to Withdraw
+                    <FormGroup>
+                        <Label for="bar">
+                          Amount to Deposit
                         </Label>
                         <InputGroup>
-                          <Input type="text" id="search-input1" />
+                          <Input type="text" id="bar" />
                           <InputGroupAddon addonType="append">
-                            <Button color="default"> MAX </Button>
+                            <ButtonGroup>
+                              <Button color="ample1"><i className="fa " />25%</Button>
+                              <Button color="ample2"><i className="fa " />50%</Button>
+                              <Button color="ample3"><i className="fa " />75%</Button>
+                              <Button color="ample4"><i className="fa " />100%</Button>
+                            </ButtonGroup>
                           </InputGroupAddon>
                         </InputGroup>
-                   </FormGroup>
-                  <p className="fs-mini text-muted">
-                    Unlocked Apollo NFT
-                  </p>
+                      </FormGroup>
+
+                
                   <p className={"d-flex align-items-center "}>
                     <Button color="default" size="lg" className="mb-md mr-sm">Withdraw</Button>
                   </p>
@@ -404,15 +425,17 @@ class VaultNFTs extends React.Component {
           <Col sm={12}>
             <Widget>
             <p>
+              <h3>Your Staked Balance and Rewards</h3>
+            </p>
+
+            <p>
                 <Table className="table-hover table-bordered" responsive>
                 <thead>
                   <tr>
                     <th key={0} width="50%"  scope="col" className={"pl-0"}>
                       &nbsp;Supply
                     </th>
-                    <th key={1} width="25%" scope="col" className={"pl-0"}>
-                      &nbsp;APY
-                    </th>
+                    
                     <th key={2} scope="col" className={"pl-0"}>
                       &nbsp;Rewards
                     </th>                  
@@ -421,23 +444,18 @@ class VaultNFTs extends React.Component {
                 <tbody className="text-dark">
                   <tr key={0}>
                     <td className="fw-thin pl-0 fw-thin">
-                      
-                        &nbsp;8 709 Apollo NFT
+                      <h3>
+                        &nbsp;8,709 Apollo NFT
+                      </h3>
                     </td>
-                    <td className={"pl-0 fw-thin"}>         
-                      &nbsp;220 %
-                    </td>
-                    <td className={"pl-0 fw-thin"}>
-                    
                    
-                      <img height="30" src={p2} alt="" className={"mr-3"} />
-                      <span align="right">
-                       &nbsp;309.23 EEFI</span> 
-                       
+                    <td className={"pl-0 fw-thin"}>                       
                       <p>
+                      <h4>
                         <img height="30" src={p5} alt="" className={"mr-3"} />
                         <span align="right">
                         &nbsp;9.23 ETH</span>  
+                        </h4>
                         </p>
                       <p>
                         <Button color="primary" className="mb-md mr-md">Claim</Button>

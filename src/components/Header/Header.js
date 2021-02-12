@@ -158,37 +158,48 @@ class Header extends React.Component {
     const { focus } = this.state;
     const { navbarType, navbarColor, openUsersList } = this.props;
 
-    const user = JSON.parse(localStorage.getItem("user") || {});
+  //  const user = JSON.parse(localStorage.getItem("user") || {});
 
-    const firstUserLetter = (user.name || user.email || "P")[0].toUpperCase();
+  //  const firstUserLetter = (user.name || user.email || "P")[0].toUpperCase();
 
     return (
       <Navbar
-        className={`${s.root} ${cx({[s.rootLight]: navbarColor === '#FFFFFF'})} d-print-none ${
+        className={`${s.root} ${cx({[s.rootLight]: navbarColor === '#FFFFFF'})} ${
           navbarType === NavbarTypes.FLOATING ? s.navbarFloatingType : ""
-        }`}
-        style={{ zIndex: !openUsersList ? 100 : 0, backgroundColor: navbarColor }}
+        }`} 
       >
-        <NavItem className={`${s.toggleSidebarNav} d-md-none d-flex mr-2`}>
+
+    <NavItem className={`${s.toggleSidebarNav} d-md-none d-flex mr-2`}>
           <NavLink
             className="ml-2 pr-4 pl-3"
             id="toggleSidebar"
             onClick={this.toggleSidebar}
           >
             <i
-              className={`la la-bars text-color`}
+              className={`la la-bars`}
+              style={{ color: "#000" }}
             />
           </NavLink>
         </NavItem>
-     
-  <p align="right">
-        <WalletConnect>
-        </WalletConnect>
-   </p>            
+        <NavItem className={"d-md-down-block d-md-none ml-auto"}>
+          <img
+            src={search}
+            alt="search"
+            width="24px"
+            height="23px"
+            style={{ marginRight: 12 }}
+          />
+        </NavItem>
+        <button className={`btn btn-bordered ml-auto `} onMouseOver={() => this.changeArrowImg()} onMouseLeave={() => this.changeArrowImgOut()}>
+         <WalletConnect>
+            </WalletConnect>
+            </button>
 
 
-      
-   
+
+      <p align="right">
+            
+       </p>            
       </Navbar>
     );
   }

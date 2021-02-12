@@ -412,30 +412,42 @@ class VaultDetail extends React.Component {
       
       <div className={s.root}>
 
-
+<p>
+        <h2>
+        Elastic Vault: AMPL > EEFI
+        </h2>
+        </p>
 
         <Row>
 
          {/* Color options */}
             <Col md={6} sm={12} xs={12}>
               <Widget
-                title={<p style={{ fontWeight: 700 }}>AMPL Wallet Balance: 83,569 $</p>} customDropDown
+                title={<p style={{ fontWeight: 700 }}>AMPL Wallet Balance: 83,569 AMPL</p>} 
               >
                 <div>
                 
-                  <FormGroup>
-                       <Label for="search-input1">
+               <FormGroup>
+                        <Label for="bar">
                           Amount to Deposit
                         </Label>
                         <InputGroup>
-                          <Input type="text" id="search-input1" />
+                          <Input type="text" id="bar" />
                           <InputGroupAddon addonType="append">
-                            <Button color="default"> MAX </Button>
+                            <ButtonGroup>
+                              <Button color="ample1"><i className="fa " />25%</Button>
+                              <Button color="ample2"><i className="fa " />50%</Button>
+                              <Button color="ample3"><i className="fa " />75%</Button>
+                              <Button color="ample4"><i className="fa " />100%</Button>
+                            </ButtonGroup>
                           </InputGroupAddon>
                         </InputGroup>
-                   </FormGroup>
+                      </FormGroup>
+
+
+               
                   <p className="fs-mini text-muted">
-                    Deposits for 90 days.
+                    New deposits locked for 90 days.
                   </p>
                   <p className={"d-flex align-items-center "} align="center">
                     <Button color="default" size="lg" align="center" className="mb-md mr-sm">Deposit</Button>
@@ -444,24 +456,30 @@ class VaultDetail extends React.Component {
               </Widget>
             </Col>
 
-            {/* Size variants */}
+            {/* Size variants */ }
             <Col md={6} sm={12} xs={12}>
                     <Widget
-                title={<p style={{ fontWeight: 700 }}>AMPL Available to Withdraw: 83,569 $</p>} customDropDown
+                title={<p style={{ fontWeight: 700 }}>AMPL Available to Withdraw: 5,169 AMPL</p>} 
               >
                 <div>
                 
-                  <FormGroup>
-                       <Label for="search-input1">
-                          Amount to Withdraw
+                   <FormGroup>
+                        <Label for="bar">
+                          Amount to Deposit
                         </Label>
                         <InputGroup>
-                          <Input type="text" id="search-input1" />
+                          <Input type="text" id="bar" />
                           <InputGroupAddon addonType="append">
-                            <Button color="default"> MAX </Button>
+                            <ButtonGroup>
+                              <Button color="ample1"><i className="fa " />25%</Button>
+                              <Button color="ample2"><i className="fa " />50%</Button>
+                              <Button color="ample3"><i className="fa " />75%</Button>
+                              <Button color="ample4"><i className="fa " />100%</Button>
+                            </ButtonGroup>
                           </InputGroupAddon>
                         </InputGroup>
-                   </FormGroup>
+                      </FormGroup>
+
                   <p className="fs-mini text-muted">
                     Unlocked AMPL
                   </p>
@@ -471,23 +489,20 @@ class VaultDetail extends React.Component {
                 </div>
               </Widget>
             </Col>
-
-
-
-
-   
         </Row>
    
        <Row>
           <Col sm={12}>
-            <Widget
-              customDropDown>
+            <Widget>
+            <p>
+              <h3>Your Staked Balance and Rewards</h3>
+            </p>
             <p>
                 <Table className="table-hover table-bordered" responsive>
                 <thead>
                   <tr>
                     <th key={0} width="50%"  scope="col" className={"pl-0"}>
-                      &nbsp;Supply
+                      &nbsp;Staked AMPL
                     </th>
                     <th key={1} width="25%" scope="col" className={"pl-0"}>
                       &nbsp;APY
@@ -497,28 +512,30 @@ class VaultDetail extends React.Component {
                     </th>                  
                   </tr>
                 </thead>
-                <tbody className="text-dark">
+                <tbody className="text-dark ">
                   <tr key={0}>
                     <td className="fw-thin pl-0 fw-thin">
-                      
-                        &nbsp;38 509 AMPL
-                      <p>Portion of AMPL sold during positive rebases, </p><p>Balance can decline during negative rebases.</p>
+                      <h3>
+                        &nbsp;38,509 AMPL
+                        </h3>
+                      <p>Portion of AMPL sold during positive rebases, <br></br>Balance can decline during negative rebases.</p>
                     </td>
                     <td className={"pl-0 fw-thin"}>         
+                      <h3>
                       &nbsp;220 %
+                    </h3>
                     </td>
                     <td className={"pl-0 fw-thin"}>
-                    
-                   
+                    <h4>
                       <img height="30" src={p2} alt="" className={"mr-3"} />
                       <span align="right">
-                       &nbsp;309.23 EEFI</span> 
-                       
+                       &nbsp;309.23 EEFI</span>     
                       <p>
                         <img height="30" src={p5} alt="" className={"mr-3"} />
                         <span align="right">
                         &nbsp;9.23 ETH</span>  
                         </p>
+                    </h4>
                       <p>
                         <Button color="primary" className="mb-md mr-md">Claim</Button>
                       </p>
@@ -529,37 +546,7 @@ class VaultDetail extends React.Component {
 
               </p>
 
-              <p>
-                <Table className="table-hover table-bordered"  responsive>
-
-                <thead>
-                  <tr >
-                    <th width="50%" key={0} scope="col" className={"pl-0"}>
-                      &nbsp;EEFI Supply
-                    </th>
-                    <th width="25%" key={1} scope="col" className={"pl-0"}>
-                      &nbsp;EEFI Price
-                    </th>
-                    <th key={2} scope="col" className={"pl-0"}>
-                      &nbsp;TVL: AMPL
-                    </th>           
-                  </tr>
-                </thead>
-                <tbody className="text-dark">
-                 
-                  <tr key={0}>
-                    <td className="fw-normal pl-0 fw-thin">
-                      &nbsp;2590 EEFI / ETH
-                    </td>
-                    <td className={"pl-0 fw-thin"}>
-                      &nbsp;145 %
-                    </td>
-                    <td className={"pl-0 fw-thin"}>
-                    &nbsp;08 Jan 2020</td>
-                  </tr>              
-                </tbody>
-              </Table>
-            </p>
+           
 
 <p>
 <h3>Your Deposit History</h3>

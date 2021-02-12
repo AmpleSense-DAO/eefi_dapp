@@ -53,6 +53,8 @@ class Login extends React.Component {
   }
 
   doLogin(e) {
+
+    
     e.preventDefault();
     this.props.dispatch(
       loginUser({ email: this.state.email, password: this.state.password })

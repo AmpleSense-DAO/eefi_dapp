@@ -12,7 +12,7 @@ import { chartData } from "./chartsMock";
 
 import Widget from "../../components/Widget";
 
-import s from "./VaultGenPage.module.scss";
+import s from "./VaultEefiPage.module.scss";
 import ApexChart from "react-apexcharts";
 
 import { TabContent, TabPane } from 'reactstrap';
@@ -386,7 +386,7 @@ const splineArea = {
   },
 };
 
-class VaultGenPage extends React.Component {
+class VaultEefiPage extends React.Component {
   constructor() {
     super();
     this.forceUpdate = this.forceUpdate.bind(this)
@@ -416,7 +416,7 @@ class VaultGenPage extends React.Component {
 
 <p>
         <h2>
-        Pioneer Fund Vault II: kMPL
+        EEFI/ETH LP Token Vault
         </h2>
         </p>
 
@@ -425,7 +425,7 @@ class VaultGenPage extends React.Component {
          {/* Color options */}
             <Col md={6} sm={12} xs={12}>
               <Widget
-                title={<p style={{ fontWeight: 700 }}>kMPL Wallet Balance: 83,569 kMPL</p>} >
+                title={<p style={{ fontWeight: 700 }}>EEFI/ETH LP Token Balance: 83,569 </p>} >
                 <div>
                 
                    <FormGroup>
@@ -456,7 +456,7 @@ class VaultGenPage extends React.Component {
             {/* Size variants */}
             <Col md={6} sm={12} xs={12}>
                     <Widget
-                title={<p style={{ fontWeight: 700 }}>kMPL Available to Withdraw: 12,569 kMPL</p>} >
+                title={<p style={{ fontWeight: 700 }}>Withdraw EEFI/ETH LP Token Balance: 12,569 </p>} >
                 <div>
                 
                    <FormGroup>
@@ -497,7 +497,7 @@ class VaultGenPage extends React.Component {
                 <thead>
                   <tr>
                     <th key={0} width="50%"  scope="col" className={"pl-0"}>
-                      &nbsp;Staked kMPL
+                      &nbsp;LP Token Balance
                     </th>
                    
                     <th key={2} scope="col" className={"pl-0"}>
@@ -509,7 +509,7 @@ class VaultGenPage extends React.Component {
                   <tr key={0}>
                     <td className="fw-thin pl-0 fw-thin">
                       <h3>
-                        &nbsp;8,709 kMPL
+                        &nbsp;8,709 EEFI/ETH LP Tokens
                      </h3>
                     </td>
                    
@@ -562,7 +562,7 @@ class VaultGenPage extends React.Component {
                       &nbsp;2021/03/15
                     </td>
                     <td className={"pl-0 fw-thin"}>
-                      &nbsp;1,745 kMPL
+                      &nbsp;1,745 EEFI/ETH LP Token
                     </td>
                     <td className={"pl-0 fw-thin"}>
                     &nbsp;0xde...   <a href="https://www.etherscan.io"  target="_blank">Link</a></td>
@@ -573,7 +573,7 @@ class VaultGenPage extends React.Component {
                       &nbsp;2021/04/15
                     </td>
                     <td className={"pl-0 fw-thin"}>
-                      &nbsp;1,445 kMPL
+                      &nbsp;1,445 EEFI/ETH LP Token
                     </td>
                     <td className={"pl-0 fw-thin"}>
                     &nbsp;0xf3...   <a href="https://www.etherscan.io"  target="_blank">Link</a></td>
@@ -592,4 +592,4 @@ class VaultGenPage extends React.Component {
   }
 }
 
-export default VaultGenPage;
+export default VaultEefiPage;
