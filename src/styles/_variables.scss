@@ -55,13 +55,24 @@ $cyan:         #12B4DE !default;
 $dark-gray:    #D7DFE6 !default;
 $gray-inverse: #002B49 !default;
 $subtle-white: #EAF0F6 !default;
+$amplecolor:   #1240c2 !default;
+
+$ample1:   #5480f9 !default;
+$ample2:   #416be0 !default;
+$ample3:   #2754d1 !default;
+$ample4:   #1341C2 !default;
+
+$ample-compl:   #C29412 !default;
+
+
+
 
 $theme-colors: (
   primary: $blue,
-  secondary: $gray-550,
+  secondary: $ample-compl,
   success: $green,
-  info: $cyan,
-  warning: $yellow,
+  info: $amplecolor,
+  warning: $ample-compl,
   danger: $red,
   dark: $gray-800,
   inverse: $black,
@@ -73,6 +84,10 @@ $theme-colors: (
   info-light: #f2fafa,
   warning-light: rgba(255, 173, 1, 0.1),
   danger-light: #fff2ef,
+  ample1: $ample1,
+  ample2: $ample2,
+  ample3: $ample3,
+  ample4: $ample4,  
 );
 
 $link-color: #1A86D0;

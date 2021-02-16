@@ -1,5 +1,6 @@
 import React from "react";
 import { Row, Col, Table } from "reactstrap";
+import {  Redirect, Link } from "react-router-dom";
 
 import usersImg from "../../images/usersImg.svg";
 import usersDangerImg from '../../images/theme-icons/red/Users.svg'
@@ -27,14 +28,19 @@ import Widget from "../../components/Widget";
 import s from "./VaultSummary.module.scss";
 import ApexChart from "react-apexcharts";
 
-// people
-import p1 from "../../images/people/p1.png";
-import p2 from "../../images/people/p2.png";
-import p3 from "../../images/people/p3.png";
-import p4 from "../../images/people/p4.png";
+// logos
+import p1 from "../../images/tokens/ample.png";
+import p2 from "../../images/tokens/eefi_token_logo.png";
+import p3 from "../../images/tokens/kappa_logo_kmpl.png";
+import p4 from "../../images/tokens/apollo_cropped_edited_sm.png";
 import p5 from "../../images/userAvatar.png";
+import p6 from "../../images/tokens/zeus_cropped_edited_sm.png";
+
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
+
+import { WalletConnect, ProviderContext } from '../../components/Wallet/walletConnect'
+
 
 const orderValueOverride = {
   options: {
@@ -684,10 +690,7 @@ const splineArea = {
       name: "Income",
       data: [31, 40, 28, 51, 42, 109, 100],
     },
-    {
-      name: "Outcome",
-      data: [11, 32, 45, 32, 34, 52, 41],
-    },
+  
   ],
   options: {
     chart: {
@@ -698,10 +701,10 @@ const splineArea = {
       },
     },
     fill: {
-      colors: ["rgba(255, 205, 101, .2)", "rgba(0,0,0,0)"],
+      colors: ["rgba(202, 238, 245, 0.3)", "rgba(0,0,0,0)"],
       type: "solid",
     },
-    colors: ["#FFBF69", "#323232"],
+    colors: ["#4DC7DF", "#323232"],
     legend: {
       position: "top",
     },
@@ -942,10 +945,7 @@ const splineAreaInfo = {
       name: "Income",
       data: [31, 40, 28, 51, 42, 109, 100],
     },
-    {
-      name: "Outcome",
-      data: [11, 32, 45, 32, 34, 52, 41],
-    },
+  
   ],
   options: {
     chart: {
@@ -1333,19 +1333,25 @@ class VaultSummary extends React.Component {
   }
 
   render() {
-    return (
-      <div className={s.root}>
-        <Row>
-          <Col xl={4}>
-            <Widget
-              title={<p style={{ fontWeight: 700 }}>TVL</p>}
-              customDropDown
-            >
 
+    return (
+
+      <div className={s.root}>
+        <p>
+        <h2>
+        Vault Summary
+        </h2>
+        </p>
+        <Row>
+          <Col xl={3}>
+            <Widget
+              title={<p style={{ fontWeight: 700 }}>TVL</p>}>
+
+               
               <Row className={`justify-content-between mt-3`} noGutters>
 
                 <Col sm={8} className={"d-flex align-items-center"}>
-                  <h3 className={"fw-semi-bold mb-0"}>$ 872 410</h3>
+                  <h4 className={"fw-semi-bold mb-0"}>$ 82,410</h4>
                 </Col>
                 <Col
                   sm={4}
@@ -1360,14 +1366,12 @@ class VaultSummary extends React.Component {
               </Row>
             </Widget>
           </Col>
-          <Col xl={4}>
+          <Col xl={3}>
             <Widget
-              title={<p style={{ fontWeight: 700 }}>Your Portfolio</p>}
-              customDropDown
-            >
+              title={<p style={{ fontWeight: 700 }}>Your Portfolio</p>}>
               <Row className={`justify-content-between mt-3`} noGutters>
                 <Col sm={8} className={"d-flex align-items-center"}>
-                  <h3 className={"fw-semi-bold mb-0"}>$ 73 440</h3>
+                  <h4 className={"fw-semi-bold mb-0"}>$ 73,440</h4>
                 </Col>
                 <Col
                   sm={4}
@@ -1383,14 +1387,32 @@ class VaultSummary extends React.Component {
             </Widget>
           </Col>
      
-       <Col xl={4}>
+       <Col xl={3}>
             <Widget
-              title={<p style={{ fontWeight: 700 }}>kMPL Price</p>}
-              customDropDown
-            >
+              title={<p style={{ fontWeight: 700 }}>kMPL Price</p>}>
               <Row className={`justify-content-between mt-3`} noGutters>
                 <Col sm={8} className={"d-flex align-items-center"}>
-                  <h3 className={"fw-semi-bold mb-0"}>$ 41.05</h3>
+                  <h4 className={"fw-semi-bold mb-0"}>$ 41.05</h4>
+                </Col>
+                <Col  sm={4}
+                  className={"d-flex align-items-center justify-content-end"}
+                >
+                  <img src={stocksImg} alt="" className={"mr-1"} />
+                  <p className={"text-success mb-0"}>15%</p>
+                </Col>
+              </Row>
+              <Row style={{ marginBottom: -9, marginTop: -1 }}>
+             
+              </Row>
+            </Widget>
+          </Col>
+
+    <Col xl={3}>
+            <Widget
+              title={<p style={{ fontWeight: 700 }}>EEFI Price</p>}>
+              <Row className={`justify-content-between mt-3`} noGutters>
+                <Col sm={8} className={"d-flex align-items-center"}>
+                  <h4 className={"fw-semi-bold mb-0"}>$ 41.05</h4>
                 </Col>
                 <Col
                   sm={4}
@@ -1405,17 +1427,12 @@ class VaultSummary extends React.Component {
               </Row>
             </Widget>
           </Col>
-
         </Row>
     
        <Row>
           <Col sm={12}>
-            <Widget
-              customDropDown
-              
-            >
-                <Table className="table-hover" responsive>
-
+            <Widget>
+                <Table className="table-hover " responsive>
 
                 <thead>
                   <tr>
@@ -1435,27 +1452,35 @@ class VaultSummary extends React.Component {
                   </tr>
                 </thead>
                 <tbody className="text-dark">
-                  <tr key={0}>
-                    <td className="fw-thin pl-0 fw-thin">
+                <tr key={0}>
+
+                    <td className="pl-0 fw-thin">
+                  <Link to="/app/home/vault-detail">
                       <p className={"fw-bold"}>
-                      <img src={p1} alt="" className={"mr-3"} />AMPL
+                      <img src={p1} height="30" alt="" className={"mr-3"} />AMPL
                       </p>
+                  </Link>         
                     </td>
                     <td className={"pl-0 fw-thin"}>
                       <p>
                       Stake AMPL, Earn EEFI, ETH
                       </p>
-            
                     </td>
                     <td className={"pl-0 fw-thin"}>$ 10,434,565</td>
-                    <td className={"pl-0 fw-normal"}>$ 8400</td>
-                    
+                    <td className={"pl-0 fw-normal"}>$ 8,400</td>
+          
                   </tr>
+             
+
                   <tr key={1}>
-                    <td className="fw-normal pl-0 fw-thin">
+                    <td className=" pl-0 fw-thin">
+                  <Link to="/app/home/vault-eefi">
+                    
                        <p className={"fw-bold"}>
-                      <img src={p1} alt="" className={"mr-3"} />EEFI / ETH
+                      <img src={p2} height="30" alt="" className={"mr-3"} />EEFI/ETH LP Tokens 
                       </p>
+                  </Link>         
+  
                     </td>
                     <td className={"pl-0 fw-thin"}>
                      
@@ -1467,43 +1492,49 @@ class VaultSummary extends React.Component {
 
                     </td>
                     <td className={"pl-0 fw-thin"}>$ 2,464,565</td>
-                    <td className={"pl-0 fw-normal"}>$ 46000</td>
+                    <td className={"pl-0 fw-normal"}>$ 46,000</td>
                     
                   </tr>
                   <tr key={2}>
                     <td className="fw-normal pl-0 fw-thin">
+                 <Link to="/app/home/vault-gen-page">
+
                        <p className={"fw-bold"}>
-                      <img src={p1} alt="" className={"mr-3"} />kMPL
+                      <img src={p3}  height="30" alt="" className={"mr-3"} />kMPL
                       </p>
+                      </Link>
                     </td>
                     <td className={"pl-0 fw-thin"}>
                    
                       <p >
-                        Stake kMPL, Earn EEFI, ETH
+                        Stake kMPL, Earn Token Rewards
                       </p>
                       
 
                     </td>
                     <td className={"pl-0 fw-thin"}>$ 1,434,565</td>
-                    <td className={"pl-0 fw-normal"}>$ 1300</td>
+                    <td className={"pl-0 fw-normal"}>$ 1,300</td>
                     
                   </tr>
                   <tr key={3}>
                     <td className="fw-normal pl-0 fw-thin">
-                      
+                <Link to="/app/home/vault-nfts">
+
                        <p className={"fw-bold"}>
-                      <img src={p1} alt="" className={"mr-3"} />Pioneer NFTs
+                      <img src={p4} alt=""  height="30" className={"mr-3"} />
+                      <img src={p6} alt=""  height="30" className={"mr-3"} />Pioneer NFTs
                       </p>
+                      </Link>
                     </td>
                     <td className={"pl-0 fw-thin"}>
                       <p>
-                        Stake Zeuz Apollo NFTs, Earn AMPL
+                        Stake Pioneer NFTs, Earn ETH
                       </p>
                       
                    
                     </td>
                     <td className={"pl-0 fw-thin"}>$ 44,434,665</td>
-                    <td className={"pl-0 fw-normal"}>$ 880</td>
+                    <td className={"pl-0 fw-normal"}>N/A</td>
                     
                   </tr>
        
@@ -1519,14 +1550,14 @@ class VaultSummary extends React.Component {
               title={
                 <Row>
                   <Col xs={12} sm={5}>
-                    <p style={{ fontWeight: 700 }}>Total Value Locked </p>
+                    <p style={{ fontWeight: 700 }}>Total Value Locked: All Vaults</p>
                   </Col>
                   <Col xs={12} sm={7}>
                     <div className="chart-legend" />
                   </Col>
                 </Row>
               }
-              customDropDown
+              
             >
               <Row style={{ marginTop: -36 }}>
                 <Col sm={12}>
@@ -1552,6 +1583,7 @@ function mapStateToProps(store) {
   return {
     sidebarColor: store.layout.sidebarColor,
     dashboardColor: store.layout.dashboardTheme,
+    account : store.account,
   };
 }
 

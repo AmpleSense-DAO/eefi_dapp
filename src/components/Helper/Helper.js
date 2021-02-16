@@ -77,6 +77,8 @@ class Helper extends Component {
     const { isOpened } = this.state;
     const { navbarColor, sidebarColor, navbarType, sidebarType } = this.props;
 
+return (<div></div>)
+
     return (
       <div className={cx(s.themeHelper, { [s.themeHelperOpened]: isOpened })}>
         <div

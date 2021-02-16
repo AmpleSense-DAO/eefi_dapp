@@ -37,12 +37,12 @@ import {
   DropdownItem,
 } from 'reactstrap';
 
-//people
-import p1 from "../../images/people/p1.png";
-import p2 from "../../images/people/p2.png";
-import p3 from "../../images/people/p3.png";
-import p4 from "../../images/people/p4.png";
-import p5 from "../../images/userAvatar.png";
+//tokens
+import p1 from "../../images/tokens/ample.png";
+import p2 from "../../images/tokens/eefi_token_logo.png";
+import p3 from "../../images/tokens/kappa_logo_kmpl.png";
+import p4 from "../../images/tokens/apollo_cropped_edited_sm.png";
+import p5 from "../../images/tokens/ethereum-eth-logo.svg";
 
 const orderValueOverride = {
   options: {
@@ -407,55 +407,102 @@ class VaultDetail extends React.Component {
 
   render() {
     return (
+
+
+      
       <div className={s.root}>
+
+<p>
+        <h2>
+        Elastic Vault: AMPL > EEFI
+        </h2>
+        </p>
+
         <Row>
 
          {/* Color options */}
             <Col md={6} sm={12} xs={12}>
               <Widget
-                title={<p style={{ fontWeight: 700 }}>AMPL Wallet Balance: 83,569 $</p>} customDropDown
+                title={<p style={{ fontWeight: 700 }}>AMPL Wallet Balance: 83,569 AMPL</p>} 
               >
                 <div>
                 
-                  <FormGroup>
-                       <Label for="search-input1">
+               <FormGroup>
+                        <Label for="bar">
                           Amount to Deposit
                         </Label>
-                        <InputGroup>
-                          <Input type="text" id="search-input1" />
-                          <InputGroupAddon addonType="append">
-                            <Button color="default"> MAX </Button>
-                          </InputGroupAddon>
-                        </InputGroup>
-                   </FormGroup>
+
+                       <Table className="table-hover " responsive>
+                        <thead>
+                          <tr>
+                            <th key={0}  scope="col" className={"pl-0"}>
+
+                                <InputGroup>
+                                  <Input type="text" id="bar" />
+                                  <InputGroupAddon addonType="append">
+                                    <ButtonGroup>
+                                      <Button color="ample1"><i className="fa " />25%</Button>
+                                      <Button color="ample2"><i className="fa " />50%</Button>
+                                      <Button color="ample3"><i className="fa " />75%</Button>
+                                      <Button color="ample4"><i className="fa " />100%</Button>
+                                    </ButtonGroup>
+                                  </InputGroupAddon>
+                                </InputGroup>
+                            </th>             
+                          </tr>
+                        </thead>
+                        </Table>
+
+
+                      </FormGroup>
+
+
+               
                   <p className="fs-mini text-muted">
-                    Deposits for 90 days.
+                    New deposits locked for 90 days.
                   </p>
-                  <p className={"d-flex align-items-center "}>
-                    <Button color="default" size="lg" className="mb-md mr-sm">Deposit</Button>
+                  <p className={"d-flex align-items-center "} align="center">
+                    <Button color="default" size="lg" align="center" className="mb-md mr-sm">Deposit</Button>
                   </p>
                 </div>
               </Widget>
             </Col>
 
-            {/* Size variants */}
+            {/* Size variants */ }
             <Col md={6} sm={12} xs={12}>
                     <Widget
-                title={<p style={{ fontWeight: 700 }}>AMPL Available to With: 83,569 $</p>} customDropDown
+                title={<p style={{ fontWeight: 700 }}>AMPL Available to Withdraw: 5,169 AMPL</p>} 
               >
                 <div>
                 
-                  <FormGroup>
-                       <Label for="search-input1">
-                          Amount to Withdraw
+                   <FormGroup>
+                        <Label for="bar">
+                          Amount to Deposit
                         </Label>
+ 
+               <Table className="table-hover " responsive>
+                <thead>
+                  <tr>
+                    <th key={0}  scope="col" className={"pl-0"}>
+
                         <InputGroup>
-                          <Input type="text" id="search-input1" />
+                          <Input type="text" id="bar" />
                           <InputGroupAddon addonType="append">
-                            <Button color="default"> MAX </Button>
+                            <ButtonGroup>
+                              <Button color="ample1"><i className="fa " />25%</Button>
+                              <Button color="ample2"><i className="fa " />50%</Button>
+                              <Button color="ample3"><i className="fa " />75%</Button>
+                              <Button color="ample4"><i className="fa " />100%</Button>
+                            </ButtonGroup>
                           </InputGroupAddon>
                         </InputGroup>
-                   </FormGroup>
+                    </th>             
+                  </tr>
+                </thead>
+                </Table>
+
+                      </FormGroup>
+
                   <p className="fs-mini text-muted">
                     Unlocked AMPL
                   </p>
@@ -465,80 +512,108 @@ class VaultDetail extends React.Component {
                 </div>
               </Widget>
             </Col>
-
-
-
-
-   
         </Row>
    
        <Row>
           <Col sm={12}>
-            <Widget
-              customDropDown
-              
-            >
-                <Table className="table-hover" responsive>
-
-
+            <Widget>
+            <p>
+              <h3>Your Staked Balance and Rewards</h3>
+            </p>
+            <p>
+                <Table className="table-hover table-bordered" responsive>
                 <thead>
                   <tr>
-                    <th key={0} scope="col" className={"pl-0"}>
-                      Supply
+                    <th key={0} width="50%"  scope="col" className={"pl-0"}>
+                      &nbsp;Staked AMPL
                     </th>
-                    <th key={1} scope="col" className={"pl-0"}>
-                      APY
-                    </th>
+                    
                     <th key={2} scope="col" className={"pl-0"}>
-                      Rewards
-                    </th>
-                   
-                   
+                      &nbsp;Rewards
+                    </th>                  
                   </tr>
                 </thead>
-                <tbody className="text-dark">
+                <tbody className="text-dark ">
                   <tr key={0}>
                     <td className="fw-thin pl-0 fw-thin">
-                      <p className={"d-flex align-items-center"}>
-                        38 509 AMPL
-                        </p>
-                      <p>Portion of AMPL sold during positive rebases, </p><p>Balance can decline during negative rebases.</p>
+                      <h3>
+                        &nbsp;38,509 AMPL
+                        </h3>
+                      <p><h4>APY 60%</h4><br></br>Portion of AMPL sold during positive rebases, <br></br>Balance can decline during negative rebases.</p>
                     </td>
-                    <td className={"pl-0 fw-thin"}>
-                      
-                      220 %
-                    </td>
-                    <td className={"pl-0 fw-thin"}>
                     
-                    <p className={"d-flex align-items-center"}>
-                      <img src={p1} alt="" className={"mr-3"} />
-                       309.23 EEFI 
-                        </p>
+                    <td className={"pl-0 fw-thin"}>
+                    <h4>
+                      <img height="30" src={p2} alt="" className={"mr-3"} />
+                      <span align="right">
+                       &nbsp;309.23 EEFI</span>     
                       <p>
-                        <img src={p1} alt="" className={"mr-3"} />
-                        9.23 ETH 
+                        <img height="30" src={p5} alt="" className={"mr-3"} />
+                        <span align="right">
+                        &nbsp;9.23 ETH</span>  
                         </p>
+                    </h4>
                       <p>
                         <Button color="primary" className="mb-md mr-md">Claim</Button>
                       </p>
                     </td>
-                    
-                  </tr>
-                  <tr key={1}>
-                    <td className="fw-normal pl-0 fw-thin">
-                      2590 EEFI / ETH
-                    </td>
-                    <td className={"pl-0 fw-thin"}>
-                      145 %
-                    </td>
-                    <td className={"pl-0 fw-thin"}>08 Jan 2020</td>
-                    
-                  </tr>
-                 
-                
-       
+                  </tr>   
                 </tbody>
               </Table>
+
+              </p>
+
+           
+
+<p>
+<h3>Your Deposit History</h3>
+</p>
+
+              <p>
+                <Table className="table-hover table-bordered"  responsive>
+
+                <thead>
+                  <tr >
+                    <th width="50%" key={0} scope="col" className={"pl-0"}>
+                      &nbsp;Deposit Date
+                    </th>
+                    <th width="25%" key={1} scope="col" className={"pl-0"}>
+                      &nbsp;Amount
+                    </th>
+                    <th key={2} scope="col" className={"pl-0"}>
+                      &nbsp;Tx Link
+                    </th>           
+                  </tr>
+                </thead>
+                <tbody className="text-dark">
+                 
+                  <tr key={0}>
+                    <td className="fw-normal pl-0 fw-thin">
+                      &nbsp;2021/03/15
+                    </td>
+                    <td className={"pl-0 fw-thin"}>
+                      &nbsp;1,745 AMPL
+                    </td>
+                    <td className={"pl-0 fw-thin"}>
+                    &nbsp;0xde...   <a href="https://www.etherscan.io"  target="_blank">Link</a></td>
+                  </tr>   
+              
+                  <tr key={1}>
+                    <td className="fw-normal pl-0 fw-thin">
+                      &nbsp;2021/04/15
+                    </td>
+                    <td className={"pl-0 fw-thin"}>
+                      &nbsp;1,445 AMPL
+                    </td>
+                    <td className={"pl-0 fw-thin"}>
+                    &nbsp;0xf3...   <a href="https://www.etherscan.io"  target="_blank">Link</a></td>
+                  </tr>   
+
+                </tbody>
+              </Table>
+            </p>
+
+
             </Widget>
           </Col>
         </Row>

@@ -4,15 +4,15 @@
   --badge-item: #323232;
   --update-notification-color: #FD5F00;
   .flatlogic-one,
-  .dashboard-light {
+  .dashboard-dark {
     --sidebar-ui-background-color: rgba(255, 173, 1, .1);
-    --main-color: #feb049;
+    --main-color: #1240c2;
     --sidebar-item-active: #323232;
     --badge-background-color: rgba(255, 234, 206, 0.51);
     --badge-border-color: #FFAD01;
-    --logo-background-color: #feb049;
+    --logo-background-color: #1240c2;
     --logo-color: #fff;
-    --sidebar-bg-color: #ffffff;
+    --sidebar-bg-color:  #ffffff;
     --sidebar-color: #323232;
     --sidebar-action-bg: #f9fafe;
     --sidebar-item-active-color: "#FFFFFF";
@@ -24,14 +24,14 @@
     --navbar-shadow: none;
   }
 
-  .dashboard-dark {
+  .dashboard-light {
     --sidebar-ui-background-color: #464646;
     --main-color: #feb049;
     --logo-color: #fff;
-    --logo-background-color: #feb049;
+    --logo-background-color: #1240c2;
     --badge-background-color: transparent;
     --badge-border-color: #FFAD01;
-    --sidebar-bg-color: #323232;
+    --sidebar-bg-color:  #1240c2;
     --sidebar-color: #fff;
     --sidebar-action-bg: #FFAD01;
     --sidebar-item-active: #fff;
@@ -40,7 +40,7 @@
 
     --widget-shadow-color: 115, 162, 208;
 
-    --navbar-bg: #323232;
+    --navbar-bg: #1240c2;
     --navbar-shadow: 0 15px 20px -20px rgba(var(--widget-shadow-color), 0.1), 0 0 15px rgba(var(--widget-shadow-color), 0.06);
   }
   .dashboard-danger {
@@ -49,7 +49,7 @@
     --badge-item: #323232;
     --badge-border-color: #FFD6D2;
     --logo-color: #fff;
-    --logo-background-color: #f5695a;
+    --logo-background-color:  #1240c2;
     --sidebar-action-bg: #f9fafe;
     --sidebar-item-active-color: "#FFFFFF";
     &.dashboard-light {
@@ -62,12 +62,12 @@
     --navbar-shadow: 0 15px 20px -20px rgba(var(--widget-shadow-color), 0.1), 0 0 15px rgba(var(--widget-shadow-color), 0.06);
   }
   .dashboard-info {
-    --main-color: #12b4de;
+    --main-color: #1240c2;
     --badge-background-color: #CAEEF5;
     --badge-item: #323232;
     --badge-border-color: #CAEEF5;
     --logo-color: #fff;
-    --logo-background-color: #12b4de;
+    --logo-background-color: #1240c2;
     --sidebar-action-bg: #f9fafe;
     --sidebar-item-active-color: "#FFFFFF";
     &.dashboard-light {
@@ -82,12 +82,12 @@
   }
 
   .dashboard-success {
-    --main-color: #3bbf97;
+    --main-color: #1240c2;
     --badge-background-color: #D9F2EB;
     --badge-item: #323232;
     --badge-border-color: #D9F2EB;
     --logo-color: #fff;
-    --logo-background-color: #3bbf97;
+    --logo-background-color: #1240c2;
     --sidebar-action-bg: #f9fafe;
     --sidebar-item-active-color: "#FFFFFF";
     &.dashboard-light {

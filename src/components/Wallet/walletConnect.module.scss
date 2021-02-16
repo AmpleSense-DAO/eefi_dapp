@@ -1,0 +1,22 @@
+@import '../../styles/app';
+
+
+
+.fullVersionBtn {
+  color: #DBDBDB;
+  border: 1px solid theme-color('info');
+  border-radius: 2px;
+  margin-right: 30px;
+  &:hover {
+    background-color: theme-color('info');
+    a {
+      color: #fff;
+    }
+  }
+}
+
+
+      input.right {
+        float: right;
+      }
+

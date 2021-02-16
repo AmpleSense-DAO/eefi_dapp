@@ -8,12 +8,15 @@ import { changeActiveSidebarItem } from "../../actions/navigation";
 import { logoutUser } from "../../actions/user";
 import cx from "classnames";
 
+import {  Redirect, Link } from "react-router-dom";
+
+
 // white sidebar
 import lightDashboardIcon from "../../images/theme-icons/yellow/Dashboard_outlined.svg";
 import darkDashboardIcon from "../../images/theme-icons/yellow/Dashboard_filled.svg";
 import lightUI from "../../images/ui-elements.svg";
 import darkUI from "../../images/ui-elements-dark.svg";
-import logo from "../../images/logo.svg";
+import logo from "../../images/logo.png";
 import settingsOutlined from "../../images/theme-icons/yellow/Settings_outlined.svg";
 import settingsFilled from "../../images/theme-icons/yellow/Settings_outlined.svg";
 import logoutIcon from "../../images/logout.svg";
@@ -275,6 +278,11 @@ import darkSidebarMapsOutlinedBlue from "../../images/theme-icons/dark sidebar/b
 import darkSidebarMapsFilledBlue from "../../images/theme-icons/dark sidebar/blue/Maps_filled.svg";
 import darkSidebarExtraOutlinedBlue from "../../images/theme-icons/dark sidebar/blue/Extra_outlined.svg";
 import darkSidebarExtraFilledBlue from "../../images/theme-icons/dark sidebar/blue/Extra_filled.svg";
+
+
+import { WalletConnect, ProviderContext } from '../Wallet/walletConnect'
+
+
 
 class Sidebar extends React.Component {
   static propTypes = {
@@ -839,11 +847,11 @@ class Sidebar extends React.Component {
       case "warning":
         return logo;
       case "danger":
-        return logoDanger;
+        return logo;
       case "success":
-        return logoSuccess;
+        return logo;
       case "info":
-        return logoBlue;
+        return logo;
     }
   }
 
@@ -866,23 +874,25 @@ class Sidebar extends React.Component {
           })}`}
         >
           <header className={s.logo}>
+           <Link to="/landing">
             <img src={this.getLogoImage()} alt="logo" className={s.logoStyle} />
-            <span>eefi.finance&nbsp;</span>
+            </Link>
+            <span>&nbsp;</span>
           </header>
           <section className={s.menuWrapper}>
-            <h5 className={s.navTitle}>Elastic finance</h5>
+            <h2 className={s.navTitle}>Vaults</h2>
             <ul className={s.nav}>
  
-
+		
             
             <LinksGroup
               onActiveSidebarItemChange={activeItem =>
                 this.props.dispatch(changeActiveSidebarItem(activeItem))
               }
               activeItem={this.props.activeItem}
-              header="Elastic and Staking Vaults"
+              header="Vaults Summary"
               isHeader
-              link="/app/main/vault-summary"
+              link="/app/home/vault-summary"
               index="main"
             >
               {window.location.href.includes("vault-summary") ? (
@@ -907,9 +917,9 @@ class Sidebar extends React.Component {
                 this.props.dispatch(changeActiveSidebarItem(activeItem))
               }
               activeItem={this.props.activeItem}
-              header="Vault Detail"
+              header="Elastic Vault: AMPL -> EEFI"
               isHeader
-              link="/app/main/vault-detail"
+              link="/app/home/vault-detail"
               index="main"
             >
               {window.location.href.includes("vault-detail") ? (
@@ -929,15 +939,73 @@ class Sidebar extends React.Component {
               )}
             </LinksGroup>
 
-
-      <LinksGroup
+         <LinksGroup
               onActiveSidebarItemChange={activeItem =>
                 this.props.dispatch(changeActiveSidebarItem(activeItem))
               }
               activeItem={this.props.activeItem}
-              header="Dashboard"
+              header="Pioneer Vault II: kMPL"
               isHeader
-              link="/app/main/dashboard"
+              link="/app/home/vault-gen-page"
+              index="main"
+            >
+              {window.location.href.includes("vault-gen-page") ? (
+                <img
+                  src={darkDashboardIcon}
+                  alt="lightDashboard"
+                  width={"24px"}
+                  height={"24px"}
+                />
+              ) : (
+                <img
+                  src={lightDashboardIcon}
+                  alt="lightDashboard"
+                  width={"24px"}
+                  height={"24px"}
+                />
+              )}
+            </LinksGroup>
+
+    		  <LinksGroup
+              onActiveSidebarItemChange={activeItem =>
+                this.props.dispatch(changeActiveSidebarItem(activeItem))
+              }
+              activeItem={this.props.activeItem}
+              header="Pioneer Vault I: NFTs"
+              isHeader
+              link="/app/home/vault-nfts"
+              index="main"
+            >
+              {window.location.href.includes("vault-nfts") ? (
+                <img
+                  src={darkDashboardIcon}
+                  alt="lightDashboard"
+                  width={"24px"}
+                  height={"24px"}
+                />
+              ) : (
+                <img
+                  src={lightDashboardIcon}
+                  alt="lightDashboard"
+                  width={"24px"}
+                  height={"24px"}
+                />
+              )}
+            </LinksGroup>
+
+			  </ul>
+
+            <h5 className={s.navTitle}>Info and Docs</h5>
+            <ul className={s.nav}>
+
+			 <LinksGroup
+              onActiveSidebarItemChange={activeItem =>
+                this.props.dispatch(changeActiveSidebarItem(activeItem))
+              }
+              activeItem={this.props.activeItem}
+              header="AmpleSense DAO"
+              isHeader
+              link="/app/home/vault-summary"
               index="main"
             >
               {window.location.href.includes("dashboard") ? (
@@ -957,10 +1025,99 @@ class Sidebar extends React.Component {
               )}
             </LinksGroup>
 
+			 <LinksGroup
+              onActiveSidebarItemChange={activeItem =>
+                this.props.dispatch(changeActiveSidebarItem(activeItem))
+              }
+              activeItem={this.props.activeItem}
+              header="Propose Vault Strategy"
+              isHeader
+              link="/app/home/vault-summary"
+              index="main"
+            >
+              {window.location.href.includes("dashboard") ? (
+                <img
+                  src={darkDashboardIcon}
+                  alt="lightDashboard"
+                  width={"24px"}
+                  height={"24px"}
+                />
+              ) : (
+                <img
+                  src={lightDashboardIcon}
+                  alt="lightDashboard"
+                  width={"24px"}
+                  height={"24px"}
+                />
+              )}
+            </LinksGroup>
 
-			  </ul>
+            	 <LinksGroup
+              onActiveSidebarItemChange={activeItem =>
+                this.props.dispatch(changeActiveSidebarItem(activeItem))
+              }
+              activeItem={this.props.activeItem}
+              header="Vault Docs"
+              isHeader
+              link="/app/home/vault-summary"
+              index="main"
+            >
+              {window.location.href.includes("dashboard") ? (
+                <img
+                  src={darkDashboardIcon}
+                  alt="lightDashboard"
+                  width={"24px"}
+                  height={"24px"}
+                />
+              ) : (
+                <img
+                  src={lightDashboardIcon}
+                  alt="lightDashboard"
+                  width={"24px"}
+                  height={"24px"}
+                />
+              )}
+            </LinksGroup>
+
+          
+            </ul>
+
+
+
+
+
+
             <h5 className={s.navTitle}>EXAMPLES</h5>
             <ul className={s.nav}>
+
+
+			 <LinksGroup
+              onActiveSidebarItemChange={activeItem =>
+                this.props.dispatch(changeActiveSidebarItem(activeItem))
+              }
+              activeItem={this.props.activeItem}
+              header="Dashboard"
+              isHeader
+              link="/app/home/dashboard"
+              index="main"
+            >
+              {window.location.href.includes("dashboard") ? (
+                <img
+                  src={darkDashboardIcon}
+                  alt="lightDashboard"
+                  width={"24px"}
+                  height={"24px"}
+                />
+              ) : (
+                <img
+                  src={lightDashboardIcon}
+                  alt="lightDashboard"
+                  width={"24px"}
+                  height={"24px"}
+                />
+              )}
+            </LinksGroup>
+
 
               <LinksGroup
                 onActiveSidebarItemChange={(activeItem) =>
@@ -1063,6 +1220,9 @@ class Sidebar extends React.Component {
                 />
               </LinksGroup>
             </ul>
+
+
+
             <h5 className={s.navTitle}>TEMPLATE</h5>
             <ul className={s.nav}>
               <LinksGroup

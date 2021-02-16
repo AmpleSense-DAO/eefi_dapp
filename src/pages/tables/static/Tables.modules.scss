@@ -2,9 +2,17 @@
 
 td {
   vertical-align: middle !important;
+  text-align: center;
 }
 .table-bordered th {
-  background: $blue;
+  background: #1240c2;
   color: $gray-light;
   border: none;
+  text-align: center;
+  width: 33%;
 }
+
+.table-hover th {
+  
+  text-align: center;
+  }

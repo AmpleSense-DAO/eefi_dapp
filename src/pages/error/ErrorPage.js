@@ -11,7 +11,7 @@ class ErrorPage extends React.Component {
         <Container>
           <img src={errorImg} alt="error" />
           <div className={`${s.errorContainer}`}>
-            <h1 className={s.errorInfo}>404</h1>
+            <h1 className={s.errorInfo}>Peugeot 504</h1>
             <p className={s.errorHelp}>
               We’re working on it and we’ll get it fixed as soon as possible.
             </p>

@@ -91,7 +91,7 @@ export default [
   {
     id: 5,
     img: ProductImg5,
-    title: 'Jeep Gran Cherokee',
+    title: 'Jeep Gran Cherokee X',
     price: 52000,
     rating: 4.0,
     description_1: "Sneakers (also known as athletic shoes, tennis shoes,gym shoes, runners, takkies, or trainers) are shoes primarily designed for sports or other forms of physical exercise, but which are now also often used for everyday wear.",

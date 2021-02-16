@@ -7,6 +7,10 @@ import MewConnect from "@myetherwallet/mewconnect-web-client";
 import Authereum from "authereum";
 import { Button } from "reactstrap";
 
+
+import s from "./walletConnect.module.scss"; // eslint-disable-line css-modules/no-unused-class
+
+
 export const ProviderContext = React.createContext(null);
 
 const providerOptions = {
@@ -67,17 +71,16 @@ export function WalletConnect({children}) {
     })
   }
 
-  return <div>
+  return (<div>
     {!account?
 
-    
-
-      <Button id="button-connect" className={`btn btn-bordered ml-auto `} onClick={() => {connect((p) => {setProvider(p)});}}>Connect Wallet</Button>
+      <Button id="button-connect" className={`btn  ml-auto ${s.fullVersionBtn}`} onClick={() => {connect((p) => {setProvider(p)});}}>Connect Wallet</Button>
     :
-    <Button id="button-connected" className={`btn btn-bordered ml-auto `} onClick={() => {connect((p) => {setProvider(p)});}}>{account}</Button>
+    <Button id="button-connected" className={`btn  ml-auto ${s.fullVersionBtn}`} onClick={() => {connect((p) => {setProvider(p)});}}>{account}</Button>
     }
     <ProviderContext.Provider value={provider}>
       {children}
     </ProviderContext.Provider>
-    </div>
+
+    </div>);
   }
