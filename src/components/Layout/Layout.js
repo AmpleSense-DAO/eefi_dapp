@@ -169,16 +169,21 @@ class Layout extends React.Component {
                       exact
                       component={Dashboard}
                     />
-               <Route
+                   <Route
                       path="/app/home/vault-summary"
                       exact
                       component={VaultSummary}
                     />
                     <Route
-                      path="/app/home/vault-detail"
+                      path="/app/home/vault-detail/:id"
+                      component={VaultDetail}
                       exact
+                    />
+                    <Route
+                      path="/app/home/vault-detail"
                       component={VaultDetail}
                     />
+
                    <Route
                       path="/app/home/vault-gen-page"
                       exact

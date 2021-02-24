@@ -427,26 +427,34 @@ class VaultGenPage extends React.Component {
               <Widget
                 title={<p style={{ fontWeight: 700 }}>kMPL Wallet Balance: 83,569 kMPL</p>} >
                 <div>
-                
                    <FormGroup>
                         <Label for="bar">
                           Amount to Deposit
                         </Label>
-                        <InputGroup>
-                          <Input type="text" id="bar" />
-                          <InputGroupAddon addonType="append">
-                            <ButtonGroup>
-                              <Button color="ample1"><i className="fa " />25%</Button>
-                              <Button color="ample2"><i className="fa " />50%</Button>
-                              <Button color="ample3"><i className="fa " />75%</Button>
-                              <Button color="ample4"><i className="fa " />100%</Button>
-                            </ButtonGroup>
-                          </InputGroupAddon>
-                        </InputGroup>
-                      </FormGroup>
+                       <Table className="table-hover " responsive>
+                        <thead>
+                          <tr>
+                            <th key={0}  scope="col" className={"pl-0"}>
 
-                 
-                  <p className={"d-flex align-items-center "} align="center">
+                                <InputGroup>
+                                  <Input type="text" id="bar" />
+                                  <InputGroupAddon addonType="append">
+                                    <ButtonGroup>
+                                      <Button color="ample1"><i className="fa " />25%</Button>
+                                      <Button color="ample2"><i className="fa " />50%</Button>
+                                      <Button color="ample3"><i className="fa " />75%</Button>
+                                      <Button color="ample4"><i className="fa " />100%</Button>
+                                    </ButtonGroup>
+                                  </InputGroupAddon>
+                                </InputGroup>
+                            </th>             
+                          </tr>
+                        </thead>
+                        </Table>
+
+                      </FormGroup>
+           
+                  <p className={"d-flex align-items-center "} >
                     <Button color="default" size="lg" align="center" className="mb-md mr-sm">Deposit</Button>
                   </p>
                 </div>
@@ -463,17 +471,28 @@ class VaultGenPage extends React.Component {
                         <Label for="bar">
                           Amount to Deposit
                         </Label>
-                        <InputGroup>
-                          <Input type="text" id="bar" />
-                          <InputGroupAddon addonType="append">
-                            <ButtonGroup>
-                              <Button color="ample1"><i className="fa " />25%</Button>
-                              <Button color="ample2"><i className="fa " />50%</Button>
-                              <Button color="ample3"><i className="fa " />75%</Button>
-                              <Button color="ample4"><i className="fa " />100%</Button>
-                            </ButtonGroup>
-                          </InputGroupAddon>
-                        </InputGroup>
+        
+                       <Table className="table-hover " responsive>
+                        <thead>
+                          <tr>
+                            <th key={0}  scope="col" className={"pl-0"}>
+
+                                <InputGroup>
+                                  <Input type="text" id="bar" />
+                                  <InputGroupAddon addonType="append">
+                                    <ButtonGroup>
+                                      <Button color="ample1"><i className="fa " />25%</Button>
+                                      <Button color="ample2"><i className="fa " />50%</Button>
+                                      <Button color="ample3"><i className="fa " />75%</Button>
+                                      <Button color="ample4"><i className="fa " />100%</Button>
+                                    </ButtonGroup>
+                                  </InputGroupAddon>
+                                </InputGroup>
+                            </th>             
+                          </tr>
+                        </thead>
+                        </Table>
+
                       </FormGroup>
 
                 
@@ -511,6 +530,8 @@ class VaultGenPage extends React.Component {
                       <h3>
                         &nbsp;8,709 kMPL
                      </h3>
+                    <p><h4>APY 50%</h4></p>
+        
                     </td>
                    
                     <td className={"pl-0 fw-thin"}>

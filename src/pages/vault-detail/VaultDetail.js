@@ -7,14 +7,18 @@ import totalSale from "../../images/total-sale.svg";
 import orders from "../../images/orders.svg";
 import stocksImg from "../../images/stocks.svg";
 import stocksDownImg from "../../images/stocksDown.svg";
-
 import { chartData } from "./chartsMock";
-
+import  tokenDetailedData  from "./tokenDetailedData.json";
 import Widget from "../../components/Widget";
-
 import s from "./VaultDetail.module.scss";
 import ApexChart from "react-apexcharts";
 
+//tokens
+import p1 from "../../images/tokens/ample.png";
+import p2 from "../../images/tokens/eefi_token_logo.png";
+import p3 from "../../images/tokens/kappa_logo_kmpl.png";
+import p4 from "../../images/tokens/apollo_cropped_edited_sm.png";
+import p5 from "../../images/tokens/ethereum-eth-logo.svg";
 
 import {
   Form,
@@ -37,12 +41,7 @@ import {
   DropdownItem,
 } from 'reactstrap';
 
-//tokens
-import p1 from "../../images/tokens/ample.png";
-import p2 from "../../images/tokens/eefi_token_logo.png";
-import p3 from "../../images/tokens/kappa_logo_kmpl.png";
-import p4 from "../../images/tokens/apollo_cropped_edited_sm.png";
-import p5 from "../../images/tokens/ethereum-eth-logo.svg";
+
 
 const orderValueOverride = {
   options: {
@@ -384,7 +383,20 @@ const splineArea = {
   },
 };
 
+
+
+const CHECK_TEXT_TOKEN_REWARDS = 'Various Token Rewards';
+
 class VaultDetail extends React.Component {
+
+
+
+    getId() {
+        const {match} = this.props;
+        return (parseInt(match.params.id) );
+    }
+
+
   constructor() {
     super();
     this.forceUpdate = this.forceUpdate.bind(this)
@@ -399,6 +411,11 @@ class VaultDetail extends React.Component {
 
   componentDidMount() {
     window.addEventListener("resize", this.forceUpdate.bind(this))
+
+ this.setState({
+      tokenDetailedDataList: tokenDetailedData
+    })
+
   }
 
   forceUpdate() {
@@ -406,15 +423,28 @@ class VaultDetail extends React.Component {
   }
 
   render() {
+
+    var tokenId = 0;
+    if (this.getId()) {
+          tokenId = this.getId();
+        //  console.log('VAULT ID: ', this.getId());
+    } else {
+          tokenId = 0;
+        //  console.log('VAULT ID: no vault id');
+    }
+    
+    // check that token id is between 0 and max tokens from the data file
+    if (tokenId >= tokenDetailedData.length || tokenId < 0) {
+      tokenId = 0;
+    }
+    //console.log('tokenDetailedData', tokenDetailedData[tokenId].title, tokenDetailedData.length);
+
     return (
 
-
-      
       <div className={s.root}>
-
-<p>
+      <p>
         <h2>
-        Elastic Vault: AMPL > EEFI
+        {tokenDetailedData[tokenId].title}
         </h2>
         </p>
 
@@ -423,29 +453,32 @@ class VaultDetail extends React.Component {
          {/* Color options */}
             <Col md={6} sm={12} xs={12}>
               <Widget
-                title={<p style={{ fontWeight: 700 }}>AMPL Wallet Balance: 83,569 AMPL</p>} 
+                title={<p style={{ fontWeight: 700 }}>
+                {tokenDetailedData[tokenId].token_name} Wallet Balance: 83,569 {tokenDetailedData[tokenId].token_name}</p>} 
               >
                 <div>
-                
-               <FormGroup>
-                        <Label for="bar">
-                          Amount to Deposit
-                        </Label>
-                        <InputGroup>
-                          <Input type="text" id="bar" />
-                          <InputGroupAddon addonType="append">
-                            <ButtonGroup>
-                              <Button color="ample1"><i className="fa " />25%</Button>
-                              <Button color="ample2"><i className="fa " />50%</Button>
-                              <Button color="ample3"><i className="fa " />75%</Button>
-                              <Button color="ample4"><i className="fa " />100%</Button>
-                            </ButtonGroup>
-                          </InputGroupAddon>
-                        </InputGroup>
-                      </FormGroup>
-
-
-               
+                 <FormGroup>
+                  <Label for="bar"> Amount to Deposit {tokenId}  </Label>
+                   <Table className="table-hover " responsive>
+                    <thead>
+                      <tr>
+                        <th key={0}  scope="col" className={"pl-0"}>
+                            <InputGroup>
+                              <Input type="text" id="bar" />
+                              <InputGroupAddon addonType="append">
+                                <ButtonGroup>
+                                  <Button color="ample1"><i className="fa " />25%</Button>
+                                  <Button color="ample2"><i className="fa " />50%</Button>
+                                  <Button color="ample3"><i className="fa " />75%</Button>
+                                  <Button color="ample4"><i className="fa " />100%</Button>
+                                </ButtonGroup>
+                              </InputGroupAddon>
+                            </InputGroup>
+                        </th>             
+                      </tr>
+                    </thead>
+                    </Table>
+                 </FormGroup>
                   <p className="fs-mini text-muted">
                     New deposits locked for 90 days.
                   </p>
@@ -459,34 +492,41 @@ class VaultDetail extends React.Component {
             {/* Size variants */ }
             <Col md={6} sm={12} xs={12}>
                     <Widget
-                title={<p style={{ fontWeight: 700 }}>AMPL Available to Withdraw: 5,169 AMPL</p>} 
+                title={<p style={{ fontWeight: 700 }}>
+                {tokenDetailedData[tokenId].token_name} Available to Withdraw: 5,169 {tokenDetailedData[tokenId].token_name}</p>} 
               >
                 <div>
-                
                    <FormGroup>
-                        <Label for="bar">
-                          Amount to Deposit
-                        </Label>
-                        <InputGroup>
-                          <Input type="text" id="bar" />
-                          <InputGroupAddon addonType="append">
-                            <ButtonGroup>
-                              <Button color="ample1"><i className="fa " />25%</Button>
-                              <Button color="ample2"><i className="fa " />50%</Button>
-                              <Button color="ample3"><i className="fa " />75%</Button>
-                              <Button color="ample4"><i className="fa " />100%</Button>
-                            </ButtonGroup>
-                          </InputGroupAddon>
-                        </InputGroup>
-                      </FormGroup>
+                     <Label for="bar"> Amount to Deposit </Label>
+                       <Table className="table-hover " responsive>
+                        <thead>
+                          <tr>
+                            <th key={0}  scope="col" className={"pl-0"}>
 
-                  <p className="fs-mini text-muted">
-                    Unlocked AMPL
-                  </p>
-                  <p className={"d-flex align-items-center "}>
-                    <Button color="default" size="lg" className="mb-md mr-sm">Withdraw</Button>
-                  </p>
-                </div>
+                                <InputGroup>
+                                  <Input type="text" id="bar" />
+                                  <InputGroupAddon addonType="append">
+                                    <ButtonGroup>
+                                      <Button color="ample1"><i className="fa " />25%</Button>
+                                      <Button color="ample2"><i className="fa " />50%</Button>
+                                      <Button color="ample3"><i className="fa " />75%</Button>
+                                      <Button color="ample4"><i className="fa " />100%</Button>
+                                    </ButtonGroup>
+                                  </InputGroupAddon>
+                                </InputGroup>
+                            </th>             
+                          </tr>
+                        </thead>
+                        </Table>
+                 </FormGroup>
+
+                <p className="fs-mini text-muted">
+                  Unlocked AMPL
+                </p>
+                <p className={"d-flex align-items-center "}>
+                  <Button color="default" size="lg" className="mb-md mr-sm">Withdraw</Button>
+                </p>
+              </div>
               </Widget>
             </Col>
         </Row>
@@ -502,10 +542,7 @@ class VaultDetail extends React.Component {
                 <thead>
                   <tr>
                     <th key={0} width="50%"  scope="col" className={"pl-0"}>
-                      &nbsp;Staked AMPL
-                    </th>
-                    <th key={1} width="25%" scope="col" className={"pl-0"}>
-                      &nbsp;APY
+                      &nbsp;Staked {tokenDetailedData[tokenId].token_name}
                     </th>
                     <th key={2} scope="col" className={"pl-0"}>
                       &nbsp;Rewards
@@ -513,29 +550,65 @@ class VaultDetail extends React.Component {
                   </tr>
                 </thead>
                 <tbody className="text-dark ">
-                  <tr key={0}>
+                  <tr>
                     <td className="fw-thin pl-0 fw-thin">
                       <h3>
-                        &nbsp;38,509 AMPL
+                        &nbsp;38,509 {tokenDetailedData[tokenId].token_name}
                         </h3>
-                      <p>Portion of AMPL sold during positive rebases, <br></br>Balance can decline during negative rebases.</p>
+                      <p>
+
+                      <h4>APY {tokenDetailedData[tokenId].apy}</h4>
+                      <br></br>
+                      <p >
+                      {tokenDetailedData[tokenId].staked_section_desc_1 ? tokenDetailedData[tokenId].staked_section_desc_1 : null}  
+                     </p>
+                     <p>
+                      {tokenDetailedData[tokenId].staked_section_desc_2 ? tokenDetailedData[tokenId].staked_section_desc_2 : null}  
+                       </p>
+                      </p>
                     </td>
-                    <td className={"pl-0 fw-thin"}>         
-                      <h3>
-                      &nbsp;220 %
-                    </h3>
-                    </td>
+                    
                     <td className={"pl-0 fw-thin"}>
+
+
+              
+
                     <h4>
+                      { tokenDetailedData[tokenId].rewards_token_amount_1 ? 
+                       <p>
                       <img height="30" src={p2} alt="" className={"mr-3"} />
+
                       <span align="right">
-                       &nbsp;309.23 EEFI</span>     
+                       &nbsp;{tokenDetailedData[tokenId].rewards_token_amount_1} {tokenDetailedData[tokenId].rewards_token_1}
+                       </span>     
+                     </p>
+
+                     : null }
+
+
+                    { (tokenDetailedData[tokenId].rewards_token_1 == CHECK_TEXT_TOKEN_REWARDS) ? 
+                       <p>
+
+                      <span align="right">
+                       &nbsp;{tokenDetailedData[tokenId].rewards_token_amount_1} {tokenDetailedData[tokenId].rewards_token_1}
+                       </span>     
+                     </p>
+
+                     : null }
+
+
+                      { tokenDetailedData[tokenId].rewards_token_amount_2 ? 
+
                       <p>
                         <img height="30" src={p5} alt="" className={"mr-3"} />
                         <span align="right">
-                        &nbsp;9.23 ETH</span>  
+                        &nbsp;{tokenDetailedData[tokenId].rewards_token_amount_2} {tokenDetailedData[tokenId].rewards_token_2}</span>  
                         </p>
+
+                     : null }
+  
                     </h4>
+
                       <p>
                         <Button color="primary" className="mb-md mr-md">Claim</Button>
                       </p>
@@ -543,14 +616,10 @@ class VaultDetail extends React.Component {
                   </tr>   
                 </tbody>
               </Table>
-
               </p>
-
-           
-
-<p>
-<h3>Your Deposit History</h3>
-</p>
+              <p>
+              <h3>Your Deposit History</h3>
+              </p>
 
               <p>
                 <Table className="table-hover table-bordered"  responsive>
@@ -575,7 +644,7 @@ class VaultDetail extends React.Component {
                       &nbsp;2021/03/15
                     </td>
                     <td className={"pl-0 fw-thin"}>
-                      &nbsp;1,745 AMPL
+                      &nbsp;1,745 {tokenDetailedData[tokenId].token_name}
                     </td>
                     <td className={"pl-0 fw-thin"}>
                     &nbsp;0xde...   <a href="https://www.etherscan.io"  target="_blank">Link</a></td>
@@ -586,7 +655,7 @@ class VaultDetail extends React.Component {
                       &nbsp;2021/04/15
                     </td>
                     <td className={"pl-0 fw-thin"}>
-                      &nbsp;1,445 AMPL
+                      &nbsp;1,445 {tokenDetailedData[tokenId].token_name}
                     </td>
                     <td className={"pl-0 fw-thin"}>
                     &nbsp;0xf3...   <a href="https://www.etherscan.io"  target="_blank">Link</a></td>
@@ -595,8 +664,6 @@ class VaultDetail extends React.Component {
                 </tbody>
               </Table>
             </p>
-
-
             </Widget>
           </Col>
         </Row>

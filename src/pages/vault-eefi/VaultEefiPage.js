@@ -432,17 +432,26 @@ class VaultEefiPage extends React.Component {
                         <Label for="bar">
                           Amount to Deposit
                         </Label>
-                        <InputGroup>
-                          <Input type="text" id="bar" />
-                          <InputGroupAddon addonType="append">
-                            <ButtonGroup>
-                              <Button color="ample1"><i className="fa " />25%</Button>
-                              <Button color="ample2"><i className="fa " />50%</Button>
-                              <Button color="ample3"><i className="fa " />75%</Button>
-                              <Button color="ample4"><i className="fa " />100%</Button>
-                            </ButtonGroup>
-                          </InputGroupAddon>
-                        </InputGroup>
+                        <Table className="table-hover " responsive>
+                        <thead>
+                          <tr>
+                            <th key={0}  scope="col" className={"pl-0"}>
+
+                                <InputGroup>
+                                  <Input type="text" id="bar" />
+                                  <InputGroupAddon addonType="append">
+                                    <ButtonGroup>
+                                      <Button color="ample1"><i className="fa " />25%</Button>
+                                      <Button color="ample2"><i className="fa " />50%</Button>
+                                      <Button color="ample3"><i className="fa " />75%</Button>
+                                      <Button color="ample4"><i className="fa " />100%</Button>
+                                    </ButtonGroup>
+                                  </InputGroupAddon>
+                                </InputGroup>
+                            </th>             
+                          </tr>
+                        </thead>
+                        </Table>
                       </FormGroup>
 
                  
@@ -463,20 +472,30 @@ class VaultEefiPage extends React.Component {
                         <Label for="bar">
                           Amount to Deposit
                         </Label>
-                        <InputGroup>
-                          <Input type="text" id="bar" />
-                          <InputGroupAddon addonType="append">
-                            <ButtonGroup>
-                              <Button color="ample1"><i className="fa " />25%</Button>
-                              <Button color="ample2"><i className="fa " />50%</Button>
-                              <Button color="ample3"><i className="fa " />75%</Button>
-                              <Button color="ample4"><i className="fa " />100%</Button>
-                            </ButtonGroup>
-                          </InputGroupAddon>
-                        </InputGroup>
+                       <Table className="table-hover " responsive>
+                        <thead>
+                          <tr>
+                            <th key={0}  scope="col" className={"pl-0"}>
+
+                                <InputGroup>
+                                  <Input type="text" id="bar" />
+                                  <InputGroupAddon addonType="append">
+                                    <ButtonGroup>
+                                      <Button color="ample1"><i className="fa " />25%</Button>
+                                      <Button color="ample2"><i className="fa " />50%</Button>
+                                      <Button color="ample3"><i className="fa " />75%</Button>
+                                      <Button color="ample4"><i className="fa " />100%</Button>
+                                    </ButtonGroup>
+                                  </InputGroupAddon>
+                                </InputGroup>
+                            </th>             
+                          </tr>
+                        </thead>
+                        </Table>
                       </FormGroup>
 
-                
+
+
                   <p className={"d-flex align-items-center "}>
                     <Button color="default" size="lg" className="mb-md mr-sm">Withdraw</Button>
                   </p>
@@ -511,6 +530,8 @@ class VaultEefiPage extends React.Component {
                       <h3>
                         &nbsp;8,709 EEFI/ETH LP Tokens
                      </h3>
+                      <p><h4>APY 90%</h4><br></br></p>
+             
                     </td>
                    
                     <td className={"pl-0 fw-thin"}>

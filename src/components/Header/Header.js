@@ -181,15 +181,7 @@ class Header extends React.Component {
             />
           </NavLink>
         </NavItem>
-        <NavItem className={"d-md-down-block d-md-none ml-auto"}>
-          <img
-            src={search}
-            alt="search"
-            width="24px"
-            height="23px"
-            style={{ marginRight: 12 }}
-          />
-        </NavItem>
+        
         <button className={`btn btn-bordered ml-auto `} onMouseOver={() => this.changeArrowImg()} onMouseLeave={() => this.changeArrowImgOut()}>
          <WalletConnect>
             </WalletConnect>

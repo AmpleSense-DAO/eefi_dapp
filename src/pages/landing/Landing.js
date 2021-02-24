@@ -51,44 +51,9 @@ class Landing extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      email: "admin@flatlogic.com",
-      password: "password",
-    };
-
-    this.doLogin = this.doLogin.bind(this);
-    this.googleLogin = this.googleLogin.bind(this);
-    this.microsoftLogin = this.microsoftLogin.bind(this);
-    this.changeEmail = this.changeEmail.bind(this);
-    this.changePassword = this.changePassword.bind(this);
-    this.signUp = this.signUp.bind(this);
   }
 
-  changeEmail(event) {
-    this.setState({ email: event.target.value });
-  }
-
-  changePassword(event) {
-    this.setState({ password: event.target.value });
-  }
-
-  doLogin(e) {
-
-          return <Redirect to='/app/home/vault-summary' />;
-
-    e.preventDefault();
-    this.props.dispatch(
-      loginUser({ email: this.state.email, password: this.state.password })
-    );
-  }
-
-  googleLogin() {
-    this.props.dispatch(loginUser({ social: "google" }));
-  }
-
-  microsoftLogin() {
-    this.props.dispatch(loginUser({ social: "microsoft" }));
-  }
+  
 
   componentDidMount() {
     const params = new URLSearchParams(this.props.location.search);
@@ -98,9 +63,6 @@ class Landing extends React.Component {
     }
   }
 
-  signUp() {
-    this.props.history.push("/register");
-  }
 
   render() {
     const { from } = this.props.location.state || {
@@ -110,59 +72,43 @@ class Landing extends React.Component {
  
     return (
        <div className={s.root}>
-
+<Widget>
         <Row>
 
-         {/* Color options */}
-            {/* Size variants */}
-            <Col md={12} sm={12} xs={12}>
-              <Widget>
-                <div>
+            <Col >
+                <div  responsive>
 
-                <Table className="table-hover" responsive>
-                  <tr >
-                    <td key={0}   scope="col" className={"pl-0 text-info"}>
-                     <p className={"d-flex  align-items-center"} >&nbsp;
-                     <h1 className="display-4">
-                        Unleash the power of your elastic assets
-                     </h1>
+                  <div className="top-logo-1">
+                     <img height="120px" src={p1} alt="" className={"mr-3 mt-2 top-logo-1"} />
+
+                  </div>
+
+                  <div style={{whiteSpace: 'nowrap'}}>
+                    <div   className={"text-info align-items-center "} style={{whiteSpace: 'normal'} } >
+                     <p  className={"d-flex  "}>&nbsp;
+                       <h2 className="display-4 ">
+                          Unleash the power of your elastic assets
+                       </h2>
+                        &nbsp;&nbsp;&nbsp;<img height="180px" src={p1} alt="" className={"mr-3 mt-2 left-logo-1"} />
                      </p>
-                     <p className={"d-flex  align-items-center"} responsive>&nbsp;
+                    <p className={"d-flex  align-items-center"} >&nbsp;
 
                      <h4>
                       Earn token rewards, hedge against negative rebase and more
                      </h4>
-                     </p>
-                         <p className={"d-flex align-items-center "} responsive>
-
-                    <Link to="/app/home/vault-summary"><Button color="info" size="lg" className="mb-md mr-sm" responsive>Launch App</Button>
-                    </Link>
+                      </p>
+                      <p className={"d-flex align-items-center "} responsive>
+                        <Link to="/app/home/vault-summary"><Button color="info" size="lg" className="mb-md mr-sm" responsive>Launch App</Button>
+                        </Link>
                     </p>
-
-                   </td>  
-
-                 <td key={1}   scope="col" className={"pl-0 text-info"}>
-                     
-               <img height="180" src={p1} alt="" className={"mr-3 mt-2"} />
-
-              
-                   </td>       
-
-                  </tr>
-           </Table>
-
-                  
-                    
+                   </div>       
+                  </div>
                 </div>
-            </Widget>
-
-            </Col>
-
-          
-
-     <Col sm={12}>
-            <Widget>
-                <Table width="50%" className=" table-bordered" responsive>
+          </Col>
+        </Row>
+        <Row>
+          <Col >
+              <Table  className=" table-bordered" responsive>
                 <thead>
                   <tr >
                     <th key={0} width="33%"  scope="col" className={"pl-0"}>
@@ -187,39 +133,45 @@ class Landing extends React.Component {
                   </tr>
                 </thead>
               </Table>
-            </Widget>
           </Col>
-
         </Row>
       
         <Row>
-            <Col md={12} sm={12} xs={12}>
-              <Widget >
+          <Col >
                 <div>
-              <Table width="50%" className="table-hover " responsive>
-                <thead>
-                  <tr >
-                    <th key={0} width="33%"  color="info" scope="col" className={"pl-0 text-info"}>
-                <h1>
-                  An AmpleSense DAO Project
-                </h1>
-                <h4 color="info">
-                  The DAO is an independant community powered organization focused on accelerating the global elastic finance ecosystem.
-                <p>
-                  &nbsp;
-                </p>
-                <p>
-                Learn about the DAO <a target="_blank" href="https://en.wikipedia.org/wiki/Decentralized_autonomous_organization">>></a>
-                </p>
-                </h4>
-               </th>                      
-              </tr>
-            </thead>               
-            </Table>
+                <div  responsive>
+                  <div >
+                    <div key={0}  width="30%" scope="col" className={"pl-0 text-info "} style={{whiteSpace: 'normal'}}>
+                    
+
+
+
+                     <p  className={"d-flex  "}>&nbsp;
+                       <h2 className="display-4 ">
+                          An AmpleSense DAO Project
+                       </h2>
+                     </p>
+
+
+
+                      <p  className={"d-flex  align-items-center text-info" } style={{  whiteSpace: 'normal'}}>&nbsp;
+                       <h5 className={"text-info " } > 
+                        The DAO is an independant community powered organization focused on accelerating the global elastic finance ecosystem.
+                       </h5>
+                     </p>
+                        <p className={"d-flex  align-items-center"}>&nbsp;
+                         <h5 className={"text-info white-space : normal" } > 
+                            Learn about the DAO <a target="_blank" href="https://en.wikipedia.org/wiki/Decentralized_autonomous_organization">>></a>
+                         </h5>
+                        </p>  
+                   </div>  
+                  </div>
+                 </div>                    
                </div>
-              </Widget>
             </Col>
           </Row>
+
+          </Widget>
          </div>
     );
   }
