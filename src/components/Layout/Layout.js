@@ -8,6 +8,7 @@ import Hammer from "rc-hammerjs";
 import Dashboard from "../../pages/dashboard";
 import VaultSummary from "../../pages/vault-summary";
 import VaultDetail from "../../pages/vault-detail";
+import BlockchainUpdater from '../Blockchain/Updater';
 import VaultGenPage from "../../pages/vault-gen-page";
 import VaultEefiPage from "../../pages/vault-eefi";
 import VaultNFTs from "../../pages/vault-nfts";
@@ -268,6 +269,7 @@ class Layout extends React.Component {
                   </Switch>
                 </CSSTransition>
               </TransitionGroup>
+              <BlockchainUpdater/>
             </main>
           </Hammer>
         </div>

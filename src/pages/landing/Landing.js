@@ -11,7 +11,6 @@ import { withRouter, Redirect, Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { Alert, Button, Label, Input, FormGroup } from "reactstrap";
 import Widget from "../../components/Widget";
-import { loginUser, receiveToken } from "../../actions/user";
 import jwt from "jsonwebtoken";
 import s from './Landing.module.scss';
 import signinImg from "../../images/signinImg.svg";
@@ -32,38 +31,14 @@ import p4 from "../../images/tokens/governance_white.png";
 import p5 from "../../images/tokens/ethereum-eth-logo.svg";
 import p6 from "../../images/tokens/system_white.png";
 
-
-
 class Landing extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
   };
 
-  static isAuthenticated(token) {
-    // We check if app runs with backend mode
-    if (!config.isBackend && token) return true;
-    if (!token) return;
-    const date = new Date().getTime() / 1000;
-    const data = jwt.decode(token);
-    return date < data.exp;
-  }
-
   constructor(props) {
     super(props);
-
-  
   }
-
-  
-
-  componentDidMount() {
-    const params = new URLSearchParams(this.props.location.search);
-    const token = params.get("token");
-    if (token) {
-      this.props.dispatch(receiveToken(token));
-    }
-  }
-
 
   render() {
     const { from } = this.props.location.state || {

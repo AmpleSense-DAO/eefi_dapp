@@ -1,17 +1,21 @@
 import {
-    LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT_SUCCESS,
+    LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE,
 } from '../actions/user';
 
-const token = localStorage.getItem('token');
 export default function auth(state = {
     isFetching: false,
-    isAuthenticated: !!token,
+    isAuthenticated: false,
+    web3: undefined,
+    account: undefined
 }, action) {
+    const that = this;
     switch (action.type) {
         case LOGIN_REQUEST:
             return Object.assign({}, state, {
                 isFetching: true,
                 isAuthenticated: false,
+                web3: action.payload.web3,
+                account: action.payload.account
             });
         case LOGIN_SUCCESS:
             return Object.assign({}, state, {
@@ -24,10 +28,6 @@ export default function auth(state = {
                 isFetching: false,
                 isAuthenticated: false,
                 errorMessage: action.payload,
-            });
-        case LOGOUT_SUCCESS:
-            return Object.assign({}, state, {
-                isAuthenticated: false,
             });
         default:
             return state;

@@ -2,6 +2,13 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router";
+import { Button } from "reactstrap";
+import Web3 from 'web3';
+import Web3Modal from "web3modal";
+import WalletConnectProvider from "@walletconnect/web3-provider";
+import Fortmatic from "fortmatic";
+import MewConnect from "@myetherwallet/mewconnect-web-client";
+import Authereum from "authereum";
 import {
   Navbar,
   Nav,
@@ -18,7 +25,6 @@ import {
 import cx from "classnames";
 import { NavbarTypes } from "../../reducers/layout";
 import Notifications from "../Notifications";
-import { logoutUser } from "../../actions/user";
 import chroma from "chroma-js";
 import {
   toggleSidebar,
@@ -43,9 +49,45 @@ import lightSearch from '../../images/theme-icons/light-navbar/search.svg'
 
 import s from "./Header.module.scss"; // eslint-disable-line css-modules/no-unused-class
 
+import { loginUser, loginError } from "../../actions/user";
 
-import { WalletConnect, ProviderContext } from '../Wallet/walletConnect'
+const providerOptions = {
+  /*injected: {
+      display: {
+        logo: "data:image/gif;base64,INSERT_BASE64_STRING",
+        name: "Injected",
+        description: "Connect with the provider in your Browser"
+      },
+      package: null
+    },*/
+  walletconnect: {
+      package: WalletConnectProvider, // required
+      options: {
+      infuraId: "4372ea8a08ea4629bf10104f4c86a900" // required
+      }
+  },
+  fortmatic: {
+      package: Fortmatic, // required
+      options: {
+          key: "FORTMATIC_KEY" // required
+      }
+  },
+  mewconnect: {
+      package: MewConnect, // required
+      options: {
+        infuraId: "4372ea8a08ea4629bf10104f4c86a900" // required
+      }
+  },
+  authereum: {
+      package: Authereum // required
+  }
+};
 
+const web3Modal = new Web3Modal({
+  // network: "mainnet", // optional
+  // cacheProvider: true, // optional
+  providerOptions // required
+});
 
 class Header extends React.Component {
   static propTypes = {
@@ -64,9 +106,9 @@ class Header extends React.Component {
     this.switchSidebar = this.switchSidebar.bind(this);
     this.toggleNotifications = this.toggleNotifications.bind(this);
     this.toggleMessages = this.toggleMessages.bind(this);
-    this.toggleAccount = this.toggleAccount.bind(this);
     this.toggleSidebar = this.toggleSidebar.bind(this);
-    this.doLogout = this.doLogout.bind(this);
+    this.doLogin = this.doLogin.bind(this);
+    this.doLoginLocal = this.doLoginLocal.bind(this);
     this.changeArrowImg = this.changeArrowImg.bind(this);
     this.changeArrowImgOut = this.changeArrowImgOut.bind(this);
 
@@ -74,7 +116,6 @@ class Header extends React.Component {
       menuOpen: false,
       notificationsOpen: false,
       messagesOpen: false,
-      accountOpen: false,
       notificationsTabSelected: 1,
       focus: false,
       showNewMessage: false,
@@ -100,14 +141,23 @@ class Header extends React.Component {
     });
   }
 
-  toggleAccount() {
-    this.setState({
-      accountOpen: !this.state.accountOpen,
+  doLogin() {
+    web3Modal.connect().then(provider => {
+      let web3 = new Web3(provider);
+      web3.eth.getAccounts().then(accounts => {
+        this.props.dispatch(loginUser(web3, accounts[0]));
+      })
+      
+    }).catch(err => {
+      this.props.dispatch(loginError(err));
     });
   }
 
-  doLogout() {
-    this.props.dispatch(logoutUser());
+  doLoginLocal() {
+    let web3 = new Web3("ws://127.0.0.1:8545/");
+    web3.eth.getAccounts().then(accounts => {
+      this.props.dispatch(loginUser(web3, accounts[0]));
+    })
   }
 
   changeArrowImg() {
@@ -156,7 +206,7 @@ class Header extends React.Component {
   }
   render() {
     const { focus } = this.state;
-    const { navbarType, navbarColor, openUsersList } = this.props;
+    const { navbarType, navbarColor, account } = this.props;
 
   //  const user = JSON.parse(localStorage.getItem("user") || {});
 
@@ -182,12 +232,8 @@ class Header extends React.Component {
           </NavLink>
         </NavItem>
         
-        <button className={`btn btn-bordered ml-auto `} onMouseOver={() => this.changeArrowImg()} onMouseLeave={() => this.changeArrowImgOut()}>
-         <WalletConnect>
-            </WalletConnect>
-            </button>
-
-
+        <Button id="button-connected" className={`btn  ml-auto ${s.fullVersionBtn}`} onClick={this.doLogin}>{account? account.substr(0,8) + "...": "Wallet Connect"}</Button>
+        <Button id="button-connected" className={`btn  ml-auto ${s.fullVersionBtn}`} onClick={this.doLoginLocal}>{account? account.substr(0,8) + "...": "Wallet Connect Testnet"}</Button>
 
       <p align="right">
             
@@ -203,6 +249,8 @@ function mapStateToProps(store) {
     sidebarStatic: store.navigation.sidebarStatic,
     navbarType: store.layout.navbarType,
     navbarColor: store.layout.navbarColor,
+    web3: store.auth.web3,
+    account: store.auth.account
   };
 }
 
