@@ -5,7 +5,6 @@ import { withRouter } from "react-router-dom";
 import s from "./Sidebar.module.scss";
 import LinksGroup from "./LinksGroup/LinksGroup";
 import { changeActiveSidebarItem } from "../../actions/navigation";
-import { logoutUser } from "../../actions/user";
 import cx from "classnames";
 
 import {  Redirect, Link } from "react-router-dom";
@@ -280,10 +279,6 @@ import darkSidebarExtraOutlinedBlue from "../../images/theme-icons/dark sidebar/
 import darkSidebarExtraFilledBlue from "../../images/theme-icons/dark sidebar/blue/Extra_filled.svg";
 
 
-import { WalletConnect, ProviderContext } from '../Wallet/walletConnect'
-
-
-
 class Sidebar extends React.Component {
   static propTypes = {
     sidebarStatic: PropTypes.bool,
@@ -303,13 +298,7 @@ class Sidebar extends React.Component {
 
   constructor(props) {
     super(props);
-
-    this.doLogout = this.doLogout.bind(this);
     this.themeIcons = this.themeIcons.bind(this);
-  }
-
-  doLogout() {
-    this.props.dispatch(logoutUser());
   }
 
   themeIcons(currentPage) {

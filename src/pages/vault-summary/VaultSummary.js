@@ -39,9 +39,6 @@ import p6 from "../../images/tokens/zeus_cropped_edited_sm.png";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { WalletConnect, ProviderContext } from '../../components/Wallet/walletConnect'
-
-
 const orderValueOverride = {
   options: {
     chart: {
@@ -1583,7 +1580,7 @@ function mapStateToProps(store) {
   return {
     sidebarColor: store.layout.sidebarColor,
     dashboardColor: store.layout.dashboardTheme,
-    account : store.account,
+    account : store.blockchain.account,
   };
 }
 

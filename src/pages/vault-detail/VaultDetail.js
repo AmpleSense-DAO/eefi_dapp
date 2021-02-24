@@ -1,4 +1,7 @@
 import React from "react";
+import { withRouter } from "react-router";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import { Row, Col, Table } from "reactstrap";
 
 import usersImg from "../../images/usersImg.svg";
@@ -15,6 +18,7 @@ import Widget from "../../components/Widget";
 import s from "./VaultDetail.module.scss";
 import ApexChart from "react-apexcharts";
 
+import {fetchAMPLBalance} from "../../actions/blockchain";
 
 import {
   Form,
@@ -43,6 +47,8 @@ import p2 from "../../images/tokens/eefi_token_logo.png";
 import p3 from "../../images/tokens/kappa_logo_kmpl.png";
 import p4 from "../../images/tokens/apollo_cropped_edited_sm.png";
 import p5 from "../../images/tokens/ethereum-eth-logo.svg";
+
+const erc20Abi = require("../../contracts/ERC20.json");
 
 const orderValueOverride = {
   options: {
@@ -385,8 +391,12 @@ const splineArea = {
 };
 
 class VaultDetail extends React.Component {
-  constructor() {
-    super();
+  static propTypes = {
+    dispatch: PropTypes.func.isRequired
+  };
+
+  constructor(props) {
+    super(props);
     this.forceUpdate = this.forceUpdate.bind(this)
   }
   state = {
@@ -406,6 +416,8 @@ class VaultDetail extends React.Component {
   }
 
   render() {
+    console.log("plop", this.props)
+    const { ampl_balance } = this.props;
     return (
 
 
@@ -423,7 +435,7 @@ class VaultDetail extends React.Component {
          {/* Color options */}
             <Col md={6} sm={12} xs={12}>
               <Widget
-                title={<p style={{ fontWeight: 700 }}>AMPL Wallet Balance: 83,569 AMPL</p>} 
+                title={<p style={{ fontWeight: 700 }}>AMPL Wallet Balance: {ampl_balance}</p>} 
               >
                 <div>
                 
@@ -627,4 +639,12 @@ class VaultDetail extends React.Component {
   }
 }
 
-export default VaultDetail;
+function mapStateToProps(store) {
+  return {
+    web3: store.auth.web3,
+    account: store.auth.account,
+    ampl_balance: store.blockchain.ampl_balance
+  };
+}
+
+export default withRouter(connect(mapStateToProps)(VaultDetail));
