@@ -23,10 +23,7 @@ import p3 from "../../images/tokens/kappa_logo_kmpl.png";
 import p4 from "../../images/tokens/apollo_cropped_edited_sm.png";
 import p5 from "../../images/tokens/ethereum-eth-logo.svg";
 
-import {fetchAMPLBalance} from "../../actions/blockchain";
-import {fetchKMPLPrice} from "../../actions/blockchain";
-
-
+import {fetchAMPLBalance, fetchKMPLPrive, checkAllowance, makeApproval, makeDeposit, makeWithdrawal} from "../../actions/blockchain";
 
 import {
   Form,
@@ -51,6 +48,7 @@ import {
 
 
 const AmplesenseVaultAbi = require("../../contracts/AmplesenseVault.json");
+const erc20Abi = require("../../contracts/ERC20.json");
 
 const orderValueOverride = {
   options: {
@@ -473,16 +471,37 @@ calculateAmountToWithdraw(evt) {
   }
 
   doDeposit() {
-   
-   console.log("PULLING", this.props);
-   const value = this.amountToDeposit;
    const {account, web3} = this.props;
+   const value = this.amountToDeposit;
+   const valueWei = web3.utils.toWei(value, "ether");
 
     try {
     if(account) {
-        //deposit AMPL
-        const ampleSenseVault = new web3.eth.Contract(AmplesenseVaultAbi.abi, "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0");
-        ampleSenseVault.methods.makeDeposit(value).send({from: account})
+        //get AMPL allowance
+        const ampl = new web3.eth.Contract(erc20Abi.abi, "0x5FbDB2315678afecb367f032d93F642f64180aa3");
+        ampl.methods.allowance(account, "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0").call().then(allowance => {
+          this.props.dispatch(checkAllowance(allowance));
+          const to_allow = "" + (valueWei > allowance? valueWei - allowance : 0);
+          console.log("PLOp", allowance, valueWei, to_allow);
+          if(to_allow > 0) {
+            const ampl = new web3.eth.Contract(erc20Abi.abi, "0x5FbDB2315678afecb367f032d93F642f64180aa3");
+            const tx = ampl.methods.approve("0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0", to_allow).send({from: account}).then(result => {
+              console.log("allowance result:", result);
+              //deposit AMPL
+              const ampleSenseVault = new web3.eth.Contract(AmplesenseVaultAbi.abi, "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0");
+              const tx = ampleSenseVault.methods.makeDeposit(valueWei).send({from: account});
+              this.props.dispatch(makeDeposit(tx));
+
+            })
+            this.props.dispatch(makeApproval(tx));
+          } else {
+              //deposit AMPL
+              const ampleSenseVault = new web3.eth.Contract(AmplesenseVaultAbi.abi, "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0");
+              const tx = ampleSenseVault.methods.makeDeposit(valueWei).send({from: account});
+              this.props.dispatch(makeDeposit(tx));
+          }
+        })
+        
       }
     } catch(error) {
       console.log('calling makeDeposit failed!', error)
@@ -491,8 +510,6 @@ calculateAmountToWithdraw(evt) {
 
 
   doWithdraw() {
-   
-   console.log("PULLING", this.props);
    const value = this.amountToWithdraw;
    const {account, web3} = this.props;
 
@@ -500,7 +517,8 @@ calculateAmountToWithdraw(evt) {
     if(account) {
         //withdraw AMPL
         const ampleSenseVault = new web3.eth.Contract(AmplesenseVaultAbi.abi, "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0");
-        ampleSenseVault.methods.withdraw(value).send({from: account})
+        const tx = ampleSenseVault.methods.withdraw(value).send({from: account});
+        this.props.dispatch(makeWithdrawal(tx));
       }
     } catch(error) {
       console.log('calling withdraw AMPL failed!', error)
@@ -510,8 +528,6 @@ calculateAmountToWithdraw(evt) {
   render() {
 
     var tokenId = 0;
-    console.log("in render PULLING", this.props);
-
     const { ampl_balance } = this.props;
     const { ampl_withdraw } = this.props;
     const { kmpl_price } = this.props;
