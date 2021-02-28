@@ -1183,7 +1183,6 @@ class Sidebar extends React.Component {
                 isHeader
                 link="/app/email"
                 index="email"
-                badge={9}
               >
                 <img
                   src={this.themeIcons("email")}

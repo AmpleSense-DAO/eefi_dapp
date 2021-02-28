@@ -19,6 +19,24 @@ footer {
   }
 }
 
+.top-logo-1 {display: flex;}
+.left-logo-1 {display: flex;}
+
+ @media only screen and (min-width: 812px) {
+
+  [class*="top-logo-"] {
+    display: none; 
+  }
+ 
+}
+
+@media only screen and (max-width: 811px) {
+
+  [class*="left-logo-"] {
+    display: none;
+  }
+}
+
 .errorContainer {
   height: 100vh;
   display: flex;

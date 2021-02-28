@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Col, Table } from "reactstrap";
+import { Row, Col, Table, Button } from "reactstrap";
 import {  Redirect, Link } from "react-router-dom";
 
 import usersImg from "../../images/usersImg.svg";
@@ -30,14 +30,22 @@ import ApexChart from "react-apexcharts";
 
 // logos
 import p1 from "../../images/tokens/ample.png";
-import p2 from "../../images/tokens/eefi_token_logo.png";
+import p2 from "../../images/tokens/new_ee_balancer.png";
 import p3 from "../../images/tokens/kappa_logo_kmpl.png";
 import p4 from "../../images/tokens/apollo_cropped_edited_sm.png";
 import p5 from "../../images/userAvatar.png";
 import p6 from "../../images/tokens/zeus_cropped_edited_sm.png";
+import p7 from "../../images/tokens/kmpl_uni_logo.png";
+
 
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
+//import { WalletConnect, ProviderContext } from '../../components/Wallet/walletConnect'
+
+import {fetchKMPLPrice} from "../../actions/blockchain";
+
+const axios = require('axios')
+
 
 const orderValueOverride = {
   options: {
@@ -1020,6 +1028,7 @@ const splineAreaInfo = {
 };
 
 
+
 class VaultSummary extends React.Component {
   constructor() {
     super();
@@ -1302,8 +1311,16 @@ class VaultSummary extends React.Component {
     }
   }
 
+  
+
+
+
+
   componentDidMount() {
     window.addEventListener("resize", this.forceUpdate.bind(this));
+
+
+   
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -1331,18 +1348,18 @@ class VaultSummary extends React.Component {
 
   render() {
 
+    const { kmpl_price } = this.props;
+
     return (
 
       <div className={s.root}>
-        <p>
         <h2>
         Vault Summary
         </h2>
-        </p>
         <Row>
           <Col xl={3}>
             <Widget
-              title={<p style={{ fontWeight: 700 }}>TVL</p>}>
+              title={<p className="text-info" style={{ fontWeight: 700 }}>TVL</p>}>
 
                
               <Row className={`justify-content-between mt-3`} noGutters>
@@ -1365,7 +1382,7 @@ class VaultSummary extends React.Component {
           </Col>
           <Col xl={3}>
             <Widget
-              title={<p style={{ fontWeight: 700 }}>Your Portfolio</p>}>
+              title={<p className="text-info" style={{ fontWeight: 700 }}>Your Portfolio</p>}>
               <Row className={`justify-content-between mt-3`} noGutters>
                 <Col sm={8} className={"d-flex align-items-center"}>
                   <h4 className={"fw-semi-bold mb-0"}>$ 73,440</h4>
@@ -1374,6 +1391,7 @@ class VaultSummary extends React.Component {
                   sm={4}
                   className={"d-flex align-items-center justify-content-end"}
                 >
+
                   <img src={stocksImg} alt="" className={"mr-1"} />
                   <p className={"text-success mb-0"}>15%</p>
                 </Col>
@@ -1386,10 +1404,10 @@ class VaultSummary extends React.Component {
      
        <Col xl={3}>
             <Widget
-              title={<p style={{ fontWeight: 700 }}>kMPL Price</p>}>
+              title={<p className="text-info" style={{ fontWeight: 700 }}>kMPL Price</p>}>
               <Row className={`justify-content-between mt-3`} noGutters>
                 <Col sm={8} className={"d-flex align-items-center"}>
-                  <h4 className={"fw-semi-bold mb-0"}>$ 41.05</h4>
+                  <h4 className={"fw-semi-bold mb-0"}>$ {kmpl_price} </h4>
                 </Col>
                 <Col  sm={4}
                   className={"d-flex align-items-center justify-content-end"}
@@ -1406,7 +1424,7 @@ class VaultSummary extends React.Component {
 
     <Col xl={3}>
             <Widget
-              title={<p style={{ fontWeight: 700 }}>EEFI Price</p>}>
+              title={<p className="text-info" style={{ fontWeight: 700 }}>EEFI Price</p>}>
               <Row className={`justify-content-between mt-3`} noGutters>
                 <Col sm={8} className={"d-flex align-items-center"}>
                   <h4 className={"fw-semi-bold mb-0"}>$ 41.05</h4>
@@ -1426,120 +1444,492 @@ class VaultSummary extends React.Component {
           </Col>
         </Row>
     
-       <Row>
+
+
+    {/* AMPL */}
+
+        <Row>
           <Col sm={12}>
             <Widget>
                 <Table className="table-hover " responsive>
 
-                <thead>
-                  <tr>
-                    <th key={0} scope="col" className={"pl-0"}>
-                      Asset
-                    </th>
-                    <th key={1} scope="col" className={"pl-0"}>
-                      Vault Strategy
-                    </th>
-                    <th key={2} scope="col" className={"pl-0"}>
-                      TVL
-                    </th>
-                    <th key={3} scope="col" className={"pl-0"}>
-                      Staked Balance
-                    </th>
-                   
-                  </tr>
-                </thead>
                 <tbody className="text-dark">
-                <tr key={0}>
-
-                    <td className="pl-0 fw-thin">
-                  <Link to="/app/home/vault-detail">
-                      <p className={"fw-bold"}>
-                      <img src={p1} height="30" alt="" className={"mr-3"} />AMPL
-                      </p>
-                  </Link>         
-                    </td>
-                    <td className={"pl-0 fw-thin"}>
-                      <p>
-                      Stake AMPL, Earn EEFI, ETH
-                      </p>
-                    </td>
-                    <td className={"pl-0 fw-thin"}>$ 10,434,565</td>
-                    <td className={"pl-0 fw-normal"}>$ 8,400</td>
-          
-                  </tr>
-             
-
-                  <tr key={1}>
-                    <td className=" pl-0 fw-thin">
-                  <Link to="/app/home/vault-eefi">
+                <tr  key={0}>
+                  <td width="35%" className=" align-items-center  table-vaults-long-1 ">
+                  <Link to="/app/home/vault-detail/0">
                     
-                       <p className={"fw-bold"}>
-                      <img src={p2} height="30" alt="" className={"mr-3"} />EEFI/ETH LP Tokens 
-                      </p>
+                      <span className={"d-flex  align-items-center fw-bold"}>
+                      <img src={p1} height={80} width={80} alt="" className={"mr-3"} />
+
+                      <h4 className="text-info">
+                      AMPL 
+                      </h4>
+                      </span>
                   </Link>         
   
-                    </td>
-                    <td className={"pl-0 fw-thin"}>
-                     
-                      <p>
-                        Stake EEFI/ETH LP Tokens, Earn EEFI, ETH
-                      </p>
-                      
-                     
-
-                    </td>
-                    <td className={"pl-0 fw-thin"}>$ 2,464,565</td>
-                    <td className={"pl-0 fw-normal"}>$ 46,000</td>
+                  </td>
+                  <td width="35%" className=" pl-0 fw-thin table-vaults-short-1">
+                  <Link to="/app/home/vault-detail/1">
                     
-                  </tr>
-                  <tr key={2}>
-                    <td className="fw-normal pl-0 fw-thin">
-                 <Link to="/app/home/vault-gen-page">
+                      <p className={"d-flex  align-items-center fw-bold"}>
+                      <img src={p1} height={80} width={80} alt="" className={"mr-3"} />
 
-                       <p className={"fw-bold"}>
-                      <img src={p3}  height="30" alt="" className={"mr-3"} />kMPL
+                      </p>
+                       <h5 className="text-info" >
+                      AMPL 
+                      </h5>
+                      </Link>
+                      <Link to="/app/home/vault-detail/1">
+                        <Button color="primary" className="mb-md mr-md">Select</Button>
+                      </Link>
+                  </td>
+                    <td width="30%" className={"pl-0 fw-thin table-vaults-long-1"}>
+                      <p className={"d-flex  align-items-center text-info "}>
+                        <strong>Deposit:</strong>&nbsp; AMPL
+                      </p>
+                      <p className={"d-flex  align-items-center text-info"}>
+                        <strong> Earn:</strong> &nbsp;EEFI, ETH
+                      </p>
+                    </td>
+                    <td width="25%" className={"pl-0 fw-thin table-vaults-long-1"}>
+
+                    <p className={"d-flex  align-items-center text-info"}>
+
+                    <strong>TVL: </strong> &nbsp; $ 2,444,565
+                    </p> 
+                    <p className={"d-flex  align-items-center text-info"}>
+
+                    <strong>APY: </strong>&nbsp; 60%
+                    </p>
+                    <p className={"d-flex  align-items-center text-info"}>
+
+                    <strong>Your Balance: </strong>&nbsp;$ 46,565
+                     </p>
+                    </td>
+                     <td width="30%" className={"pl-0 fw-thin table-vaults-short-1"}>
+                      <p className={"d-flex  align-items-center text-info "}>
+                        <strong>Deposit:</strong>&nbsp; AMPL
+                      </p>
+                      <p className={"d-flex  align-items-center text-info"}>
+ 
+                        <strong> Earn:</strong> &nbsp;EEFI, ETH
+                      </p>
+                    <p className={"d-flex  align-items-center text-info"}>
+
+                    <strong>TVL: </strong> &nbsp; $ 2,444,565
+                    </p> 
+                    <p className={"d-flex  align-items-center text-info"}>
+
+                    <strong>APY: </strong>&nbsp; 60%
+                    </p>
+                    <p className={"d-flex  align-items-center text-info"}>
+
+                    <strong>Your Balance: </strong>&nbsp;$ 46,565
+                     </p>                    
+                    </td>
+                    <td width="10%" className={"pl-0 fw-normal table-vaults-long-1"}>
+                     <Link to="/app/home/vault-detail/1">
+                      <p>
+                        <Button color="primary" className="mb-md mr-md">Select</Button>
                       </p>
                       </Link>
                     </td>
-                    <td className={"pl-0 fw-thin"}>
-                   
-                      <p >
-                        Stake kMPL, Earn Token Rewards
-                      </p>
-                      
-
-                    </td>
-                    <td className={"pl-0 fw-thin"}>$ 1,434,565</td>
-                    <td className={"pl-0 fw-normal"}>$ 1,300</td>
-                    
                   </tr>
-                  <tr key={3}>
-                    <td className="fw-normal pl-0 fw-thin">
-                <Link to="/app/home/vault-nfts">
-
-                       <p className={"fw-bold"}>
-                      <img src={p4} alt=""  height="30" className={"mr-3"} />
-                      <img src={p6} alt=""  height="30" className={"mr-3"} />Pioneer NFTs
-                      </p>
-                      </Link>
-                    </td>
-                    <td className={"pl-0 fw-thin"}>
-                      <p>
-                        Stake Pioneer NFTs, Earn ETH
-                      </p>
-                      
-                   
-                    </td>
-                    <td className={"pl-0 fw-thin"}>$ 44,434,665</td>
-                    <td className={"pl-0 fw-normal"}>N/A</td>
-                    
-                  </tr>
-       
                 </tbody>
               </Table>
             </Widget>
           </Col>
         </Row>
+
+
+
+    {/* EEFI/ETH LP Tokens */}
+    <Row>
+          <Col sm={12}>
+            <Widget>
+                <Table className="table-hover " responsive>
+                <tbody className="text-dark">
+                <tr  key={0}>
+                  <td width="35%" className=" pl-0 fw-thin table-vaults-long-1">
+                  <Link to="/app/home/vault-detail/1">
+                    
+                      <span className={"d-flex  align-items-center fw-bold"}>
+                      <img src={p2} height={80} width={80} alt="" className={"mr-3"} />
+
+                      <h4 className="text-info">
+                      EEFI/ETH LP Tokens 
+                      </h4>
+                      </span>
+                  </Link>         
+  
+                  </td>
+                  <td width="35%" className=" pl-0 fw-thin table-vaults-short-1">
+                  <Link to="/app/home/vault-eefi">
+                    
+                      <p className={"d-flex  align-items-center fw-bold"}>
+                      <img src={p2} height={80} width={80} alt="" className={"mr-3"} />
+                      </p>
+                       <h5 className="text-info" >
+                      EEFI/ETH<br></br>LP Tokens 
+                      </h5>
+                   </Link>
+                   <Link to="/app/home/vault-eefi">
+                      <p>
+                        <Button color="primary" className="mb-md mr-md">Select</Button>
+                      </p>
+                   </Link>
+                  </td>
+                    <td width="30%" className={"pl-0 fw-thin table-vaults-long-1"}>
+                      <p className={"d-flex  align-items-center text-info "}>
+                        <strong>Deposit:</strong>&nbsp; EEFI/ETH LP Tokens
+                      </p>
+                      <p className={"d-flex  align-items-center text-info"}>
+                        <strong> Earn:</strong> &nbsp;EEFI, ETH
+                      </p>
+                    </td>
+                    <td width="25%" className={"pl-0 fw-thin table-vaults-long-1"}>
+
+                    <p className={"d-flex  align-items-center text-info"}>
+
+                    <strong>TVL: </strong> &nbsp; $ 2,944,565
+                    </p> 
+                    <p className={"d-flex  align-items-center text-info"}>
+
+                    <strong>APY: </strong>&nbsp; 400%
+                    </p>
+                    <p className={"d-flex  align-items-center text-info"}>
+
+                    <strong>Your Balance: </strong>&nbsp;$ 46,565
+                     </p>
+                    </td>
+                     <td width="30%" className={"pl-0 fw-thin table-vaults-short-1"}>
+                      <p className={"d-flex  align-items-center text-info "}>
+                        <strong>Deposit:</strong>&nbsp; EEFI/ETH LP Tokens
+                      </p>
+                      <p className={"d-flex  align-items-center text-info"}>
+ 
+                        <strong> Earn:</strong> &nbsp;EEFI, ETH
+                      </p>
+                    <p className={"d-flex  align-items-center text-info"}>
+
+                    <strong>TVL: </strong> &nbsp; $ 2,444,565
+                    </p> 
+                    <p className={"d-flex  align-items-center text-info"}>
+
+                    <strong>APY: </strong>&nbsp; 400%
+                    </p>
+                    <p className={"d-flex  align-items-center text-info"}>
+
+                    <strong>Your Balance: </strong>&nbsp;$ 46,565
+                     </p>                    
+                    </td>
+                    <td width="10%" className={"pl-0 fw-normal table-vaults-long-1"}>
+                     <Link to="/app/home/vault-detail/1">
+                      <p>
+                        <Button color="primary" className="mb-md mr-md">Select</Button>
+                      </p>
+                      </Link>
+                    </td>
+                  </tr>
+                </tbody>
+              </Table>
+            </Widget>
+          </Col>
+        </Row>
+
+
+
+    {/* kMPL Tokens */}
+    <Row>
+          <Col sm={12}>
+            <Widget>
+                <Table className="table-hover " responsive>
+                <tbody className="text-dark">
+                <tr  key={0}>
+                  <td width="35%" className=" pl-0 fw-thin table-vaults-long-1">
+                  <Link to="/app/home/vault-detail/2">
+                    
+                      <span className={"d-flex  align-items-center fw-bold"}>
+                      <img src={p3} height={80} width={80} alt="" className={"mr-3"} />
+
+                      <h4 className="text-info">
+                      kMPL 
+                      </h4>
+                      </span>
+                  </Link>         
+  
+                  </td>
+                  <td width="35%" className=" pl-0 fw-thin table-vaults-short-1">
+                  <Link to="/app/home/vault-gen-page">
+                    
+                      <p className={"d-flex  align-items-center fw-bold"}>
+                      <img src={p3} height={80} width={80} alt="" className={"mr-3"} />
+                      </p>
+                       <h5 className="text-info" >
+                      kMPL 
+                      </h5>
+                   </Link>
+                   <Link to="/app/home/vault-gen-page">
+                      <p>
+                        <Button color="primary" className="mb-md mr-md">Select</Button>
+                      </p>
+                      </Link>
+                  </td>
+                    <td width="30%" className={"pl-0 fw-thin table-vaults-long-1"}>
+                      <p className={"d-flex  align-items-center text-info "}>
+                        <strong>Deposit:</strong>&nbsp; kMPL Tokens
+                      </p>
+                      <p className={"d-flex  align-items-center text-info"}>
+                        <strong> Earn:</strong> &nbsp;Various Token Rewards
+                      </p>
+                    </td>
+                    <td width="25%" className={"pl-0 fw-thin table-vaults-long-1"}>
+
+                    <p className={"d-flex  align-items-center text-info"}>
+
+                    <strong>TVL: </strong> &nbsp; $ 2,944,565
+                    </p> 
+                    <p className={"d-flex  align-items-center text-info"}>
+
+                    <strong>APY: </strong>&nbsp; 60%
+                    </p>
+                    <p className={"d-flex  align-items-center text-info"}>
+
+                    <strong>Your Balance: </strong>&nbsp;$ 46,565
+                     </p>
+                    </td>
+                     <td width="30%" className={"pl-0 fw-thin table-vaults-short-1"}>
+                      <p className={"d-flex  align-items-center text-info "}>
+                        <strong>Deposit:</strong>&nbsp; kMPL Tokens
+                      </p>
+                      <p className={"d-flex  align-items-center text-info"}>
+ 
+                        <strong> Earn:</strong> &nbsp;Various Token Rewards
+                      </p>
+                    <p className={"d-flex  align-items-center text-info"}>
+
+                    <strong>TVL: </strong> &nbsp; $ 2,444,565
+                    </p> 
+                    <p className={"d-flex  align-items-center text-info"}>
+
+                    <strong>APY: </strong>&nbsp; 60%
+                    </p>
+                    <p className={"d-flex  align-items-center text-info"}>
+
+                    <strong>Your Balance: </strong>&nbsp;$ 6,565
+                     </p>                    
+                    </td>
+                    <td width="10%" className={"pl-0 fw-normal table-vaults-long-1"}>
+                     <Link to="/app/home/vault-detail/2">
+                      <p>
+                        <Button color="primary" className="mb-md mr-md">Select</Button>
+                      </p>
+                      </Link>
+                    </td>
+                  </tr>
+                </tbody>
+              </Table>
+            </Widget>
+          </Col>
+        </Row>
+
+
+   {/* Pioneer NFTs  */}
+    <Row>
+          <Col sm={12}>
+            <Widget>
+                <Table className="table-hover " responsive>
+                <tbody className="text-dark">
+                <tr  key={0}>
+                  <td width="35%" className=" pl-0 fw-thin table-vaults-long-1">
+                  <Link to="/app/home/vault-nfts">
+                    
+                      <span className={"d-flex  align-items-center fw-bold"}>
+                      <img src={p4} height={80} width={80} alt="" className={"mr-3"} />
+
+                      <h4 className="text-info align-items-center">
+                      Pioneer NFTs 
+                      </h4>
+                      </span>
+                  </Link>         
+  
+                  </td>
+                  <td width="35%" className=" pl-0 fw-thin table-vaults-short-1">
+                  <Link to="/app/home/vault-nfts">
+                    
+                      <p className={"d-flex  align-items-center fw-bold mb-md mr-md"}>
+                      <img src={p4} height={80} width={80} alt="" className={"mr-3"} />
+
+                      </p>
+                      <span  className={"d-flex  fw-bold mb-md mr-md"}>
+                       <h5 className="text-info" >
+                      Pioneer <br></br>NFTs 
+                      </h5>
+                      </span>
+                    </Link>
+                    <Link to="/app/home/vault-nfts">
+                      <p>
+                        <Button color="primary" className="mb-md mr-md">Select</Button>
+                      </p>
+                    </Link>
+                  </td>
+                    <td width="30%" className={"pl-0 fw-thin table-vaults-long-1"}>
+                      <p className={"d-flex  align-items-center text-info "}>
+                        <strong>Deposit:</strong>&nbsp; Pioneer NFTs
+                      </p>
+                      <p className={"d-flex  align-items-center text-info"}>
+                        <strong> Earn:</strong> &nbsp;ETH
+                      </p>
+                    </td>
+                    <td width="25%" className={"pl-0 fw-thin table-vaults-long-1"}>
+
+                    <p className={"d-flex  align-items-center text-info"}>
+
+                    <strong>TVL: </strong> &nbsp;  N/A
+                    </p> 
+                    <p className={"d-flex  align-items-center text-info"}>
+
+                    <strong>APY: </strong>&nbsp; N/A
+                    </p>
+                    <p className={"d-flex  align-items-center text-info"}>
+
+                    <strong>Your Balance: </strong>&nbsp; 1
+                     </p>
+                    </td>
+                     <td width="30%" className={"pl-0 fw-thin table-vaults-short-1"}>
+                      <p className={"d-flex  align-items-center text-info "}>
+                        <strong>Deposit:</strong>&nbsp; Pioneer NFTs
+                      </p>
+                      <p className={"d-flex  align-items-center text-info"}>
+ 
+                        <strong> Earn:</strong> &nbsp;ETH
+                      </p>
+                    <p className={"d-flex  align-items-center text-info"}>
+
+                    <strong>TVL: </strong> &nbsp; N/A
+                    </p> 
+                    <p className={"d-flex  align-items-center text-info"}>
+
+                    <strong>APY: </strong>&nbsp; N/A
+                    </p>
+                    <p className={"d-flex  align-items-center text-info"}>
+
+                    <strong>Your Balance: </strong>&nbsp;1
+                     </p>                    
+                    </td>
+                    <td width="10%" className={"pl-0 fw-normal table-vaults-long-1"}>
+                     <Link to="/app/home/vault-nfts">
+                      <p>
+                        <Button color="primary" className="mb-md mr-md">Select</Button>
+                      </p>
+                      </Link>
+                    </td>
+                  </tr>
+                </tbody>
+              </Table>
+            </Widget>
+          </Col>
+        </Row>
+
+
+
+  {/* kMPL/ETH  */}
+    <Row>
+          <Col sm={12}>
+            <Widget>
+                <Table className="table-hover " responsive>
+                <tbody className="text-dark">
+                <tr  key={0}>
+                  <td width="35%" className=" pl-0 fw-thin table-vaults-long-1">
+                  <Link to="/app/home/vault-detail/4">
+                    
+                      <span className={"d-flex  align-items-center fw-bold"}>
+                      <img src={p7} height={80} width={80} alt="" className={"mr-3"} />
+
+                      <h4 className="text-info">
+                      kMPL/ETH LP Tokens 
+                      </h4>
+                      </span>
+                  </Link>         
+  
+                  </td>
+                  <td width="35%" className=" pl-0 fw-thin table-vaults-short-1">
+                  <Link to="/app/home/vault-nfts">
+                    
+                      <p className={"d-flex  align-items-center fw-bold mb-md mr-md"}>
+                      <img src={p7} height={80} width={80} alt="" className={"mr-3"} />
+
+                      </p>
+                       <h5 className="text-info" >
+                      kMPL/ETH <br></br>LP Tokens 
+                      </h5>
+                   </Link>
+
+                   <Link to="/app/home/vault-nfts">
+                      <p>
+                        <Button color="primary" className="mb-md mr-md">Select</Button>
+                      </p>
+                      </Link>
+                  </td>
+                    <td width="30%" className={"pl-0 fw-thin table-vaults-long-1"}>
+                      <p className={"d-flex  align-items-center text-info "}>
+                        <strong>Deposit:</strong>&nbsp; kMPL/ETH LP Tokens
+                      </p>
+                      <p className={"d-flex  align-items-center text-info"}>
+                        <strong> Earn:</strong> &nbsp;ETH
+                      </p>
+                    </td>
+                    <td width="25%" className={"pl-0 fw-thin table-vaults-long-1"}>
+
+                    <p className={"d-flex  align-items-center text-info"}>
+
+                    <strong>TVL: </strong> &nbsp; $ 3,567,543
+                    </p> 
+                    <p className={"d-flex  align-items-center text-info"}>
+
+                    <strong>APY: </strong>&nbsp; 90 %
+                    </p>
+                    <p className={"d-flex  align-items-center text-info"}>
+
+                    <strong>Your Balance: </strong>&nbsp; 1
+                     </p>
+                    </td>
+                     <td width="30%" className={"pl-0 fw-thin table-vaults-short-1"}>
+                      <p className={"d-flex  align-items-center text-info "}>
+                        <strong>Deposit:</strong>&nbsp; kMPL/ETH LP Tokens
+                      </p>
+                      <p className={"d-flex  align-items-center text-info"}>
+ 
+                        <strong> Earn:</strong> &nbsp;ETH
+                      </p>
+                    <p className={"d-flex  align-items-center text-info"}>
+
+                    <strong>TVL: </strong> &nbsp;  $ 3,567,543
+                    </p> 
+                    <p className={"d-flex  align-items-center text-info"}>
+
+                    <strong>APY: </strong>&nbsp; 90%
+                    </p>
+                    <p className={"d-flex  align-items-center text-info"}>
+
+                    <strong>Your Balance: </strong>&nbsp;8,707
+                     </p>                    
+                    </td>
+                    <td width="10%" className={"pl-0 fw-normal table-vaults-long-1"}>
+                     <Link to="/app/home/vault-detail/4">
+                      <p>
+                        <Button color="primary" className="mb-md mr-md">Select</Button>
+                      </p>
+                      </Link>
+                    </td>
+                  </tr>
+                </tbody>
+              </Table>
+            </Widget>
+          </Col>
+        </Row>
+
+
 
         <Row>
           <Col xl={12}>
@@ -1576,11 +1966,14 @@ class VaultSummary extends React.Component {
   }
 }
 
+
 function mapStateToProps(store) {
   return {
     sidebarColor: store.layout.sidebarColor,
     dashboardColor: store.layout.dashboardTheme,
-    account : store.blockchain.account,
+    account : store.account,
+    kmpl_price: store.blockchain.kmpl_price,
+
   };
 }
 

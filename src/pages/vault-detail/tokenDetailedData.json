@@ -1,0 +1,105 @@
+[
+  {
+    "id": 0,
+    "img": "p1",
+    "title": "Elastic Vault: AMPL > EEFI",
+    "token_name": "AMPL",
+    "earn_token":"EEFI/ETH",
+    "rewards_token_1" : "EEFI",
+    "rewards_token_2" : "ETH",
+    "staked_section_desc_1" : "Portion of AMPL sold during positive rebases,",
+    "staked_section_desc_2" : "Balance can decline during negative rebases.",
+
+    "apy": "60%",
+    "tvl": "$ 10,345,567",
+    "token_price": "142.38",
+    "wallet_balance_amount": "83,569",
+    "available_to_withdraw_amount": "5,169",
+    "rewards_token_amount_1" : "309.23",
+    "rewards_token_amount_2" : "9.23"
+  },
+  {
+    "id": 1,
+    "img": "p2",
+    "title": "EEFI/ETH LP Token Vault",
+    "token_name": "EEFI/ETH LP Tokens",
+    "apy": "400%",
+    "tvl": "$ 2,545,566",
+    "earn_token":"EEFI/ETH",
+    "rewards_token_1" : "EEFI",
+    "rewards_token_2" : "ETH",
+    "staked_section_desc_1" : "",
+    "staked_section_desc_2" : "",
+
+    "token_price": "402.38",
+    "wallet_balance_amount": "3,569",
+    "available_to_withdraw_amount": "53,169",
+    "rewards_token_amount_1" : "39.23",
+    "rewards_token_amount_2" : "90.23"
+  },
+  {
+    "id": 2,
+    "img": "p3",
+    "title": "Pioneer Fund Vault II: kMPL",
+    "token_name": "kMPL",
+    "apy": "60%",
+    "tvl": "$ 1,145,567",
+    "earn_token":"Various Token Rewards",
+    "rewards_token_1" : "Various Token Rewards",
+    "rewards_token_2" : "",
+    "staked_section_desc_1" : "",
+    "staked_section_desc_2" : "",
+
+    "token_price": "42.38",
+    "wallet_balance_amount": "83,569",
+    "available_to_withdraw_amount": "5,169",
+    "rewards_token_amount_1" : "",
+    "rewards_token_amount_2" : ""
+  },
+  {
+    "id": 3,
+    "img": "p4",
+    "title": "Pioneer NFTs",
+    "token_name": "Pioneer NFTs",
+    "apy": "N/A",
+    "tvl": "N/A",
+    "earn_token":"ETH",
+    "rewards_token_1" : "ETH",
+    "rewards_token_2" : "",
+    "staked_section_desc_1" : "",
+    "staked_section_desc_2" : "",
+
+    "token_price": "402.38",
+    "wallet_balance_amount": "23,569",
+    "available_to_withdraw_amount": "5,169",
+    "rewards_token_amount_1" : "3.23",
+    "rewards_token_amount_2" : "190.23"
+
+  },
+
+   {
+    "id": 4,
+    "img": "p5",
+    "title": "kMPL/ETH LP Token Vault",
+    "token_name": "kMPL/ETH LP Token",
+    "apy": "N/A",
+    "tvl": "N/A",
+    "earn_token":"ETH",
+    "rewards_token_1" : "Various Token Rewards",
+    "rewards_token_2" : "",
+    "staked_section_desc_1" : "",
+    "staked_section_desc_2" : "",
+
+    "token_price": "402.38",
+    "wallet_balance_amount": "23,569",
+    "available_to_withdraw_amount": "5,169",
+    "rewards_token_amount_1" : "",
+    "rewards_token_amount_2" : ""
+
+  }
+  
+
+
+
+
+]
