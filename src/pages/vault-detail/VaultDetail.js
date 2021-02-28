@@ -539,6 +539,15 @@ calculateAmountToWithdraw(evt) {
     if (tokenId >= tokenDetailedData.length || tokenId < 0) {
       tokenId = 0;
     }
+
+    if(!account) {
+      return (<div className={s.root}>
+        <h2>
+        {tokenDetailedData[tokenId].title}
+        </h2>
+        <h3>Connect your wallet to view vault details</h3>
+        </div>)
+    }
     //console.log('tokenDetailedData', tokenDetailedData[tokenId].title, tokenDetailedData.length);
     return (
 
@@ -701,7 +710,7 @@ calculateAmountToWithdraw(evt) {
                   {deposits.map(deposit => {
                     return <tr key={deposit.transactionHash}>
                       <td className="fw-normal pl-0 fw-thin">
-                        &nbsp;{new Date(deposit.timestamp * 1000).toLocaleDateString()}
+                        &nbsp;{new Date(deposit.timestamp * 1000).toUTCString()}
                       </td>
                       <td className={"pl-0 fw-thin"}>
                         &nbsp;{deposit.returnValues.amount / 10**tokenDetailedData[tokenId].precision} {tokenDetailedData[tokenId].token_name}
