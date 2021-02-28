@@ -5,6 +5,8 @@ export const FETCH_ALLOWANCE = 'FETCH_ALLOWANCE';
 export const MAKE_APPROVAL = 'MAKE_APPROVAL';
 export const MAKE_DEPOSIT = 'MAKE_DEPOSIT';
 export const MAKE_WITHDRAWAL = 'MAKE_WITHDRAWAL';
+export const FETCH_DEPOSITS = 'FETCH_DEPOSITS';
+export const FETCH_WITHDRAWALS = 'FETCH_WITHDRAWALS';
 
 export function fetchAMPLBalance(balance) {
   return {
@@ -47,5 +49,17 @@ export function makeWithdrawal(tx) {
   return {
     type: MAKE_WITHDRAWAL,
     payload: tx
+  };
+}
+export function fetchDeposits(deposits) {
+  return {
+    type: FETCH_DEPOSITS,
+    payload: deposits
+  };
+}
+export function fetchWithdrawals(withdrawals) {
+  return {
+    type: FETCH_WITHDRAWALS,
+    payload: withdrawals
   };
 }

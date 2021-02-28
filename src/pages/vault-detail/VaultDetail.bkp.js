@@ -416,7 +416,6 @@ class VaultDetail extends React.Component {
   }
 
   render() {
-    console.log("plop", this.props)
     const { ampl_balance } = this.props;
     return (
 
