@@ -23,7 +23,7 @@ import p3 from "../../images/tokens/kappa_logo_kmpl.png";
 import p4 from "../../images/tokens/apollo_cropped_edited_sm.png";
 import p5 from "../../images/tokens/ethereum-eth-logo.svg";
 
-import {fetchAMPLBalance, fetchKMPLPrive, checkAllowance, makeApproval, makeDeposit, makeWithdrawal} from "../../actions/blockchain";
+import {fetchAMPLBalance, fetchKMPLPrive, checkAllowance, makeApproval, makeDeposit, makeWithdrawal, fetchDeposits} from "../../actions/blockchain";
 
 import {
   Form,
@@ -459,8 +459,7 @@ calculateAmountToWithdraw(evt) {
     })
   }
   componentDidMount() {
-    window.addEventListener("resize", this.forceUpdate.bind(this))
-
+    window.addEventListener("resize", this.forceUpdate.bind(this));
     this.setState({
       tokenDetailedDataList: tokenDetailedData
     })
@@ -475,27 +474,23 @@ calculateAmountToWithdraw(evt) {
    const {account, web3} = this.props;
    const value = new BigNumber(this.amountToDeposit)
 
-   console.log('doDeposit amountToDeposit', value.toString());
-
-
     try {
     if(account) {
+        const valueWei = new web3.utils.BN(value).mul(new web3.utils.BN(10**9));
         //get AMPL allowance
 
         const valueWei = web3.utils.toWei(value.toString(), "ether");
         const ampl = new web3.eth.Contract(erc20Abi.abi, "0x5FbDB2315678afecb367f032d93F642f64180aa3");
         ampl.methods.allowance(account, "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0").call().then(allowance => {
-          this.props.dispatch(checkAllowance(allowance));
-          const to_allow = "" + (valueWei > allowance? valueWei - allowance : 0);
-          const to_allow_bn = new BigNumber(to_allow);
-          console.log("PLOp", 'allowance', allowance, 'valueWei', valueWei,'to_allow', to_allow,'to_allow_bn', to_allow_bn.toFixed(0));
+          const all = new web3.utils.BN(allowance.toString());
+          this.props.dispatch(checkAllowance(all));
+          const to_allow = new web3.utils.BN(valueWei > all? valueWei.sub(all) : "0");
           if(to_allow > 0) {
             const ampl = new web3.eth.Contract(erc20Abi.abi, "0x5FbDB2315678afecb367f032d93F642f64180aa3");
-            const tx = ampl.methods.approve("0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0", to_allow_bn.toFixed(0)).send({from: account}).then(result => {
-              console.log("allowance result:", result);
+            const tx = ampl.methods.approve("0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0", to_allow.toString()).send({from: account}).then(result => {
               //deposit AMPL
               const ampleSenseVault = new web3.eth.Contract(AmplesenseVaultAbi.abi, "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0");
-              const tx = ampleSenseVault.methods.makeDeposit(valueWei).send({from: account});
+              const tx = ampleSenseVault.methods.makeDeposit(valueWei.toString()).send({from: account});
               this.props.dispatch(makeDeposit(tx));
 
             })
@@ -542,14 +537,17 @@ calculateAmountToWithdraw(evt) {
   render() {
 
     var tokenId = 0;
-    const { ampl_balance } = this.props;
-    const { ampl_withdraw } = this.props;
-    const { kmpl_price } = this.props;
-    const { ampl_eth_reward } = this.props;
-    const { ampl_token_reward } = this.props;
-    const {account} = this.props;
-    const {web3} = this.props;
-
+    const { 
+      ampl_balance,
+      ampl_withdraw,
+      kmpl_price,
+      ampl_eth_reward,
+      ampl_token_reward,
+      account,
+      web3,
+      deposits,
+      withdrawals
+    } = this.props;
 
     if (this.getId()) {
           tokenId = this.getId();
@@ -563,8 +561,16 @@ calculateAmountToWithdraw(evt) {
     if (tokenId >= tokenDetailedData.length || tokenId < 0) {
       tokenId = 0;
     }
-    //console.log('tokenDetailedData', tokenDetailedData[tokenId].title, tokenDetailedData.length);
 
+    if(!account) {
+      return (<div className={s.root}>
+        <h2>
+        {tokenDetailedData[tokenId].title}
+        </h2>
+        <h3>Connect your wallet to view vault details</h3>
+        </div>)
+    }
+    //console.log('tokenDetailedData', tokenDetailedData[tokenId].title, tokenDetailedData.length);
     return (
 
       <div className={s.root}>
@@ -720,28 +726,22 @@ calculateAmountToWithdraw(evt) {
                   </tr>
                 </thead>
                 <tbody className="text-dark">
+
+                  {deposits.map(deposit => {
+                    return <tr key={deposit.transactionHash}>
+                      <td className="fw-normal pl-0 fw-thin">
+                        &nbsp;{new Date(deposit.timestamp * 1000).toUTCString()}
+                      </td>
+                      <td className={"pl-0 fw-thin"}>
+                        &nbsp;{deposit.returnValues.amount / 10**tokenDetailedData[tokenId].precision} {tokenDetailedData[tokenId].token_name}
+                      </td>
+                      <td className={"pl-0 fw-thin"}>
+                      &nbsp;{deposit.transactionHash.substr(0,8)+"..."}   <a href={"https://www.etherscan.io/tx/" + deposit.transactionHash}  target="_blank">Link</a></td>
+                    </tr>
+                    })
+                  }
                  
-                  <tr key={0}>
-                    <td className="fw-normal pl-0 fw-thin">
-                      &nbsp;2021/03/15
-                    </td>
-                    <td className={"pl-0 fw-thin"}>
-                      &nbsp;1,745 {tokenDetailedData[tokenId].token_name}
-                    </td>
-                    <td className={"pl-0 fw-thin"}>
-                    &nbsp;0xde...   <a href="https://www.etherscan.io"  target="_blank">Link</a></td>
-                  </tr>   
-              
-                  <tr key={1}>
-                    <td className="fw-normal pl-0 fw-thin">
-                      &nbsp;2021/04/15
-                    </td>
-                    <td className={"pl-0 fw-thin"}>
-                      &nbsp;1,445 {tokenDetailedData[tokenId].token_name}
-                    </td>
-                    <td className={"pl-0 fw-thin"}>
-                    &nbsp;0xf3...   <a href="https://www.etherscan.io"  target="_blank">Link</a></td>
-                  </tr>   
+                     
 
                 </tbody>
               </Table>
@@ -762,7 +762,9 @@ function mapStateToProps(store) {
     ampl_withdraw: store.blockchain.ampl_withdraw,
     kmpl_price: store.blockchain.kmpl_price,
     ampl_eth_reward: store.blockchain.ampl_eth_reward,
-    ampl_token_reward: store.blockchain.ampl_token_reward
+    ampl_token_reward: store.blockchain.ampl_token_reward,
+    deposits: store.blockchain.deposits,
+    withdrawals: store.blockchain.withdrawals
   };
 }
 

@@ -10,7 +10,8 @@ import { MAKE_WITHDRAWAL } from '../actions/blockchain';
 import { FETCH_GAS_PRICE_FASTEST } from '../actions/blockchain';
 import { FETCH_GAS_PRICE_FAST } from '../actions/blockchain';
 import { FETCH_GAS_PRICE_AVERAGE } from '../actions/blockchain';
-
+import { FETCH_DEPOSITS } from '../actions/blockchain';
+import { FETCH_WITHDRAWALS } from '../actions/blockchain';
 
 const defaultState = {
   ampl_balance: "0",
@@ -21,7 +22,9 @@ const defaultState = {
   gas_price_average: "0",
   allowance: "0",
   deposit_tx: undefined,
-  approval_tx: undefined
+  approval_tx: undefined,
+  deposits: [],
+  withdrawals: []
 };
 
 export default function blockchainReducer(state = defaultState, action) {
@@ -73,6 +76,18 @@ export default function blockchainReducer(state = defaultState, action) {
     case MAKE_WITHDRAWAL:
       return Object.assign({}, state, {
         withdrawal_tx: action.payload
+      });
+    case FETCH_DEPOSITS:
+      let new_deposits = state.deposits;
+      new_deposits.push(action.payload);
+      return Object.assign({}, state, {
+        deposits: new_deposits
+      });
+    case FETCH_WITHDRAWALS:
+      let new_withdrawals = state.withdrawals;
+      new_withdrawals.push(action.payload);
+      return Object.assign({}, state, {
+        withdrawals: new_withdrawals
       });
     default:
       return state;

@@ -274,7 +274,7 @@ class Layout extends React.Component {
                   </Switch>
                 </CSSTransition>
               </TransitionGroup>
-              <BlockchainUpdater/>
+              {this.props.account && <BlockchainUpdater/>}
             </main>
           </Hammer>
         </div>
@@ -290,6 +290,7 @@ function mapStateToProps(store) {
     dashboardTheme: store.layout.dashboardTheme,
     sidebarType: store.layout.sidebarType,
     sidebarColor: store.layout.sidebarColor,
+    account: store.auth.account
   };
 }
 

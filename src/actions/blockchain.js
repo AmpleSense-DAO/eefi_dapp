@@ -10,7 +10,8 @@ export const MAKE_WITHDRAWAL = 'MAKE_WITHDRAWAL';
 export const FETCH_GAS_PRICE_FASTEST = 'FETCH_GAS_PRICE_FASTEST';
 export const FETCH_GAS_PRICE_FAST = 'FETCH_GAS_PRICE_FAST';
 export const FETCH_GAS_PRICE_AVERAGE = 'FETCH_GAS_PRICE_AVERAGE';
-
+export const FETCH_DEPOSITS = 'FETCH_DEPOSITS';
+export const FETCH_WITHDRAWALS = 'FETCH_WITHDRAWALS';
 
 export function fetchAMPLBalance(balance) {
   return {
@@ -70,7 +71,6 @@ export function makeWithdrawal(tx) {
     payload: tx
   };
 }
-
 export function fetchGasPriceFastest(price) {
   return {
     type: FETCH_GAS_PRICE_FASTEST,
@@ -89,4 +89,15 @@ export function fetchGasPriceAverage(price) {
     payload: price
   };
 }
-
+export function fetchDeposits(deposits) {
+  return {
+    type: FETCH_DEPOSITS,
+    payload: deposits
+  };
+}
+export function fetchWithdrawals(withdrawals) {
+  return {
+    type: FETCH_WITHDRAWALS,
+    payload: withdrawals
+  };
+}

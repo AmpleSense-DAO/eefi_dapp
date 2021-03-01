@@ -1,14 +1,19 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import {fetchAMPLBalance} from "../../actions/blockchain";
-import {fetchAMPLAmplesenseBalance} from "../../actions/blockchain";
-import {fetchKMPLPrice} from "../../actions/blockchain";
-import {fetchGasPriceFastest} from "../../actions/blockchain";
-import {fetchGasPriceFast} from "../../actions/blockchain";
-import {fetchGasPriceAverage} from "../../actions/blockchain";
-import {fetchAVETHReward} from "../../actions/blockchain";
-import {fetchAVTokenReward} from "../../actions/blockchain";
+
+import {
+  fetchAMPLBalance,
+  fetchDeposits,
+  fetchWithdrawals,
+  fetchAMPLAmplesenseBalance,
+  fetchKMPLPrice,
+  fetchGasPriceFastest,
+  fetchGasPriceFast,
+  fetchGasPriceAverage,
+  fetchAVETHReward,
+  fetchAVTokenReward
+} from "../../actions/blockchain";
 
 const erc20Abi = require("../../contracts/ERC20.json");
 const AmplesenseVaultAbi = require("../../contracts/AmplesenseVault.json");
@@ -44,9 +49,32 @@ class BlockchainUpdater extends React.Component {
 
   constructor(props) {
     super(props);
-    const timer = setInterval(this.pull, 3000);
+    const timer = setInterval(this.pull, 5000);
     console.log("props updated");
   }
+
+  componentDidMount() {
+    const {web3, account, deposits} = this.props;
+    const ampleSenseVault = new web3.eth.Contract(AmplesenseVaultAbi.abi, "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0");
+    const that = this;
+    //fetch passed events
+    ampleSenseVault.events.Deposit({ fromBlock: 0, filter: { account:  account }, }).on( 'data', function(event) {
+      //add timestamp
+      web3.eth.getBlock(event.blockNumber).then(block => {
+        event.timestamp = block.timestamp;
+        that.props.dispatch(fetchDeposits(event));
+      })
+    }).on('error', console.error);
+    //fetch passed events
+    ampleSenseVault.events.Withdrawal({ fromBlock: 0, filter: { account:  account }, }).on( 'data', function(event) {
+      //add timestamp
+      web3.eth.getBlock(event.blockNumber).then(block => {
+        event.timestamp = block.timestamp;
+        that.props.dispatch(fetchWithdrawals(event));
+      })
+    }).on('error', console.error);
+  }
+
   render() {
     return <div/>
   }
@@ -56,23 +84,23 @@ class BlockchainUpdater extends React.Component {
 
   pull = () => {
     console.log("PULLING", this.props);
-    const {web3, account} = this.props;
+    const {web3, account, deposits} = this.props;
     try {
     if(account) {
         //get AMPL balance
         const ampl = new web3.eth.Contract(erc20Abi.abi, CONTRACT_ADDRESSES[AMPLE_CONTRACT]);
         ampl.methods.balanceOf(account).call().then(balance => {
-        const toHuman = web3.utils.fromWei(balance, "ether");
+        const toHuman = balance / 10**9;
         this.props.dispatch(fetchAMPLBalance(toHuman));
         })
 
         //get AMPL balance on AmplesenseVault
         const ampleSenseVault = new web3.eth.Contract(AmplesenseVaultAbi.abi, CONTRACT_ADDRESSES[AMPLE_SENSE_VAULT]);
         ampleSenseVault.methods.balanceOf(account).call().then(balance => {
-        const toHuman = web3.utils.fromWei(balance, "ether");
+        const toHuman = balance / 10**9;
         this.props.dispatch(fetchAMPLAmplesenseBalance(toHuman));
         })
- 
+      
         //get rewards for the AmplesenseVault (ETH and EEFI)
         const VaultRewards = new web3.eth.Contract(VaultRewardsAbi.abi, CONTRACT_ADDRESSES[AMPL_VAULT_REWARDS]);
         VaultRewards.methods.getReward(account).call().then(rewards => {
@@ -84,7 +112,6 @@ class BlockchainUpdater extends React.Component {
         this.props.dispatch(fetchAVTokenReward(tokenReward));
 
         })
-
     }
     else {
         //if not connected, populate reward variables with 0
@@ -121,6 +148,8 @@ function mapStateToProps(store) {
     return {
       web3: store.auth.web3,
       account : store.auth.account,
+      deposits : store.blockchain.deposits,
+      withdrawals : store.blockchain.withdrawals
     };
   }
   
