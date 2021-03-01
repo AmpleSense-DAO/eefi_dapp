@@ -477,9 +477,6 @@ calculateAmountToWithdraw(evt) {
     try {
     if(account) {
         const valueWei = new web3.utils.BN(value).mul(new web3.utils.BN(10**9));
-        //get AMPL allowance
-
-        const valueWei = web3.utils.toWei(value.toString(), "ether");
         const ampl = new web3.eth.Contract(erc20Abi.abi, "0x5FbDB2315678afecb367f032d93F642f64180aa3");
         ampl.methods.allowance(account, "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0").call().then(allowance => {
           const all = new web3.utils.BN(allowance.toString());
