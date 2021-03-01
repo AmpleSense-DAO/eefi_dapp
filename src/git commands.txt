@@ -1,0 +1,14 @@
+git reset --hard origin/master
+git branch ampl-integration
+git push —set-upsteam origin ampl-integration
+
+
+
+avec les 2 dernieres commandes tu vas avoir ta propre branche crée sur ton pc ET sur githubensuite tu fais tes git commit et git push comme d'hab
+pour gérer git tu peux soit bosser en ligne de commande, soit utiliser un outil sympaperso j'utilise VS code pour ça souvent (pour les commits et push)
+le reste je fais en ligne de commande
+
+et en gros, quand tu as accompli le but de ton dev, on merge ta branche sur master
+tu te remets sur master, tu fais un git pull pour le mettre à jour, puis tu recommences tout le process pour une nouvelle branche / feature
+
+en fait le process ressemble à ça pour une bonne raison

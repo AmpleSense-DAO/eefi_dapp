@@ -46,6 +46,7 @@ import {
   DropdownItem,
 } from 'reactstrap';
 
+var BigNumber = require('bignumber.js');
 
 const AmplesenseVaultAbi = require("../../contracts/AmplesenseVault.json");
 const erc20Abi = require("../../contracts/ERC20.json");
@@ -443,7 +444,7 @@ class VaultDetail extends React.Component {
  calculateAmountToDeposit(evt) {
 
    const { ampl_balance } = this.props;
-   this.amountToDeposit = parseFloat(ampl_balance * evt.target.value) 
+   this.amountToDeposit = parseFloat(ampl_balance * evt.target.value).toString() 
    this.setState({
       amountToDeposit: this.amountToDeposit
     })
@@ -472,20 +473,25 @@ calculateAmountToWithdraw(evt) {
 
   doDeposit() {
    const {account, web3} = this.props;
-   const value = this.amountToDeposit;
-   const valueWei = web3.utils.toWei(value, "ether");
+   const value = new BigNumber(this.amountToDeposit)
+
+   console.log('doDeposit amountToDeposit', value.toString());
+
 
     try {
     if(account) {
         //get AMPL allowance
+
+        const valueWei = web3.utils.toWei(value.toString(), "ether");
         const ampl = new web3.eth.Contract(erc20Abi.abi, "0x5FbDB2315678afecb367f032d93F642f64180aa3");
         ampl.methods.allowance(account, "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0").call().then(allowance => {
           this.props.dispatch(checkAllowance(allowance));
           const to_allow = "" + (valueWei > allowance? valueWei - allowance : 0);
-          console.log("PLOp", allowance, valueWei, to_allow);
+          const to_allow_bn = new BigNumber(to_allow);
+          console.log("PLOp", 'allowance', allowance, 'valueWei', valueWei,'to_allow', to_allow,'to_allow_bn', to_allow_bn.toFixed(0));
           if(to_allow > 0) {
             const ampl = new web3.eth.Contract(erc20Abi.abi, "0x5FbDB2315678afecb367f032d93F642f64180aa3");
-            const tx = ampl.methods.approve("0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0", to_allow).send({from: account}).then(result => {
+            const tx = ampl.methods.approve("0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0", to_allow_bn.toFixed(0)).send({from: account}).then(result => {
               console.log("allowance result:", result);
               //deposit AMPL
               const ampleSenseVault = new web3.eth.Contract(AmplesenseVaultAbi.abi, "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0");
@@ -502,6 +508,10 @@ calculateAmountToWithdraw(evt) {
           }
         })
         
+      }
+      else {
+
+        window.alert('Please connect to your wallet');
       }
     } catch(error) {
       console.log('calling makeDeposit failed!', error)
@@ -520,6 +530,10 @@ calculateAmountToWithdraw(evt) {
         const tx = ampleSenseVault.methods.withdraw(value).send({from: account});
         this.props.dispatch(makeWithdrawal(tx));
       }
+      else {
+
+        window.alert('Please connect to your wallet');
+      }
     } catch(error) {
       console.log('calling withdraw AMPL failed!', error)
     }
@@ -531,6 +545,8 @@ calculateAmountToWithdraw(evt) {
     const { ampl_balance } = this.props;
     const { ampl_withdraw } = this.props;
     const { kmpl_price } = this.props;
+    const { ampl_eth_reward } = this.props;
+    const { ampl_token_reward } = this.props;
     const {account} = this.props;
     const {web3} = this.props;
 
@@ -543,7 +559,7 @@ calculateAmountToWithdraw(evt) {
         //  console.log('VAULT ID: no vault id');
     }
     
-    // check that token id is between 0 and max tokens from the data file
+    // check that token id is between 0 and max tokens from the data file, otherwise return 0 - AMPL
     if (tokenId >= tokenDetailedData.length || tokenId < 0) {
       tokenId = 0;
     }
@@ -573,8 +589,6 @@ calculateAmountToWithdraw(evt) {
                         <th key={0}  scope="col" className={"pl-0"}>
                             <InputGroup>
                               <Input id="amountToDeposit" onChange={this.handleChangeToDeposit} value={this.amountToDeposit} type="text" id="bar" />
-
-
                               <InputGroupAddon addonType="append">
                                 <ButtonGroup>
                                   <Button color="ample1" onClick={this.calculateAmountToDeposit} value={0.25}><i className="fa " />25%</Button>
@@ -603,7 +617,7 @@ calculateAmountToWithdraw(evt) {
             <Col md={6} sm={12} xs={12}>
                     <Widget
                 title={<p style={{ fontWeight: 700 }}>
-                {tokenDetailedData[tokenId].token_name} Available to Withdraw: 5,169 {tokenDetailedData[tokenId].token_name}</p>} 
+                {tokenDetailedData[tokenId].token_name} Available to Withdraw: {ampl_withdraw} {tokenDetailedData[tokenId].token_name}</p>} 
               >
                 <div>
                    <FormGroup>
@@ -635,7 +649,7 @@ calculateAmountToWithdraw(evt) {
                   Unlocked AMPL
                 </p>
                 <p className={"d-flex align-items-center "}>
-                  <Button color="default" size="lg" className="mb-md mr-sm">Withdraw</Button>
+                  <Button color="default" size="lg" className="mb-md mr-sm" onClick={this.doWithdraw}>Withdraw</Button>
                 </p>
               </div>
               </Widget>
@@ -661,7 +675,7 @@ calculateAmountToWithdraw(evt) {
                   <tr>
                     <td className="fw-thin pl-0 fw-thin">
                       <h3>
-                        &nbsp;38,509 {tokenDetailedData[tokenId].token_name}
+                        &nbsp;{ampl_withdraw} {tokenDetailedData[tokenId].token_name}
                         </h3>
                       <h4>APY {tokenDetailedData[tokenId].apy}</h4>
                       <br></br>
@@ -674,11 +688,11 @@ calculateAmountToWithdraw(evt) {
                     <h4>
                       <img height="30" src={p2} alt="" className={"mr-3"} />
                       <span align="right">
-                       &nbsp;{tokenDetailedData[tokenId].rewards_token_amount_1} {tokenDetailedData[tokenId].rewards_token_1}</span>     
+                       &nbsp;{ampl_eth_reward} {tokenDetailedData[tokenId].rewards_token_1}</span>     
                       <p>
                         <img height="30" src={p5} alt="" className={"mr-3"} />
                         <span align="right">
-                        &nbsp;{tokenDetailedData[tokenId].rewards_token_amount_2} {tokenDetailedData[tokenId].rewards_token_2}</span>  
+                        &nbsp;{ampl_token_reward} {tokenDetailedData[tokenId].rewards_token_2}</span>  
                         </p>
                     </h4>
                       <p>
@@ -746,7 +760,9 @@ function mapStateToProps(store) {
     account: store.auth.account,
     ampl_balance: store.blockchain.ampl_balance,
     ampl_withdraw: store.blockchain.ampl_withdraw,
-    kmpl_price: store.blockchain.kmpl_price
+    kmpl_price: store.blockchain.kmpl_price,
+    ampl_eth_reward: store.blockchain.ampl_eth_reward,
+    ampl_token_reward: store.blockchain.ampl_token_reward
   };
 }
 
