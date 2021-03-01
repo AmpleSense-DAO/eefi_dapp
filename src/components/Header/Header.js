@@ -10,6 +10,11 @@ import Fortmatic from "fortmatic";
 import MewConnect from "@myetherwallet/mewconnect-web-client";
 import Authereum from "authereum";
 import {
+  Form,
+  FormGroup,
+  Label,
+  Col,
+  Row,
   Navbar,
   Nav,
   Dropdown,
@@ -18,10 +23,15 @@ import {
   InputGroupAddon,
   InputGroup,
   Input,
-  Form,
   NavItem,
   NavLink,
+  UncontrolledButtonDropdown,
+  DropdownItem,
+
 } from "reactstrap";
+
+import Select from 'react-select';
+
 import cx from "classnames";
 import { NavbarTypes } from "../../reducers/layout";
 import Notifications from "../Notifications";
@@ -50,6 +60,10 @@ import lightSearch from '../../images/theme-icons/light-navbar/search.svg'
 import s from "./Header.module.scss"; // eslint-disable-line css-modules/no-unused-class
 
 import { loginUser, loginError } from "../../actions/user";
+
+import p1 from "../../images/icons/gas-icon-24.png";
+
+const axios = require('axios')
 
 const providerOptions = {
   /*injected: {
@@ -90,6 +104,7 @@ const web3Modal = new Web3Modal({
 });
 
 class Header extends React.Component {
+
   static propTypes = {
     sidebarOpened: PropTypes.bool.isRequired,
     sidebarStatic: PropTypes.bool.isRequired,
@@ -112,16 +127,26 @@ class Header extends React.Component {
     this.changeArrowImg = this.changeArrowImg.bind(this);
     this.changeArrowImgOut = this.changeArrowImgOut.bind(this);
 
+  //  console.log('gas_price_fastest', gas_price_fastest, 'gas_price_fast', gas_price_fast)
+    const { gas_price_fastest } = this.props;
+    const { gas_price_fast } = this.props;
+    const { gas_price_average } = this.props;
     this.state = {
       menuOpen: false,
       notificationsOpen: false,
       messagesOpen: false,
+      accountOpen: false,
       notificationsTabSelected: 1,
       focus: false,
       showNewMessage: false,
       hideMessage: true,
       run: true,
-      arrowImg: arrowUnactive
+      arrowImg: arrowUnactive, 
+       selectDefaultData: [
+        { value: 'Average', label:  `${gas_price_average}`, rating: 'safe' },
+        { value: 'Fast', label:  `${gas_price_fast}`, rating: 'good' },
+        { value: 'Fastest', label: `${gas_price_fastest}`, rating: 'quick' },
+      ] 
     };
   }
 
@@ -205,12 +230,21 @@ class Header extends React.Component {
     });
   }
   render() {
+
     const { focus } = this.state;
     const { navbarType, navbarColor, account } = this.props;
+    const { gas_price_fastest } = this.props;
+    const { gas_price_fast } = this.props;
+    const { gas_price_average } = this.props;
 
-  //  const user = JSON.parse(localStorage.getItem("user") || {});
+    this.state = {
+      selectDefaultData: [
+        { value: 'Average', label:  `${gas_price_average}`, rating: 'safe' },
+        { value: 'Fast', label:  `${gas_price_fast}`, rating: 'good' },
+        { value: 'Fastest', label: `${gas_price_fastest}`, rating: 'quick' },
+      ]
+    };
 
-  //  const firstUserLetter = (user.name || user.email || "P")[0].toUpperCase();
 
     return (
       <Navbar
@@ -231,8 +265,27 @@ class Header extends React.Component {
             />
           </NavLink>
         </NavItem>
-        
+       
         <Button id="button-connected" className={`btn  ml-auto ${s.fullVersionBtn}`} onClick={this.doLogin}>{account? account.substr(0,8) + "...": "Wallet Connect"}</Button>
+ 
+        <Form className="form-label-left" >
+          <FormGroup row>
+             <Label  md="4"  className={"right"}>
+               <img src={p1} alt="" className={"mr-3"} />
+             </Label>
+
+            <Col md="8" className={s.select1}>
+              <Select 
+                id="gasGroup"
+                className="selectCustomization"
+                options={this.state.selectDefaultData}
+                defaultValue={this.state.selectDefaultData[1]}
+                selected={this.state.selectDefaultData[1]}
+              />
+            </Col>
+         </FormGroup>      
+        </Form>
+
         <Button id="button-connected" className={`btn  ml-auto ${s.fullVersionBtn}`} onClick={this.doLoginLocal}>{account? account.substr(0,8) + "...": "Wallet Connect Testnet"}</Button>
 
       <p align="right">
@@ -243,6 +296,8 @@ class Header extends React.Component {
   }
 }
 
+
+
 function mapStateToProps(store) {
   return {
     sidebarOpened: store.navigation.sidebarOpened,
@@ -250,7 +305,10 @@ function mapStateToProps(store) {
     navbarType: store.layout.navbarType,
     navbarColor: store.layout.navbarColor,
     web3: store.auth.web3,
-    account: store.auth.account
+    account: store.auth.account,
+    gas_price_fastest: store.blockchain.gas_price_fastest,
+    gas_price_fast: store.blockchain.gas_price_fast,
+    gas_price_average: store.blockchain.gas_price_average,    
   };
 }
 
