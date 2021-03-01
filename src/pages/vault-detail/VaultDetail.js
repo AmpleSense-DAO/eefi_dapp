@@ -546,6 +546,11 @@ calculateAmountToWithdraw(evt) {
       withdrawals
     } = this.props;
 
+    const ampl_balance_formatted = ampl_balance.toLocaleString(undefined,{ minimumFractionDigits: 2 });
+    const ampl_withdraw_formatted = ampl_withdraw.toLocaleString(undefined,{ minimumFractionDigits: 2 });
+    const ampl_eth_reward_formatted = ampl_eth_reward ? ampl_eth_reward.toLocaleString(undefined,{ minimumFractionDigits: 2 }) : 0;
+    const ampl_token_reward_formatted = ampl_token_reward ? ampl_token_reward.toLocaleString(undefined,{ minimumFractionDigits: 2 }) : 0;
+
     if (this.getId()) {
           tokenId = this.getId();
         //  console.log('VAULT ID: ', this.getId());
@@ -581,7 +586,7 @@ calculateAmountToWithdraw(evt) {
             <Col md={6} sm={12} xs={12}>
               <Widget
                 title={<p style={{ fontWeight: 700 }}>
-                {tokenDetailedData[tokenId].token_name} Wallet Balance: {ampl_balance}  {tokenDetailedData[tokenId].token_name}</p>} 
+                {tokenDetailedData[tokenId].token_name} Wallet Balance: {ampl_balance_formatted}  {tokenDetailedData[tokenId].token_name}</p>} 
               >
                 <div>
                  <FormGroup>
@@ -620,7 +625,7 @@ calculateAmountToWithdraw(evt) {
             <Col md={6} sm={12} xs={12}>
                     <Widget
                 title={<p style={{ fontWeight: 700 }}>
-                {tokenDetailedData[tokenId].token_name} Available to Withdraw: {ampl_withdraw} {tokenDetailedData[tokenId].token_name}</p>} 
+                {tokenDetailedData[tokenId].token_name} Available to Withdraw: {ampl_withdraw_formatted} {tokenDetailedData[tokenId].token_name}</p>} 
               >
                 <div>
                    <FormGroup>
@@ -678,7 +683,7 @@ calculateAmountToWithdraw(evt) {
                   <tr>
                     <td className="fw-thin pl-0 fw-thin">
                       <h3>
-                        &nbsp;{ampl_withdraw} {tokenDetailedData[tokenId].token_name}
+                        &nbsp;{ampl_withdraw_formatted} {tokenDetailedData[tokenId].token_name}
                         </h3>
                       <h4>APY {tokenDetailedData[tokenId].apy}</h4>
                       <br></br>
@@ -691,11 +696,11 @@ calculateAmountToWithdraw(evt) {
                     <h4>
                       <img height="30" src={p2} alt="" className={"mr-3"} />
                       <span align="right">
-                       &nbsp;{ampl_eth_reward} {tokenDetailedData[tokenId].rewards_token_1}</span>     
+                       &nbsp;{ampl_eth_reward_formatted} {tokenDetailedData[tokenId].rewards_token_1}</span>     
                       <p>
                         <img height="30" src={p5} alt="" className={"mr-3"} />
                         <span align="right">
-                        &nbsp;{ampl_token_reward} {tokenDetailedData[tokenId].rewards_token_2}</span>  
+                        &nbsp;{ampl_token_reward_formatted} {tokenDetailedData[tokenId].rewards_token_2}</span>  
                         </p>
                     </h4>
                       <p>
@@ -727,10 +732,11 @@ calculateAmountToWithdraw(evt) {
                   {deposits.map(deposit => {
                     return <tr key={deposit.transactionHash}>
                       <td className="fw-normal pl-0 fw-thin">
+
                         &nbsp;{new Date(deposit.timestamp * 1000).toUTCString()}
                       </td>
                       <td className={"pl-0 fw-thin"}>
-                        &nbsp;{deposit.returnValues.amount / 10**tokenDetailedData[tokenId].precision} {tokenDetailedData[tokenId].token_name}
+                        &nbsp;{(deposit.returnValues.amount / 10**tokenDetailedData[tokenId].precision).toLocaleString(undefined,{ minimumFractionDigits: 2 })} {tokenDetailedData[tokenId].token_name}
                       </td>
                       <td className={"pl-0 fw-thin"}>
                       &nbsp;{deposit.transactionHash.substr(0,8)+"..."}   <a href={"https://www.etherscan.io/tx/" + deposit.transactionHash}  target="_blank">Link</a></td>
