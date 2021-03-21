@@ -1469,7 +1469,7 @@ class VaultSummary extends React.Component {
   
                   </td>
                   <td width="35%" className=" pl-0 fw-thin table-vaults-short-1">
-                  <Link to="/app/home/vault-detail/1">
+                  <Link to="/app/home/vault-detail/0">
                     
                       <p className={"d-flex  align-items-center fw-bold"}>
                       <img src={p1} height={80} width={80} alt="" className={"mr-3"} />
@@ -1479,7 +1479,7 @@ class VaultSummary extends React.Component {
                       AMPL 
                       </h5>
                       </Link>
-                      <Link to="/app/home/vault-detail/1">
+                      <Link to="/app/home/vault-detail/0">
                         <Button color="primary" className="mb-md mr-md">Select</Button>
                       </Link>
                   </td>
@@ -1528,7 +1528,7 @@ class VaultSummary extends React.Component {
                      </p>                    
                     </td>
                     <td width="10%" className={"pl-0 fw-normal table-vaults-long-1"}>
-                     <Link to="/app/home/vault-detail/1">
+                     <Link to="/app/home/vault-detail/0">
                       <p>
                         <Button color="primary" className="mb-md mr-md">Select</Button>
                       </p>

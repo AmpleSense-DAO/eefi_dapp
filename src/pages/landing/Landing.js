@@ -72,43 +72,43 @@ class Landing extends React.Component {
  
     return (
        <div className={s.root}>
-<Widget>
-        <Row>
+        <Widget>
 
+        <Row>
             <Col >
                 <div  responsive>
-
-                  <div className="top-logo-1">
-                     <img height="120px" src={p1} alt="" className={"mr-3 mt-2 top-logo-1"} />
-
-                  </div>
-
-                  <div style={{whiteSpace: 'nowrap'}}>
-                    <div   className={"text-info  "} style={{whiteSpace: 'normal'} } >
-                     <span  className={"d-flex  "}>&nbsp;
-                       <h2 className="display-4 ">
+               <div className="top-logo-1">
+                     <img height="180px" src={p1} alt="" className={"mr-3 mt-2 top-logo-1"} />
+               </div>
+               <Table  className="table">
+                  <tr >
+                    <td  width="66%"  >
+                    <div className={"text-info"}  >
+                     <span  className={"d-flex "}>&nbsp;
+                       <h2 className="display-4 d-flex">
                           Unleash the power of your elastic assets
                        </h2>
-                        &nbsp;&nbsp;&nbsp;<img height="240px" src={p1} alt="" className={"mr-3 mt-2 left-logo-1"} />
                      </span>
-                    <span className={"d-flex  align-items-center"} >&nbsp;
-
+                    <span className={"d-flex"} >&nbsp;
                      <h4>
                       Earn token rewards, hedge against negative rebase and more
                      </h4>
                      </span>
                      <br/>
-                      <p className={"d-flex align-items-center "} responsive>
+                      <span className={"d-flex align-items-center "} responsive>
                         <Link to="/app/home/vault-summary"><Button color="info" size="lg" className="mb-md mr-sm" responsive>Launch App</Button>
                         </Link>
-                    </p>
-                   </div>       
+                    </span>
                   </div>
+
+                    </td>
+                   <td width="33%"  scope="col" className={"mr-3 mt-2 left-logo-1"}>
+                        &nbsp;&nbsp;&nbsp;<img height="300px" src={p1} alt=""  />
+                    </td>
+                    </tr>
+                </Table>
                 </div>
-          </Col>
-        </Row>
-        <Row>
-          <Col >
+            
               <Table  className=" table-bordered" responsive>
                 <thead>
                   <tr >
@@ -125,7 +125,7 @@ class Landing extends React.Component {
                       <p>Vault strategies are approved by holders of the kMPL governance token in exchange for token rewards.
                       </p> 
                     </th>
-                    <th key={2} scope="col" className={"pl-0"}>
+                    <th key={2} scope="col" className={"pl-0 align-items-center"}>
                       <img height="240" src={p3} alt="" className={"mr-3"} />
                       <h3>Connected to DeFi</h3>
                       <p>Vault strategies are optimized to connect elastic asset holders to the broader DeFi landscape.
@@ -136,25 +136,18 @@ class Landing extends React.Component {
               </Table>
           </Col>
         </Row>
-      
         <Row>
           <Col >
                 <div>
                 <div  responsive>
                   <div >
+                  <br/>
                     <div key={0}  width="30%" scope="col" className={"pl-0 text-info "} style={{whiteSpace: 'normal'}}>
-                    
-
-
-
                      <p  className={"d-flex  "}>&nbsp;
                        <h2 className="display-4 ">
                           An AmpleSense DAO Project
                        </h2>
                      </p>
-
-
-
                       <p  className={"d-flex  align-items-center text-info" } style={{  whiteSpace: 'normal'}}>&nbsp;
                        <h5 className={"text-info " } > 
                         The DAO is an independant community powered organization focused on accelerating the global elastic finance ecosystem.
@@ -171,9 +164,8 @@ class Landing extends React.Component {
                </div>
             </Col>
           </Row>
-
-          </Widget>
-         </div>
+        </Widget>
+     </div>
     );
   }
 }

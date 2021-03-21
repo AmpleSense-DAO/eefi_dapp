@@ -268,7 +268,7 @@ class Header extends React.Component {
        
         <Button id="button-connected" className={`btn  ml-auto ${s.fullVersionBtn}`} onClick={this.doLogin}>{account? account.substr(0,8) + "...": "Wallet Connect"}</Button>
  
-        <Form className="form-label-left" >
+       {/* <Form className="form-label-left" >
           <FormGroup row>
              <Label  md="4"  className={"right"}>
                <img src={p1} alt="" className={"mr-3"} />
@@ -283,8 +283,9 @@ class Header extends React.Component {
                 selected={this.state.selectDefaultData[1]}
               />
             </Col>
-         </FormGroup>      
+         </FormGroup>  
         </Form>
+         */ }    
 
         <Button id="button-connected" className={`btn  ml-auto ${s.fullVersionBtn}`} onClick={this.doLoginLocal}>{account? account.substr(0,8) + "...": "Wallet Connect Testnet"}</Button>
 

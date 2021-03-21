@@ -5,6 +5,7 @@ import { withRouter } from "react-router-dom";
 import s from "./Sidebar.module.scss";
 import LinksGroup from "./LinksGroup/LinksGroup";
 import { changeActiveSidebarItem } from "../../actions/navigation";
+//import { logoutUser } from "../../actions/user";
 import cx from "classnames";
 
 import {  Redirect, Link } from "react-router-dom";
@@ -279,6 +280,10 @@ import darkSidebarExtraOutlinedBlue from "../../images/theme-icons/dark sidebar/
 import darkSidebarExtraFilledBlue from "../../images/theme-icons/dark sidebar/blue/Extra_filled.svg";
 
 
+//import { WalletConnect, ProviderContext } from '../Wallet/walletConnect'
+
+
+
 class Sidebar extends React.Component {
   static propTypes = {
     sidebarStatic: PropTypes.bool,
@@ -298,7 +303,13 @@ class Sidebar extends React.Component {
 
   constructor(props) {
     super(props);
+
+    this.doLogout = this.doLogout.bind(this);
     this.themeIcons = this.themeIcons.bind(this);
+  }
+
+  doLogout() {
+  //  this.props.dispatch(logoutUser());
   }
 
   themeIcons(currentPage) {
@@ -879,7 +890,7 @@ class Sidebar extends React.Component {
                 this.props.dispatch(changeActiveSidebarItem(activeItem))
               }
               activeItem={this.props.activeItem}
-              header="Vaults Summary"
+              header="Vault Summary"
               isHeader
               link="/app/home/vault-summary"
               index="main"
@@ -908,7 +919,34 @@ class Sidebar extends React.Component {
               activeItem={this.props.activeItem}
               header="Elastic Vault: AMPL -> EEFI"
               isHeader
-              link="/app/home/vault-detail"
+              link="/app/home/vault-detail/0"
+              index="main"
+            >
+              {window.location.href.includes("vault-detail") ? (
+                <img
+                  src={darkDashboardIcon}
+                  alt="lightDashboard"
+                  width={"24px"}
+                  height={"24px"}
+                />
+              ) : (
+                <img
+                  src={lightDashboardIcon}
+                  alt="lightDashboard"
+                  width={"24px"}
+                  height={"24px"}
+                />
+              )}
+            </LinksGroup>
+
+ <LinksGroup
+              onActiveSidebarItemChange={activeItem =>
+                this.props.dispatch(changeActiveSidebarItem(activeItem))
+              }
+              activeItem={this.props.activeItem}
+              header="EEFI/ETH LP Token Vault"
+              isHeader
+              link="/app/home/vault-detail/1"
               index="main"
             >
               {window.location.href.includes("vault-detail") ? (
@@ -935,10 +973,10 @@ class Sidebar extends React.Component {
               activeItem={this.props.activeItem}
               header="Pioneer Vault II: kMPL"
               isHeader
-              link="/app/home/vault-gen-page"
+              link="/app/home/vault-detail/2"
               index="main"
             >
-              {window.location.href.includes("vault-gen-page") ? (
+              {window.location.href.includes("vault-detail") ? (
                 <img
                   src={darkDashboardIcon}
                   alt="lightDashboard"
@@ -955,6 +993,8 @@ class Sidebar extends React.Component {
               )}
             </LinksGroup>
 
+
+       
     		  <LinksGroup
               onActiveSidebarItemChange={activeItem =>
                 this.props.dispatch(changeActiveSidebarItem(activeItem))
@@ -982,7 +1022,40 @@ class Sidebar extends React.Component {
               )}
             </LinksGroup>
 
+
+  <LinksGroup
+              onActiveSidebarItemChange={activeItem =>
+                this.props.dispatch(changeActiveSidebarItem(activeItem))
+              }
+              activeItem={this.props.activeItem}
+              header="Pioneer Vault III: kMPL/ETH"
+              isHeader
+              link="/app/home/vault-detail/4"
+              index="main"
+            >
+              {window.location.href.includes("vault-detail") ? (
+                <img
+                  src={darkDashboardIcon}
+                  alt="lightDashboard"
+                  width={"24px"}
+                  height={"24px"}
+                />
+              ) : (
+                <img
+                  src={lightDashboardIcon}
+                  alt="lightDashboard"
+                  width={"24px"}
+                  height={"24px"}
+                />
+              )}
+            </LinksGroup>
+
+
 			  </ul>
+
+			<p></p>
+			<p></p>
+			<p></p>
 
             <h5 className={s.navTitle}>Info and Docs</h5>
             <ul className={s.nav}>
@@ -1072,493 +1145,9 @@ class Sidebar extends React.Component {
             </ul>
 
 
+           </section>
+          
 
-
-
-
-            <h5 className={s.navTitle}>EXAMPLES</h5>
-            <ul className={s.nav}>
-
-
-			 <LinksGroup
-              onActiveSidebarItemChange={activeItem =>
-                this.props.dispatch(changeActiveSidebarItem(activeItem))
-              }
-              activeItem={this.props.activeItem}
-              header="Dashboard"
-              isHeader
-              link="/app/home/dashboard"
-              index="main"
-            >
-              {window.location.href.includes("dashboard") ? (
-                <img
-                  src={darkDashboardIcon}
-                  alt="lightDashboard"
-                  width={"24px"}
-                  height={"24px"}
-                />
-              ) : (
-                <img
-                  src={lightDashboardIcon}
-                  alt="lightDashboard"
-                  width={"24px"}
-                  height={"24px"}
-                />
-              )}
-            </LinksGroup>
-
-
-              <LinksGroup
-                onActiveSidebarItemChange={(activeItem) =>
-                  this.props.dispatch(changeActiveSidebarItem(activeItem))
-                }
-                activeItem={this.props.activeItem}
-                header="E-commerce"
-                isHeader
-                link="/app/ecommerce"
-                index="ecommerce"
-                exact={false}
-                childrenLinks={[
-                  {
-                    header: "Products Grid",
-                    link: "/app/ecommerce/products",
-                  },
-                  {
-                    header: "Product Management",
-                    link: "/app/ecommerce/management",
-                  },
-                  {
-                    header: "Product Detail",
-                    link: "/app/ecommerce/product",
-                  },
-                ]}
-              >
-                <img
-                  src={this.themeIcons("ecommerce")}
-                  alt="lightDashboard"
-                  width={"24px"}
-                  height={"24px"}
-                />
-              </LinksGroup>
-              <LinksGroup
-                onActiveSidebarItemChange={(activeItem) =>
-                  this.props.dispatch(changeActiveSidebarItem(activeItem))
-                }
-                activeItem={this.props.activeItem}
-                header="Package"
-                isHeader
-                link="/app/package"
-                index="package"
-              >
-                <img
-                  src={this.themeIcons("package")}
-                  alt="lightDashboard"
-                  width={"24px"}
-                  height={"24px"}
-                />
-              </LinksGroup>
-              <LinksGroup
-                onActiveSidebarItemChange={(activeItem) =>
-                  this.props.dispatch(changeActiveSidebarItem(activeItem))
-                }
-                activeItem={this.props.activeItem}
-                header="Profile"
-                isHeader
-                link="/app/profile"
-                index="profile"
-              >
-                <img
-                  src={this.themeIcons("profile")}
-                  alt="lightDashboard"
-                  width={"24px"}
-                  height={"24px"}
-                />
-              </LinksGroup>
-              <LinksGroup
-                onActiveSidebarItemChange={(activeItem) =>
-                  this.props.dispatch(changeActiveSidebarItem(activeItem))
-                }
-                activeItem={this.props.activeItem}
-                header="Email"
-                isHeader
-                link="/app/email"
-                index="email"
-              >
-                <img
-                  src={this.themeIcons("email")}
-                  alt="lightDashboard"
-                  width={"24px"}
-                  height={"24px"}
-                />
-              </LinksGroup>
-              <LinksGroup
-                  onActiveSidebarItemChange={activeItem => this.props.dispatch(changeActiveSidebarItem(activeItem))}
-                  activeItem={this.props.activeItem}
-                  header="Documentation"
-                  link="/documentation"
-                  isHeader
-                  index="documentation"
-                  target="_blank"
-              >
-                <img
-                  src={this.themeIcons("documentation")}
-                  alt="lightDashboard"
-                  width={"24px"}
-                  height={"24px"}
-                />
-              </LinksGroup>
-            </ul>
-
-
-
-            <h5 className={s.navTitle}>TEMPLATE</h5>
-            <ul className={s.nav}>
-              <LinksGroup
-                onActiveSidebarItemChange={(activeItem) =>
-                  this.props.dispatch(changeActiveSidebarItem(activeItem))
-                }
-                activeItem={this.props.activeItem}
-                header="Core"
-                isHeader
-                link="/app/core"
-                index="core"
-                exact={false}
-                childrenLinks={[
-                  {
-                    header: "Typography",
-                    link: "/app/core/typography",
-                  },
-                  {
-                    header: "Colors",
-                    link: "/app/core/colors",
-                  },
-                  {
-                    header: "Grid",
-                    link: "/app/core/grid",
-                  },
-                ]}
-              >
-                <img
-                  src={this.themeIcons("core")}
-                  alt="lightDashboard"
-                  width={"24px"}
-                  height={"24px"}
-                />
-              </LinksGroup>
-              <LinksGroup
-                onActiveSidebarItemChange={(activeItem) =>
-                  this.props.dispatch(changeActiveSidebarItem(activeItem))
-                }
-                activeItem={this.props.activeItem}
-                header="UI Elements"
-                isHeader
-                link="/app/ui"
-                index="ui"
-                exact={false}
-                childrenLinks={[
-                  {
-                    header: "Alerts",
-                    link: "/app/ui/alerts",
-                  },
-                  {
-                    header: "Badge",
-                    link: "/app/ui/badge",
-                  },
-                  {
-                    header: "Buttons",
-                    link: "/app/ui/buttons",
-                  },
-                  {
-                    header: "Card",
-                    link: "/app/ui/card",
-                  },
-                  {
-                    header: "Carousel",
-                    link: "/app/ui/carousel",
-                  },
-                  {
-                    header: "Jumbotron",
-                    link: "/app/ui/jumbotron",
-                  },
-                  {
-                    header: "List Groups",
-                    link: "/app/ui/list-groups",
-                  },
-                  {
-                    header: "Modal",
-                    link: "/app/ui/modal",
-                  },
-                  {
-                    header: "Nav",
-                    link: "/app/ui/nav",
-                  },
-                  {
-                    header: "Navbar",
-                    link: "/app/ui/navbar",
-                  },
-                  {
-                    header: "Popovers & Tooltips",
-                    link: "/app/ui/popovers",
-                  },
-                  {
-                    header: "Progress",
-                    link: "/app/ui/progress",
-                  },
-                  {
-                    header: "Tabs & Accordion",
-                    link: "/app/ui/tabs",
-                  },
-                  {
-                    header: "Icons",
-                    link: "/app/ui/icons",
-                  },
-                  {
-                    header: "Notifications",
-                    link: "/app/ui/notifications",
-                  },
-                ]}
-              >
-                <img
-                  src={this.themeIcons("ui")}
-                  alt="lightDashboard"
-                  width={"24px"}
-                  height={"24px"}
-                />
-              </LinksGroup>
-              <LinksGroup
-                onActiveSidebarItemChange={(activeItem) =>
-                  this.props.dispatch(changeActiveSidebarItem(activeItem))
-                }
-                activeItem={this.props.activeItem}
-                header="Forms"
-                isHeader
-                link="/app/forms"
-                index="forms"
-                exact={false}
-                childrenLinks={[
-                  {
-                    header: "Forms Elements",
-                    link: "/app/forms/elements",
-                  },
-                  {
-                    header: "Forms Validation",
-                    link: "/app/forms/validation",
-                  },
-                  {
-                    header: "Forms Wizard",
-                    link: "/app/forms/wizard",
-                  },
-                ]}
-              >
-                <img
-                  src={this.themeIcons("forms")}
-                  alt="lightDashboard"
-                  width={"24px"}
-                  height={"24px"}
-                />
-              </LinksGroup>
-              <LinksGroup
-                onActiveSidebarItemChange={(activeItem) =>
-                  this.props.dispatch(changeActiveSidebarItem(activeItem))
-                }
-                activeItem={this.props.activeItem}
-                header="Charts"
-                isHeader
-                link="/app/charts"
-                index="charts"
-                exact={false}
-                childrenLinks={[
-                  {
-                    header: "Charts Overview",
-                    link: "/app/charts/overview",
-                  },
-                  {
-                    header: "Apex Charts",
-                    link: "/app/charts/apex",
-                  },
-                  {
-                    header: "Echarts Charts",
-                    link: "/app/charts/echarts",
-                  },
-                ]}
-              >
-                <img
-                  src={this.themeIcons("charts")}
-                  alt="lightDashboard"
-                  width={"24px"}
-                  height={"24px"}
-                />
-              </LinksGroup>
-              <LinksGroup
-                onActiveSidebarItemChange={(activeItem) =>
-                  this.props.dispatch(changeActiveSidebarItem(activeItem))
-                }
-                activeItem={this.props.activeItem}
-                header="Grid"
-                isHeader
-                link="/app/grid"
-                index="grid"
-              >
-                <img
-                  src={this.themeIcons("grid")}
-                  alt="lightDashboard"
-                  width={"24px"}
-                  height={"24px"}
-                />
-              </LinksGroup>
-              <LinksGroup
-                onActiveSidebarItemChange={(activeItem) =>
-                  this.props.dispatch(changeActiveSidebarItem(activeItem))
-                }
-                activeItem={this.props.activeItem}
-                header="Tables"
-                isHeader
-                link="/app/tables"
-                index="tables"
-                exact={true}
-                childrenLinks={[
-                  {
-                    header: "Tables Basic",
-                    link: "/app/tables/basic",
-                  },
-                  {
-                    header: "Tables Dynamic",
-                    link: "/app/tables/dynamic",
-                  },
-                ]}
-              >
-                <img
-                  src={this.themeIcons("tables")}
-                  alt="lightDashboard"
-                  width={"24px"}
-                  height={"24px"}
-                />
-              </LinksGroup>
-              <LinksGroup
-                onActiveSidebarItemChange={(activeItem) =>
-                  this.props.dispatch(changeActiveSidebarItem(activeItem))
-                }
-                activeItem={this.props.activeItem}
-                header="Maps"
-                isHeader
-                link="/app/maps"
-                index="maps"
-                exact={true}
-                childrenLinks={[
-                  {
-                    header: "Google Maps",
-                    link: "/app/maps/google",
-                  },
-                  {
-                    header: "Vector Map",
-                    link: "/app/maps/vector",
-                  },
-                ]}
-              >
-                <img
-                  src={this.themeIcons("maps")}
-                  alt="lightDashboard"
-                  width={"24px"}
-                  height={"24px"}
-                />
-              </LinksGroup>
-              <LinksGroup
-                onActiveSidebarItemChange={(activeItem) =>
-                  this.props.dispatch(changeActiveSidebarItem(activeItem))
-                }
-                activeItem={this.props.activeItem}
-                header="Extra"
-                isHeader
-                link="/app/extra"
-                index="extra"
-                exact={true}
-                childrenLinks={[
-                  {
-                    header: "Calendar",
-                    link: "/app/extra/calendar",
-                  },
-                  {
-                    header: "Invoice",
-                    link: "/app/extra/invoice",
-                  },
-                  {
-                    header: "Login Page",
-                    link: "/app/login",
-                    onClick: () => {
-                      this.doLogout()
-                    }
-                  },
-                  {
-                    header: "Gallery",
-                    link: "/app/extra/gallery",
-                  },
-                  {
-                    header: "Search Result",
-                    link: "/app/extra/search",
-                  },
-                  {
-                    header: "Time line",
-                    link: "/app/extra/timeline",
-                  },
-                ]}
-              >
-                <img
-                  src={this.themeIcons("extra")}
-                  alt="lightDashboard"
-                  width={"24px"}
-                  height={"24px"}
-                />
-              </LinksGroup>
-            </ul>
-            <ul className={s.downNav}>
-              <hr />
-              <LinksGroup
-                onActiveSidebarItemChange={(activeItem) =>
-                  this.props.dispatch(changeActiveSidebarItem(activeItem))
-                }
-                header="Settings"
-                isHeader
-                index="main"
-              >
-                <img
-                  src={this.themeIcons("settings")}
-                  alt="lightDashboard"
-                  width={"24px"}
-                  height={"24px"}
-                />
-              </LinksGroup>
-              <LinksGroup
-                onActiveSidebarItemChange={(activeItem) =>
-                  this.props.dispatch(changeActiveSidebarItem(activeItem))
-                }
-                header="Account"
-                isHeader
-                link={"/app/profile"}
-              >
-                <img
-                  src={this.themeIcons("profile")}
-                  alt="lightDashboard"
-                  width={"24px"}
-                  height={"24px"}
-                />
-              </LinksGroup>
-              <LinksGroup
-                onActiveSidebarItemChange={(activeItem) =>
-                  this.props.dispatch(changeActiveSidebarItem(activeItem))
-                }
-                header="Logout"
-                isHeader
-                onClick={() => this.doLogout()}
-              >
-                <img
-                  src={this.themeIcons("logout")}
-                  alt="lightDashboard"
-                  width={"24px"}
-                  height={"24px"}
-                />
-              </LinksGroup>
-            </ul>
-          </section>
         </nav>
       </div>
     );
