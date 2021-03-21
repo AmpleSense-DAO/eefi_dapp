@@ -11,21 +11,6 @@
           "internalType": "contract IERC20",
           "name": "ampl_token",
           "type": "address"
-        },
-        {
-          "internalType": "address payable",
-          "name": "_pioneer_vault1",
-          "type": "address"
-        },
-        {
-          "internalType": "address payable",
-          "name": "_pioneer_vault2",
-          "type": "address"
-        },
-        {
-          "internalType": "address payable",
-          "name": "_staking_pool",
-          "type": "address"
         }
       ],
       "stateMutability": "nonpayable",
@@ -153,6 +138,149 @@
     },
     {
       "inputs": [],
+      "name": "DEPOSIT_FEE_10000",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "EEFI_DEPOSIT_RATE",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "EEFI_EQULIBRIUM_REBASE_RATE",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "EEFI_NEGATIVE_REBASE_RATE",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "LOCK_TIME",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "TRADE_POSITIVE_EEFI_100",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "TRADE_POSITIVE_ETH_100",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "TRADE_POSITIVE_LPSTAKING_100",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "TRADE_POSITIVE_PIONEER1_100",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "TRADE_POSITIVE_PIONEER2_100",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "TRADE_POSITIVE_REWARDS_100",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
       "name": "ampl_token",
       "outputs": [
         {
@@ -203,6 +331,66 @@
     },
     {
       "inputs": [],
+      "name": "eefi_token",
+      "outputs": [
+        {
+          "internalType": "contract EEFIToken",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "getReward",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "eth",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "token",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "contract IStakingERC20",
+          "name": "_pioneer_vault1",
+          "type": "address"
+        },
+        {
+          "internalType": "contract IStakingERC20",
+          "name": "_pioneer_vault2",
+          "type": "address"
+        },
+        {
+          "internalType": "contract IStakingERC20",
+          "name": "_staking_pool",
+          "type": "address"
+        }
+      ],
+      "name": "initialize",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
       "name": "last_ampl_supply",
       "outputs": [
         {
@@ -245,7 +433,7 @@
       "name": "pioneer_vault1",
       "outputs": [
         {
-          "internalType": "address payable",
+          "internalType": "contract IStakingERC20",
           "name": "",
           "type": "address"
         }
@@ -258,7 +446,7 @@
       "name": "pioneer_vault2",
       "outputs": [
         {
-          "internalType": "address payable",
+          "internalType": "contract IStakingERC20",
           "name": "",
           "type": "address"
         }
@@ -282,10 +470,10 @@
     },
     {
       "inputs": [],
-      "name": "rewards",
+      "name": "rewards_eefi",
       "outputs": [
         {
-          "internalType": "contract VaultRewards",
+          "internalType": "contract Distribute",
           "name": "",
           "type": "address"
         }
@@ -295,12 +483,12 @@
     },
     {
       "inputs": [],
-      "name": "share_value",
+      "name": "rewards_eth",
       "outputs": [
         {
-          "internalType": "uint256",
+          "internalType": "contract Distribute",
           "name": "",
-          "type": "uint256"
+          "type": "address"
         }
       ],
       "stateMutability": "view",
@@ -311,7 +499,7 @@
       "name": "staking_pool",
       "outputs": [
         {
-          "internalType": "address payable",
+          "internalType": "contract IStakingERC20",
           "name": "",
           "type": "address"
         }
@@ -331,20 +519,7 @@
       "outputs": [
         {
           "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "total_shares",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
+          "name": "total",
           "type": "uint256"
         }
       ],
@@ -368,7 +543,7 @@
       "inputs": [
         {
           "internalType": "uint256",
-          "name": "shares",
+          "name": "amount",
           "type": "uint256"
         }
       ],

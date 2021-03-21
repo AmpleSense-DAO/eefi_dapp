@@ -50,6 +50,7 @@ var BigNumber = require('bignumber.js');
 
 const AmplesenseVaultAbi = require("../../contracts/AmplesenseVault.json");
 const erc20Abi = require("../../contracts/ERC20.json");
+const { CONTRACT_ADDRESSES } = require("../../components/Blockchain/Updater.js");
 
 const orderValueOverride = {
   options: {
@@ -472,31 +473,31 @@ calculateAmountToWithdraw(evt) {
 
   doDeposit() {
    const {account, web3} = this.props;
-   const value = new BigNumber(this.amountToDeposit)
+   const value = new web3.utils.BN(Math.floor(this.amountToDeposit));
 
     try {
     if(account) {
-        const valueWei = new web3.utils.BN(value).mul(new web3.utils.BN(10**9));
-        const ampl = new web3.eth.Contract(erc20Abi.abi, "0x5FbDB2315678afecb367f032d93F642f64180aa3");
-        ampl.methods.allowance(account, "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0").call().then(allowance => {
+        const valueWei = value.mul(new web3.utils.BN(10**9));
+        const ampl = new web3.eth.Contract(erc20Abi.abi, CONTRACT_ADDRESSES.AMPLE_CONTRACT);
+        ampl.methods.allowance(account, CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT).call().then(allowance => {
           const all = new web3.utils.BN(allowance.toString());
           this.props.dispatch(checkAllowance(all));
           const to_allow = new web3.utils.BN(valueWei > all? valueWei.sub(all) : "0");
           if(to_allow > 0) {
-            const ampl = new web3.eth.Contract(erc20Abi.abi, "0x5FbDB2315678afecb367f032d93F642f64180aa3");
-            const tx = ampl.methods.approve("0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0", to_allow.toString()).send({from: account}).then(result => {
+            const ampl = new web3.eth.Contract(erc20Abi.abi, CONTRACT_ADDRESSES.AMPLE_CONTRACT);
+            ampl.methods.approve(CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT, to_allow.toString()).send({from: account}).once('transactionHash', hash_allowance => {
               //deposit AMPL
-              const ampleSenseVault = new web3.eth.Contract(AmplesenseVaultAbi.abi, "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0");
-              const tx = ampleSenseVault.methods.makeDeposit(valueWei.toString()).send({from: account});
-              this.props.dispatch(makeDeposit(tx));
-
-            })
-            this.props.dispatch(makeApproval(tx));
+              const ampleSenseVault = new web3.eth.Contract(AmplesenseVaultAbi.abi, CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT);
+              ampleSenseVault.methods.makeDeposit(valueWei.toString()).send({from: account}).once('transactionHash', hash_deposit => {
+                this.props.dispatch(makeDeposit(hash_deposit, hash_allowance));
+              });
+            });
           } else {
               //deposit AMPL
-              const ampleSenseVault = new web3.eth.Contract(AmplesenseVaultAbi.abi, "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0");
-              const tx = ampleSenseVault.methods.makeDeposit(valueWei).send({from: account});
-              this.props.dispatch(makeDeposit(tx));
+              const ampleSenseVault = new web3.eth.Contract(AmplesenseVaultAbi.abi, CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT);
+              const tx = ampleSenseVault.methods.makeDeposit(valueWei.toString()).send({from: account}).once('transactionHash', hash_deposit => {
+                this.props.dispatch(makeDeposit(hash_deposit, null));
+              });
           }
         })
         
@@ -518,7 +519,7 @@ calculateAmountToWithdraw(evt) {
     try {
     if(account) {
         //withdraw AMPL
-        const ampleSenseVault = new web3.eth.Contract(AmplesenseVaultAbi.abi, "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0");
+        const ampleSenseVault = new web3.eth.Contract(AmplesenseVaultAbi.abi, CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT);
         const tx = ampleSenseVault.methods.withdraw(value).send({from: account});
         this.props.dispatch(makeWithdrawal(tx));
       }
