@@ -5,7 +5,7 @@ import { withRouter } from "react-router-dom";
 import s from "./Sidebar.module.scss";
 import LinksGroup from "./LinksGroup/LinksGroup";
 import { changeActiveSidebarItem } from "../../actions/navigation";
-import { logoutUser } from "../../actions/user";
+//import { logoutUser } from "../../actions/user";
 import cx from "classnames";
 
 import {  Redirect, Link } from "react-router-dom";
@@ -280,7 +280,7 @@ import darkSidebarExtraOutlinedBlue from "../../images/theme-icons/dark sidebar/
 import darkSidebarExtraFilledBlue from "../../images/theme-icons/dark sidebar/blue/Extra_filled.svg";
 
 
-import { WalletConnect, ProviderContext } from '../Wallet/walletConnect'
+//import { WalletConnect, ProviderContext } from '../Wallet/walletConnect'
 
 
 
@@ -309,7 +309,7 @@ class Sidebar extends React.Component {
   }
 
   doLogout() {
-    this.props.dispatch(logoutUser());
+  //  this.props.dispatch(logoutUser());
   }
 
   themeIcons(currentPage) {
@@ -919,7 +919,7 @@ class Sidebar extends React.Component {
               activeItem={this.props.activeItem}
               header="Elastic Vault: AMPL -> EEFI"
               isHeader
-              link="/app/home/vault-detail"
+              link="/app/home/vault-detail/0"
               index="main"
             >
               {window.location.href.includes("vault-detail") ? (
@@ -946,10 +946,10 @@ class Sidebar extends React.Component {
               activeItem={this.props.activeItem}
               header="EEFI/ETH LP Token Vault"
               isHeader
-              link="/app/home/vault-eefi"
+              link="/app/home/vault-detail/1"
               index="main"
             >
-              {window.location.href.includes("vault-eefi") ? (
+              {window.location.href.includes("vault-detail") ? (
                 <img
                   src={darkDashboardIcon}
                   alt="lightDashboard"
@@ -973,10 +973,10 @@ class Sidebar extends React.Component {
               activeItem={this.props.activeItem}
               header="Pioneer Vault II: kMPL"
               isHeader
-              link="/app/home/vault-gen-page"
+              link="/app/home/vault-detail/2"
               index="main"
             >
-              {window.location.href.includes("vault-gen-page") ? (
+              {window.location.href.includes("vault-detail") ? (
                 <img
                   src={darkDashboardIcon}
                   alt="lightDashboard"
@@ -1022,13 +1022,42 @@ class Sidebar extends React.Component {
               )}
             </LinksGroup>
 
+
+  <LinksGroup
+              onActiveSidebarItemChange={activeItem =>
+                this.props.dispatch(changeActiveSidebarItem(activeItem))
+              }
+              activeItem={this.props.activeItem}
+              header="Pioneer Vault III: kMPL/ETH"
+              isHeader
+              link="/app/home/vault-detail/4"
+              index="main"
+            >
+              {window.location.href.includes("vault-detail") ? (
+                <img
+                  src={darkDashboardIcon}
+                  alt="lightDashboard"
+                  width={"24px"}
+                  height={"24px"}
+                />
+              ) : (
+                <img
+                  src={lightDashboardIcon}
+                  alt="lightDashboard"
+                  width={"24px"}
+                  height={"24px"}
+                />
+              )}
+            </LinksGroup>
+
+
 			  </ul>
 
 			<p></p>
 			<p></p>
 			<p></p>
 
-            <h5 className={s.navTitle}>Info and Docs</h5>
+            <h6 className={s.navTitle}>Info and Docs</h6>
             <ul className={s.nav}>
 
 			 <LinksGroup
