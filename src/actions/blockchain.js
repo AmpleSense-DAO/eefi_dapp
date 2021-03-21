@@ -4,7 +4,6 @@ export const FETCH_KMPL_PRICE = 'FETCH_KMPL_PRICE';
 export const FETCH_AV_TOKEN_REWARD = 'FETCH_AV_TOKEN_REWARD';
 export const FETCH_AV_ETH_REWARD = 'FETCH_AV_ETH_REWARD';
 export const FETCH_ALLOWANCE = 'FETCH_ALLOWANCE';
-export const MAKE_APPROVAL = 'MAKE_APPROVAL';
 export const MAKE_DEPOSIT = 'MAKE_DEPOSIT';
 export const MAKE_WITHDRAWAL = 'MAKE_WITHDRAWAL';
 export const FETCH_GAS_PRICE_FASTEST = 'FETCH_GAS_PRICE_FASTEST';
@@ -53,16 +52,10 @@ export function checkAllowance(amount) {
     payload: amount
   };
 }
-export function makeApproval(tx) {
-  return {
-    type: MAKE_APPROVAL,
-    payload: tx
-  };
-}
-export function makeDeposit(tx) {
+export function makeDeposit(tx_deposit, tx_allowance) {
   return {
     type: MAKE_DEPOSIT,
-    payload: tx
+    payload: {deposit_tx: tx_deposit, allowance_tx: tx_allowance}
   };
 }
 export function makeWithdrawal(tx) {

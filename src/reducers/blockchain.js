@@ -4,7 +4,6 @@ import { FETCH_KMPL_PRICE } from '../actions/blockchain';
 import { FETCH_AV_ETH_REWARD } from '../actions/blockchain';
 import { FETCH_AV_TOKEN_REWARD } from '../actions/blockchain';
 import { FETCH_ALLOWANCE } from '../actions/blockchain';
-import { MAKE_APPROVAL } from '../actions/blockchain';
 import { MAKE_DEPOSIT } from '../actions/blockchain';
 import { MAKE_WITHDRAWAL } from '../actions/blockchain';
 import { FETCH_GAS_PRICE_FASTEST } from '../actions/blockchain';
@@ -65,14 +64,14 @@ export default function blockchainReducer(state = defaultState, action) {
       return Object.assign({}, state, {
         allowance: action.payload
       });  
-    case MAKE_APPROVAL:
-      return Object.assign({}, state, {
-        approval_tx: action.payload
-      });
     case MAKE_DEPOSIT:
-      return Object.assign({}, state, {
-        deposit_tx: action.payload
-      });
+      // let new_deposits2 = state.deposits;
+      // debugger;
+      // new_deposits2.push(action.payload);
+      // return Object.assign({}, state, {
+      //   deposits: new_deposits2
+      // });
+      return state;
     case MAKE_WITHDRAWAL:
       return Object.assign({}, state, {
         withdrawal_tx: action.payload
