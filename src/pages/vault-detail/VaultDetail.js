@@ -23,7 +23,7 @@ import p3 from "../../images/tokens/kappa_logo_kmpl.png";
 import p4 from "../../images/tokens/apollo_cropped_edited_sm.png";
 import p5 from "../../images/tokens/ethereum-eth-logo.svg";
 
-import {fetchAMPLBalance, fetchKMPLPrive, checkAllowance, makeApproval, makeDeposit, makeWithdrawal, fetchDeposits} from "../../actions/blockchain";
+import {fetchAMPLBalance, fetchKMPLPrive, checkAllowance, makeApproval, makeDeposit, makeWithdrawal, makeClaim, fetchDeposits} from "../../actions/blockchain";
 
 import {
   Form,
@@ -394,10 +394,6 @@ const splineArea = {
 
 class VaultDetail extends React.Component {
 
-
-   amountToDeposit= "0";
-   amountToWithdraw= "0";
-
    getId() {
         const {match} = this.props;
         return (parseInt(match.params.id) );
@@ -416,7 +412,7 @@ class VaultDetail extends React.Component {
     this.calculateAmountToDeposit = this.calculateAmountToDeposit.bind(this)
     this.handleChangeToWithdraw = this.handleChangeToWithdraw.bind(this)
     this.calculateAmountToWithdraw = this.calculateAmountToWithdraw.bind(this)
-
+    this.doClaim = this.doClaim.bind(this);
   }
 
   state = {
@@ -425,10 +421,11 @@ class VaultDetail extends React.Component {
     area: { ...area },
     area2: { ...area2 },
     splineArea: { ...splineArea },
+    amountToDeposit: "0",
+    amountToWithdraw: "0"
   };
 
  handleChangeToDeposit(evt) {
-    this.amountToDeposit = evt.target.value;
     this.setState({
       amountToDeposit: evt.target.value
     })
@@ -436,7 +433,6 @@ class VaultDetail extends React.Component {
   }
 
  handleChangeToWithdraw(evt) {
-    this.amountToWithdraw = evt.target.value;
     this.setState({
       amountToWithdraw: evt.target.value
     })
@@ -445,20 +441,18 @@ class VaultDetail extends React.Component {
  calculateAmountToDeposit(evt) {
 
    const { ampl_balance } = this.props;
-   this.amountToDeposit = parseFloat(ampl_balance * evt.target.value).toString() 
    this.setState({
-      amountToDeposit: this.amountToDeposit
+      amountToDeposit: parseFloat(ampl_balance / 10**9 * evt.target.value).toString() 
     })
   }
 
-calculateAmountToWithdraw(evt) {
-
-   const { ampl_withdraw } = this.props;
-   this.amountToWithdraw = parseFloat(ampl_withdraw * evt.target.value) 
+  calculateAmountToWithdraw(evt) {
+   const { claimable } = this.props;
    this.setState({
-      amountToWithdraw: this.amountToWithdraw
+      amountToWithdraw: parseFloat(claimable / 10**9 * evt.target.value).toString()
     })
   }
+
   componentDidMount() {
     window.addEventListener("resize", this.forceUpdate.bind(this));
     this.setState({
@@ -470,10 +464,24 @@ calculateAmountToWithdraw(evt) {
   forceUpdate() {
     return this.setState({})
   }
+  
+  doClaim() {
+    const {account, web3} = this.props;
+
+    const ampleSenseVault = new web3.eth.Contract(AmplesenseVaultAbi.abi, CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT);
+    
+    ampleSenseVault.methods.claim().send({from: account}).once('transactionHash', hash => {
+      this.props.dispatch(makeClaim(hash, false));
+    }).then(receipt => {
+      this.props.dispatch(makeClaim(null, true));
+    }).catch(err => {
+      console.log(err);
+    });
+  }
 
   doDeposit() {
    const {account, web3} = this.props;
-   const value = new web3.utils.BN(Math.floor(parseFloat(this.amountToDeposit) * 100));
+   const value = new web3.utils.BN(Math.floor(parseFloat(this.state.amountToDeposit) * 100));
 
     try {
     if(account) {
@@ -520,18 +528,24 @@ calculateAmountToWithdraw(evt) {
 
 
   doWithdraw() {
-   const value = this.amountToWithdraw;
    const {account, web3} = this.props;
+   const value = new web3.utils.BN(Math.floor(parseFloat(this.state.amountToWithdraw) * 100));
 
     try {
     if(account) {
+        const valueWei = value.mul(new web3.utils.BN(10**7));
         //withdraw AMPL
         const ampleSenseVault = new web3.eth.Contract(AmplesenseVaultAbi.abi, CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT);
-        const tx = ampleSenseVault.methods.withdraw(value).send({from: account});
-        this.props.dispatch(makeWithdrawal(tx));
+        const current_time = Math.floor(Date.now()/1000);
+        this.props.dispatch(makeWithdrawal({id: current_time, transactionHash: null, returnValues: {amount: valueWei.toString()}, timestamp: current_time, mined: false}));
+        const tx = ampleSenseVault.methods.withdraw(valueWei.toString()).send({from: account}).once('transactionHash', hash => {
+          //got tx
+          this.props.dispatch(makeWithdrawal({id: current_time, transactionHash: hash}));
+        }).then(receipt => {
+          this.props.dispatch(makeWithdrawal({id: current_time, mined: true}));
+        });
       }
       else {
-
         window.alert('Please connect to your wallet');
       }
     } catch(error) {
@@ -545,6 +559,7 @@ calculateAmountToWithdraw(evt) {
     const { 
       ampl_balance,
       ampl_withdraw,
+      claimable,
       kmpl_price,
       ampl_eth_reward,
       ampl_token_reward,
@@ -553,11 +568,6 @@ calculateAmountToWithdraw(evt) {
       deposits,
       withdrawals
     } = this.props;
-
-    const ampl_balance_formatted = ampl_balance.toLocaleString(undefined,{ minimumFractionDigits: 2 });
-    const ampl_withdraw_formatted = ampl_withdraw.toLocaleString(undefined,{ minimumFractionDigits: 2 });
-    const ampl_eth_reward_formatted = ampl_eth_reward ? ampl_eth_reward.toLocaleString(undefined,{ minimumFractionDigits: 2 }) : 0;
-    const ampl_token_reward_formatted = ampl_token_reward ? ampl_token_reward.toLocaleString(undefined,{ minimumFractionDigits: 2 }) : 0;
 
     if (this.getId()) {
           tokenId = this.getId();
@@ -580,7 +590,11 @@ calculateAmountToWithdraw(evt) {
         <h3>Connect your wallet to view vault details</h3>
         </div>)
     }
-    //console.log('tokenDetailedData', tokenDetailedData[tokenId].title, tokenDetailedData.length);
+    const ampl_balance_formatted = (new web3.utils.BN(ampl_balance).toNumber() / 10**9).toLocaleString(undefined,{ minimumFractionDigits: 2 });
+    const claimable_formatted = (new web3.utils.BN(claimable).toNumber() / 10**9).toLocaleString(undefined,{ minimumFractionDigits: 2 });
+    const ampl_withdraw_formatted = (new web3.utils.BN(ampl_withdraw).toNumber() / 10**9).toLocaleString(undefined,{ minimumFractionDigits: 2 });
+    const ampl_eth_reward_formatted = (new web3.utils.BN(ampl_eth_reward).toNumber() / 10**18).toLocaleString(undefined,{ minimumFractionDigits: 2 });
+    const ampl_token_reward_formatted =(new web3.utils.BN(ampl_token_reward).toNumber() / 10**9).toLocaleString(undefined,{ minimumFractionDigits: 2 });
     return (
 
       <div className={s.root}>
@@ -604,7 +618,7 @@ calculateAmountToWithdraw(evt) {
                       <tr>
                         <th key={0}  scope="col" className={"pl-0"}>
                             <InputGroup>
-                              <Input id="amountToDeposit" onChange={this.handleChangeToDeposit} value={this.amountToDeposit} type="text" id="bar" />
+                              <Input id="amountToDeposit" onChange={this.handleChangeToDeposit} value={this.state.amountToDeposit} type="text" id="bar" />
                               <InputGroupAddon addonType="append">
                                 <ButtonGroup>
                                   <Button color="ample1" onClick={this.calculateAmountToDeposit} value={0.25}><i className="fa " />25%</Button>
@@ -633,18 +647,18 @@ calculateAmountToWithdraw(evt) {
             <Col md={6} sm={12} xs={12}>
                     <Widget
                 title={<p style={{ fontWeight: 700 }}>
-                {tokenDetailedData[tokenId].token_name} Available to Withdraw: {ampl_withdraw_formatted} {tokenDetailedData[tokenId].token_name}</p>} 
+                {tokenDetailedData[tokenId].token_name} Available to Withdraw: {claimable_formatted} {tokenDetailedData[tokenId].token_name}</p>} 
               >
                 <div>
                    <FormGroup>
-                     <Label for="bar"> Amount to Deposit </Label>
+                     <Label for="bar"> Amount to Withdraw </Label>
                        <Table className="table-hover " responsive>
                         <thead>
                           <tr>
                             <th key={0}  scope="col" className={"pl-0"}>
 
                                 <InputGroup>
-                                  <Input id="amountToWithdraw" onChange={this.handleChangeToWithdraw} value={this.amountToWithdraw} type="text" id="bar" />
+                                  <Input id="amountToWithdraw" onChange={this.handleChangeToWithdraw} value={this.state.amountToWithdraw} type="text" id="bar" />
 
                                   <InputGroupAddon addonType="append">
                                     <ButtonGroup>
@@ -712,7 +726,8 @@ calculateAmountToWithdraw(evt) {
                         </p>
                     </h4>
                       <p>
-                        <Button color="primary" className="mb-md mr-md">Claim</Button>
+                        <Button color="primary" className="mb-md mr-md" onClick={this.doClaim}>Claim</Button>
+                        {this.props.claim_tx.hash && this.props.claim_tx.hash.substr(0,8)+"..." && <a href={"https://www.etherscan.io/tx/" + this.props.claim_tx.hash}  target="_blank">Link {this.props.claim_tx.mined==false && "(pending)"}</a>}
                       </p>
                     </td>
                   </tr>   
@@ -753,10 +768,40 @@ calculateAmountToWithdraw(evt) {
                       &nbsp;{deposit.transactionHash.substr(0,8)+"..."}   <a href={"https://www.etherscan.io/tx/" + deposit.transactionHash}  target="_blank">Link {deposit.mined==false && "(pending)"}</a></td>
                     </tr>
                     })
-                  }
-                 
-                     
+                  } 
+                </tbody>
+              </Table>
+              <h3>Your Withdrawal History</h3>
+                <Table className="table-hover table-bordered"  responsive>
+                <thead>
+                  <tr >
+                    <th width="50%" key={0} scope="col" className={"pl-0"}>
+                      &nbsp;Withdrawal Date
+                    </th>
+                    <th width="25%" key={1} scope="col" className={"pl-0"}>
+                      &nbsp;Amount
+                    </th>
+                    <th key={2} scope="col" className={"pl-0"}>
+                      &nbsp;Tx Link
+                    </th>           
+                  </tr>
+                </thead>
+                <tbody className="text-dark">
 
+                  {withdrawals.slice(0).reverse().map(withdrawal => {
+                    return <tr key={withdrawal.transactionHash}>
+                      <td className="fw-normal pl-0 fw-thin">
+
+                        &nbsp;{new Date(withdrawal.timestamp * 1000).toUTCString()}
+                      </td>
+                      <td className={"pl-0 fw-thin"}>
+                        &nbsp;{(withdrawal.returnValues.amount / 10**tokenDetailedData[tokenId].precision).toLocaleString(undefined,{ minimumFractionDigits: 2 })} {tokenDetailedData[tokenId].token_name}
+                      </td>
+                      <td className={"pl-0 fw-thin"}>
+                      &nbsp;{withdrawal.transactionHash.substr(0,8)+"..."}   <a href={"https://www.etherscan.io/tx/" + withdrawal.transactionHash}  target="_blank">Link {withdrawal.mined==false && "(pending)"}</a></td>
+                    </tr>
+                    })
+                  } 
                 </tbody>
               </Table>
             </Widget>
@@ -774,11 +819,13 @@ function mapStateToProps(store) {
     account: store.auth.account,
     ampl_balance: store.blockchain.ampl_balance,
     ampl_withdraw: store.blockchain.ampl_withdraw,
+    claimable: store.blockchain.claimable,
     kmpl_price: store.blockchain.kmpl_price,
     ampl_eth_reward: store.blockchain.ampl_eth_reward,
     ampl_token_reward: store.blockchain.ampl_token_reward,
     deposits: store.blockchain.deposits,
-    withdrawals: store.blockchain.withdrawals
+    withdrawals: store.blockchain.withdrawals,
+    claim_tx: store.blockchain.claim_tx
   };
 }
 

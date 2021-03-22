@@ -7,6 +7,7 @@ import {
   fetchDeposits,
   fetchWithdrawals,
   fetchAMPLAmplesenseBalance,
+  fetchClaimableBalance,
   fetchKMPLPrice,
   fetchGasPriceFastest,
   fetchGasPriceFast,
@@ -34,7 +35,8 @@ class BlockchainUpdater extends React.Component {
 
   constructor(props) {
     super(props);
-    const timer = setInterval(this.pull, 1000);
+    const timer = setInterval(this.pull, 5000);
+    this.pull();
   }
 
   componentDidMount() {
@@ -72,9 +74,6 @@ class BlockchainUpdater extends React.Component {
   render() {
     return <div/>
   }
- 
-
-
 
   pull = () => {
     console.log("PULLING", this.props);
@@ -84,15 +83,16 @@ class BlockchainUpdater extends React.Component {
         //get AMPL balance
         const ampl = new web3.eth.Contract(erc20Abi.abi, CONTRACT_ADDRESSES.AMPLE_CONTRACT);
         ampl.methods.balanceOf(account).call().then(balance => {
-        const toHuman = balance / 10**9;
-        this.props.dispatch(fetchAMPLBalance(toHuman));
+          this.props.dispatch(fetchAMPLBalance(balance));
         })
 
         //get AMPL balance on AmplesenseVault
         const ampleSenseVault = new web3.eth.Contract(AmplesenseVaultAbi.abi, CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT);
         ampleSenseVault.methods.balanceOf(account).call().then(balance => {
-        const toHuman = balance / 10**9;
-        this.props.dispatch(fetchAMPLAmplesenseBalance(toHuman));
+          this.props.dispatch(fetchAMPLAmplesenseBalance(balance));
+        })
+        ampleSenseVault.methods.totalClaimableBy(account).call().then(balance => {
+          this.props.dispatch(fetchClaimableBalance(balance));
         })
       
         //get rewards for the AmplesenseVault (ETH and EEFI)
@@ -102,13 +102,6 @@ class BlockchainUpdater extends React.Component {
           this.props.dispatch(fetchAVETHReward(ethReward));
           this.props.dispatch(fetchAVTokenReward(tokenReward));
         })
-    }
-    else {
-        //if not connected, populate reward variables with 0
-        this.props.dispatch(fetchAVETHReward(0));
-        this.props.dispatch(fetchAVTokenReward(0));
-        this.props.dispatch(fetchAMPLAmplesenseBalance(0));
-        this.props.dispatch(fetchAMPLBalance(0));
     }
  
     //get pas prices

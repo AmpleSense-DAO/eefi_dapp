@@ -11,6 +11,8 @@ export const FETCH_GAS_PRICE_FAST = 'FETCH_GAS_PRICE_FAST';
 export const FETCH_GAS_PRICE_AVERAGE = 'FETCH_GAS_PRICE_AVERAGE';
 export const FETCH_DEPOSITS = 'FETCH_DEPOSITS';
 export const FETCH_WITHDRAWALS = 'FETCH_WITHDRAWALS';
+export const FETCH_CLAIMABLE_AMPLESENSE_BALANCE = 'FETCH_CLAIMABLE_AMPLESENSE_BALANCE';
+export const MAKE_CLAIM = "MAKE_CLAIM";
 
 export function fetchAMPLBalance(balance) {
   return {
@@ -22,6 +24,12 @@ export function fetchAMPLBalance(balance) {
 export function fetchAMPLAmplesenseBalance(balance) {
   return {
     type: FETCH_AMPL_AMPLESENSE_BALANCE,
+    payload: balance
+  };
+}
+export function fetchClaimableBalance(balance) {
+  return {
+    type: FETCH_CLAIMABLE_AMPLESENSE_BALANCE,
     payload: balance
   };
 }
@@ -52,16 +60,23 @@ export function checkAllowance(amount) {
     payload: amount
   };
 }
-export function makeDeposit(tx_deposit) {
+export function makeDeposit(tx) {
   return {
     type: MAKE_DEPOSIT,
-    payload: {deposit_tx: tx_deposit}
+    payload: {deposit_tx: tx}
+  };
+}
+export function makeClaim(hash, mined) {
+  console.log("hhhhhhhhhhhhh")
+  return {
+    type: MAKE_CLAIM,
+    payload: {hash: hash, mined: mined}
   };
 }
 export function makeWithdrawal(tx) {
   return {
     type: MAKE_WITHDRAWAL,
-    payload: tx
+    payload: {withdrawal_tx: tx}
   };
 }
 export function fetchGasPriceFastest(price) {

@@ -63,6 +63,10 @@ import { loginUser, loginError } from "../../actions/user";
 
 import p1 from "../../images/icons/gas-icon-24.png";
 
+const AmplesenseVaultAbi = require("../../contracts/AmplesenseVault.json");
+const erc20Abi = require("../../contracts/ERC20.json");
+const { CONTRACT_ADDRESSES } = require("../../components/Blockchain/Updater.js");
+
 const axios = require('axios')
 
 const providerOptions = {
@@ -124,8 +128,10 @@ class Header extends React.Component {
     this.toggleSidebar = this.toggleSidebar.bind(this);
     this.doLogin = this.doLogin.bind(this);
     this.doLoginLocal = this.doLoginLocal.bind(this);
+    this.doAdd90Days = this.doAdd90Days.bind(this);
     this.changeArrowImg = this.changeArrowImg.bind(this);
     this.changeArrowImgOut = this.changeArrowImgOut.bind(this);
+    this.doRebase = this.doRebase.bind(this);
 
   //  console.log('gas_price_fastest', gas_price_fastest, 'gas_price_fast', gas_price_fast)
     const { gas_price_fastest } = this.props;
@@ -184,6 +190,33 @@ class Header extends React.Component {
       this.props.dispatch(loginUser(web3, accounts[0]));
     })
   }
+
+  doAdd90Days() {
+    this.props.web3.currentProvider.send({
+      jsonrpc: "2.0", 
+      method: "evm_increaseTime", 
+      params: [7776000],
+      id: 1
+    }, res => {
+      this.props.web3.currentProvider.send({
+        jsonrpc: "2.0", 
+        method: "evm_mine", 
+        params: [],
+        id: 2
+      }, res => console.log)
+  });
+ }
+
+ doRebase() {
+  const ampleSenseVault = new this.props.web3.eth.Contract(AmplesenseVaultAbi.abi, CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT);
+  const ampl = new this.props.web3.eth.Contract(erc20Abi.abi, CONTRACT_ADDRESSES.AMPLE_CONTRACT);
+  ampl.methods.rebase("500").send({from: this.props.account}).then(receipt => {
+    console.log("done")
+    ampleSenseVault.methods.rebase().send({from: this.props.account}).then(receipt => {
+      console.log("done")
+    }).catch(err => console.log)
+  })
+ }
 
   changeArrowImg() {
     this.setState({
@@ -286,8 +319,12 @@ class Header extends React.Component {
          </FormGroup>  
         </Form>
          */ }    
-
+  <div>
         <Button id="button-connected" className={`btn  ml-auto ${s.fullVersionBtn}`} onClick={this.doLoginLocal}>{account? account.substr(0,8) + "...": "Wallet Connect Testnet"}</Button>
+        <Button id="button-time" className={`btn  ml-auto ${s.fullVersionBtn}`} onClick={this.doAdd90Days}>Add 90 days</Button>
+        <Button id="button-time" className={`btn  ml-auto ${s.fullVersionBtn}`} onClick={this.doRebase}>Rebase</Button>
+  </div>
+        
 
       <p align="right">
             
