@@ -52,10 +52,10 @@ export function checkAllowance(amount) {
     payload: amount
   };
 }
-export function makeDeposit(tx_deposit, tx_allowance) {
+export function makeDeposit(tx_deposit) {
   return {
     type: MAKE_DEPOSIT,
-    payload: {deposit_tx: tx_deposit, allowance_tx: tx_allowance}
+    payload: {deposit_tx: tx_deposit}
   };
 }
 export function makeWithdrawal(tx) {

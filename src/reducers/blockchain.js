@@ -65,13 +65,29 @@ export default function blockchainReducer(state = defaultState, action) {
         allowance: action.payload
       });  
     case MAKE_DEPOSIT:
-      // let new_deposits2 = state.deposits;
-      // debugger;
-      // new_deposits2.push(action.payload);
-      // return Object.assign({}, state, {
-      //   deposits: new_deposits2
-      // });
-      return state;
+      let new_deposits2 = state.deposits;
+      let did_find = false;
+      new_deposits2.map(deposit => {
+        if(deposit.id == action.payload.deposit_tx.id) {
+          did_find = true;
+          // updating existing entry
+          if(action.payload.deposit_tx.mined) {
+            deposit.mined = true;
+          } else if(action.payload.deposit_tx.allowanceMined) {
+            deposit.allowanceMined = true;
+          }
+          if(action.payload.deposit_tx.transactionHash)
+            deposit.transactionHash = action.payload.deposit_tx.transactionHash;
+          if(action.payload.deposit_tx.allowanceHash)
+            deposit.allowanceHash = action.payload.deposit_tx.allowanceHash;
+        }
+      })
+      if(!did_find) {
+        new_deposits2.push(action.payload.deposit_tx);
+      }
+      return Object.assign({}, state, {
+        deposits: new_deposits2
+      });
     case MAKE_WITHDRAWAL:
       return Object.assign({}, state, {
         withdrawal_tx: action.payload

@@ -35,7 +35,6 @@ class BlockchainUpdater extends React.Component {
   constructor(props) {
     super(props);
     const timer = setInterval(this.pull, 1000);
-    console.log("props updated");
   }
 
   componentDidMount() {
