@@ -473,34 +473,41 @@ calculateAmountToWithdraw(evt) {
 
   doDeposit() {
    const {account, web3} = this.props;
-   const value = new web3.utils.BN(Math.floor(this.amountToDeposit));
+   const value = new web3.utils.BN(Math.floor(parseFloat(this.amountToDeposit) * 100));
 
     try {
     if(account) {
-        const valueWei = value.mul(new web3.utils.BN(10**9));
+        const valueWei = value.mul(new web3.utils.BN(10**7));
         const ampl = new web3.eth.Contract(erc20Abi.abi, CONTRACT_ADDRESSES.AMPLE_CONTRACT);
+        const current_time = Math.floor(Date.now()/1000);
+        this.props.dispatch(makeDeposit({id: current_time, transactionHash: null, allowanceHash: null, returnValues: {amount: valueWei.toString()}, timestamp: current_time, mined: false, allowanceMined: false}));
         ampl.methods.allowance(account, CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT).call().then(allowance => {
           const all = new web3.utils.BN(allowance.toString());
           this.props.dispatch(checkAllowance(all));
-          const to_allow = new web3.utils.BN(valueWei > all? valueWei.sub(all) : "0");
+          const to_allow = new web3.utils.BN(valueWei.gt(all)? valueWei.sub(all) : "0");
           if(to_allow > 0) {
             const ampl = new web3.eth.Contract(erc20Abi.abi, CONTRACT_ADDRESSES.AMPLE_CONTRACT);
-            ampl.methods.approve(CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT, to_allow.toString()).send({from: account}).once('transactionHash', hash_allowance => {
+            ampl.methods.approve(CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT, valueWei.toString()).send({from: account}).once('transactionHash', hash_allowance => {
               //deposit AMPL
               const ampleSenseVault = new web3.eth.Contract(AmplesenseVaultAbi.abi, CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT);
               ampleSenseVault.methods.makeDeposit(valueWei.toString()).send({from: account}).once('transactionHash', hash_deposit => {
-                this.props.dispatch(makeDeposit(hash_deposit, hash_allowance));
+                this.props.dispatch(makeDeposit({id: current_time, transactionHash: hash_deposit, allowanceHash: hash_allowance, returnValues: {amount: valueWei.toString()}, timestamp: current_time, mined: false, allowanceMined: false}));
+              }).then(receipt => {
+                //after it's mined, update
+                this.props.dispatch(makeDeposit({id: current_time, mined: true}));
               });
+            }).then(receipt => {
+              //after it's mined, update
+              this.props.dispatch(makeDeposit({id: current_time, allowanceMined: true}));
             });
           } else {
               //deposit AMPL
               const ampleSenseVault = new web3.eth.Contract(AmplesenseVaultAbi.abi, CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT);
               const tx = ampleSenseVault.methods.makeDeposit(valueWei.toString()).send({from: account}).once('transactionHash', hash_deposit => {
-                this.props.dispatch(makeDeposit(hash_deposit, null));
+                this.props.dispatch(makeDeposit({id: current_time, transactionHash: hash_deposit, allowanceHash: null}));
               });
           }
         })
-        
       }
       else {
 
@@ -730,7 +737,7 @@ calculateAmountToWithdraw(evt) {
                 </thead>
                 <tbody className="text-dark">
 
-                  {deposits.map(deposit => {
+                  {deposits.slice(0).reverse().map(deposit => {
                     return <tr key={deposit.transactionHash}>
                       <td className="fw-normal pl-0 fw-thin">
 
@@ -740,7 +747,10 @@ calculateAmountToWithdraw(evt) {
                         &nbsp;{(deposit.returnValues.amount / 10**tokenDetailedData[tokenId].precision).toLocaleString(undefined,{ minimumFractionDigits: 2 })} {tokenDetailedData[tokenId].token_name}
                       </td>
                       <td className={"pl-0 fw-thin"}>
-                      &nbsp;{deposit.transactionHash.substr(0,8)+"..."}   <a href={"https://www.etherscan.io/tx/" + deposit.transactionHash}  target="_blank">Link</a></td>
+                      {deposit.allowanceHash && <div>
+                        {deposit.allowanceHash.substr(0,8)+"..."}   <a href={"https://www.etherscan.io/tx/" + deposit.allowanceHash}  target="_blank">Link {deposit.allowanceMined==false && "(pending)"}</a>
+                        </div>}
+                      &nbsp;{deposit.transactionHash.substr(0,8)+"..."}   <a href={"https://www.etherscan.io/tx/" + deposit.transactionHash}  target="_blank">Link {deposit.mined==false && "(pending)"}</a></td>
                     </tr>
                     })
                   }
