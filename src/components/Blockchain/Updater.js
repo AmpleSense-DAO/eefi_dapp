@@ -16,6 +16,7 @@ import {
 } from "../../actions/blockchain";
 
 const erc20Abi = require("../../contracts/ERC20.json");
+const erc721Abi = require("../../contracts/ERC721.json");
 const AmplesenseVaultAbi = require("../../contracts/AmplesenseVault.json");
 const StakingERC20Abi = require("../../contracts/StakingERC20.json");
 
@@ -34,10 +35,10 @@ export const CONTRACT_ADDRESSES = {
 }
 
 export const VaultType = {
-  AMPLESENSE : "amplesense",
-  PIONEER1 : "pioneer1",
-  PIONEER2 : "pioneer2",
-  LPSTAKING : "lpstaking"
+  AMPLESENSE : {vault: CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT, staking_token: CONTRACT_ADDRESSES.AMPLE_CONTRACT, vault_abi: AmplesenseVaultAbi, staking_token_abi: erc20Abi},
+  PIONEER1 : {vault: CONTRACT_ADDRESSES.PIONEER1_CONTRACT, staking_token: CONTRACT_ADDRESSES.NFT_CONTRACT, vault_abi: StakingERC20Abi, staking_token_abi: erc721Abi},
+  PIONEER2 : {vault: CONTRACT_ADDRESSES.PIONEER2_CONTRACT, staking_token: CONTRACT_ADDRESSES.KMPL_CONTRACT, vault_abi: StakingERC20Abi, staking_token_abi: erc20Abi},
+  LPSTAKING : {vault: CONTRACT_ADDRESSES.LPSTAKING_CONTRACT, staking_token: CONTRACT_ADDRESSES.Univ3_EEFI_ETH_CONTRACT, vault_abi: StakingERC20Abi, staking_token_abi: erc20Abi}
 }
 
 export class VaultContract {
@@ -50,189 +51,93 @@ export class VaultContract {
   }
 
   allowance() {
-    switch(this.state.type) {
-      case VaultType.AMPLESENSE:
-        const contract = new this.state.web3.eth.Contract(erc20Abi.abi, CONTRACT_ADDRESSES.AMPLE_CONTRACT);
-        return contract.methods.allowance(this.state.account, CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT).call();
-      case VaultType.PIONEER1:
-        const contract = new this.state.web3.eth.Contract(erc721Abi.abi, CONTRACT_ADDRESSES.NFT_CONTRACT);
-        return contract.methods.isApprovedForAll(this.state.account, CONTRACT_ADDRESSES.PIONEER1).call();
-      case VaultType.PIONEER2:
-        const contract = new this.state.web3.eth.Contract(erc20Abi.abi, CONTRACT_ADDRESSES.KMPL_CONTRACT);
-        return contract.methods.allowance(this.state.account, CONTRACT_ADDRESSES.PIONEER2).call();
-      case VaultType.LPSTAKING:
-        const contract = new this.state.web3.eth.Contract(erc20Abi.abi, CONTRACT_ADDRESSES.Univ3_EEFI_ETH_CONTRACT);
-        return contract.methods.allowance(this.state.account, CONTRACT_ADDRESSES.LPSTAKING).call();
+    const contract = new this.state.web3.eth.Contract(this.state.type.staking_token_abi.abi, this.state.type.staking_token);
+    if(this.state.type == VaultType.PIONEER1) {
+      return contract.methods.isApprovedForAll(this.state.account, CONTRACT_ADDRESSES.PIONEER1).call();
+    } else {
+      return contract.methods.allowance(this.state.account, this.state.type.vault).call();
     }
   }
 
   stakingTokenBalance() {
-    switch(this.state.type) {
-      case VaultType.AMPLESENSE:
-        const contract = new this.state.web3.eth.Contract(erc20Abi.abi, CONTRACT_ADDRESSES.AMPLE_CONTRACT);
-        return contract.methods.balanceOf(this.state.account).call()
-      case VaultType.PIONEER1:
-        const contract = new this.state.web3.eth.Contract(erc20Abi.abi, CONTRACT_ADDRESSES.NFT_CONTRACT);
-        return contract.methods.balanceOf(this.state.account).call()
-      case VaultType.PIONEER2:
-        const contract = new this.state.web3.eth.Contract(erc20Abi.abi, CONTRACT_ADDRESSES.KMPL_CONTRACT);
-        return contract.methods.balanceOf(this.state.account).call()
-      case VaultType.LPSTAKING:
-        const contract = new this.state.web3.eth.Contract(erc20Abi.abi, CONTRACT_ADDRESSES.Univ3_EEFI_ETH_CONTRACT);
-        return contract.methods.balanceOf(this.state.account).call()
-    }
+    const contract = new this.state.web3.eth.Contract(this.state.type.staking_token_abi.abi, this.state.type.staking_token);
+    return contract.methods.balanceOf(this.state.account).call()
   }
 
   stakedTokenTotalBalance() {
-    switch(this.state.type) {
-      case VaultType.AMPLESENSE:
-        const contract = new this.state.web3.eth.Contract(AmplesenseVaultAbi.abi, CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT);
-        return contract.methods.balanceOf(this.state.account).call()
-      case VaultType.PIONEER1:
-        const contract = new this.state.web3.eth.Contract(StakingERC20Abi.abi, CONTRACT_ADDRESSES.PIONEER1_CONTRACT);
-        return contract.methods.totalStakedFor(this.state.account).call()
-      case VaultType.PIONEER2:
-        const contract = new this.state.web3.eth.Contract(StakingERC20Abi.abi, CONTRACT_ADDRESSES.PIONEER2_CONTRACT);
-        return contract.methods.totalStakedFor(this.state.account).call()
-      case VaultType.LPSTAKING:
-        const contract = new this.state.web3.eth.Contract(StakingERC20Abi.abi, CONTRACT_ADDRESSES.LPSTAKING_CONTRACT);
-        return contract.methods.totalStakedFor(this.state.account).call()
+    const contract = new this.state.web3.eth.Contract(this.state.type.vault_abi.abi, this.state.type.vault);
+    if(this.state.type == VaultType.AMPLESENSE) {
+      return contract.methods.balanceOf(this.state.account).call()
+    } else {
+      return contract.methods.totalStakedFor(this.state.account).call()
     }
   }
 
   stakedTokenClaimableBalance() {
-    switch(this.state.type) {
-      case VaultType.AMPLESENSE:
-        const contract = new this.state.web3.eth.Contract(AmplesenseVaultAbi.abi, CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT);
-        return contract.methods.totalClaimableBy(this.state.account).call()
-      case VaultType.PIONEER1:
-        const contract = new this.state.web3.eth.Contract(StakingERC20Abi.abi, CONTRACT_ADDRESSES.PIONEER1_CONTRACT);
-        return contract.methods.totalStakedFor(this.state.account).call()
-      case VaultType.PIONEER2:
-        const contract = new this.state.web3.eth.Contract(StakingERC20Abi.abi, CONTRACT_ADDRESSES.PIONEER2_CONTRACT);
-        return contract.methods.totalStakedFor(this.state.account).call()
-      case VaultType.LPSTAKING:
-        const contract = new this.state.web3.eth.Contract(StakingERC20Abi.abi, CONTRACT_ADDRESSES.LPSTAKING_CONTRACT);
-        return contract.methods.totalStakedFor(this.state.account).call()
+    const contract = new this.state.web3.eth.Contract(this.state.type.vault_abi.abi, this.state.type.vault);
+    if(this.state.type == VaultType.AMPLESENSE) {
+      return contract.methods.totalClaimableBy(this.state.account).call()
+    } else {
+      return contract.methods.totalStakedFor(this.state.account).call()
     }
   }
 
   approve(amount) {
-    switch(this.state.type) {
-      case VaultType.AMPLESENSE:
-        const contract = new this.state.web3.eth.Contract(erc20Abi.abi, CONTRACT_ADDRESSES.AMPLE_CONTRACT);
-        return contract.methods.approve(CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT, amount.toString()).send({from: this.state.account});
-      case VaultType.PIONEER1:
-        const contract = new this.state.web3.eth.Contract(erc721Abi.abi, CONTRACT_ADDRESSES.NFT_CONTRACT);
-        return contract.methods.setApprovalForAll(CONTRACT_ADDRESSES.PIONEER1, true).send({from: this.state.account});
-      case VaultType.PIONEER2:
-        const contract = new this.state.web3.eth.Contract(erc20Abi.abi, CONTRACT_ADDRESSES.KMPL_CONTRACT);
-        return contract.methods.approve(CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT, amount.toString()).send({from: this.state.account});
-      case VaultType.LPSTAKING:
-        const contract = new this.state.web3.eth.Contract(erc20Abi.abi, CONTRACT_ADDRESSES.Univ3_EEFI_ETH_CONTRACT);
-        return contract.methods.approve(CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT, amount.toString()).send({from: this.state.account});
-      }
+    const contract = new this.state.web3.eth.Contract(this.state.type.staking_token_abi.abi, this.state.type.staking_token);
+    if(this.state.type == VaultType.PIONEER1) {
+      return contract.methods.setApprovalForAll(CONTRACT_ADDRESSES.PIONEER1, true).send({from: this.state.account});
+    } else {
+      return contract.methods.approve(this.state.type.vault, amount.toString()).send({from: this.state.account});
+    }
   }
 
   stake(amount) {
-    switch(this.state.type) {
-      case VaultType.AMPLESENSE:
-        const contract = new this.state.web3.eth.Contract(AmplesenseVaultAbi.abi, CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT);
-        return contract.methods.makeDeposit(amount.toString()).send({from: this.state.account});
-      case VaultType.PIONEER1:
-        const contract = new this.state.web3.eth.Contract(StakingERC20Abi.abi, CONTRACT_ADDRESSES.PIONEER1_CONTRACT);
-        return contract.methods.stake(amount.toString(), "0x").send({from: this.state.account});
-      case VaultType.PIONEER2:
-        const contract = new this.state.web3.eth.Contract(StakingERC20Abi.abi, CONTRACT_ADDRESSES.PIONEER2_CONTRACT);
-        return contract.methods.stake(amount.toString(), "0x").send({from: this.state.account});
-      case VaultType.LPSTAKING:
-        const contract = new this.state.web3.eth.Contract(StakingERC20Abi.abi, CONTRACT_ADDRESSES.LPSTAKING_CONTRACT);
-        return contract.methods.stake(amount.toString(), "0x").send({from: this.state.account});
+    const contract = new this.state.web3.eth.Contract(this.state.type.vault_abi.abi, this.state.type.vault);
+    if(this.state.type == VaultType.AMPLESENSE) {
+      return contract.methods.makeDeposit(amount.toString()).send({from: this.state.account});
+    } else {
+      return contract.methods.stake(amount.toString(), "0x").send({from: this.state.account});
     }
   }
 
   unstake(amount) {
-    switch(this.state.type) {
-      case VaultType.AMPLESENSE:
-        const contract = new this.state.web3.eth.Contract(AmplesenseVaultAbi.abi, CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT);
-        return contract.methods.withdraw(amount.toString()).send({from: this.state.account});
-      case VaultType.PIONEER1:
-        const contract = new this.state.web3.eth.Contract(StakingERC20Abi.abi, CONTRACT_ADDRESSES.PIONEER1_CONTRACT);
-        return contract.methods.unstake(amount.toString(), "0x").send({from: this.state.account});
-      case VaultType.PIONEER2:
-        const contract = new this.state.web3.eth.Contract(StakingERC20Abi.abi, CONTRACT_ADDRESSES.PIONEER2_CONTRACT);
-        return contract.methods.unstake(amount.toString(), "0x").send({from: this.state.account});
-      case VaultType.LPSTAKING:
-        const contract = new this.state.web3.eth.Contract(StakingERC20Abi.abi, CONTRACT_ADDRESSES.LPSTAKING_CONTRACT);
-        return contract.methods.unstake(amount.toString(), "0x").send({from: this.state.account});
+    const contract = new this.state.web3.eth.Contract(this.state.type.vault_abi.abi, this.state.type.vault);
+    if(this.state.type == VaultType.AMPLESENSE) {
+      return contract.methods.withdraw(amount.toString()).send({from: this.state.account});
+    } else {
+      return contract.methods.unstake(amount.toString(), "0x").send({from: this.state.account});
     }
   }
 
   claim() {
-    switch(this.state.type) {
-      case VaultType.AMPLESENSE:
-        const contract = new this.state.web3.eth.Contract(AmplesenseVaultAbi.abi, CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT);
-        return contract.methods.claim().send({from: this.state.account});
-      case VaultType.PIONEER1:
-        const contract = new this.state.web3.eth.Contract(StakingERC20Abi.abi, CONTRACT_ADDRESSES.PIONEER1_CONTRACT);
-        return contract.methods.withdraw("0").send({from: this.state.account});
-      case VaultType.PIONEER2:
-        const contract = new this.state.web3.eth.Contract(StakingERC20Abi.abi, CONTRACT_ADDRESSES.PIONEER2_CONTRACT);
-        return contract.methods.withdraw("0").send({from: this.state.account});
-      case VaultType.LPSTAKING:
-        const contract = new this.state.web3.eth.Contract(StakingERC20Abi.abi, CONTRACT_ADDRESSES.LPSTAKING_CONTRACT);
-        return contract.methods.withdraw("0").send({from: this.state.account});
+    const contract = new this.state.web3.eth.Contract(this.state.type.vault_abi.abi, this.state.type.vault);
+    if(this.state.type == VaultType.AMPLESENSE) {
+      return contract.methods.claim().send({from: this.state.account});
+    } else {
+      return contract.methods.withdraw("0").send({from: this.state.account});
     }
   }
 
   getReward() {
-    switch(this.state.type) {
-      case VaultType.AMPLESENSE:
-        const contract = new this.state.web3.eth.Contract(AmplesenseVaultAbi.abi, CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT);
-        return contract.methods.getReward(this.state.account).call();
-      case VaultType.PIONEER1:
-        const contract = new this.state.web3.eth.Contract(StakingERC20Abi.abi, CONTRACT_ADDRESSES.PIONEER1_CONTRACT);
-        return contract.methods.getReward(this.state.account).call();
-      case VaultType.PIONEER2:
-        const contract = new this.state.web3.eth.Contract(StakingERC20Abi.abi, CONTRACT_ADDRESSES.PIONEER2_CONTRACT);
-        return contract.methods.getReward(this.state.account).call();
-      case VaultType.LPSTAKING:
-        const contract = new this.state.web3.eth.Contract(StakingERC20Abi.abi, CONTRACT_ADDRESSES.LPSTAKING_CONTRACT);
-        return contract.methods.getReward(this.state.account).call();
-    }
+    const contract = new this.state.web3.eth.Contract(this.state.type.vault_abi.abi, this.state.type.vault);
+    return contract.methods.getReward(this.state.account).call();
   }
 
   getDepositEvent() {
-    switch(this.state.type) {
-      case VaultType.AMPLESENSE:
-        const contract = new this.state.web3.eth.Contract(AmplesenseVaultAbi.abi, CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT);
-        return contract.events.Deposit({ fromBlock: 0, filter: { account:  this.state.account }, });
-      case VaultType.PIONNER1:
-        const contract = new this.state.web3.eth.Contract(StakingERC20Abi.abi, CONTRACT_ADDRESSES.PIONEER1_CONTRACT);
-        return contract.events.Staked({ fromBlock: 0, filter: { addr:  this.state.account }, });
-      case VaultType.PIONNER2:
-        const contract = new this.state.web3.eth.Contract(StakingERC20Abi.abi, CONTRACT_ADDRESSES.PIONEER2_CONTRACT);
-        return contract.events.Staked({ fromBlock: 0, filter: { addr:  this.state.account }, });
-      case VaultType.LPSTAKING:
-        const contract = new this.state.web3.eth.Contract(StakingERC20Abi.abi, CONTRACT_ADDRESSES.LPSTAKING_CONTRACT);
-        return contract.events.Staked({ fromBlock: 0, filter: { addr:  this.state.account }, });
+    const contract = new this.state.web3.eth.Contract(this.state.type.vault_abi.abi, this.state.type.vault);
+    if(this.state.type == VaultType.AMPLESENSE) {
+      return contract.events.Deposit({ fromBlock: 0, filter: { account:  this.state.account }, });
+    } else {
+      return contract.events.Staked({ fromBlock: 0, filter: { addr:  this.state.account }, });
     }
   }
 
   getWithdrawalEvent() {
-    switch(this.state.type) {
-      case VaultType.AMPLESENSE:
-        const contract = new this.state.web3.eth.Contract(AmplesenseVaultAbi.abi, CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT);
-        return contract.events.Withdrawal({ fromBlock: 0, filter: { account:  this.state.account }, });
-      case VaultType.PIONNER1:
-        const contract = new this.state.web3.eth.Contract(StakingERC20Abi.abi, CONTRACT_ADDRESSES.PIONEER1_CONTRACT);
-        return contract.events.Unstaked({ fromBlock: 0, filter: { addr:  this.state.account }, });
-      case VaultType.PIONNER2:
-        const contract = new this.state.web3.eth.Contract(StakingERC20Abi.abi, CONTRACT_ADDRESSES.PIONEER2_CONTRACT);
-        return contract.events.Unstaked({ fromBlock: 0, filter: { addr:  this.state.account }, });
-      case VaultType.LPSTAKING:
-        const contract = new this.state.web3.eth.Contract(StakingERC20Abi.abi, CONTRACT_ADDRESSES.LPSTAKING_CONTRACT);
-        return contract.events.Unstaked({ fromBlock: 0, filter: { addr:  this.state.account }, });
+    const contract = new this.state.web3.eth.Contract(this.state.type.vault_abi.abi, this.state.type.vault);
+    if(this.state.type == VaultType.AMPLESENSE) {
+      return contract.events.Withdrawal({ fromBlock: 0, filter: { account:  this.state.account }, });
+    } else {
+      return contract.events.Unstaked({ fromBlock: 0, filter: { addr:  this.state.account }, });
     }
   }
 }

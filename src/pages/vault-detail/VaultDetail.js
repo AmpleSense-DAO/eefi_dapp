@@ -701,7 +701,7 @@ class VaultDetail extends React.Component {
                         </p>
                     </h4>
                       <p>
-                        <Button color="primary" className="mb-md mr-md" disabled={reward.token=="0" && reward.eths=="0"} onClick={this.doClaim}>Claim</Button>
+                        <Button color="primary" className="mb-md mr-md" disabled={reward.token=="0" && reward.eth=="0"} onClick={this.doClaim}>Claim</Button>
                         {this.props.claim_tx.hash && this.props.claim_tx.hash.substr(0,8)+"..." && <a href={"https://www.etherscan.io/tx/" + this.props.claim_tx.hash}  target="_blank">Link {this.props.claim_tx.mined==false && "(pending)"}</a>}
                       </p>
                     </td>
