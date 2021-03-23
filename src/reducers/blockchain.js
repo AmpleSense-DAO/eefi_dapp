@@ -2,8 +2,7 @@ import { FETCH_AMPL_BALANCE } from '../actions/blockchain';
 import { FETCH_AMPL_AMPLESENSE_BALANCE } from '../actions/blockchain';
 import { FETCH_CLAIMABLE_AMPLESENSE_BALANCE } from '../actions/blockchain';
 import { FETCH_KMPL_PRICE } from '../actions/blockchain';
-import { FETCH_AV_ETH_REWARD } from '../actions/blockchain';
-import { FETCH_AV_TOKEN_REWARD } from '../actions/blockchain';
+import { FETCH_REWARD } from '../actions/blockchain';
 import { FETCH_ALLOWANCE } from '../actions/blockchain';
 import { MAKE_DEPOSIT } from '../actions/blockchain';
 import { MAKE_WITHDRAWAL } from '../actions/blockchain';
@@ -17,8 +16,7 @@ import { MAKE_CLAIM } from '../actions/blockchain';
 const defaultState = {
   ampl_balance: "0",
   ampl_withdraw: "0",
-  ampl_token_reward: "0",
-  ampl_eth_reward: "0",
+  reward: {token:"0", eth:"0"},
   claimable: "0",
   kmpl_price: "0",
   gas_price_fastet: "0",
@@ -59,14 +57,10 @@ export default function blockchainReducer(state = defaultState, action) {
   case FETCH_GAS_PRICE_AVERAGE:
       return Object.assign({}, state, {
         gas_price_average: action.payload
-      });         
-   case FETCH_AV_ETH_REWARD:
+      });           
+   case FETCH_REWARD:
       return Object.assign({}, state, {
-        ampl_eth_reward: action.payload
-      });   
-   case FETCH_AV_TOKEN_REWARD:
-      return Object.assign({}, state, {
-        ampl_token_reward: action.payload
+        reward: action.payload
       });               
     case FETCH_ALLOWANCE:
       return Object.assign({}, state, {

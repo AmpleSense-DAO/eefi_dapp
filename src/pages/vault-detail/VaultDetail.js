@@ -50,7 +50,7 @@ var BigNumber = require('bignumber.js');
 
 const AmplesenseVaultAbi = require("../../contracts/AmplesenseVault.json");
 const erc20Abi = require("../../contracts/ERC20.json");
-const { CONTRACT_ADDRESSES } = require("../../components/Blockchain/Updater.js");
+const { CONTRACT_ADDRESSES, VaultContract, VaultType } = require("../../components/Blockchain/Updater.js");
 
 const orderValueOverride = {
   options: {
@@ -468,9 +468,9 @@ class VaultDetail extends React.Component {
   doClaim() {
     const {account, web3} = this.props;
 
-    const ampleSenseVault = new web3.eth.Contract(AmplesenseVaultAbi.abi, CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT);
-    
-    ampleSenseVault.methods.claim().send({from: account}).once('transactionHash', hash => {
+    const contract = new VaultContract(VaultType.AMPLESENSE, web3, account);
+
+    contract.claim().once('transactionHash', hash => {
       this.props.dispatch(makeClaim(hash, false));
     }).then(receipt => {
       this.props.dispatch(makeClaim(null, true));
@@ -480,77 +480,53 @@ class VaultDetail extends React.Component {
   }
 
   doDeposit() {
-   const {account, web3} = this.props;
-   const value = new web3.utils.BN(Math.floor(parseFloat(this.state.amountToDeposit) * 100));
-
-    try {
-    if(account) {
-        const valueWei = value.mul(new web3.utils.BN(10**7));
-        const ampl = new web3.eth.Contract(erc20Abi.abi, CONTRACT_ADDRESSES.AMPLE_CONTRACT);
-        const current_time = Math.floor(Date.now()/1000);
-        this.props.dispatch(makeDeposit({id: current_time, transactionHash: null, allowanceHash: null, returnValues: {amount: valueWei.toString()}, timestamp: current_time, mined: false, allowanceMined: false}));
-        ampl.methods.allowance(account, CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT).call().then(allowance => {
-          const all = new web3.utils.BN(allowance.toString());
-          this.props.dispatch(checkAllowance(all));
-          const to_allow = new web3.utils.BN(valueWei.gt(all)? valueWei.sub(all) : "0");
-          if(to_allow > 0) {
-            const ampl = new web3.eth.Contract(erc20Abi.abi, CONTRACT_ADDRESSES.AMPLE_CONTRACT);
-            ampl.methods.approve(CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT, valueWei.toString()).send({from: account}).once('transactionHash', hash_allowance => {
-              //deposit AMPL
-              const ampleSenseVault = new web3.eth.Contract(AmplesenseVaultAbi.abi, CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT);
-              ampleSenseVault.methods.makeDeposit(valueWei.toString()).send({from: account}).once('transactionHash', hash_deposit => {
-                this.props.dispatch(makeDeposit({id: current_time, transactionHash: hash_deposit, allowanceHash: hash_allowance, returnValues: {amount: valueWei.toString()}, timestamp: current_time, mined: false, allowanceMined: false}));
-              }).then(receipt => {
-                //after it's mined, update
-                this.props.dispatch(makeDeposit({id: current_time, mined: true}));
-              });
-            }).then(receipt => {
-              //after it's mined, update
-              this.props.dispatch(makeDeposit({id: current_time, allowanceMined: true}));
-            });
-          } else {
-              //deposit AMPL
-              const ampleSenseVault = new web3.eth.Contract(AmplesenseVaultAbi.abi, CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT);
-              const tx = ampleSenseVault.methods.makeDeposit(valueWei.toString()).send({from: account}).once('transactionHash', hash_deposit => {
-                this.props.dispatch(makeDeposit({id: current_time, transactionHash: hash_deposit, allowanceHash: null}));
-              });
-          }
-        })
+    const {account, web3} = this.props;
+    const value = new web3.utils.BN(Math.floor(parseFloat(this.state.amountToDeposit) * 100));
+    const contract = new VaultContract(VaultType.AMPLESENSE, web3, account);
+    const valueWei = value.mul(new web3.utils.BN(10**7));
+    const current_time = Math.floor(Date.now()/1000);
+    this.props.dispatch(makeDeposit({id: current_time, transactionHash: null, allowanceHash: null, returnValues: {amount: valueWei.toString()}, timestamp: current_time, mined: false, allowanceMined: false}));
+    contract.allowance().then(allowance => {
+      const all = new web3.utils.BN(allowance.toString());
+      this.props.dispatch(checkAllowance(all));
+      const to_allow = new web3.utils.BN(valueWei.gt(all)? valueWei.sub(all) : "0");
+      if(to_allow > 0) {
+        contract.approve(valueWei).once('transactionHash', hash_allowance => {
+          contract.stake(valueWei.toString()).once('transactionHash', hash_deposit => {
+            this.props.dispatch(makeDeposit({id: current_time, transactionHash: hash_deposit, allowanceHash: hash_allowance, returnValues: {amount: valueWei.toString()}, timestamp: current_time, mined: false, allowanceMined: false}));
+          }).then(receipt => {
+            //after it's mined, update
+            this.props.dispatch(makeDeposit({id: current_time, mined: true}));
+          });
+        }).then(receipt => {
+          //after it's mined, update
+          this.props.dispatch(makeDeposit({id: current_time, allowanceMined: true}));
+        });
+      } else {
+          contract.stake(valueWei).once('transactionHash', hash_deposit => {
+            this.props.dispatch(makeDeposit({id: current_time, transactionHash: hash_deposit, allowanceHash: null}));
+          }).then(receipt => {
+            //after it's mined, update
+            this.props.dispatch(makeDeposit({id: current_time, mined: true}));
+          })
       }
-      else {
-
-        window.alert('Please connect to your wallet');
-      }
-    } catch(error) {
-      console.log('calling makeDeposit failed!', error)
-    }
+    })
   }
 
 
   doWithdraw() {
-   const {account, web3} = this.props;
-   const value = new web3.utils.BN(Math.floor(parseFloat(this.state.amountToWithdraw) * 100));
-
-    try {
-    if(account) {
-        const valueWei = value.mul(new web3.utils.BN(10**7));
-        //withdraw AMPL
-        const ampleSenseVault = new web3.eth.Contract(AmplesenseVaultAbi.abi, CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT);
-        const current_time = Math.floor(Date.now()/1000);
-        this.props.dispatch(makeWithdrawal({id: current_time, transactionHash: null, returnValues: {amount: valueWei.toString()}, timestamp: current_time, mined: false}));
-        const tx = ampleSenseVault.methods.withdraw(valueWei.toString()).send({from: account}).once('transactionHash', hash => {
-          //got tx
-          this.props.dispatch(makeWithdrawal({id: current_time, transactionHash: hash}));
-        }).then(receipt => {
-          this.props.dispatch(makeWithdrawal({id: current_time, mined: true}));
-        });
-      }
-      else {
-        window.alert('Please connect to your wallet');
-      }
-    } catch(error) {
-      console.log('calling withdraw AMPL failed!', error)
-    }
+    const {account, web3} = this.props;
+    const value = new web3.utils.BN(Math.floor(parseFloat(this.state.amountToWithdraw) * 100));
+    const contract = new VaultContract(VaultType.AMPLESENSE, web3, account);
+    const valueWei = value.mul(new web3.utils.BN(10**7));
+    const current_time = Math.floor(Date.now()/1000);
+    this.props.dispatch(makeWithdrawal({id: current_time, transactionHash: null, returnValues: {amount: valueWei.toString()}, timestamp: current_time, mined: false}));
+    contract.unstake(valueWei).once('transactionHash', hash => {
+      //got tx
+      this.props.dispatch(makeWithdrawal({id: current_time, transactionHash: hash}));
+    }).then(receipt => {
+      this.props.dispatch(makeWithdrawal({id: current_time, mined: true}));
+    });
   }
 
   render() {
@@ -561,8 +537,7 @@ class VaultDetail extends React.Component {
       ampl_withdraw,
       claimable,
       kmpl_price,
-      ampl_eth_reward,
-      ampl_token_reward,
+      reward,
       account,
       web3,
       deposits,
@@ -593,8 +568,8 @@ class VaultDetail extends React.Component {
     const ampl_balance_formatted = (new web3.utils.BN(ampl_balance).toNumber() / 10**9).toLocaleString(undefined,{ minimumFractionDigits: 2 });
     const claimable_formatted = (new web3.utils.BN(claimable).toNumber() / 10**9).toLocaleString(undefined,{ minimumFractionDigits: 2 });
     const ampl_withdraw_formatted = (new web3.utils.BN(ampl_withdraw).toNumber() / 10**9).toLocaleString(undefined,{ minimumFractionDigits: 2 });
-    const ampl_eth_reward_formatted = (new web3.utils.BN(ampl_eth_reward).toNumber() / 10**18).toLocaleString(undefined,{ minimumFractionDigits: 2 });
-    const ampl_token_reward_formatted =(new web3.utils.BN(ampl_token_reward).toNumber() / 10**9).toLocaleString(undefined,{ minimumFractionDigits: 2 });
+    const ampl_eth_reward_formatted = (new web3.utils.BN(reward.eth).toNumber() / 10**18).toLocaleString(undefined,{ minimumFractionDigits: 2 });
+    const ampl_token_reward_formatted =(new web3.utils.BN(reward.token).toNumber() / 10**9).toLocaleString(undefined,{ minimumFractionDigits: 2 });
     return (
 
       <div className={s.root}>
@@ -726,7 +701,7 @@ class VaultDetail extends React.Component {
                         </p>
                     </h4>
                       <p>
-                        <Button color="primary" className="mb-md mr-md" disabled={ampl_eth_reward=="0" && ampl_token_reward=="0"} onClick={this.doClaim}>Claim</Button>
+                        <Button color="primary" className="mb-md mr-md" disabled={reward.token=="0" && reward.eths=="0"} onClick={this.doClaim}>Claim</Button>
                         {this.props.claim_tx.hash && this.props.claim_tx.hash.substr(0,8)+"..." && <a href={"https://www.etherscan.io/tx/" + this.props.claim_tx.hash}  target="_blank">Link {this.props.claim_tx.mined==false && "(pending)"}</a>}
                       </p>
                     </td>
@@ -821,8 +796,7 @@ function mapStateToProps(store) {
     ampl_withdraw: store.blockchain.ampl_withdraw,
     claimable: store.blockchain.claimable,
     kmpl_price: store.blockchain.kmpl_price,
-    ampl_eth_reward: store.blockchain.ampl_eth_reward,
-    ampl_token_reward: store.blockchain.ampl_token_reward,
+    reward: store.blockchain.reward,
     deposits: store.blockchain.deposits,
     withdrawals: store.blockchain.withdrawals,
     claim_tx: store.blockchain.claim_tx
