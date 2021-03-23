@@ -637,7 +637,7 @@ class VaultDetail extends React.Component {
                     New deposits locked for 90 days.
                   </p>
                   <p className={"d-flex align-items-center "} align="center">
-                    <Button color="default" size="lg" align="center" className="mb-md mr-sm"  onClick={this.doDeposit}>Deposit</Button>
+                    <Button color="default" size="lg" align="center" className="mb-md mr-sm" disabled={this.state.amountToDeposit == "0"}  onClick={this.doDeposit}>Deposit</Button>
                   </p>
                 </div>
               </Widget>
@@ -679,7 +679,7 @@ class VaultDetail extends React.Component {
                   Unlocked AMPL
                 </p>
                 <p className={"d-flex align-items-center "}>
-                  <Button color="default" size="lg" className="mb-md mr-sm" onClick={this.doWithdraw}>Withdraw</Button>
+                  <Button color="default" size="lg" className="mb-md mr-sm" disabled={this.state.amountToWithdraw == "0"} onClick={this.doWithdraw}>Withdraw</Button>
                 </p>
               </div>
               </Widget>
@@ -726,7 +726,7 @@ class VaultDetail extends React.Component {
                         </p>
                     </h4>
                       <p>
-                        <Button color="primary" className="mb-md mr-md" onClick={this.doClaim}>Claim</Button>
+                        <Button color="primary" className="mb-md mr-md" disabled={ampl_eth_reward=="0" && ampl_token_reward=="0"} onClick={this.doClaim}>Claim</Button>
                         {this.props.claim_tx.hash && this.props.claim_tx.hash.substr(0,8)+"..." && <a href={"https://www.etherscan.io/tx/" + this.props.claim_tx.hash}  target="_blank">Link {this.props.claim_tx.mined==false && "(pending)"}</a>}
                       </p>
                     </td>

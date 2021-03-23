@@ -67,7 +67,6 @@ export function makeDeposit(tx) {
   };
 }
 export function makeClaim(hash, mined) {
-  console.log("hhhhhhhhhhhhh")
   return {
     type: MAKE_CLAIM,
     payload: {hash: hash, mined: mined}

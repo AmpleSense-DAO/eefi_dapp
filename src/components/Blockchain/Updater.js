@@ -23,19 +23,20 @@ const axios = require('axios')
 
 //define variables for contract addresses
 export const CONTRACT_ADDRESSES = {
-  AMPLE_SENSE_VAULT: '0xcf7ed3acca5a467e9e704c703e8d87f634fb0fc9',
+  AMPLE_SENSE_VAULT: '0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9',
   AMPLE_CONTRACT: '0x5FbDB2315678afecb367f032d93F642f64180aa3',
   KMPL_CONTRACT: '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512',
-  PIONEER1_CONTRACT: '0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9',
-  PIONEER2_CONTRACT: '0x5FC8d32690cc91D4c39d9d3abcBD16989F875707',
-  LPSTAKING_CONTRACT: '0x0165878A594ca255338adfa4d48449f69242Eb8F'
+  PIONEER1_CONTRACT: '0x5FC8d32690cc91D4c39d9d3abcBD16989F875707',
+  PIONEER2_CONTRACT: '0x0165878A594ca255338adfa4d48449f69242Eb8F',
+  LPSTAKING_CONTRACT: '0xa513E6E4b8f2a923D98304ec87F64353C4D5C853',
+  NFT_CONTRACT: '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0'
 }
 
 class BlockchainUpdater extends React.Component {
 
   constructor(props) {
     super(props);
-    const timer = setInterval(this.pull, 5000);
+    const timer = setInterval(this.pull, 15000);
     this.pull();
   }
 
@@ -76,7 +77,6 @@ class BlockchainUpdater extends React.Component {
   }
 
   pull = () => {
-    console.log("PULLING", this.props);
     const {web3, account, deposits} = this.props;
     try {
     if(account) {
