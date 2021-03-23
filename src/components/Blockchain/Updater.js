@@ -4,19 +4,27 @@ import { connect } from "react-redux";
 
 import {
   fetchAMPLBalance,
-  fetchDeposits,
-  fetchWithdrawals,
+  fetchAVDeposits,
+  fetchAVWithdrawals,
   fetchAMPLAmplesenseBalance,
+  fetchAVETHReward,
+  fetchAVTokenReward,
+
+  fetchKMPLBalance,
+  fetchKVDeposits,
+  fetchKVWithdrawals,
+  fetchKMPLAmplesenseBalance,
+  fetchKVETHReward,
+  fetchKVTokenReward,
+
   fetchKMPLPrice,
   fetchGasPriceFastest,
   fetchGasPriceFast,
-  fetchGasPriceAverage,
-  fetchAVETHReward,
-  fetchAVTokenReward
-} from "../../actions/blockchain";
+  fetchGasPriceAverage,} from "../../actions/blockchain";
 
 const erc20Abi = require("../../contracts/ERC20.json");
 const AmplesenseVaultAbi = require("../../contracts/AmplesenseVault.json");
+const stakingERC20Abi = require("../../contracts/StakingERC20.json");
 
 const axios = require('axios')
 
@@ -39,7 +47,9 @@ class BlockchainUpdater extends React.Component {
   }
 
   componentDidMount() {
-    const {web3, account, deposits} = this.props;
+    const {web3, account, AVdeposits, KVdeposits} = this.props;
+    
+    //AmpleSenseVault
     const ampleSenseVault = new web3.eth.Contract(AmplesenseVaultAbi.abi, CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT);
     const that = this;
     //fetch passed events
@@ -47,7 +57,7 @@ class BlockchainUpdater extends React.Component {
       //add timestamp
       web3.eth.getBlock(event.blockNumber).then(block => {
         event.timestamp = block.timestamp;
-        that.props.dispatch(fetchDeposits(event));
+        that.props.dispatch(fetchAVDeposits(event));
       })
     }).on('error', console.error);
     //fetch passed events
@@ -55,9 +65,29 @@ class BlockchainUpdater extends React.Component {
       //add timestamp
       web3.eth.getBlock(event.blockNumber).then(block => {
         event.timestamp = block.timestamp;
-        that.props.dispatch(fetchWithdrawals(event));
+        that.props.dispatch(fetchAVWithdrawals(event));
       })
     }).on('error', console.error);
+
+    //Pioneer II Vault
+    const Pioneer2Vault = new web3.eth.Contract(stakingERC20Abi.abi, CONTRACT_ADDRESSES.PIONEER2_CONTRACT);
+    //fetch passed events
+    Pioneer2Vault.events.Staked({ fromBlock: 0, filter: { account:  account }, }).on( 'data', function(event) {
+      //add timestamp
+      web3.eth.getBlock(event.blockNumber).then(block => {
+        event.timestamp = block.timestamp;
+        that.props.dispatch(fetchKVDeposits(event));
+      })
+    }).on('error', console.error);
+    //fetch passed events
+    Pioneer2Vault.events.Unstaked({ fromBlock: 0, filter: { account:  account }, }).on( 'data', function(event) {
+      //add timestamp
+      web3.eth.getBlock(event.blockNumber).then(block => {
+        event.timestamp = block.timestamp;
+        that.props.dispatch(fetchKVWithdrawals(event));
+      })
+    }).on('error', console.error);
+
 
     //get kMPL price
     axios.get(`https://api.coingecko.com/api/v3/coins/ethereum/contract/${CONTRACT_ADDRESSES.KMPL_CONTRACT}`).then(resp => {
@@ -79,7 +109,7 @@ class BlockchainUpdater extends React.Component {
 
   pull = () => {
     console.log("PULLING", this.props);
-    const {web3, account, deposits} = this.props;
+    const {web3, account, AVdeposits} = this.props;
     try {
     if(account) {
         //get AMPL balance
@@ -103,6 +133,30 @@ class BlockchainUpdater extends React.Component {
           this.props.dispatch(fetchAVETHReward(ethReward));
           this.props.dispatch(fetchAVTokenReward(tokenReward));
         })
+
+        //get KMPL balance
+        const kmpl = new web3.eth.Contract(erc20Abi.abi, CONTRACT_ADDRESSES.KMPL_CONTRACT);
+        kmpl.methods.balanceOf(account).call().then(balance => {
+        const toHuman2 = balance / 10**9;
+        this.props.dispatch(fetchKMPLBalance(toHuman2));
+        })
+
+        //get KMPL balance on stakingERC20
+        const PioneerIIVault = new web3.eth.Contract(stakingERC20Abi.abi, CONTRACT_ADDRESSES.PIONEER2_CONTRACT);
+        ampleSenseVault.methods.balanceOf(account).call().then(balance => {
+        const toHuman3 = balance / 10**9;
+        this.props.dispatch(fetchKMPLAmplesenseBalance(toHuman3));
+        })
+
+    //get rewards for the Pioneer II vault (ETH and EEFI)
+        PioneerIIVault.methods.getReward(account).call().then(rewards => {
+          var ethReward = rewards[0];
+          var tokenReward = rewards[1];
+          this.props.dispatch(fetchKVETHReward(ethReward));
+          this.props.dispatch(fetchKVTokenReward(tokenReward));
+        })
+
+
     }
     else {
         //if not connected, populate reward variables with 0
@@ -130,8 +184,12 @@ function mapStateToProps(store) {
     return {
       web3: store.auth.web3,
       account : store.auth.account,
-      deposits : store.blockchain.deposits,
-      withdrawals : store.blockchain.withdrawals
+      AVdeposits : store.blockchain.AVdeposits,
+      AVwithdrawals : store.blockchain.AVwithdrawals,
+
+      KVdeposits : store.blockchain.KVdeposits,
+      KVwithdrawals : store.blockchain.KVwithdrawals
+
     };
   }
   

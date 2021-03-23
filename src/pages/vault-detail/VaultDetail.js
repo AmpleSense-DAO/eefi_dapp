@@ -23,7 +23,26 @@ import p3 from "../../images/tokens/kappa_logo_kmpl.png";
 import p4 from "../../images/tokens/apollo_cropped_edited_sm.png";
 import p5 from "../../images/tokens/ethereum-eth-logo.svg";
 
-import {fetchAMPLBalance, fetchKMPLPrive, checkAllowance, makeApproval, makeDeposit, makeWithdrawal, fetchDeposits} from "../../actions/blockchain";
+
+import {
+        fetchKMPLPrice, 
+
+        fetchAMPLBalance,
+        checkAVAllowance, 
+        makeAVApproval, 
+        makeAVDeposit, 
+        makeAVWithdrawal, 
+        fetchAVDeposits,
+
+        fetchKMPLBalance,
+        checkKVAllowance, 
+        makeKVApproval, 
+        makeKVDeposit, 
+        makeKVWithdrawal, 
+        fetchKVDeposits,
+
+
+      } from "../../actions/blockchain";
 
 import {
   Form,
@@ -46,10 +65,19 @@ import {
   DropdownItem,
 } from 'reactstrap';
 
+
+ const AMPLE_SENSE_VAULT = 0
+ const  EEFI_ETH_VAULT = 1
+ const  KMPL_VAULT = 2
+ const KMPL_ETH_VAULT = 3
+
+
 var BigNumber = require('bignumber.js');
 
 const AmplesenseVaultAbi = require("../../contracts/AmplesenseVault.json");
 const erc20Abi = require("../../contracts/ERC20.json");
+const stakingERC20Abi = require("../../contracts/StakingERC20.json");
+
 const { CONTRACT_ADDRESSES } = require("../../components/Blockchain/Updater.js");
 
 const orderValueOverride = {
@@ -444,21 +472,45 @@ class VaultDetail extends React.Component {
   }
  calculateAmountToDeposit(evt) {
 
-   const { ampl_balance } = this.props;
-   this.amountToDeposit = parseFloat(ampl_balance * evt.target.value).toString() 
-   this.setState({
-      amountToDeposit: this.amountToDeposit
-    })
+   if (this.getId() == AMPLE_SENSE_VAULT) {
+       const { ampl_balance } = this.props;
+       this.amountToDeposit = parseFloat(ampl_balance * evt.target.value).toString() 
+       this.setState({
+          amountToDeposit: this.amountToDeposit
+        })
+      }
+
+   if (this.getId() == KMPL_VAULT) {
+       const { kmpl_balance } = this.props;
+       this.amountToDeposit = parseFloat(kmpl_balance * evt.target.value).toString() 
+       this.setState({
+          amountToDeposit: this.amountToDeposit
+        })
+      }
+
   }
 
 calculateAmountToWithdraw(evt) {
 
-   const { ampl_withdraw } = this.props;
-   this.amountToWithdraw = parseFloat(ampl_withdraw * evt.target.value) 
-   this.setState({
-      amountToWithdraw: this.amountToWithdraw
-    })
-  }
+ if (this.getId() == AMPLE_SENSE_VAULT) {
+
+     const { ampl_withdraw } = this.props;
+     this.amountToWithdraw = parseFloat(ampl_withdraw * evt.target.value) 
+     this.setState({
+        amountToWithdraw: this.amountToWithdraw
+      })
+ }
+
+ if (this.getId() == KMPL_VAULT) {
+
+     const { kmpl_withdraw } = this.props;
+     this.amountToWithdraw = parseFloat(kmpl_withdraw * evt.target.value) 
+     this.setState({
+        amountToWithdraw: this.amountToWithdraw
+      })
+ }
+
+}
   componentDidMount() {
     window.addEventListener("resize", this.forceUpdate.bind(this));
     this.setState({
@@ -477,30 +529,65 @@ calculateAmountToWithdraw(evt) {
 
     try {
     if(account) {
-        const valueWei = value.mul(new web3.utils.BN(10**9));
-        const ampl = new web3.eth.Contract(erc20Abi.abi, CONTRACT_ADDRESSES.AMPLE_CONTRACT);
-        ampl.methods.allowance(account, CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT).call().then(allowance => {
-          const all = new web3.utils.BN(allowance.toString());
-          this.props.dispatch(checkAllowance(all));
-          const to_allow = new web3.utils.BN(valueWei > all? valueWei.sub(all) : "0");
-          if(to_allow > 0) {
-            const ampl = new web3.eth.Contract(erc20Abi.abi, CONTRACT_ADDRESSES.AMPLE_CONTRACT);
-            ampl.methods.approve(CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT, to_allow.toString()).send({from: account}).once('transactionHash', hash_allowance => {
-              //deposit AMPL
-              const ampleSenseVault = new web3.eth.Contract(AmplesenseVaultAbi.abi, CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT);
-              ampleSenseVault.methods.makeDeposit(valueWei.toString()).send({from: account}).once('transactionHash', hash_deposit => {
-                this.props.dispatch(makeDeposit(hash_deposit, hash_allowance));
+
+
+       if (this.getId() == AMPLE_SENSE_VAULT) {
+
+          const valueWei = value.mul(new web3.utils.BN(10**9));
+          const ampl = new web3.eth.Contract(erc20Abi.abi, CONTRACT_ADDRESSES.AMPLE_CONTRACT);
+          ampl.methods.allowance(account, CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT).call().then(allowance => {
+            const all = new web3.utils.BN(allowance.toString());
+            this.props.dispatch(checkAVAllowance(all));
+            const to_allow = new web3.utils.BN(valueWei > all? valueWei.sub(all) : "0");
+            if(to_allow > 0) {
+              const ampl = new web3.eth.Contract(erc20Abi.abi, CONTRACT_ADDRESSES.AMPLE_CONTRACT);
+              ampl.methods.approve(CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT, to_allow.toString()).send({from: account}).once('transactionHash', hash_allowance => {
+                //deposit AMPL
+                const ampleSenseVault = new web3.eth.Contract(AmplesenseVaultAbi.abi, CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT);
+                ampleSenseVault.methods.makeDeposit(valueWei.toString()).send({from: account}).once('transactionHash', hash_deposit => {
+                  this.props.dispatch(makeAVDeposit(hash_deposit, hash_allowance));
+                });
               });
-            });
-          } else {
-              //deposit AMPL
-              const ampleSenseVault = new web3.eth.Contract(AmplesenseVaultAbi.abi, CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT);
-              const tx = ampleSenseVault.methods.makeDeposit(valueWei.toString()).send({from: account}).once('transactionHash', hash_deposit => {
-                this.props.dispatch(makeDeposit(hash_deposit, null));
+            } else {
+                //deposit AMPL
+                const ampleSenseVault = new web3.eth.Contract(AmplesenseVaultAbi.abi, CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT);
+                const tx = ampleSenseVault.methods.makeDeposit(valueWei.toString()).send({from: account}).once('transactionHash', hash_deposit => {
+                  this.props.dispatch(makeAVDeposit(hash_deposit, null));
+                });
+            }
+          })
+        }
+
+      if (this.getId() == KMPL_VAULT) {
+
+          const valueWei = value.mul(new web3.utils.BN(10**9));
+         // const kmpl = new web3.eth.Contract(erc20Abi.abi, CONTRACT_ADDRESSES.AMPLE_CONTRACT);
+ 
+         const kmpl = new web3.eth.Contract(erc20Abi.abi, CONTRACT_ADDRESSES.KMPL_CONTRACT);
+         kmpl.methods.allowance(account, CONTRACT_ADDRESSES.PIONEER2_CONTRACT).call().then(allowance => {
+            const all = new web3.utils.BN(allowance.toString());
+            this.props.dispatch(checkKVAllowance(all));
+            const to_allow = new web3.utils.BN(valueWei > all? valueWei.sub(all) : "0");
+            if(to_allow > 0) {
+              const kmpl = new web3.eth.Contract(erc20Abi.abi, CONTRACT_ADDRESSES.KMPL_CONTRACT);
+              kmpl.methods.approve(CONTRACT_ADDRESSES.PIONEER2_CONTRACT, to_allow.toString()).send({from: account}).once('transactionHash', hash_allowance => {
+                //deposit AMPL
+                const pioneer2Vault = new web3.eth.Contract(stakingERC20Abi.abi, CONTRACT_ADDRESSES.PIONEER2_CONTRACT);
+                pioneer2Vault.methods.stake(valueWei.toString(),'0x').send({from: account}).once('transactionHash', hash_deposit => {
+                  this.props.dispatch(makeKVDeposit(hash_deposit, hash_allowance));
+                });
               });
-          }
-        })
-        
+            } else {
+                //deposit AMPL
+                const pioneer2Vault = new web3.eth.Contract(stakingERC20Abi.abi, CONTRACT_ADDRESSES.PIONEER2_CONTRACT);
+                const tx = pioneer2Vault.methods.stake(valueWei.toString(), '0x').send({from: account}).once('transactionHash', hash_deposit => {
+                  this.props.dispatch(makeKVDeposit(hash_deposit, null));
+                });
+            }
+          })
+        }
+
+
       }
       else {
 
@@ -519,9 +606,21 @@ calculateAmountToWithdraw(evt) {
     try {
     if(account) {
         //withdraw AMPL
+
+       if (this.getId() == AMPLE_SENSE_VAULT) {
+
         const ampleSenseVault = new web3.eth.Contract(AmplesenseVaultAbi.abi, CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT);
         const tx = ampleSenseVault.methods.withdraw(value).send({from: account});
-        this.props.dispatch(makeWithdrawal(tx));
+        this.props.dispatch(makeAVWithdrawal(tx));
+      }
+
+       if (this.getId() == KMPL_VAULT) {
+
+        const pioneer2Vault = new web3.eth.Contract(stakingERC20Abi.abi, CONTRACT_ADDRESSES.PIONEER2_CONTRACT);
+        const tx = pioneer2Vault.methods.withdraw(value).send({from: account});
+        this.props.dispatch(makeKVWithdrawal(tx));
+      }
+
       }
       else {
 
@@ -536,21 +635,41 @@ calculateAmountToWithdraw(evt) {
 
     var tokenId = 0;
     const { 
-      ampl_balance,
-      ampl_withdraw,
       kmpl_price,
-      ampl_eth_reward,
-      ampl_token_reward,
       account,
       web3,
-      deposits,
-      withdrawals
+      ampl_balance,
+      ampl_withdraw,
+      ampl_eth_reward,
+      ampl_token_reward,
+      AVdeposits,
+      AVwithdrawals,
+      kmpl_balance,
+      kmpl_withdraw,
+      kmpl_eth_reward,
+      kmpl_token_reward,
+      KVdeposits,
+      KVwithdrawals
+
     } = this.props;
 
-    const ampl_balance_formatted = ampl_balance.toLocaleString(undefined,{ minimumFractionDigits: 2 });
-    const ampl_withdraw_formatted = ampl_withdraw.toLocaleString(undefined,{ minimumFractionDigits: 2 });
-    const ampl_eth_reward_formatted = ampl_eth_reward ? ampl_eth_reward.toLocaleString(undefined,{ minimumFractionDigits: 2 }) : 0;
-    const ampl_token_reward_formatted = ampl_token_reward ? ampl_token_reward.toLocaleString(undefined,{ minimumFractionDigits: 2 }) : 0;
+     var balance_formatted = 0;
+     var withdraw_formatted = 0;
+     var eth_reward_formatted = 0;
+     var token_reward_formatted = 0;
+
+   if (this.getId() == AMPLE_SENSE_VAULT) {
+       balance_formatted = ampl_balance.toLocaleString(undefined,{ minimumFractionDigits: 2 });
+       withdraw_formatted = ampl_withdraw.toLocaleString(undefined,{ minimumFractionDigits: 2 });
+       eth_reward_formatted = ampl_eth_reward ? ampl_eth_reward.toLocaleString(undefined,{ minimumFractionDigits: 2 }) : 0;
+       token_reward_formatted = ampl_token_reward ? ampl_token_reward.toLocaleString(undefined,{ minimumFractionDigits: 2 }) : 0;
+    }
+  if (this.getId() == KMPL_VAULT) {
+       balance_formatted = kmpl_balance.toLocaleString(undefined,{ minimumFractionDigits: 2 });
+       withdraw_formatted = kmpl_withdraw.toLocaleString(undefined,{ minimumFractionDigits: 2 });
+       eth_reward_formatted = kmpl_eth_reward ? kmpl_eth_reward.toLocaleString(undefined,{ minimumFractionDigits: 2 }) : 0;
+       token_reward_formatted = kmpl_token_reward ? kmpl_token_reward.toLocaleString(undefined,{ minimumFractionDigits: 2 }) : 0;
+    }
 
     if (this.getId()) {
           tokenId = this.getId();
@@ -587,7 +706,7 @@ calculateAmountToWithdraw(evt) {
             <Col md={6} sm={12} xs={12}>
               <Widget
                 title={<p style={{ fontWeight: 700 }}>
-                {tokenDetailedData[tokenId].token_name} Wallet Balance: {ampl_balance_formatted}  {tokenDetailedData[tokenId].token_name}</p>} 
+                {tokenDetailedData[tokenId].token_name} Wallet Balance: {balance_formatted}  {tokenDetailedData[tokenId].token_name}</p>} 
               >
                 <div>
                  <FormGroup>
@@ -626,7 +745,7 @@ calculateAmountToWithdraw(evt) {
             <Col md={6} sm={12} xs={12}>
                     <Widget
                 title={<p style={{ fontWeight: 700 }}>
-                {tokenDetailedData[tokenId].token_name} Available to Withdraw: {ampl_withdraw_formatted} {tokenDetailedData[tokenId].token_name}</p>} 
+                {tokenDetailedData[tokenId].token_name} Available to Withdraw: {withdraw_formatted} {tokenDetailedData[tokenId].token_name}</p>} 
               >
                 <div>
                    <FormGroup>
@@ -684,7 +803,7 @@ calculateAmountToWithdraw(evt) {
                   <tr>
                     <td className="fw-thin pl-0 fw-thin">
                       <h3>
-                        &nbsp;{ampl_withdraw_formatted} {tokenDetailedData[tokenId].token_name}
+                        &nbsp;{withdraw_formatted} {tokenDetailedData[tokenId].token_name}
                         </h3>
                       <h4>APY {tokenDetailedData[tokenId].apy}</h4>
                       <br></br>
@@ -697,11 +816,11 @@ calculateAmountToWithdraw(evt) {
                     <h4>
                       <img height="30" src={p2} alt="" className={"mr-3"} />
                       <span align="right">
-                       &nbsp;{ampl_eth_reward_formatted} {tokenDetailedData[tokenId].rewards_token_1}</span>     
+                       &nbsp;{eth_reward_formatted} {tokenDetailedData[tokenId].rewards_token_1}</span>     
                       <p>
                         <img height="30" src={p5} alt="" className={"mr-3"} />
                         <span align="right">
-                        &nbsp;{ampl_token_reward_formatted} {tokenDetailedData[tokenId].rewards_token_2}</span>  
+                        &nbsp;{token_reward_formatted} {tokenDetailedData[tokenId].rewards_token_2}</span>  
                         </p>
                     </h4>
                       <p>
@@ -730,7 +849,7 @@ calculateAmountToWithdraw(evt) {
                 </thead>
                 <tbody className="text-dark">
 
-                  {deposits.map(deposit => {
+                  {AVdeposits.map(deposit => {
                     return <tr key={deposit.transactionHash}>
                       <td className="fw-normal pl-0 fw-thin">
 
@@ -764,11 +883,19 @@ function mapStateToProps(store) {
     account: store.auth.account,
     ampl_balance: store.blockchain.ampl_balance,
     ampl_withdraw: store.blockchain.ampl_withdraw,
-    kmpl_price: store.blockchain.kmpl_price,
     ampl_eth_reward: store.blockchain.ampl_eth_reward,
     ampl_token_reward: store.blockchain.ampl_token_reward,
-    deposits: store.blockchain.deposits,
-    withdrawals: store.blockchain.withdrawals
+    kmpl_price: store.blockchain.kmpl_price,
+    AVdeposits: store.blockchain.AVdeposits,
+    AVwithdrawals: store.blockchain.AVwithdrawals,
+
+    kmpl_balance: store.blockchain.kmpl_balance,
+    kmpl_withdraw: store.blockchain.kmpl_withdraw,
+    kmpl_eth_reward: store.blockchain.kmpl_eth_reward,
+    kmpl_token_reward: store.blockchain.kmpl_token_reward,
+    KVdeposits: store.blockchain.KVdeposits,
+    KVwithdrawals: store.blockchain.KVwithdrawals
+
   };
 }
 
