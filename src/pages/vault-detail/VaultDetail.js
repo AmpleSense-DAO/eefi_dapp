@@ -531,6 +531,8 @@ class VaultDetail extends React.Component {
 
   render() {
 
+    const contract = new VaultContract(VaultType.AMPLESENSE, web3, account);
+
     var tokenId = 0;
     const { 
       ampl_balance,
@@ -560,7 +562,7 @@ class VaultDetail extends React.Component {
     if(!account) {
       return (<div className={s.root}>
         <h2>
-        {tokenDetailedData[tokenId].title}
+        {contract.vaultName()}
         </h2>
         <h3>Connect your wallet to view vault details</h3>
         </div>)
@@ -574,7 +576,7 @@ class VaultDetail extends React.Component {
 
       <div className={s.root}>
         <h2>
-        {tokenDetailedData[tokenId].title}
+        {contract.vaultName()}
         </h2>
 
         <Row>
@@ -583,7 +585,7 @@ class VaultDetail extends React.Component {
             <Col md={6} sm={12} xs={12}>
               <Widget
                 title={<p style={{ fontWeight: 700 }}>
-                {tokenDetailedData[tokenId].token_name} Wallet Balance: {ampl_balance_formatted}  {tokenDetailedData[tokenId].token_name}</p>} 
+                {contract.stakingTokenSymbol()} Wallet Balance: {ampl_balance_formatted}  {contract.stakingTokenSymbol()}</p>} 
               >
                 <div>
                  <FormGroup>
@@ -622,7 +624,7 @@ class VaultDetail extends React.Component {
             <Col md={6} sm={12} xs={12}>
                     <Widget
                 title={<p style={{ fontWeight: 700 }}>
-                {tokenDetailedData[tokenId].token_name} Available to Withdraw: {claimable_formatted} {tokenDetailedData[tokenId].token_name}</p>} 
+                {contract.stakingTokenSymbol()} Available to Withdraw: {claimable_formatted} {contract.stakingTokenSymbol()}</p>} 
               >
                 <div>
                    <FormGroup>
@@ -651,7 +653,7 @@ class VaultDetail extends React.Component {
                  </FormGroup>
 
                 <p className="fs-mini text-muted">
-                  Unlocked AMPL
+                  Unlocked {contract.stakingTokenSymbol()}
                 </p>
                 <p className={"d-flex align-items-center "}>
                   <Button color="default" size="lg" className="mb-md mr-sm" disabled={this.state.amountToWithdraw == "0"} onClick={this.doWithdraw}>Withdraw</Button>
@@ -669,7 +671,7 @@ class VaultDetail extends React.Component {
                 <thead>
                   <tr>
                     <th key={0} width="50%"  scope="col" className={"pl-0"}>
-                      &nbsp;Staked {tokenDetailedData[tokenId].token_name}
+                      &nbsp;Staked {contract.stakingTokenSymbol()}
                     </th>
                     <th key={2} scope="col" className={"pl-0"}>
                       &nbsp;Rewards
@@ -680,7 +682,7 @@ class VaultDetail extends React.Component {
                   <tr>
                     <td className="fw-thin pl-0 fw-thin">
                       <h3>
-                        &nbsp;{ampl_withdraw_formatted} {tokenDetailedData[tokenId].token_name}
+                        &nbsp;{ampl_withdraw_formatted} {contract.stakingTokenSymbol()}
                         </h3>
                       <h4>APY {tokenDetailedData[tokenId].apy}</h4>
                       <br></br>
@@ -734,7 +736,7 @@ class VaultDetail extends React.Component {
                         &nbsp;{new Date(deposit.timestamp * 1000).toUTCString()}
                       </td>
                       <td className={"pl-0 fw-thin"}>
-                        &nbsp;{(deposit.returnValues.amount / 10**tokenDetailedData[tokenId].precision).toLocaleString(undefined,{ minimumFractionDigits: 2 })} {tokenDetailedData[tokenId].token_name}
+                        &nbsp;{(deposit.returnValues.amount / 10**tokenDetailedData[tokenId].precision).toLocaleString(undefined,{ minimumFractionDigits: 2 })} {contract.stakingTokenSymbol()}
                       </td>
                       <td className={"pl-0 fw-thin"}>
                       {deposit.allowanceHash && <div>
@@ -770,7 +772,7 @@ class VaultDetail extends React.Component {
                         &nbsp;{new Date(withdrawal.timestamp * 1000).toUTCString()}
                       </td>
                       <td className={"pl-0 fw-thin"}>
-                        &nbsp;{(withdrawal.returnValues.amount / 10**tokenDetailedData[tokenId].precision).toLocaleString(undefined,{ minimumFractionDigits: 2 })} {tokenDetailedData[tokenId].token_name}
+                        &nbsp;{(withdrawal.returnValues.amount / 10**tokenDetailedData[tokenId].precision).toLocaleString(undefined,{ minimumFractionDigits: 2 })} {contract.stakingTokenSymbol()}
                       </td>
                       <td className={"pl-0 fw-thin"}>
                       &nbsp;{withdrawal.transactionHash.substr(0,8)+"..."}   <a href={"https://www.etherscan.io/tx/" + withdrawal.transactionHash}  target="_blank">Link {withdrawal.mined==false && "(pending)"}</a></td>

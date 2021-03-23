@@ -35,10 +35,10 @@ export const CONTRACT_ADDRESSES = {
 }
 
 export const VaultType = {
-  AMPLESENSE : {vault: CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT, staking_token: CONTRACT_ADDRESSES.AMPLE_CONTRACT, vault_abi: AmplesenseVaultAbi, staking_token_abi: erc20Abi},
-  PIONEER1 : {vault: CONTRACT_ADDRESSES.PIONEER1_CONTRACT, staking_token: CONTRACT_ADDRESSES.NFT_CONTRACT, vault_abi: StakingERC20Abi, staking_token_abi: erc721Abi},
-  PIONEER2 : {vault: CONTRACT_ADDRESSES.PIONEER2_CONTRACT, staking_token: CONTRACT_ADDRESSES.KMPL_CONTRACT, vault_abi: StakingERC20Abi, staking_token_abi: erc20Abi},
-  LPSTAKING : {vault: CONTRACT_ADDRESSES.LPSTAKING_CONTRACT, staking_token: CONTRACT_ADDRESSES.Univ3_EEFI_ETH_CONTRACT, vault_abi: StakingERC20Abi, staking_token_abi: erc20Abi}
+  AMPLESENSE : {vault: CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT, staking_token: CONTRACT_ADDRESSES.AMPLE_CONTRACT, vault_abi: AmplesenseVaultAbi, staking_token_abi: erc20Abi, staking_symbol: "AMPL", name: "Elastic Vault: AMPL > EEFI"},
+  PIONEER1 : {vault: CONTRACT_ADDRESSES.PIONEER1_CONTRACT, staking_token: CONTRACT_ADDRESSES.NFT_CONTRACT, vault_abi: StakingERC20Abi, staking_token_abi: erc721Abi, staking_symbol: "kMPL NFT", name: "Pioneer Fund Vault I: NFT"},
+  PIONEER2 : {vault: CONTRACT_ADDRESSES.PIONEER2_CONTRACT, staking_token: CONTRACT_ADDRESSES.KMPL_CONTRACT, vault_abi: StakingERC20Abi, staking_token_abi: erc20Abi, staking_symbol: "kMPL", name: "Pioneer Fund Vault II: kMPL"},
+  LPSTAKING : {vault: CONTRACT_ADDRESSES.LPSTAKING_CONTRACT, staking_token: CONTRACT_ADDRESSES.Univ3_EEFI_ETH_CONTRACT, vault_abi: StakingERC20Abi, staking_token_abi: erc20Abi, staking_symbol: "UniswapV2", name: "EEFI/ETH LP Token Vault"}
 }
 
 export class VaultContract {
@@ -48,6 +48,14 @@ export class VaultContract {
   constructor(vaultType, web3, account) {
     // super();
     this.state = {web3: web3, type: vaultType, account: account};
+  }
+
+  vaultName() {
+    return this.state.type.name;
+  }
+
+  stakingTokenSymbol() {
+    return this.state.type.staking_symbol;
   }
 
   allowance() {
