@@ -23,7 +23,7 @@ import p3 from "../../images/tokens/kappa_logo_kmpl.png";
 import p4 from "../../images/tokens/apollo_cropped_edited_sm.png";
 import p5 from "../../images/tokens/ethereum-eth-logo.svg";
 
-import {fetchAMPLBalance, fetchKMPLPrive, checkAllowance, makeApproval, makeDeposit, makeWithdrawal, makeClaim, fetchDeposits} from "../../actions/blockchain";
+import {setVaultType, fetchAMPLBalance, fetchKMPLPrive, checkAllowance, makeApproval, makeDeposit, makeWithdrawal, makeClaim, fetchDeposits} from "../../actions/blockchain";
 
 import {
   Form,
@@ -47,6 +47,8 @@ import {
 } from 'reactstrap';
 
 var BigNumber = require('bignumber.js');
+
+var vaultType;
 
 const AmplesenseVaultAbi = require("../../contracts/AmplesenseVault.json");
 const erc20Abi = require("../../contracts/ERC20.json");
@@ -455,6 +457,9 @@ class VaultDetail extends React.Component {
 
   componentDidMount() {
     window.addEventListener("resize", this.forceUpdate.bind(this));
+
+    this.props.dispatch(setVaultType({vault_type: this.getId()}));
+
     this.setState({
       tokenDetailedDataList: tokenDetailedData
     })
@@ -468,7 +473,7 @@ class VaultDetail extends React.Component {
   doClaim() {
     const {account, web3} = this.props;
 
-    const contract = new VaultContract(VaultType.AMPLESENSE, web3, account);
+    const contract = new VaultContract(this.getVaultType(), web3, account);
 
     contract.claim().once('transactionHash', hash => {
       this.props.dispatch(makeClaim(hash, false));
@@ -482,7 +487,7 @@ class VaultDetail extends React.Component {
   doDeposit() {
     const {account, web3} = this.props;
     const value = new web3.utils.BN(Math.floor(parseFloat(this.state.amountToDeposit) * 100));
-    const contract = new VaultContract(VaultType.AMPLESENSE, web3, account);
+    const contract = new VaultContract(this.getVaultType(), web3, account);
     const valueWei = value.mul(new web3.utils.BN(10**7));
     const current_time = Math.floor(Date.now()/1000);
     this.props.dispatch(makeDeposit({id: current_time, transactionHash: null, allowanceHash: null, returnValues: {amount: valueWei.toString()}, timestamp: current_time, mined: false, allowanceMined: false}));
@@ -514,10 +519,33 @@ class VaultDetail extends React.Component {
   }
 
 
+  getVaultType() {
+
+
+    switch(this.getId()) {
+    case 0:
+      console.log('VaultType.AMPLESENSE')
+      return VaultType.AMPLESENSE;
+      break;
+    case 1:
+      return VaultType.PIONEER1;
+      break;
+    case 2:
+      console.log('VaultType.PIONEER2')
+      return VaultType.PIONEER2;
+      break;
+    case 3:
+      return VaultType.LPSTAKING;
+      break;    
+    default:
+      return VaultType.AMPLESENSE;
+    }
+ }
+
   doWithdraw() {
     const {account, web3} = this.props;
     const value = new web3.utils.BN(Math.floor(parseFloat(this.state.amountToWithdraw) * 100));
-    const contract = new VaultContract(VaultType.AMPLESENSE, web3, account);
+    const contract = new VaultContract(this.getVaultType(), web3, account);
     const valueWei = value.mul(new web3.utils.BN(10**7));
     const current_time = Math.floor(Date.now()/1000);
     this.props.dispatch(makeWithdrawal({id: current_time, transactionHash: null, returnValues: {amount: valueWei.toString()}, timestamp: current_time, mined: false}));
@@ -531,10 +559,14 @@ class VaultDetail extends React.Component {
 
   render() {
 
-    const contract = new VaultContract(VaultType.AMPLESENSE, web3, account);
+
+
+
+    const contract = new VaultContract(this.getVaultType(), web3, account);
 
     var tokenId = 0;
     const { 
+      vault_type,
       ampl_balance,
       ampl_withdraw,
       claimable,
