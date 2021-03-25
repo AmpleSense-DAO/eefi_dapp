@@ -75,7 +75,7 @@ export class VaultContract {
 
   totalStaked() {
     const contract = new this.state.web3.eth.Contract(this.state.type.vault_abi.abi, this.state.type.vault);
-    return contract.methods.totalStaked(this.state.account).call()
+    return contract.methods.totalStaked().call()
   }
 
   stakedTokenTotalBalance() {
