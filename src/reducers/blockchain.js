@@ -80,7 +80,7 @@ export default function blockchainReducer(state = defaultState, action) {
         allowance: action.payload
       });  
     case MAKE_DEPOSIT:
-      let new_deposits2 = state.deposits;
+      let new_deposits2 = [...state.deposits];
       let did_find = false;
       new_deposits2.map(deposit => {
         if(deposit.id == action.payload.deposit_tx.id) {
@@ -104,7 +104,7 @@ export default function blockchainReducer(state = defaultState, action) {
         deposits: new_deposits2
       });
     case MAKE_WITHDRAWAL:
-      let new_withdrawals2 = state.withdrawals;
+      let new_withdrawals2 = state.withdrawals.slice();
       let did_find2 = false;
       new_withdrawals2.map(withdrawal => {
         if(withdrawal.id == action.payload.withdrawal_tx.id) {
@@ -124,19 +124,20 @@ export default function blockchainReducer(state = defaultState, action) {
         withdrawals: new_withdrawals2
       });
     case FETCH_DEPOSITS:
-      let new_deposits = state.deposits;
-      new_deposits.push(action.payload);
+      let new_deposits = [];
+      if(action.payload)
+        new_deposits.push(action.payload);
       return Object.assign({}, state, {
         deposits: new_deposits
       });
     case FETCH_WITHDRAWALS:
-      let new_withdrawals = state.withdrawals;
-      new_withdrawals.push(action.payload);
+      let new_withdrawals = [];
+      if(action.payload)
+        new_withdrawals.push(action.payload);
       return Object.assign({}, state, {
         withdrawals: new_withdrawals
       });
     case MAKE_CLAIM:
-      console.log("plop")
       let claim_tx = state.claim_tx;
       if(action.payload.hash)
         claim_tx.hash = action.payload.hash;

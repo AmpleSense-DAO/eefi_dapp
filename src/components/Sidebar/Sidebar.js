@@ -920,7 +920,7 @@ class Sidebar extends React.Component {
 
               }
               onActiveSidebarItemChange={
-              	activeItem => this.props.dispatch(setVaultType({vault_type: 0}))
+              	activeItem => this.props.dispatch(setVaultType(0))
               }
 
               activeItem={this.props.activeItem}
@@ -951,7 +951,7 @@ class Sidebar extends React.Component {
                 this.props.dispatch(changeActiveSidebarItem(activeItem))
               }
               onActiveSidebarItemChange={
-              	activeItem => this.props.dispatch(setVaultType({vault_type: 1}))
+              	activeItem => this.props.dispatch(setVaultType(1))
               }
 
               activeItem={this.props.activeItem}
@@ -982,7 +982,7 @@ class Sidebar extends React.Component {
                 this.props.dispatch(changeActiveSidebarItem(activeItem))
               }
               onActiveSidebarItemChange={
-              	activeItem => this.props.dispatch(setVaultType({vault_type: 2}))
+              	activeItem => this.props.dispatch(setVaultType(2))
               }
 
               activeItem={this.props.activeItem}
@@ -1046,7 +1046,7 @@ class Sidebar extends React.Component {
               }
 
               onActiveSidebarItemChange={
-              	activeItem => this.props.dispatch(setVaultType({vault_type: 3}))
+              	activeItem => this.props.dispatch(setVaultType(3))
               }
 
 

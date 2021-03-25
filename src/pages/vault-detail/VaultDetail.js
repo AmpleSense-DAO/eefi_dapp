@@ -458,8 +458,7 @@ class VaultDetail extends React.Component {
   componentDidMount() {
     window.addEventListener("resize", this.forceUpdate.bind(this));
 
-    this.props.dispatch(setVaultType({vault_type: this.getId()}));
-
+    this.props.dispatch(setVaultType(this.getId()));
     this.setState({
       tokenDetailedDataList: tokenDetailedData
     })
@@ -524,14 +523,12 @@ class VaultDetail extends React.Component {
 
     switch(this.getId()) {
     case 0:
-      console.log('VaultType.AMPLESENSE')
       return VaultType.AMPLESENSE;
       break;
     case 1:
       return VaultType.PIONEER1;
       break;
     case 2:
-      console.log('VaultType.PIONEER2')
       return VaultType.PIONEER2;
       break;
     case 3:
@@ -774,7 +771,7 @@ class VaultDetail extends React.Component {
                       {deposit.allowanceHash && <div>
                         {deposit.allowanceHash.substr(0,8)+"..."}   <a href={"https://www.etherscan.io/tx/" + deposit.allowanceHash}  target="_blank">Link {deposit.allowanceMined==false && "(pending)"}</a>
                         </div>}
-                      &nbsp;{deposit.transactionHash.substr(0,8)+"..."}   <a href={"https://www.etherscan.io/tx/" + deposit.transactionHash}  target="_blank">Link {deposit.mined==false && "(pending)"}</a></td>
+                      {deposit.transactionHash && <div>{deposit.transactionHash.substr(0,8)+"..."}   <a href={"https://www.etherscan.io/tx/" + deposit.transactionHash}  target="_blank">Link {deposit.mined==false && "(pending)"}</a></div>}</td>
                     </tr>
                     })
                   } 
@@ -807,7 +804,7 @@ class VaultDetail extends React.Component {
                         &nbsp;{(withdrawal.returnValues.amount / 10**tokenDetailedData[tokenId].precision).toLocaleString(undefined,{ minimumFractionDigits: 2 })} {contract.stakingTokenSymbol()}
                       </td>
                       <td className={"pl-0 fw-thin"}>
-                      &nbsp;{withdrawal.transactionHash.substr(0,8)+"..."}   <a href={"https://www.etherscan.io/tx/" + withdrawal.transactionHash}  target="_blank">Link {withdrawal.mined==false && "(pending)"}</a></td>
+                        {withdrawal.transactionHash && <div>{withdrawal.transactionHash.substr(0,8)+"..."}   <a href={"https://www.etherscan.io/tx/" + withdrawal.transactionHash}  target="_blank">Link {withdrawal.mined==false && "(pending)"}</a></div>}</td>
                     </tr>
                     })
                   } 

@@ -274,7 +274,7 @@ class Layout extends React.Component {
                   </Switch>
                 </CSSTransition>
               </TransitionGroup>
-              {this.props.account && <BlockchainUpdater/>}
+              {this.props.account && <BlockchainUpdater key={""+this.props.vault_type}/>}
             </main>
           </Hammer>
         </div>
@@ -290,7 +290,8 @@ function mapStateToProps(store) {
     dashboardTheme: store.layout.dashboardTheme,
     sidebarType: store.layout.sidebarType,
     sidebarColor: store.layout.sidebarColor,
-    account: store.auth.account
+    account: store.auth.account,
+    vault_type : store.blockchain.vault_type
   };
 }
 
