@@ -5,6 +5,7 @@ import { withRouter } from "react-router-dom";
 import s from "./Sidebar.module.scss";
 import LinksGroup from "./LinksGroup/LinksGroup";
 import { changeActiveSidebarItem } from "../../actions/navigation";
+import { setVaultType } from "../../actions/blockchain";
 //import { logoutUser } from "../../actions/user";
 import cx from "classnames";
 
@@ -913,9 +914,15 @@ class Sidebar extends React.Component {
             </LinksGroup>
 
             <LinksGroup
-              onActiveSidebarItemChange={activeItem =>
+              onActiveSidebarItemChange={
+              	activeItem =>
                 this.props.dispatch(changeActiveSidebarItem(activeItem))
+
               }
+              onActiveSidebarItemChange={
+              	activeItem => this.props.dispatch(setVaultType({vault_type: 0}))
+              }
+
               activeItem={this.props.activeItem}
               header="Elastic Vault: AMPL -> EEFI"
               isHeader
@@ -943,6 +950,10 @@ class Sidebar extends React.Component {
               onActiveSidebarItemChange={activeItem =>
                 this.props.dispatch(changeActiveSidebarItem(activeItem))
               }
+              onActiveSidebarItemChange={
+              	activeItem => this.props.dispatch(setVaultType({vault_type: 1}))
+              }
+
               activeItem={this.props.activeItem}
               header="EEFI/ETH LP Token Vault"
               isHeader
@@ -970,6 +981,10 @@ class Sidebar extends React.Component {
               onActiveSidebarItemChange={activeItem =>
                 this.props.dispatch(changeActiveSidebarItem(activeItem))
               }
+              onActiveSidebarItemChange={
+              	activeItem => this.props.dispatch(setVaultType({vault_type: 2}))
+              }
+
               activeItem={this.props.activeItem}
               header="Pioneer Vault II: kMPL"
               isHeader
@@ -999,6 +1014,8 @@ class Sidebar extends React.Component {
               onActiveSidebarItemChange={activeItem =>
                 this.props.dispatch(changeActiveSidebarItem(activeItem))
               }
+              
+
               activeItem={this.props.activeItem}
               header="Pioneer Vault I: NFTs"
               isHeader
@@ -1027,10 +1044,16 @@ class Sidebar extends React.Component {
               onActiveSidebarItemChange={activeItem =>
                 this.props.dispatch(changeActiveSidebarItem(activeItem))
               }
+
+              onActiveSidebarItemChange={
+              	activeItem => this.props.dispatch(setVaultType({vault_type: 3}))
+              }
+
+
               activeItem={this.props.activeItem}
               header="Pioneer Vault III: kMPL/ETH"
               isHeader
-              link="/app/home/vault-detail/4"
+              link="/app/home/vault-detail/3"
               index="main"
             >
               {window.location.href.includes("vault-detail") ? (
@@ -1164,6 +1187,8 @@ function mapStateToProps(store) {
     sidebarColor: store.layout.sidebarColor,
     sidebarType: store.layout.sidebarType,
     themeColor: store.layout.themeColor,
+    vault_type : store.blockchain.vault_type,
+
   };
 }
 

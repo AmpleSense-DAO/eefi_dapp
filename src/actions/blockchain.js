@@ -1,3 +1,4 @@
+export const SET_VAULT_TYPE = 'SET_VAULT_TYPE';
 export const FETCH_AMPL_BALANCE = 'FETCH_AMPL_BALANCE';
 export const FETCH_AMPL_AMPLESENSE_BALANCE = 'FETCH_AMPL_AMPLESENSE_BALANCE';
 export const FETCH_KMPL_PRICE = 'FETCH_KMPL_PRICE';
@@ -13,6 +14,14 @@ export const FETCH_WITHDRAWALS = 'FETCH_WITHDRAWALS';
 export const FETCH_CLAIMABLE_AMPLESENSE_BALANCE = 'FETCH_CLAIMABLE_AMPLESENSE_BALANCE';
 export const MAKE_CLAIM = "MAKE_CLAIM";
 export const FETCH_TOTAL_STAKED = "FETCH_TOTAL_STAKED";
+
+
+export function setVaultType(vaultType) {
+  return {
+    type: SET_VAULT_TYPE,
+    payload: vaultType
+  };
+}
 
 export function fetchAMPLBalance(balance) {
   return {

@@ -160,14 +160,45 @@ class BlockchainUpdater extends React.Component {
 
   constructor(props) {
     super(props);
-    const timer = setInterval(this.pull, 15000);
+    const timer = setInterval(this.pull, 1000);
     this.pull();
   }
 
+
+  getVaultType(myVaultType) {
+
+  var vaultType;
+   switch(myVaultType) {
+    case 0:
+      vaultType = VaultType.AMPLESENSE
+      break;
+    case 1:
+      vaultType = VaultType.PIONEER1
+      break;
+    case 2:
+      vaultType = VaultType.PIONEER2
+      break;
+    case 3:
+      vaultType = VaultType.LPSTAKING
+      break;
+   case 4:
+      vaultType = VaultType.LPSTAKING
+      break;              
+    default:
+      vaultType =  VaultType.AMPLESENSE;
+    }
+
+    return vaultType;
+  }
+
   componentDidMount() {
-    const {web3, account} = this.props;
-    const contract = new VaultContract(VaultType.AMPLESENSE, web3, account);
+    const {web3, account,vault_type} = this.props;
+
+ 
+
+    const contract = new VaultContract(this.getVaultType(vault_type.vault_type), web3, account);
     const that = this;
+    console.log('componentDidMount, it is', vault_type)
     //fetch passed events
     contract.getDepositEvent().on( 'data', function(event) {
       //add timestamp
@@ -201,8 +232,11 @@ class BlockchainUpdater extends React.Component {
   }
 
   pull = () => {
-    const {web3, account} = this.props;
-    const contract = new VaultContract(VaultType.AMPLESENSE, web3, account);
+    const {web3, account, vault_type} = this.props;
+
+    console.log('in pull, it is:', vault_type.vault_type, 'vaultType', this.getVaultType(vault_type.vault_type))
+
+    const contract = new VaultContract(this.getVaultType(vault_type.vault_type), web3, account);
 
     contract.stakingTokenBalance().then(balance => {
       this.props.dispatch(fetchAMPLBalance(balance));
@@ -243,7 +277,9 @@ function mapStateToProps(store) {
       web3: store.auth.web3,
       account : store.auth.account,
       deposits : store.blockchain.deposits,
-      withdrawals : store.blockchain.withdrawals
+      withdrawals : store.blockchain.withdrawals,
+      vault_type : store.blockchain.vault_type,
+
     };
   }
   

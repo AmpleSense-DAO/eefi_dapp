@@ -1,4 +1,5 @@
 import { FETCH_AMPL_BALANCE } from '../actions/blockchain';
+import { SET_VAULT_TYPE } from '../actions/blockchain';
 import { FETCH_AMPL_AMPLESENSE_BALANCE } from '../actions/blockchain';
 import { FETCH_CLAIMABLE_AMPLESENSE_BALANCE } from '../actions/blockchain';
 import { FETCH_KMPL_PRICE } from '../actions/blockchain';
@@ -15,6 +16,7 @@ import { MAKE_CLAIM } from '../actions/blockchain';
 import { FETCH_TOTAL_STAKED } from '../actions/blockchain';
 
 const defaultState = {
+  vault_type : 0,
   ampl_balance: "0",
   ampl_withdraw: "0",
   reward: {token:"0", eth:"0"},
@@ -32,6 +34,11 @@ const defaultState = {
 
 export default function blockchainReducer(state = defaultState, action) {
   switch (action.type) {
+
+    case SET_VAULT_TYPE:
+      return Object.assign({}, state, {
+        vault_type: action.payload
+      });
     case FETCH_AMPL_BALANCE:
       return Object.assign({}, state, {
         ampl_balance: action.payload
