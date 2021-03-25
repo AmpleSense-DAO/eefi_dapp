@@ -12,6 +12,7 @@ export const FETCH_DEPOSITS = 'FETCH_DEPOSITS';
 export const FETCH_WITHDRAWALS = 'FETCH_WITHDRAWALS';
 export const FETCH_CLAIMABLE_AMPLESENSE_BALANCE = 'FETCH_CLAIMABLE_AMPLESENSE_BALANCE';
 export const MAKE_CLAIM = "MAKE_CLAIM";
+export const FETCH_TOTAL_STAKED = "FETCH_TOTAL_STAKED";
 
 export function fetchAMPLBalance(balance) {
   return {
@@ -29,6 +30,12 @@ export function fetchAMPLAmplesenseBalance(balance) {
 export function fetchClaimableBalance(balance) {
   return {
     type: FETCH_CLAIMABLE_AMPLESENSE_BALANCE,
+    payload: balance
+  };
+}
+export function fetchTotalStaked(balance) {
+  return {
+    type: FETCH_TOTAL_STAKED,
     payload: balance
   };
 }

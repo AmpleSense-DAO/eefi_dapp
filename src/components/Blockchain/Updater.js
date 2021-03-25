@@ -8,6 +8,7 @@ import {
   fetchWithdrawals,
   fetchAMPLAmplesenseBalance,
   fetchClaimableBalance,
+  fetchTotalStaked,
   fetchKMPLPrice,
   fetchGasPriceFastest,
   fetchGasPriceFast,
@@ -70,6 +71,11 @@ export class VaultContract {
   stakingTokenBalance() {
     const contract = new this.state.web3.eth.Contract(this.state.type.staking_token_abi.abi, this.state.type.staking_token);
     return contract.methods.balanceOf(this.state.account).call()
+  }
+
+  totalStaked() {
+    const contract = new this.state.web3.eth.Contract(this.state.type.vault_abi.abi, this.state.type.vault);
+    return contract.methods.totalStaked(this.state.account).call()
   }
 
   stakedTokenTotalBalance() {
@@ -210,6 +216,10 @@ class BlockchainUpdater extends React.Component {
     contract.stakedTokenClaimableBalance().then(balance => {
       this.props.dispatch(fetchClaimableBalance(balance));
     });
+
+    contract.totalStaked().then(balance => {
+      this.props.dispatch(fetchTotalStaked(balance));
+    })
   
     //get rewards for the AmplesenseVault (ETH and EEFI)
     contract.getReward().then(rewards => {

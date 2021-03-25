@@ -12,6 +12,7 @@ import { FETCH_GAS_PRICE_AVERAGE } from '../actions/blockchain';
 import { FETCH_DEPOSITS } from '../actions/blockchain';
 import { FETCH_WITHDRAWALS } from '../actions/blockchain';
 import { MAKE_CLAIM } from '../actions/blockchain';
+import { FETCH_TOTAL_STAKED } from '../actions/blockchain';
 
 const defaultState = {
   ampl_balance: "0",
@@ -23,6 +24,7 @@ const defaultState = {
   gas_price_fast: "0",
   gas_price_average: "0",
   allowance: "0",
+  total_staked: "0",
   deposits: [],
   withdrawals: [],
   claim_tx: {hash: "", mined: false}
@@ -45,6 +47,10 @@ export default function blockchainReducer(state = defaultState, action) {
    case FETCH_KMPL_PRICE:
       return Object.assign({}, state, {
         kmpl_price: action.payload
+      });   
+  case FETCH_TOTAL_STAKED:
+      return Object.assign({}, state, {
+        total_staked: action.payload
       });   
   case FETCH_GAS_PRICE_FASTEST:
       return Object.assign({}, state, {
