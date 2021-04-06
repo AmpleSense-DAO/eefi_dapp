@@ -399,7 +399,6 @@ class VaultDetail extends React.Component {
    getId = () => {
         const {match} = this.props;
         if(!match.params.id) {
-          console.log("NO ID!", this.props.forcedId)
           return this.props.forcedId;
         }
         return (parseInt(match.params.id) );
@@ -446,7 +445,7 @@ class VaultDetail extends React.Component {
   }
  calculateAmountToDeposit(evt) {
 
-   const { ampl_balance } = this.props;
+   const { ampl_balance, account, web3 } = this.props;
    const precision = (new VaultContract(this.getVaultType(), web3, account)).stakingTokenPrecision();
    this.setState({
       amountToDeposit: parseFloat(ampl_balance / 10**precision * evt.target.value).toString() 
@@ -454,7 +453,7 @@ class VaultDetail extends React.Component {
   }
 
   calculateAmountToWithdraw(evt) {
-   const { claimable } = this.props;
+   const { claimable, account, web3 } = this.props;
    const precision = (new VaultContract(this.getVaultType(), web3, account)).stakingTokenPrecision();
    this.setState({
       amountToWithdraw: parseFloat(claimable / 10**precision * evt.target.value).toString()
@@ -495,7 +494,7 @@ class VaultDetail extends React.Component {
     const value = new web3.utils.BN(Math.floor(parseFloat(this.state.amountToDeposit) * 100));
     const contract = new VaultContract(this.getVaultType(), web3, account);
     const precision = contract.stakingTokenPrecision();
-    const valueWei = value.mul(new web3.utils.BN(10**(precision - 2)));
+    const valueWei = value.mul(new web3.utils.BN(10**7));
     const current_time = Math.floor(Date.now()/1000);
     this.props.dispatch(makeDeposit({id: current_time, transactionHash: null, allowanceHash: null, returnValues: {amount: valueWei.toString()}, timestamp: current_time, mined: false, allowanceMined: false}));
     contract.allowance().then(allowance => {

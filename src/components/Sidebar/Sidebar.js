@@ -951,7 +951,7 @@ class Sidebar extends React.Component {
                 this.props.dispatch(changeActiveSidebarItem(activeItem))
               }
               onActiveSidebarItemChange={
-              	activeItem => this.props.dispatch(setVaultType(1))
+              	activeItem => this.props.dispatch(setVaultType(3))
               }
 
               activeItem={this.props.activeItem}

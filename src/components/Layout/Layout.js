@@ -274,7 +274,7 @@ class Layout extends React.Component {
                   </Switch>
                 </CSSTransition>
               </TransitionGroup>
-              {this.props.account && this.props.vault_type && <BlockchainUpdater key={""+this.props.vault_type}/>}
+              {this.props.account && <BlockchainUpdater key={""+this.props.vault_type}/>}
             </main>
           </Hammer>
         </div>
