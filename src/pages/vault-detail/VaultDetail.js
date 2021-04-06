@@ -396,8 +396,12 @@ const splineArea = {
 
 class VaultDetail extends React.Component {
 
-   getId() {
+   getId = () => {
         const {match} = this.props;
+        if(!match.params.id) {
+          console.log("NO ID!", this.props.forcedId)
+          return this.props.forcedId;
+        }
         return (parseInt(match.params.id) );
    }
 
@@ -443,15 +447,17 @@ class VaultDetail extends React.Component {
  calculateAmountToDeposit(evt) {
 
    const { ampl_balance } = this.props;
+   const precision = (new VaultContract(this.getVaultType(), web3, account)).stakingTokenPrecision();
    this.setState({
-      amountToDeposit: parseFloat(ampl_balance / 10**9 * evt.target.value).toString() 
+      amountToDeposit: parseFloat(ampl_balance / 10**precision * evt.target.value).toString() 
     })
   }
 
   calculateAmountToWithdraw(evt) {
    const { claimable } = this.props;
+   const precision = (new VaultContract(this.getVaultType(), web3, account)).stakingTokenPrecision();
    this.setState({
-      amountToWithdraw: parseFloat(claimable / 10**9 * evt.target.value).toString()
+      amountToWithdraw: parseFloat(claimable / 10**precision * evt.target.value).toString()
     })
   }
 
@@ -459,6 +465,7 @@ class VaultDetail extends React.Component {
     window.addEventListener("resize", this.forceUpdate.bind(this));
 
     this.props.dispatch(setVaultType(this.getId()));
+    console.log("VAULT TYPE SET TO ", this.getId())
     this.setState({
       tokenDetailedDataList: tokenDetailedData
     })
@@ -487,7 +494,8 @@ class VaultDetail extends React.Component {
     const {account, web3} = this.props;
     const value = new web3.utils.BN(Math.floor(parseFloat(this.state.amountToDeposit) * 100));
     const contract = new VaultContract(this.getVaultType(), web3, account);
-    const valueWei = value.mul(new web3.utils.BN(10**7));
+    const precision = contract.stakingTokenPrecision();
+    const valueWei = value.mul(new web3.utils.BN(10**(precision - 2)));
     const current_time = Math.floor(Date.now()/1000);
     this.props.dispatch(makeDeposit({id: current_time, transactionHash: null, allowanceHash: null, returnValues: {amount: valueWei.toString()}, timestamp: current_time, mined: false, allowanceMined: false}));
     contract.allowance().then(allowance => {
@@ -526,14 +534,17 @@ class VaultDetail extends React.Component {
       return VaultType.AMPLESENSE;
       break;
     case 1:
-      return VaultType.PIONEER1;
+      return VaultType.PIONEER1A;
       break;
     case 2:
       return VaultType.PIONEER2;
       break;
     case 3:
       return VaultType.LPSTAKING;
-      break;    
+      break;   
+    case 4:
+      return VaultType.PIONEER1B;
+      break; 
     default:
       return VaultType.AMPLESENSE;
     }
@@ -543,6 +554,7 @@ class VaultDetail extends React.Component {
     const {account, web3} = this.props;
     const value = new web3.utils.BN(Math.floor(parseFloat(this.state.amountToWithdraw) * 100));
     const contract = new VaultContract(this.getVaultType(), web3, account);
+    const precision = contract.stakingTokenPrecision();
     const valueWei = value.mul(new web3.utils.BN(10**7));
     const current_time = Math.floor(Date.now()/1000);
     this.props.dispatch(makeWithdrawal({id: current_time, transactionHash: null, returnValues: {amount: valueWei.toString()}, timestamp: current_time, mined: false}));

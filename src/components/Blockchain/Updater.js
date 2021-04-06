@@ -38,11 +38,11 @@ export const CONTRACT_ADDRESSES = {
 }
 
 export const VaultType = {
-  AMPLESENSE : {vault: CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT, staking_token: CONTRACT_ADDRESSES.AMPLE_CONTRACT, vault_abi: AmplesenseVaultAbi, staking_token_abi: erc20Abi, staking_symbol: "AMPL", name: "Elastic Vault: AMPL > EEFI"},
-  PIONEER1A : {vault: CONTRACT_ADDRESSES.PIONEER1_CONTRACT, staking_token: CONTRACT_ADDRESSES.NFT1_CONTRACT, vault_abi: StakingERC721Abi, staking_token_abi: erc721Abi, staking_symbol: "NFT", name: "Pioneer Fund Vault I: NFT"},
-  PIONEER1B : {vault: CONTRACT_ADDRESSES.PIONEER1_CONTRACT, staking_token: CONTRACT_ADDRESSES.NFT2_CONTRACT, vault_abi: StakingERC721Abi, staking_token_abi: erc721Abi, staking_symbol: "NFT", name: "Pioneer Fund Vault I: NFT"},
-  PIONEER2 : {vault: CONTRACT_ADDRESSES.PIONEER2_CONTRACT, staking_token: CONTRACT_ADDRESSES.KMPL_CONTRACT, vault_abi: StakingERC20Abi, staking_token_abi: erc20Abi, staking_symbol: "kMPL", name: "Pioneer Fund Vault II: kMPL"},
-  LPSTAKING : {vault: CONTRACT_ADDRESSES.LPSTAKING_CONTRACT, staking_token: CONTRACT_ADDRESSES.Univ3_EEFI_ETH_CONTRACT, vault_abi: StakingERC20Abi, staking_token_abi: erc20Abi, staking_symbol: "UniswapV2", name: "EEFI/ETH LP Token Vault"}
+  AMPLESENSE : {vault: CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT, staking_token: CONTRACT_ADDRESSES.AMPLE_CONTRACT, vault_abi: AmplesenseVaultAbi, staking_token_abi: erc20Abi, staking_symbol: "AMPL", precision: 9, name: "Elastic Vault: AMPL > EEFI"},
+  PIONEER1A : {vault: CONTRACT_ADDRESSES.PIONEER1_CONTRACT, staking_token: CONTRACT_ADDRESSES.NFT1_CONTRACT, vault_abi: StakingERC721Abi, staking_token_abi: erc721Abi, staking_symbol: "ZNFT", precision: 1, name: "Pioneer Fund Vault I: ZEUS"},
+  PIONEER1B : {vault: CONTRACT_ADDRESSES.PIONEER1_CONTRACT, staking_token: CONTRACT_ADDRESSES.NFT2_CONTRACT, vault_abi: StakingERC721Abi, staking_token_abi: erc721Abi, staking_symbol: "ANFT", precision: 1, name: "Pioneer Fund Vault I: APOLLO"},
+  PIONEER2 : {vault: CONTRACT_ADDRESSES.PIONEER2_CONTRACT, staking_token: CONTRACT_ADDRESSES.KMPL_CONTRACT, vault_abi: StakingERC20Abi, staking_token_abi: erc20Abi, staking_symbol: "kMPL", precision: 9, name: "Pioneer Fund Vault II: kMPL"},
+  LPSTAKING : {vault: CONTRACT_ADDRESSES.LPSTAKING_CONTRACT, staking_token: CONTRACT_ADDRESSES.Univ3_EEFI_ETH_CONTRACT, vault_abi: StakingERC20Abi, staking_token_abi: erc20Abi, staking_symbol: "UniswapV2", precision: 18, name: "EEFI/ETH LP Token Vault"}
 }
 
 export class VaultContract {
@@ -56,6 +56,10 @@ export class VaultContract {
 
   vaultName() {
     return this.state.type.name;
+  }
+
+  stakingTokenPrecision() {
+    return this.state.type.precision;
   }
 
   stakingTokenSymbol() {
@@ -171,20 +175,21 @@ class BlockchainUpdater extends React.Component {
 
   constructor(props) {
     super(props);
-    this.timer = setInterval(this.pull, 15000);
-    this.pull();
   }
 
   componentWillUnmount() {
     clearInterval(this.timer);
   }
 
-  getVaultType = [VaultType.AMPLESENSE, VaultType.PIONEER1, VaultType.PIONEER2, VaultType.LPSTAKING, VaultType.LPSTAKING]
+  getVaultType = [VaultType.AMPLESENSE, VaultType.PIONEER1A, VaultType.PIONEER2, VaultType.LPSTAKING, VaultType.PIONEER1B]
 
   componentDidMount() {
     const {web3, account,vault_type} = this.props;
+    console.log("UUUUUUUUUUUUUUUUP", vault_type)
     const contract = new VaultContract(this.getVaultType[vault_type], web3, account);
     const that = this;
+    this.timer = setInterval(this.pull, 15000);
+    this.pull();
     that.props.dispatch(fetchDeposits(null));
     that.props.dispatch(fetchWithdrawals(null));
     //fetch passed events
@@ -224,6 +229,7 @@ class BlockchainUpdater extends React.Component {
     const contract = new VaultContract(this.getVaultType[vault_type], web3, account);
 
     contract.stakingTokenBalance().then(balance => {
+      console.log("balancio", balance)
       this.props.dispatch(fetchAMPLBalance(balance));
     });
 
