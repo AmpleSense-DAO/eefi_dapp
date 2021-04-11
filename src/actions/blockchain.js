@@ -1,3 +1,4 @@
+import { VaultContract } from "../components/Blockchain/Updater";
 export const SET_VAULT_TYPE = 'SET_VAULT_TYPE';
 export const FETCH_AMPL_BALANCE = 'FETCH_AMPL_BALANCE';
 export const FETCH_AMPL_AMPLESENSE_BALANCE = 'FETCH_AMPL_AMPLESENSE_BALANCE';
@@ -15,7 +16,6 @@ export const FETCH_CLAIMABLE_AMPLESENSE_BALANCE = 'FETCH_CLAIMABLE_AMPLESENSE_BA
 export const MAKE_CLAIM = "MAKE_CLAIM";
 export const FETCH_TOTAL_STAKED = "FETCH_TOTAL_STAKED";
 
-
 export function setVaultType(vaultType) {
   return {
     type: SET_VAULT_TYPE,
@@ -23,10 +23,15 @@ export function setVaultType(vaultType) {
   };
 }
 
-export function fetchAMPLBalance(balance) {
-  return {
-    type: FETCH_AMPL_BALANCE,
-    payload: balance
+export function fetchAMPLBalance(vaultTypes, web3, account) {
+  const contract = new VaultContract(vaultTypes, web3, account);
+  return function(dispatch) {
+    contract.stakingTokenBalance().then(balance => {
+      dispatch({
+        type: FETCH_AMPL_BALANCE,
+        payload: balance
+      });
+    });
   };
 }
 

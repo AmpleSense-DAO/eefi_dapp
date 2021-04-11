@@ -228,10 +228,7 @@ class BlockchainUpdater extends React.Component {
     const {web3, account, vault_type} = this.props;
     const contract = new VaultContract(this.getVaultType[vault_type], web3, account);
 
-    contract.stakingTokenBalance().then(balance => {
-      console.log("balancio", balance)
-      this.props.dispatch(fetchAMPLBalance(balance));
-    });
+    this.props.dispatch(fetchAMPLBalance(this.getVaultType[vault_type], web3, account));
 
     //get AMPL balance on AmplesenseVault
     contract.stakedTokenTotalBalance().then(balance => {
@@ -245,20 +242,20 @@ class BlockchainUpdater extends React.Component {
     contract.totalStaked().then(balance => {
       this.props.dispatch(fetchTotalStaked(balance));
     })
-  
+
     //get rewards for the AmplesenseVault (ETH and EEFI)
     contract.getReward().then(rewards => {
       var ethReward = rewards[0];
       var tokenReward = rewards[1];
       this.props.dispatch(fetchReward(ethReward, tokenReward));
     });
- 
+
   //get pas prices
     axios.get('https://data-api.defipulse.com/api/v1/egs/api/ethgasAPI.json?api-key=db84e1509032bc4cc4f96d1c8791d92b667d28adc606bda9480c9a616310').then(ethGasStationResponse => {
-      const ethGasStationData = ethGasStationResponse.data    
+      const ethGasStationData = ethGasStationResponse.data
       this.props.dispatch(fetchGasPriceFastest(Math.floor(ethGasStationData.fastest / 10)));
       this.props.dispatch(fetchGasPriceFast(Math.floor(Math.floor(ethGasStationData.fast / 10))));
-      this.props.dispatch(fetchGasPriceAverage(Math.floor(ethGasStationData.average / 10)));    
+      this.props.dispatch(fetchGasPriceAverage(Math.floor(ethGasStationData.average / 10)));
     });
   }
 }
@@ -273,5 +270,5 @@ function mapStateToProps(store) {
 
     };
   }
-  
+
 export default withRouter(connect(mapStateToProps)(BlockchainUpdater));
