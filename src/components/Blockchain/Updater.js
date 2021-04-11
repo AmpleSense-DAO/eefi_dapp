@@ -213,9 +213,9 @@ class BlockchainUpdater extends React.Component {
     axios.get(`https://api.coingecko.com/api/v3/coins/ethereum/contract/${CONTRACT_ADDRESSES.KMPL_CONTRACT}`).then(resp => {
     const kMPLPrice = resp.data.market_data.current_price.usd
     this.props.dispatch(fetchKMPLPrice(kMPLPrice));
- //   console.log('here', resp.data.market_data.current_price.usd);
+    // console.log('here', resp.data.market_data.current_price.usd);
     }).catch(e => {
-      //in case of failure set price to $50
+      // in case of failure set price to $50
       this.props.dispatch(fetchKMPLPrice(50));
     });
   }
@@ -226,31 +226,19 @@ class BlockchainUpdater extends React.Component {
 
   pull = () => {
     const {web3, account, vault_type} = this.props;
-    const contract = new VaultContract(this.getVaultType[vault_type], web3, account);
+    // const contract = new VaultContract(this.getVaultType[vault_type], web3, account);
 
     this.props.dispatch(fetchAMPLBalance(this.getVaultType[vault_type], web3, account));
 
-    //get AMPL balance on AmplesenseVault
-    contract.stakedTokenTotalBalance().then(balance => {
-      this.props.dispatch(fetchAMPLAmplesenseBalance(balance));
-    });
+    this.props.dispatch(fetchAMPLAmplesenseBalance(this.getVaultType[vault_type], web3, account));
 
-    contract.stakedTokenClaimableBalance().then(balance => {
-      this.props.dispatch(fetchClaimableBalance(balance));
-    });
+    this.props.dispatch(fetchClaimableBalance(this.getVaultType[vault_type], web3, account));
 
-    contract.totalStaked().then(balance => {
-      this.props.dispatch(fetchTotalStaked(balance));
-    })
+    this.props.dispatch(fetchTotalStaked(this.getVaultType[vault_type], web3, account));
 
-    //get rewards for the AmplesenseVault (ETH and EEFI)
-    contract.getReward().then(rewards => {
-      var ethReward = rewards[0];
-      var tokenReward = rewards[1];
-      this.props.dispatch(fetchReward(ethReward, tokenReward));
-    });
+    this.props.dispatch(fetchReward(this.getVaultType[vault_type], web3, account));
 
-  //get pas prices
+    // get pas prices
     axios.get('https://data-api.defipulse.com/api/v1/egs/api/ethgasAPI.json?api-key=db84e1509032bc4cc4f96d1c8791d92b667d28adc606bda9480c9a616310').then(ethGasStationResponse => {
       const ethGasStationData = ethGasStationResponse.data
       this.props.dispatch(fetchGasPriceFastest(Math.floor(ethGasStationData.fastest / 10)));
