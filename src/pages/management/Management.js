@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router";
-import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { Popover, PopoverBody, PopoverHeader, Alert } from "reactstrap";
@@ -200,11 +199,11 @@ class Management extends React.Component {
   }
 
   render() {
-    const options = {
+    /*const options = {
       sizePerPage: 10,
       paginationSize: 3,
       sizePerPageDropDown: this.renderSizePerPageDropDown,
-    };
+    }; */
 
     return (
       <div>
@@ -230,7 +229,7 @@ class Management extends React.Component {
             <div
               className={"d-flex align-items-center justify-content-between"}
             >
-              <img src={product.img} height={130} width={170} />
+              <img src={product.img} height={130} width={170} alt="" />
               <h3 className={"mb-0"}>{product.title}</h3>
               <div
                 className={

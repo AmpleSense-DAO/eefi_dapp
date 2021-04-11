@@ -8,7 +8,7 @@ export default function auth(state = {
     web3: undefined,
     account: undefined
 }, action) {
-    const that = this;
+    //const that = this;
     switch (action.type) {
         case LOGIN_REQUEST:
             return Object.assign({}, state, {

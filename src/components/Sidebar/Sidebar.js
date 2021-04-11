@@ -5,11 +5,11 @@ import { withRouter } from "react-router-dom";
 import s from "./Sidebar.module.scss";
 import LinksGroup from "./LinksGroup/LinksGroup";
 import { changeActiveSidebarItem } from "../../actions/navigation";
-import { setVaultType } from "../../actions/blockchain";
-//import { logoutUser } from "../../actions/user";
+// import { setVaultType } from "../../actions/blockchain";
+// import { logoutUser } from "../../actions/user";
 import cx from "classnames";
 
-import {  Redirect, Link } from "react-router-dom";
+import {  Link } from "react-router-dom";
 
 
 // white sidebar
@@ -51,7 +51,6 @@ import lightDashboardIconDanger from "../../images/theme-icons/red/Dashboard_out
 import darkDashboardIconDanger from "../../images/theme-icons/red/Dashboard_filled.svg";
 import lightUIDanger from "../../images/theme-icons/red/ui elements_outlined.svg";
 import darkUIDanger from "../../images/theme-icons/red/ui elements_filled.svg";
-import logoDanger from "../../images/theme-icons/red/Logo.svg";
 import settingsOutlinedDanger from "../../images/theme-icons/red/Settings_outlined.svg";
 import settingsFilledDanger from "../../images/theme-icons/red/Settings_outlined.svg";
 import logoutIconDanger from "../../images/theme-icons/red/Logout_outlined.svg";
@@ -85,7 +84,6 @@ import lightDashboardIconSuccess from "../../images/theme-icons/green/Dashboard_
 import darkDashboardIconSuccess from "../../images/theme-icons/green/Dashboard_filled.svg";
 import lightUISuccess from "../../images/theme-icons/green/ui elements_outlined.svg";
 import darkUISuccess from "../../images/theme-icons/green/ui elements_filled.svg";
-import logoSuccess from "../../images/theme-icons/green/Logo.svg";
 import settingsOutlinedSuccess from "../../images/theme-icons/green/Settings_outlined.svg";
 import settingsFilledSuccess from "../../images/theme-icons/green/Settings_outlined.svg";
 import logoutIconSuccess from "../../images/theme-icons/green/Logout_outlined.svg";
@@ -119,7 +117,6 @@ import lightDashboardIconBlue from "../../images/theme-icons/blue/Dashboard_outl
 import darkDashboardIconBlue from "../../images/theme-icons/blue/Dashboard_filled.svg";
 import lightUIBlue from "../../images/theme-icons/blue/ui elements_outlined.svg";
 import darkUIBlue from "../../images/theme-icons/blue/ui elements_filled.svg";
-import logoBlue from "../../images/theme-icons/blue/Logo.svg";
 import settingsOutlinedBlue from "../../images/theme-icons/blue/Settings_outlined.svg";
 import settingsFilledBlue from "../../images/theme-icons/blue/Settings_outlined.svg";
 import logoutIconBlue from "../../images/theme-icons/blue/Logout_outlined.svg";
@@ -381,7 +378,10 @@ class Sidebar extends React.Component {
               return window.location.href.includes(currentPage)
                 ? darkSidebarExtraFilled
                 : darkSidebarExtraOutlined;
+            default:
+              break;
           }
+          break;
         case "danger":
           switch (currentPage) {
             case "dashboard":
@@ -446,7 +446,10 @@ class Sidebar extends React.Component {
               return window.location.href.includes(currentPage)
                 ? darkSidebarExtraFilledDanger
                 : darkSidebarExtraOutlinedDanger;
+            default:
+              break;
           }
+          break;
         case "success":
           switch (currentPage) {
             case "dashboard":
@@ -511,7 +514,10 @@ class Sidebar extends React.Component {
               return window.location.href.includes(currentPage)
                 ? darkSidebarExtraFilledSuccess
                 : darkSidebarExtraOutlinedSuccess;
+            default:
+              break;
           }
+          break;
         case "info":
           switch (currentPage) {
             case "dashboard":
@@ -576,7 +582,12 @@ class Sidebar extends React.Component {
               return window.location.href.includes(currentPage)
                 ? darkSidebarExtraFilledBlue
                 : darkSidebarExtraOutlinedBlue;
+            default:
+              break;
           }
+          break;
+        default:
+          break;
       }
     }
     switch (this.props.themeColor) {
@@ -644,7 +655,10 @@ class Sidebar extends React.Component {
             return window.location.href.includes(currentPage)
               ? extraFilled
               : extraOutlined;
+          default:
+            break;
         }
+        break;
       case "danger":
         switch (currentPage) {
           case "dashboard":
@@ -709,7 +723,10 @@ class Sidebar extends React.Component {
             return window.location.href.includes(currentPage)
               ? extraFilledDanger
               : extraOutlinedDanger;
+          default:
+            break;
         }
+        break;
       case "success":
         switch (currentPage) {
           case "dashboard":
@@ -774,7 +791,10 @@ class Sidebar extends React.Component {
             return window.location.href.includes(currentPage)
               ? extraFilledSuccess
               : extraOutlinedSuccess;
+          default:
+            break;
         }
+        break;
       case "info":
         switch (currentPage) {
           case "dashboard":
@@ -839,7 +859,12 @@ class Sidebar extends React.Component {
             return window.location.href.includes(currentPage)
               ? extraFilledBlue
               : extraOutlinedBlue;
+          default:
+            break;
         }
+        break;
+      default:
+        break;
     }
   }
 
@@ -853,6 +878,8 @@ class Sidebar extends React.Component {
         return logo;
       case "info":
         return logo;
+      default:
+        break;
     }
   }
 
@@ -883,9 +910,7 @@ class Sidebar extends React.Component {
           <section className={s.menuWrapper}>
             <h2 className={s.navTitle}>Vaults</h2>
             <ul className={s.nav}>
- 
-		
-            
+
             <LinksGroup
               onActiveSidebarItemChange={activeItem =>
                 this.props.dispatch(changeActiveSidebarItem(activeItem))
@@ -894,8 +919,7 @@ class Sidebar extends React.Component {
               header="Vault Summary"
               isHeader
               link="/app/home/vault-summary"
-              index="main"
-            >
+              index="main">
               {window.location.href.includes("vault-summary") ? (
                 <img
                   src={darkDashboardIcon}
@@ -919,16 +943,16 @@ class Sidebar extends React.Component {
                 this.props.dispatch(changeActiveSidebarItem(activeItem))
 
               }
-              onActiveSidebarItemChange={
-              	activeItem => this.props.dispatch(setVaultType(0))
-              }
+              // onActiveSidebarItemChange={
+              // 	activeItem => this.props.dispatch(setVaultType(0))
+              // }
 
               activeItem={this.props.activeItem}
               header="Elastic Vault: AMPL -> EEFI"
               isHeader
               link="/app/home/vault-detail/0"
-              index="main"
-            >
+              index="main">
+
               {window.location.href.includes("vault-detail") ? (
                 <img
                   src={darkDashboardIcon}
@@ -946,20 +970,19 @@ class Sidebar extends React.Component {
               )}
             </LinksGroup>
 
- <LinksGroup
+            <LinksGroup
               onActiveSidebarItemChange={activeItem =>
                 this.props.dispatch(changeActiveSidebarItem(activeItem))
               }
-              onActiveSidebarItemChange={
-              	activeItem => this.props.dispatch(setVaultType(3))
-              }
+              // onActiveSidebarItemChange={
+              // 	activeItem => this.props.dispatch(setVaultType(3))
+              // }
 
               activeItem={this.props.activeItem}
               header="EEFI/ETH LP Token Vault"
               isHeader
               link="/app/home/vault-detail/1"
-              index="main"
-            >
+              index="main">
               {window.location.href.includes("vault-detail") ? (
                 <img
                   src={darkDashboardIcon}
@@ -977,20 +1000,19 @@ class Sidebar extends React.Component {
               )}
             </LinksGroup>
 
-         <LinksGroup
-              onActiveSidebarItemChange={activeItem =>
-                this.props.dispatch(changeActiveSidebarItem(activeItem))
-              }
-              onActiveSidebarItemChange={
-              	activeItem => this.props.dispatch(setVaultType(2))
-              }
+          <LinksGroup
+            onActiveSidebarItemChange={activeItem =>
+              this.props.dispatch(changeActiveSidebarItem(activeItem))
+            }
+            // onActiveSidebarItemChange={
+            //   activeItem => this.props.dispatch(setVaultType(2))
+            // }
 
-              activeItem={this.props.activeItem}
-              header="Pioneer Vault II: kMPL"
-              isHeader
-              link="/app/home/vault-detail/2"
-              index="main"
-            >
+            activeItem={this.props.activeItem}
+            header="Pioneer Vault II: kMPL"
+            isHeader
+            link="/app/home/vault-detail/2"
+            index="main">
               {window.location.href.includes("vault-detail") ? (
                 <img
                   src={darkDashboardIcon}
@@ -1006,15 +1028,12 @@ class Sidebar extends React.Component {
                   height={"24px"}
                 />
               )}
-            </LinksGroup>
+          </LinksGroup>
 
-
-       
     		  <LinksGroup
               onActiveSidebarItemChange={activeItem =>
                 this.props.dispatch(changeActiveSidebarItem(activeItem))
               }
-              
 
               activeItem={this.props.activeItem}
               header="Pioneer Vault I: NFTs"
@@ -1045,9 +1064,9 @@ class Sidebar extends React.Component {
                 this.props.dispatch(changeActiveSidebarItem(activeItem))
               }
 
-              onActiveSidebarItemChange={
+              /*onActiveSidebarItemChange={
               	activeItem => this.props.dispatch(setVaultType(3))
-              }
+              }*/
 
 
               activeItem={this.props.activeItem}

@@ -1,30 +1,17 @@
 import React from "react";
 import { Row, Col, Table } from "reactstrap";
 
-import usersImg from "../../images/usersImg.svg";
-import smileImg from "../../images/smileImg.svg";
-import totalSale from "../../images/total-sale.svg";
-import orders from "../../images/orders.svg";
-import stocksImg from "../../images/stocks.svg";
-import stocksDownImg from "../../images/stocksDown.svg";
-
 import { chartData } from "./chartsMock";
 
 import Widget from "../../components/Widget";
 
 import s from "./VaultEefiPage.module.scss";
-import ApexChart from "react-apexcharts";
-
-import { TabContent, TabPane } from 'reactstrap';
 
 
 import {
-  Form,
   FormGroup,
   Label,
   Input,
-  UncontrolledTooltip,
-  UncontrolledButtonDropdown,
   InputGroup,
   InputGroupAddon,
 } from 'reactstrap';
@@ -32,18 +19,13 @@ import {
 import {
   Button,
   ButtonGroup,
-  ButtonToolbar,
-  ButtonDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
 } from 'reactstrap';
 
 //tokens
-import p1 from "../../images/tokens/ample.png";
+// import p1 from "../../images/tokens/ample.png";
 import p2 from "../../images/tokens/eefi_token_logo.png";
-import p3 from "../../images/tokens/kappa_logo_kmpl.png";
-import p4 from "../../images/tokens/apollo_cropped_edited_sm.png";
+// import p3 from "../../images/tokens/kappa_logo_kmpl.png";
+// import p4 from "../../images/tokens/apollo_cropped_edited_sm.png";
 import p5 from "../../images/tokens/ethereum-eth-logo.svg";
 
 const orderValueOverride = {
@@ -410,201 +392,172 @@ class VaultEefiPage extends React.Component {
   render() {
     return (
 
-
-      
       <div className={s.root}>
-
-<p>
-        <h2>
-        EEFI/ETH LP Token Vault
-        </h2>
+        <p>
+          <h2>
+            EEFI/ETH LP Token Vault
+          </h2>
         </p>
 
         <Row>
+          {/* Color options */}
+          <Col md={6} sm={12} xs={12}>
+            <Widget title={<p style={{ fontWeight: 700 }}>EEFI/ETH LP Token Balance: 83,569 </p>} >
+              <div>
+                <FormGroup>
+                  <Label for="bar">
+                    Amount to Deposit
+                  </Label>
+                  <Table className="table-hover " responsive>
+                    <thead>
+                      <tr>
+                        <th key={0}  scope="col" className={"pl-0"}>
+                          <InputGroup>
+                            <Input type="text" id="bar" />
+                            <InputGroupAddon addonType="append">
+                              <ButtonGroup>
+                                <Button color="ample1"><i className="fa " />25%</Button>
+                                <Button color="ample2"><i className="fa " />50%</Button>
+                                <Button color="ample3"><i className="fa " />75%</Button>
+                                <Button color="ample4"><i className="fa " />100%</Button>
+                              </ButtonGroup>
+                            </InputGroupAddon>
+                          </InputGroup>
+                        </th>
+                      </tr>
+                    </thead>
+                  </Table>
+                </FormGroup>
+                <p className={"d-flex align-items-center "} align="center">
+                  <Button color="default" size="lg" align="center" className="mb-md mr-sm">Deposit</Button>
+                </p>
+              </div>
+            </Widget>
+          </Col>
 
-         {/* Color options */}
-            <Col md={6} sm={12} xs={12}>
-              <Widget
-                title={<p style={{ fontWeight: 700 }}>EEFI/ETH LP Token Balance: 83,569 </p>} >
-                <div>
-                
-                   <FormGroup>
-                        <Label for="bar">
-                          Amount to Deposit
-                        </Label>
-                        <Table className="table-hover " responsive>
-                        <thead>
-                          <tr>
-                            <th key={0}  scope="col" className={"pl-0"}>
-
-                                <InputGroup>
-                                  <Input type="text" id="bar" />
-                                  <InputGroupAddon addonType="append">
-                                    <ButtonGroup>
-                                      <Button color="ample1"><i className="fa " />25%</Button>
-                                      <Button color="ample2"><i className="fa " />50%</Button>
-                                      <Button color="ample3"><i className="fa " />75%</Button>
-                                      <Button color="ample4"><i className="fa " />100%</Button>
-                                    </ButtonGroup>
-                                  </InputGroupAddon>
-                                </InputGroup>
-                            </th>             
-                          </tr>
-                        </thead>
-                        </Table>
-                      </FormGroup>
-
-                 
-                  <p className={"d-flex align-items-center "} align="center">
-                    <Button color="default" size="lg" align="center" className="mb-md mr-sm">Deposit</Button>
-                  </p>
-                </div>
-              </Widget>
-            </Col>
-
-            {/* Size variants */}
-            <Col md={6} sm={12} xs={12}>
-                    <Widget
-                title={<p style={{ fontWeight: 700 }}>Withdraw EEFI/ETH LP Token Balance: 12,569 </p>} >
-                <div>
-                
-                   <FormGroup>
-                        <Label for="bar">
-                          Amount to Deposit
-                        </Label>
-                       <Table className="table-hover " responsive>
-                        <thead>
-                          <tr>
-                            <th key={0}  scope="col" className={"pl-0"}>
-
-                                <InputGroup>
-                                  <Input type="text" id="bar" />
-                                  <InputGroupAddon addonType="append">
-                                    <ButtonGroup>
-                                      <Button color="ample1"><i className="fa " />25%</Button>
-                                      <Button color="ample2"><i className="fa " />50%</Button>
-                                      <Button color="ample3"><i className="fa " />75%</Button>
-                                      <Button color="ample4"><i className="fa " />100%</Button>
-                                    </ButtonGroup>
-                                  </InputGroupAddon>
-                                </InputGroup>
-                            </th>             
-                          </tr>
-                        </thead>
-                        </Table>
-                      </FormGroup>
-
-
-
-                  <p className={"d-flex align-items-center "}>
-                    <Button color="default" size="lg" className="mb-md mr-sm">Withdraw</Button>
-                  </p>
-                </div>
-              </Widget>
-            </Col>
-   
+          {/* Size variants */}
+          <Col md={6} sm={12} xs={12}>
+            <Widget title={<p style={{ fontWeight: 700 }}>Withdraw EEFI/ETH LP Token Balance: 12,569 </p>} >
+              <div>
+                <FormGroup>
+                  <Label for="bar">
+                    Amount to Deposit
+                  </Label>
+                  <Table className="table-hover " responsive>
+                    <thead>
+                      <tr>
+                        <th key={0}  scope="col" className={"pl-0"}>
+                          <InputGroup>
+                            <Input type="text" id="bar" />
+                            <InputGroupAddon addonType="append">
+                              <ButtonGroup>
+                                <Button color="ample1"><i className="fa " />25%</Button>
+                                <Button color="ample2"><i className="fa " />50%</Button>
+                                <Button color="ample3"><i className="fa " />75%</Button>
+                                <Button color="ample4"><i className="fa " />100%</Button>
+                              </ButtonGroup>
+                            </InputGroupAddon>
+                          </InputGroup>
+                        </th>
+                      </tr>
+                    </thead>
+                  </Table>
+                </FormGroup>
+                <p className={"d-flex align-items-center "}>
+                  <Button color="default" size="lg" className="mb-md mr-sm">Withdraw</Button>
+                </p>
+              </div>
+            </Widget>
+          </Col>
         </Row>
-   
-       <Row>
+        <Row>
           <Col sm={12}>
             <Widget>
               <p>
-              <h3>Your Staked Balance and Rewards</h3>
-            </p>
-            <p>
-                <Table className="table-hover table-bordered" responsive>
-                <thead>
-                  <tr>
-                    <th key={0} width="50%"  scope="col" className={"pl-0"}>
-                      &nbsp;LP Token Balance
-                    </th>
-                   
-                    <th key={2} scope="col" className={"pl-0"}>
-                      &nbsp;Rewards
-                    </th>                  
-                  </tr>
-                </thead>
-                <tbody className="text-dark">
-                  <tr key={0}>
-                    <td className="fw-thin pl-0 fw-thin">
-                      <h3>
-                        &nbsp;8,709 EEFI/ETH LP Tokens
-                     </h3>
-                      <p><h4>APY 90%</h4><br></br></p>
-             
-                    </td>
-                   
-                    <td className={"pl-0 fw-thin"}>
-                    
-                   <h4>
-                      <img height="30" src={p2} alt="" className={"mr-3"} />
-                     
-                     
-                      <span align="right">
-                       &nbsp;309.23 EEFI</span> 
-                      
-                      <p>
-                        <img height="30" src={p5} alt="" className={"mr-3"} />
-                        <span align="right">
-                        &nbsp;9.23 ETH</span>  
-                      </p>
-                     </h4>
-                      <p>
-                        <Button color="primary" className="mb-md mr-md">Claim</Button>
-                      </p>
-                    </td>
-                  </tr>   
-                </tbody>
-              </Table>
+                <h3>Your Staked Balance and Rewards</h3>
               </p>
               <p>
-              <h3>Your Deposit History</h3>
+                <Table className="table-hover table-bordered" responsive>
+                  <thead>
+                    <tr>
+                      <th key={0} width="50%"  scope="col" className={"pl-0"}>
+                        &nbsp;LP Token Balance
+                      </th>
+                      <th key={2} scope="col" className={"pl-0"}>
+                        &nbsp;Rewards
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="text-dark">
+                    <tr key={0}>
+                      <td className="fw-thin pl-0 fw-thin">
+                        <h3>
+                          &nbsp;8,709 EEFI/ETH LP Tokens
+                        </h3>
+                        <p><h4>APY 90%</h4><br></br></p>
+                      </td>
+                      <td className={"pl-0 fw-thin"}>
+                        <h4>
+                          <img height="30" src={p2} alt="" className={"mr-3"} />
+                          <span align="right">
+                            &nbsp;309.23 EEFI
+                          </span>
+                          <p>
+                            <img height="30" src={p5} alt="" className={"mr-3"} />
+                            <span align="right">
+                            &nbsp;9.23 ETH</span>
+                          </p>
+                        </h4>
+                        <p>
+                          <Button color="primary" className="mb-md mr-md">Claim</Button>
+                        </p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </Table>
+              </p>
+              <p>
+                <h3>Your Deposit History</h3>
               </p>
               <p>
                 <Table className="table-hover table-bordered"  responsive>
-
-                <thead>
-                  <tr >
-                    <th width="50%" key={0} scope="col" className={"pl-0"}>
-                      &nbsp;Deposit Date
-                    </th>
-                    <th width="25%" key={1} scope="col" className={"pl-0"}>
-                      &nbsp;Amount
-                    </th>
-                    <th key={2} scope="col" className={"pl-0"}>
-                      &nbsp;Tx Link
-                    </th>           
-                  </tr>
-                </thead>
-                <tbody className="text-dark">
-                 
-                  <tr key={0}>
-                    <td className="fw-normal pl-0 fw-thin">
-                      &nbsp;2021/03/15
-                    </td>
-                    <td className={"pl-0 fw-thin"}>
-                      &nbsp;1,745 EEFI/ETH LP Token
-                    </td>
-                    <td className={"pl-0 fw-thin"}>
-                    &nbsp;0xde...   <a href="https://www.etherscan.io"  target="_blank">Link</a></td>
-                  </tr>   
-              
-                  <tr key={1}>
-                    <td className="fw-normal pl-0 fw-thin">
-                      &nbsp;2021/04/15
-                    </td>
-                    <td className={"pl-0 fw-thin"}>
-                      &nbsp;1,445 EEFI/ETH LP Token
-                    </td>
-                    <td className={"pl-0 fw-thin"}>
-                    &nbsp;0xf3...   <a href="https://www.etherscan.io"  target="_blank">Link</a></td>
-                  </tr>   
-
-                </tbody>
-              </Table>
-            </p>
-
-
+                  <thead>
+                    <tr >
+                      <th width="50%" key={0} scope="col" className={"pl-0"}>
+                        &nbsp;Deposit Date
+                      </th>
+                      <th width="25%" key={1} scope="col" className={"pl-0"}>
+                        &nbsp;Amount
+                      </th>
+                      <th key={2} scope="col" className={"pl-0"}>
+                        &nbsp;Tx Link
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="text-dark">
+                    <tr key={0}>
+                      <td className="fw-normal pl-0 fw-thin">
+                        &nbsp;2021/03/15
+                      </td>
+                      <td className={"pl-0 fw-thin"}>
+                        &nbsp;1,745 EEFI/ETH LP Token
+                      </td>
+                      <td className={"pl-0 fw-thin"}>
+                      &nbsp;0xde...   <a href="https://www.etherscan.io"  target="_blank" rel="noopener noreferrer">Link</a></td>
+                    </tr>
+                    <tr key={1}>
+                      <td className="fw-normal pl-0 fw-thin">
+                        &nbsp;2021/04/15
+                      </td>
+                      <td className={"pl-0 fw-thin"}>
+                        &nbsp;1,445 EEFI/ETH LP Token
+                      </td>
+                      <td className={"pl-0 fw-thin"}>
+                      &nbsp;0xf3...   <a href="https://www.etherscan.io"  target="_blank" rel="noopener noreferrer">Link</a></td>
+                    </tr>
+                  </tbody>
+                </Table>
+              </p>
             </Widget>
           </Col>
         </Row>

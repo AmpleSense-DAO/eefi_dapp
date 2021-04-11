@@ -4,34 +4,24 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Row, Col, Table } from "reactstrap";
 
-import usersImg from "../../images/usersImg.svg";
-import smileImg from "../../images/smileImg.svg";
-import totalSale from "../../images/total-sale.svg";
-import orders from "../../images/orders.svg";
-import stocksImg from "../../images/stocks.svg";
-import stocksDownImg from "../../images/stocksDown.svg";
 import { chartData } from "./chartsMock";
 import  tokenDetailedData  from "./tokenDetailedData.json";
 import Widget from "../../components/Widget";
 import s from "./VaultDetail.module.scss";
-import ApexChart from "react-apexcharts";
 
 //tokens
-import p1 from "../../images/tokens/ample.png";
+// import p1 from "../../images/tokens/ample.png";
 import p2 from "../../images/tokens/eefi_token_logo.png";
-import p3 from "../../images/tokens/kappa_logo_kmpl.png";
-import p4 from "../../images/tokens/apollo_cropped_edited_sm.png";
+// import p3 from "../../images/tokens/kappa_logo_kmpl.png";
+// import p4 from "../../images/tokens/apollo_cropped_edited_sm.png";
 import p5 from "../../images/tokens/ethereum-eth-logo.svg";
 
-import {setVaultType, fetchAMPLBalance, fetchKMPLPrive, checkAllowance, makeApproval, makeDeposit, makeWithdrawal, makeClaim, fetchDeposits} from "../../actions/blockchain";
+import {setVaultType, checkAllowance, makeDeposit, makeWithdrawal, makeClaim } from "../../actions/blockchain";
 
 import {
-  Form,
   FormGroup,
   Label,
   Input,
-  UncontrolledTooltip,
-  UncontrolledButtonDropdown,
   InputGroup,
   InputGroupAddon,
 } from 'reactstrap';
@@ -39,20 +29,16 @@ import {
 import {
   Button,
   ButtonGroup,
-  ButtonToolbar,
-  ButtonDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
 } from 'reactstrap';
 
-var BigNumber = require('bignumber.js');
+// var BigNumber = require('bignumber.js');
 
-var vaultType;
+// var vaultType;
 
-const AmplesenseVaultAbi = require("../../contracts/AmplesenseVault.json");
-const erc20Abi = require("../../contracts/ERC20.json");
-const { CONTRACT_ADDRESSES, VaultContract, VaultType } = require("../../components/Blockchain/Updater.js");
+// const AmplesenseVaultAbi = require("../../contracts/AmplesenseVault.json");
+// const erc20Abi = require("../../contracts/ERC20.json");
+// const { CONTRACT_ADDRESSES, VaultContract, VaultType } = require("../../components/Blockchain/Updater.js");
+const { VaultContract, VaultType } = require("../../components/Blockchain/Updater.js");
 
 const orderValueOverride = {
   options: {
@@ -448,7 +434,7 @@ class VaultDetail extends React.Component {
    const { ampl_balance, account, web3 } = this.props;
    const precision = (new VaultContract(this.getVaultType(), web3, account)).stakingTokenPrecision();
    this.setState({
-      amountToDeposit: parseFloat(ampl_balance / 10**precision * evt.target.value).toString() 
+      amountToDeposit: parseFloat(ampl_balance / 10**precision * evt.target.value).toString()
     })
   }
 
@@ -474,7 +460,7 @@ class VaultDetail extends React.Component {
   forceUpdate() {
     return this.setState({})
   }
-  
+
   doClaim() {
     const {account, web3} = this.props;
 
@@ -493,7 +479,7 @@ class VaultDetail extends React.Component {
     const {account, web3} = this.props;
     const value = new web3.utils.BN(Math.floor(parseFloat(this.state.amountToDeposit) * 100));
     const contract = new VaultContract(this.getVaultType(), web3, account);
-    const precision = contract.stakingTokenPrecision();
+    // const precision = contract.stakingTokenPrecision();
     const valueWei = value.mul(new web3.utils.BN(10**7));
     const current_time = Math.floor(Date.now()/1000);
     this.props.dispatch(makeDeposit({id: current_time, transactionHash: null, allowanceHash: null, returnValues: {amount: valueWei.toString()}, timestamp: current_time, mined: false, allowanceMined: false}));
@@ -529,31 +515,26 @@ class VaultDetail extends React.Component {
 
 
     switch(this.getId()) {
-    case 0:
-      return VaultType.AMPLESENSE;
-      break;
-    case 1:
-      return VaultType.PIONEER1A;
-      break;
-    case 2:
-      return VaultType.PIONEER2;
-      break;
-    case 3:
-      return VaultType.LPSTAKING;
-      break;   
-    case 4:
-      return VaultType.PIONEER1B;
-      break; 
-    default:
-      return VaultType.AMPLESENSE;
+      case 0:
+        return VaultType.AMPLESENSE;
+      case 1:
+        return VaultType.PIONEER1A;
+      case 2:
+        return VaultType.PIONEER2;
+      case 3:
+        return VaultType.LPSTAKING;
+      case 4:
+        return VaultType.PIONEER1B;
+      default:
+        return VaultType.AMPLESENSE;
     }
- }
+  }
 
   doWithdraw() {
     const {account, web3} = this.props;
     const value = new web3.utils.BN(Math.floor(parseFloat(this.state.amountToWithdraw) * 100));
     const contract = new VaultContract(this.getVaultType(), web3, account);
-    const precision = contract.stakingTokenPrecision();
+    // const precision = contract.stakingTokenPrecision();
     const valueWei = value.mul(new web3.utils.BN(10**7));
     const current_time = Math.floor(Date.now()/1000);
     this.props.dispatch(makeWithdrawal({id: current_time, transactionHash: null, returnValues: {amount: valueWei.toString()}, timestamp: current_time, mined: false}));
@@ -566,25 +547,21 @@ class VaultDetail extends React.Component {
   }
 
   render() {
-
-
-
-
-    const contract = new VaultContract(this.getVaultType(), web3, account);
-
     var tokenId = 0;
-    const { 
-      vault_type,
+    const {
+      // vault_type,
       ampl_balance,
       ampl_withdraw,
       claimable,
-      kmpl_price,
+      // kmpl_price,
       reward,
       account,
       web3,
       deposits,
       withdrawals
     } = this.props;
+
+    const contract = new VaultContract(this.getVaultType(), web3, account);
 
     if (this.getId()) {
           tokenId = this.getId();
@@ -593,19 +570,20 @@ class VaultDetail extends React.Component {
           tokenId = 0;
         //  console.log('VAULT ID: no vault id');
     }
-    
+
     // check that token id is between 0 and max tokens from the data file, otherwise return 0 - AMPL
     if (tokenId >= tokenDetailedData.length || tokenId < 0) {
       tokenId = 0;
     }
 
     if(!account) {
-      return (<div className={s.root}>
+      return (
+      <div className={s.root}>
         <h2>
-        {contract.vaultName()}
+          {contract.vaultName()}
         </h2>
         <h3>Connect your wallet to view vault details</h3>
-        </div>)
+      </div>)
     }
     const ampl_balance_formatted = (new web3.utils.BN(ampl_balance).toNumber() / 10**9).toLocaleString(undefined,{ minimumFractionDigits: 2 });
     const claimable_formatted = (new web3.utils.BN(claimable).toNumber() / 10**9).toLocaleString(undefined,{ minimumFractionDigits: 2 });
@@ -625,7 +603,7 @@ class VaultDetail extends React.Component {
             <Col md={6} sm={12} xs={12}>
               <Widget
                 title={<p style={{ fontWeight: 700 }}>
-                {contract.stakingTokenSymbol()} Wallet Balance: {ampl_balance_formatted}  {contract.stakingTokenSymbol()}</p>} 
+                {contract.stakingTokenSymbol()} Wallet Balance: {ampl_balance_formatted}  {contract.stakingTokenSymbol()}</p>}
               >
                 <div>
                  <FormGroup>
@@ -645,7 +623,7 @@ class VaultDetail extends React.Component {
                                 </ButtonGroup>
                               </InputGroupAddon>
                             </InputGroup>
-                        </th>             
+                        </th>
                       </tr>
                     </thead>
                     </Table>
@@ -654,7 +632,7 @@ class VaultDetail extends React.Component {
                     New deposits locked for 90 days.
                   </p>
                   <p className={"d-flex align-items-center "} align="center">
-                    <Button color="default" size="lg" align="center" className="mb-md mr-sm" disabled={this.state.amountToDeposit == "0"}  onClick={this.doDeposit}>Deposit</Button>
+                    <Button color="default" size="lg" align="center" className="mb-md mr-sm" disabled={this.state.amountToDeposit === "0"}  onClick={this.doDeposit}>Deposit</Button>
                   </p>
                 </div>
               </Widget>
@@ -664,45 +642,43 @@ class VaultDetail extends React.Component {
             <Col md={6} sm={12} xs={12}>
                     <Widget
                 title={<p style={{ fontWeight: 700 }}>
-                {contract.stakingTokenSymbol()} Available to Withdraw: {claimable_formatted} {contract.stakingTokenSymbol()}</p>} 
+                {contract.stakingTokenSymbol()} Available to Withdraw: {claimable_formatted} {contract.stakingTokenSymbol()}</p>}
               >
                 <div>
                    <FormGroup>
-                     <Label for="bar"> Amount to Withdraw </Label>
-                       <Table className="table-hover " responsive>
-                        <thead>
-                          <tr>
-                            <th key={0}  scope="col" className={"pl-0"}>
-
-                                <InputGroup>
-                                  <Input id="amountToWithdraw" onChange={this.handleChangeToWithdraw} value={this.state.amountToWithdraw} type="text" id="bar" />
-
-                                  <InputGroupAddon addonType="append">
-                                    <ButtonGroup>
-                                      <Button color="ample1" onClick={this.calculateAmountToWithdraw} value={0.25}><i className="fa " />25%</Button>
-                                      <Button color="ample2" onClick={this.calculateAmountToWithdraw} value={0.50}><i className="fa " />50%</Button>
-                                      <Button color="ample3" onClick={this.calculateAmountToWithdraw} value={0.75}><i className="fa " />75%</Button>
-                                      <Button color="ample4" onClick={this.calculateAmountToWithdraw} value={1.0}><i className="fa " />100%</Button>
-                                    </ButtonGroup>
-                                  </InputGroupAddon>
-                                </InputGroup>
-                            </th>             
-                          </tr>
-                        </thead>
-                        </Table>
+                    <Label for="bar"> Amount to Withdraw </Label>
+                    <Table className="table-hover " responsive>
+                      <thead>
+                        <tr>
+                          <th key={0}  scope="col" className={"pl-0"}>
+                            <InputGroup>
+                              <Input id="amountToWithdraw" onChange={this.handleChangeToWithdraw} value={this.state.amountToWithdraw} type="text" id="bar" />
+                              <InputGroupAddon addonType="append">
+                                <ButtonGroup>
+                                  <Button color="ample1" onClick={this.calculateAmountToWithdraw} value={0.25}><i className="fa " />25%</Button>
+                                  <Button color="ample2" onClick={this.calculateAmountToWithdraw} value={0.50}><i className="fa " />50%</Button>
+                                  <Button color="ample3" onClick={this.calculateAmountToWithdraw} value={0.75}><i className="fa " />75%</Button>
+                                  <Button color="ample4" onClick={this.calculateAmountToWithdraw} value={1.0}><i className="fa " />100%</Button>
+                                </ButtonGroup>
+                              </InputGroupAddon>
+                            </InputGroup>
+                          </th>
+                        </tr>
+                      </thead>
+                    </Table>
                  </FormGroup>
 
                 <p className="fs-mini text-muted">
                   Unlocked {contract.stakingTokenSymbol()}
                 </p>
                 <p className={"d-flex align-items-center "}>
-                  <Button color="default" size="lg" className="mb-md mr-sm" disabled={this.state.amountToWithdraw == "0"} onClick={this.doWithdraw}>Withdraw</Button>
+                  <Button color="default" size="lg" className="mb-md mr-sm" disabled={this.state.amountToWithdraw === "0"} onClick={this.doWithdraw}>Withdraw</Button>
                 </p>
               </div>
               </Widget>
             </Col>
         </Row>
-   
+
        <Row>
           <Col sm={12}>
             <Widget>
@@ -715,7 +691,7 @@ class VaultDetail extends React.Component {
                     </th>
                     <th key={2} scope="col" className={"pl-0"}>
                       &nbsp;Rewards
-                    </th>                  
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="text-dark ">
@@ -730,24 +706,24 @@ class VaultDetail extends React.Component {
                       <br></br>
                       {tokenDetailedData[tokenId].staked_section_desc_2 ? tokenDetailedData[tokenId].staked_section_desc_2 : null}  
                     </td>
-                    
+
                     <td className={"pl-0 fw-thin"}>
                     <h4>
                       <img height="30" src={p2} alt="" className={"mr-3"} />
                       <span align="right">
-                       &nbsp;{ampl_eth_reward_formatted} {tokenDetailedData[tokenId].rewards_token_1}</span>     
+                       &nbsp;{ampl_eth_reward_formatted} {tokenDetailedData[tokenId].rewards_token_1}</span>
                       <p>
                         <img height="30" src={p5} alt="" className={"mr-3"} />
                         <span align="right">
-                        &nbsp;{ampl_token_reward_formatted} {tokenDetailedData[tokenId].rewards_token_2}</span>  
+                        &nbsp;{ampl_token_reward_formatted} {tokenDetailedData[tokenId].rewards_token_2}</span>
                         </p>
                     </h4>
                       <p>
-                        <Button color="primary" className="mb-md mr-md" disabled={reward.token=="0" && reward.eth=="0"} onClick={this.doClaim}>Claim</Button>
-                        {this.props.claim_tx.hash && this.props.claim_tx.hash.substr(0,8)+"..." && <a href={"https://www.etherscan.io/tx/" + this.props.claim_tx.hash}  target="_blank">Link {this.props.claim_tx.mined==false && "(pending)"}</a>}
+                        <Button color="primary" className="mb-md mr-md" disabled={reward.token === "0" && reward.eth === "0"} onClick={this.doClaim}>Claim</Button>
+                        {this.props.claim_tx.hash && this.props.claim_tx.hash.substr(0,8)+"..." && <a href={"https://www.etherscan.io/tx/" + this.props.claim_tx.hash}  target="_blank" rel="noopener noreferrer">Link {this.props.claim_tx.mined === false && "(pending)"}</a>}
                       </p>
                     </td>
-                  </tr>   
+                  </tr>
                 </tbody>
               </Table>
               <br></br>
@@ -764,7 +740,7 @@ class VaultDetail extends React.Component {
                     </th>
                     <th key={2} scope="col" className={"pl-0"}>
                       &nbsp;Tx Link
-                    </th>           
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="text-dark">
@@ -780,12 +756,12 @@ class VaultDetail extends React.Component {
                       </td>
                       <td className={"pl-0 fw-thin"}>
                       {deposit.allowanceHash && <div>
-                        {deposit.allowanceHash.substr(0,8)+"..."}   <a href={"https://www.etherscan.io/tx/" + deposit.allowanceHash}  target="_blank">Link {deposit.allowanceMined==false && "(pending)"}</a>
+                        {deposit.allowanceHash.substr(0,8)+"..."}   <a href={"https://www.etherscan.io/tx/" + deposit.allowanceHash}  target="_blank" rel="noopener noreferrer">Link {deposit.allowanceMined === false && "(pending)"}</a>
                         </div>}
-                      {deposit.transactionHash && <div>{deposit.transactionHash.substr(0,8)+"..."}   <a href={"https://www.etherscan.io/tx/" + deposit.transactionHash}  target="_blank">Link {deposit.mined==false && "(pending)"}</a></div>}</td>
+                      {deposit.transactionHash && <div>{deposit.transactionHash.substr(0,8)+"..."}   <a href={"https://www.etherscan.io/tx/" + deposit.transactionHash}  target="_blank" rel="noopener noreferrer">Link {deposit.mined === false && "(pending)"}</a></div>}</td>
                     </tr>
                     })
-                  } 
+                  }
                 </tbody>
               </Table>
               <h3>Your Withdrawal History</h3>
@@ -800,7 +776,7 @@ class VaultDetail extends React.Component {
                     </th>
                     <th key={2} scope="col" className={"pl-0"}>
                       &nbsp;Tx Link
-                    </th>           
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="text-dark">
@@ -815,10 +791,10 @@ class VaultDetail extends React.Component {
                         &nbsp;{(withdrawal.returnValues.amount / 10**tokenDetailedData[tokenId].precision).toLocaleString(undefined,{ minimumFractionDigits: 2 })} {contract.stakingTokenSymbol()}
                       </td>
                       <td className={"pl-0 fw-thin"}>
-                        {withdrawal.transactionHash && <div>{withdrawal.transactionHash.substr(0,8)+"..."}   <a href={"https://www.etherscan.io/tx/" + withdrawal.transactionHash}  target="_blank">Link {withdrawal.mined==false && "(pending)"}</a></div>}</td>
+                        {withdrawal.transactionHash && <div>{withdrawal.transactionHash.substr(0,8)+"..."}   <a href={"https://www.etherscan.io/tx/" + withdrawal.transactionHash}  target="_blank" rel="noopener noreferrer">Link {withdrawal.mined === false && "(pending)"}</a></div>}</td>
                     </tr>
                     })
-                  } 
+                  }
                 </tbody>
               </Table>
             </Widget>

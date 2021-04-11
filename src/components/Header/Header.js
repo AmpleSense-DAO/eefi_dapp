@@ -10,32 +10,13 @@ import Fortmatic from "fortmatic";
 import MewConnect from "@myetherwallet/mewconnect-web-client";
 import Authereum from "authereum";
 import {
-  Form,
-  FormGroup,
-  Label,
-  Col,
-  Row,
   Navbar,
-  Nav,
-  Dropdown,
-  DropdownToggle,
-  DropdownMenu,
-  InputGroupAddon,
-  InputGroup,
-  Input,
   NavItem,
   NavLink,
-  UncontrolledButtonDropdown,
-  DropdownItem,
-
 } from "reactstrap";
-
-import Select from 'react-select';
 
 import cx from "classnames";
 import { NavbarTypes } from "../../reducers/layout";
-import Notifications from "../Notifications";
-import chroma from "chroma-js";
 import {
   toggleSidebar,
   openSidebar,
@@ -43,31 +24,16 @@ import {
   changeActiveSidebarItem,
 } from "../../actions/navigation";
 
-import userAvatar from "../../images/userAvatar.png";
-import search from "../../images/search.svg";
-import notify from "../../images/notify.svg";
-import lightNotify from "../../images/light-notify.svg";
-import messages from "../../images/messages.svg";
-import lightMessages from "../../images/messages-filled.svg";
 import arrowActive from '../../images/Arrow 6.svg'
 import arrowUnactive from '../../images/Arrow 5.svg'
-
-// light navbar icons
-import messagesLightTheme from '../../images/theme-icons/light-navbar/message.svg'
-import notifyLightTheme from '../../images/theme-icons/light-navbar/notification.svg'
-import lightSearch from '../../images/theme-icons/light-navbar/search.svg'
 
 import s from "./Header.module.scss"; // eslint-disable-line css-modules/no-unused-class
 
 import { loginUser, loginError } from "../../actions/user";
 
-import p1 from "../../images/icons/gas-icon-24.png";
-
 const AmplesenseVaultAbi = require("../../contracts/AmplesenseVault.json");
 const erc20Abi = require("../../contracts/ERC20.json");
 const { CONTRACT_ADDRESSES } = require("../../components/Blockchain/Updater.js");
-
-const axios = require('axios')
 
 const providerOptions = {
   /*injected: {
@@ -262,13 +228,13 @@ class Header extends React.Component {
   }
   render() {
 
-    const { focus } = this.state;
+    // const { focus } = this.state;
     const { navbarType, navbarColor, account } = this.props;
     const { gas_price_fastest } = this.props;
     const { gas_price_fast } = this.props;
     const { gas_price_average } = this.props;
 
-    this.state = {
+    this.setState = {
       selectDefaultData: [
         { value: 'Average', label:  `${gas_price_average}`, rating: 'safe' },
         { value: 'Fast', label:  `${gas_price_fast}`, rating: 'good' },
@@ -281,7 +247,7 @@ class Header extends React.Component {
       <Navbar
         className={`${s.root} ${cx({[s.rootLight]: navbarColor === '#FFFFFF'})} ${
           navbarType === NavbarTypes.FLOATING ? s.navbarFloatingType : ""
-        }`} 
+        }`}
       >
 
     <NavItem className={`${s.toggleSidebarNav} d-md-none d-flex mr-2`}>

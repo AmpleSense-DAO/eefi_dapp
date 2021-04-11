@@ -46,23 +46,23 @@ export default function blockchainReducer(state = defaultState, action) {
     case FETCH_AMPL_AMPLESENSE_BALANCE:
       return Object.assign({}, state, {
         ampl_withdraw: action.payload
-      });     
+      });
     case FETCH_CLAIMABLE_AMPLESENSE_BALANCE:
       return Object.assign({}, state, {
         claimable: action.payload
-      });   
+      });
    case FETCH_KMPL_PRICE:
       return Object.assign({}, state, {
         kmpl_price: action.payload
-      });   
+      });
   case FETCH_TOTAL_STAKED:
       return Object.assign({}, state, {
         total_staked: action.payload
-      });   
+      });
   case FETCH_GAS_PRICE_FASTEST:
       return Object.assign({}, state, {
         gas_price_fastest: action.payload
-      });     
+      });
   case FETCH_GAS_PRICE_FAST:
       return Object.assign({}, state, {
         gas_price_fast: action.payload
@@ -70,20 +70,20 @@ export default function blockchainReducer(state = defaultState, action) {
   case FETCH_GAS_PRICE_AVERAGE:
       return Object.assign({}, state, {
         gas_price_average: action.payload
-      });           
+      });
    case FETCH_REWARD:
       return Object.assign({}, state, {
         reward: action.payload
-      });               
+      });
     case FETCH_ALLOWANCE:
       return Object.assign({}, state, {
         allowance: action.payload
-      });  
+      });
     case MAKE_DEPOSIT:
       let new_deposits2 = [...state.deposits];
       let did_find = false;
       new_deposits2.map(deposit => {
-        if(deposit.id == action.payload.deposit_tx.id) {
+        if(deposit.id === action.payload.deposit_tx.id) {
           did_find = true;
           // updating existing entry
           if(action.payload.deposit_tx.mined) {
@@ -96,6 +96,7 @@ export default function blockchainReducer(state = defaultState, action) {
           if(action.payload.deposit_tx.allowanceHash)
             deposit.allowanceHash = action.payload.deposit_tx.allowanceHash;
         }
+        return console.log(deposit);
       })
       if(!did_find) {
         new_deposits2.push(action.payload.deposit_tx);
@@ -107,7 +108,7 @@ export default function blockchainReducer(state = defaultState, action) {
       let new_withdrawals2 = state.withdrawals.slice();
       let did_find2 = false;
       new_withdrawals2.map(withdrawal => {
-        if(withdrawal.id == action.payload.withdrawal_tx.id) {
+        if(withdrawal.id === action.payload.withdrawal_tx.id) {
           did_find2 = true;
           // updating existing entry
           if(action.payload.withdrawal_tx.mined) {
@@ -116,6 +117,7 @@ export default function blockchainReducer(state = defaultState, action) {
           if(action.payload.withdrawal_tx.transactionHash)
             withdrawal.transactionHash = action.payload.withdrawal_tx.transactionHash;
         }
+        return console.log(withdrawal);
       })
       if(!did_find2) {
         new_withdrawals2.push(action.payload.withdrawal_tx);

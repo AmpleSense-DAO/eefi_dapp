@@ -1,6 +1,6 @@
 import React from "react";
 import { Row, Col, Table, Button } from "reactstrap";
-import {  Redirect, Link } from "react-router-dom";
+import {  Link } from "react-router-dom";
 
 import usersImg from "../../images/usersImg.svg";
 import usersDangerImg from '../../images/theme-icons/red/Users.svg'
@@ -19,7 +19,6 @@ import ordersDangerImg from '../../images/theme-icons/red/Orders.svg'
 import ordersSuccessImg from '../../images/theme-icons/green/Orders.svg'
 import ordersInfoImg from '../../images/theme-icons/blue/Orders.svg'
 import stocksImg from "../../images/stocks.svg";
-import stocksDownImg from "../../images/stocksDown.svg";
 
 import { chartData } from "./chartsMock";
 
@@ -33,8 +32,8 @@ import p1 from "../../images/tokens/ample.png";
 import p2 from "../../images/tokens/new_ee_balancer.png";
 import p3 from "../../images/tokens/kappa_logo_kmpl.png";
 import p4 from "../../images/tokens/apollo_cropped_edited_sm.png";
-import p5 from "../../images/userAvatar.png";
-import p6 from "../../images/tokens/zeus_cropped_edited_sm.png";
+// import p5 from "../../images/userAvatar.png";
+// import p6 from "../../images/tokens/zeus_cropped_edited_sm.png";
 import p7 from "../../images/tokens/kmpl_uni_logo.png";
 
 
@@ -42,9 +41,9 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 //import { WalletConnect, ProviderContext } from '../../components/Wallet/walletConnect'
 
-import {fetchKMPLPrice} from "../../actions/blockchain";
+// import {fetchKMPLPrice} from "../../actions/blockchain";
 
-const axios = require('axios')
+// const axios = require('axios')
 
 
 const orderValueOverride = {
@@ -1308,19 +1307,14 @@ class VaultSummary extends React.Component {
           ordersImg: ordersInfoImg
         });
         break;
+      default:
+        break;
     }
   }
-
-  
-
-
 
 
   componentDidMount() {
     window.addEventListener("resize", this.forceUpdate.bind(this));
-
-
-   
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -1333,11 +1327,13 @@ class VaultSummary extends React.Component {
           this.updateChartsColor("danger");
           break;
         case "success":
-          this.updateChartsColor("success")
-              break;
+          this.updateChartsColor("success");
+          break;
         case "info":
-          this.updateChartsColor("info")
-              break;
+          this.updateChartsColor("info");
+          break;
+        default:
+          break;
       }
     }
   }

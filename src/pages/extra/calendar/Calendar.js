@@ -183,8 +183,8 @@ class Calendar extends React.Component {
   render() {
     const {
       event,
-      currentMonth,
-      currentDay,
+      /*currentMonth,
+      currentDay, */
       calendarOptions,
       modal,
       modalEvent,

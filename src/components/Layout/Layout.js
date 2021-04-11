@@ -23,7 +23,6 @@ import {
 } from "../../actions/navigation";
 import s from "./Layout.module.scss";
 import { DashboardThemes } from "../../reducers/layout";
-import BreadcrumbHistory from "../BreadcrumbHistory";
 import Helper from "../Helper";
 
 // pages
@@ -60,7 +59,6 @@ import ChartsOverview from "../../pages/charts";
 import ApexCharts from "../../pages/charts/apex";
 import Echarts from "../../pages/charts/echarts";
 import GridSeparate from "../../pages/grid";
-import Visits from "../../pages/dashboard/Visits";
 import Modal from '../../pages/ui-elements/modal'
 import Management from "../../pages/management";
 import Products from "../../pages/products";
@@ -68,7 +66,6 @@ import Product from "../../pages/product";
 import Profile from "../../pages/profile";
 import SPackage from "../../pages/package";
 import Email from '../../pages/email'
-import ErrorPage from "../../pages/error";
 
 class Layout extends React.Component {
   static propTypes = {

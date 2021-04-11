@@ -1302,6 +1302,8 @@ class Dashboard extends React.Component {
           ordersImg: ordersInfoImg
         });
         break;
+      default:
+        break;
     }
   }
 
@@ -1324,6 +1326,8 @@ class Dashboard extends React.Component {
         case "info":
           this.updateChartsColor("info")
               break;
+        default:
+          break;
       }
     }
   }

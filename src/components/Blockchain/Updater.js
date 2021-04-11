@@ -68,7 +68,7 @@ export class VaultContract {
 
   allowance() {
     const contract = new this.state.web3.eth.Contract(this.state.type.staking_token_abi.abi, this.state.type.staking_token);
-    if(this.state.type == VaultType.PIONEER1A || this.state.type == VaultType.PIONEER1B) {
+    if(this.state.type === VaultType.PIONEER1A || this.state.type === VaultType.PIONEER1B) {
       return contract.methods.isApprovedForAll(this.state.account, CONTRACT_ADDRESSES.PIONEER1).call();
     } else {
       return contract.methods.allowance(this.state.account, this.state.type.vault).call();
@@ -87,7 +87,7 @@ export class VaultContract {
 
   stakedTokenTotalBalance() {
     const contract = new this.state.web3.eth.Contract(this.state.type.vault_abi.abi, this.state.type.vault);
-    if(this.state.type == VaultType.AMPLESENSE) {
+    if(this.state.type === VaultType.AMPLESENSE) {
       return contract.methods.balanceOf(this.state.account).call()
     } else {
       return contract.methods.totalStakedFor(this.state.account).call()
@@ -96,7 +96,7 @@ export class VaultContract {
 
   stakedTokenClaimableBalance() {
     const contract = new this.state.web3.eth.Contract(this.state.type.vault_abi.abi, this.state.type.vault);
-    if(this.state.type == VaultType.AMPLESENSE) {
+    if(this.state.type === VaultType.AMPLESENSE) {
       return contract.methods.totalClaimableBy(this.state.account).call()
     } else {
       return contract.methods.totalStakedFor(this.state.account).call()
@@ -105,7 +105,7 @@ export class VaultContract {
 
   approve(amount) {
     const contract = new this.state.web3.eth.Contract(this.state.type.staking_token_abi.abi, this.state.type.staking_token);
-    if(this.state.type == VaultType.PIONEER1A || this.state.type == VaultType.PIONEER1B) {
+    if(this.state.type === VaultType.PIONEER1A || this.state.type === VaultType.PIONEER1B) {
       return contract.methods.setApprovalForAll(CONTRACT_ADDRESSES.PIONEER1, true).send({from: this.state.account});
     } else {
       return contract.methods.approve(this.state.type.vault, amount.toString()).send({from: this.state.account});
@@ -114,9 +114,9 @@ export class VaultContract {
 
   stake(amount) {
     const contract = new this.state.web3.eth.Contract(this.state.type.vault_abi.abi, this.state.type.vault);
-    if(this.state.type == VaultType.AMPLESENSE) {
+    if(this.state.type === VaultType.AMPLESENSE) {
       return contract.methods.makeDeposit(amount.toString()).send({from: this.state.account});
-    } else if(this.state.type == VaultType.PIONEER1A || this.state.type == VaultType.PIONEER1B) {
+    } else if(this.state.type === VaultType.PIONEER1A || this.state.type === VaultType.PIONEER1B) {
       return contract.methods.stake(amount.toString(), this.state.type.staking_token).send({from: this.state.account});
     }
     else {
@@ -126,9 +126,9 @@ export class VaultContract {
 
   unstake(amount) {
     const contract = new this.state.web3.eth.Contract(this.state.type.vault_abi.abi, this.state.type.vault);
-    if(this.state.type == VaultType.AMPLESENSE) {
+    if(this.state.type === VaultType.AMPLESENSE) {
       return contract.methods.withdraw(amount.toString()).send({from: this.state.account});
-    } else if(this.state.type == VaultType.PIONEER1A || this.state.type == VaultType.PIONEER1B) {
+    } else if(this.state.type === VaultType.PIONEER1A || this.state.type === VaultType.PIONEER1B) {
       return contract.methods.unstake(amount.toString(), this.state.type.staking_token).send({from: this.state.account});
     }
      else {
@@ -138,7 +138,7 @@ export class VaultContract {
 
   claim() {
     const contract = new this.state.web3.eth.Contract(this.state.type.vault_abi.abi, this.state.type.vault);
-    if(this.state.type == VaultType.AMPLESENSE) {
+    if(this.state.type === VaultType.AMPLESENSE) {
       return contract.methods.claim().send({from: this.state.account});
     } else {
       return contract.methods.withdraw("0").send({from: this.state.account});
@@ -152,7 +152,7 @@ export class VaultContract {
 
   getDepositEvent() {
     const contract = new this.state.web3.eth.Contract(this.state.type.vault_abi.abi, this.state.type.vault);
-    if(this.state.type == VaultType.AMPLESENSE) {
+    if(this.state.type === VaultType.AMPLESENSE) {
       return contract.events.Deposit({ fromBlock: 0, filter: { account:  this.state.account }, });
     } else {
       return contract.events.Staked({ fromBlock: 0, filter: { addr:  this.state.account }, });
@@ -161,7 +161,7 @@ export class VaultContract {
 
   getWithdrawalEvent() {
     const contract = new this.state.web3.eth.Contract(this.state.type.vault_abi.abi, this.state.type.vault);
-    if(this.state.type == VaultType.AMPLESENSE) {
+    if(this.state.type === VaultType.AMPLESENSE) {
       return contract.events.Withdrawal({ fromBlock: 0, filter: { account:  this.state.account }, });
     } else {
       return contract.events.Unstaked({ fromBlock: 0, filter: { addr:  this.state.account }, });
@@ -173,9 +173,9 @@ class BlockchainUpdater extends React.Component {
 
   timer = null;
 
-  constructor(props) {
-    super(props);
-  }
+  // constructor(props) {
+  //   super(props);
+  // }
 
   componentWillUnmount() {
     clearInterval(this.timer);

@@ -1,6 +1,3 @@
-import config from "../../config";
-
-//images
 import ProductImg1 from '../../images/products/product1.png'
 import ProductImg2 from '../../images/products/product2.png'
 import ProductImg3 from '../../images/products/product3.png'
