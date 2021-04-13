@@ -1,3 +1,4 @@
+import { VaultContract } from "../components/Blockchain/Updater";
 export const SET_VAULT_TYPE = 'SET_VAULT_TYPE';
 export const FETCH_AMPL_BALANCE = 'FETCH_AMPL_BALANCE';
 export const FETCH_AMPL_AMPLESENSE_BALANCE = 'FETCH_AMPL_AMPLESENSE_BALANCE';
@@ -15,7 +16,6 @@ export const FETCH_CLAIMABLE_AMPLESENSE_BALANCE = 'FETCH_CLAIMABLE_AMPLESENSE_BA
 export const MAKE_CLAIM = "MAKE_CLAIM";
 export const FETCH_TOTAL_STAKED = "FETCH_TOTAL_STAKED";
 
-
 export function setVaultType(vaultType) {
   return {
     type: SET_VAULT_TYPE,
@@ -23,31 +23,54 @@ export function setVaultType(vaultType) {
   };
 }
 
-export function fetchAMPLBalance(balance) {
-  return {
-    type: FETCH_AMPL_BALANCE,
-    payload: balance
+export function fetchAMPLBalance(vaultTypes, web3, account) {
+  const contract = new VaultContract(vaultTypes, web3, account);
+  return function(dispatch) {
+    contract.stakingTokenBalance().then(balance => {
+      dispatch({
+        type: FETCH_AMPL_BALANCE,
+        payload: balance
+      });
+    });
   };
 }
 
-export function fetchAMPLAmplesenseBalance(balance) {
-  return {
-    type: FETCH_AMPL_AMPLESENSE_BALANCE,
-    payload: balance
+export function fetchAMPLAmplesenseBalance(vaultTypes, web3, account) {
+  const contract = new VaultContract(vaultTypes, web3, account);
+  return function(dispatch) {
+    contract.stakedTokenTotalBalance().then(balance => {
+      dispatch({
+        type: FETCH_AMPL_AMPLESENSE_BALANCE,
+        payload: balance
+      });
+    });
   };
 }
-export function fetchClaimableBalance(balance) {
-  return {
-    type: FETCH_CLAIMABLE_AMPLESENSE_BALANCE,
-    payload: balance
+
+export function fetchClaimableBalance(vaultTypes, web3, account) {
+  const contract = new VaultContract(vaultTypes, web3, account);
+  return function(dispatch) {
+    contract.stakedTokenClaimableBalance().then(balance => {
+      dispatch({
+        type: FETCH_CLAIMABLE_AMPLESENSE_BALANCE,
+        payload: balance
+      });
+    });
   };
 }
-export function fetchTotalStaked(balance) {
-  return {
-    type: FETCH_TOTAL_STAKED,
-    payload: balance
+
+export function fetchTotalStaked(vaultTypes, web3, account) {
+  const contract = new VaultContract(vaultTypes, web3, account);
+  return function(dispatch) {
+    contract.totalStaked().then(balance => {
+      dispatch({
+        type: FETCH_TOTAL_STAKED,
+        payload: balance
+      });
+    });
   };
 }
+
 export function fetchKMPLPrice(price) {
   return {
     type: FETCH_KMPL_PRICE,
@@ -55,10 +78,15 @@ export function fetchKMPLPrice(price) {
   };
 }
 
-export function fetchReward(eth, token) {
-  return {
-    type: FETCH_REWARD,
-    payload: {eth : eth, token: token}
+export function fetchReward(vaultTypes, web3, account) {
+  const contract = new VaultContract(vaultTypes, web3, account);
+  return function(dispatch) {
+    contract.getReward().then(rewards => {
+      dispatch({
+        type: FETCH_REWARD,
+        payload: {eth : rewards[0], token: rewards[1]}
+      });
+    });
   };
 }
 
