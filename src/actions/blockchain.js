@@ -96,10 +96,54 @@ export function checkAllowance(amount) {
     payload: amount
   };
 }
-export function makeDeposit(tx) {
-  return {
-    type: MAKE_DEPOSIT,
-    payload: {deposit_tx: tx}
+export function makeDeposit(vaultTypes, web3, account, valueWei, tx) {
+  const contract = new VaultContract(vaultTypes, web3, account);
+  const current_time = Math.floor(Date.now()/1000);
+  return function(dispatch) {
+    dispatch({
+      type: MAKE_DEPOSIT,
+      payload: {deposit_tx: tx}
+    });
+    contract.allowance().then(allowance => {
+      const all = new web3.utils.BN(allowance.toString());
+      checkAllowance(all);
+      const to_allow = new web3.utils.BN(valueWei.gt(all)? valueWei.sub(all) : "0");
+      if(to_allow > 0) {
+        contract.approve(valueWei).once('transactionHash', hash_allowance => {
+          contract.stake(valueWei.toString()).once('transactionHash', hash_deposit => {
+            dispatch({
+              type: MAKE_DEPOSIT,
+              payload: {deposit_tx: {id: current_time, transactionHash: hash_deposit, allowanceHash: hash_allowance, returnValues: {amount: valueWei.toString()}, timestamp: current_time, mined: false, allowanceMined: false}}
+            });
+          }).then(receipt => {
+            //after it's mined, update
+            dispatch({
+              type: MAKE_DEPOSIT,
+              payload: {deposit_tx: {id: current_time, mined: true}}
+            });
+          });
+        }).then(receipt => {
+          //after it's mined, update
+          dispatch({
+            type: MAKE_DEPOSIT,
+            payload: {deposit_tx: {id: current_time, allowanceMined: true}}
+          });
+        });
+      } else {
+        contract.stake(valueWei).once('transactionHash', hash_deposit => {
+          dispatch({
+            type: MAKE_DEPOSIT,
+            payload: {deposit_tx: {id: current_time, transactionHash: hash_deposit, allowanceHash: null}}
+          });
+        }).then(receipt => {
+          //after it's mined, update
+          dispatch({
+            type: MAKE_DEPOSIT,
+            payload: {deposit_tx: {id: current_time, mined: true}}
+          });
+        });
+      }
+    });
   };
 }
 export function makeClaim(hash, mined) {
@@ -108,10 +152,26 @@ export function makeClaim(hash, mined) {
     payload: {hash: hash, mined: mined}
   };
 }
-export function makeWithdrawal(tx) {
-  return {
-    type: MAKE_WITHDRAWAL,
-    payload: {withdrawal_tx: tx}
+export function makeWithdrawal(vaultTypes, web3, account, valueWei, tx) {
+  const contract = new VaultContract(vaultTypes, web3, account);
+  const current_time = Math.floor(Date.now()/1000);
+  return function(dispatch) {
+    dispatch({
+      type: MAKE_WITHDRAWAL,
+      payload: {withdrawal_tx: tx}
+    });
+    contract.unstake(valueWei).once('transactionHash', hash => {
+      //got tx
+      dispatch({
+        type: MAKE_WITHDRAWAL,
+        payload: {withdrawal_tx: {id: current_time, transactionHash: hash}}
+      });
+    }).then(receipt => {
+      dispatch({
+        type: MAKE_WITHDRAWAL,
+        payload: {withdrawal_tx: {id: current_time, mined: true}}
+      });
+    });
   };
 }
 export function fetchGasPriceFastest(price) {
