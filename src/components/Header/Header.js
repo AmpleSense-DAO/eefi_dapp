@@ -2,8 +2,9 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router";
-import { Button } from "reactstrap";
+import { Button, Form, FormGroup, Label, Col } from "reactstrap";
 import Web3 from 'web3';
+import Select from 'react-select';
 import Web3Modal from "web3modal";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import Fortmatic from "fortmatic";
@@ -30,6 +31,10 @@ import arrowUnactive from '../../images/Arrow 5.svg'
 import s from "./Header.module.scss"; // eslint-disable-line css-modules/no-unused-class
 
 import { loginUser, loginError } from "../../actions/user";
+
+// import gasImage from '../../images/icons/gas-icon.png';
+import gasSmallImg from '../../images/icons/gas-icon-24.png';
+// import { stat } from "fs-extra";
 
 const AmplesenseVaultAbi = require("../../contracts/AmplesenseVault.json");
 const erc20Abi = require("../../contracts/ERC20.json");
@@ -99,10 +104,11 @@ class Header extends React.Component {
     this.changeArrowImgOut = this.changeArrowImgOut.bind(this);
     this.doRebase = this.doRebase.bind(this);
 
-  //  console.log('gas_price_fastest', gas_price_fastest, 'gas_price_fast', gas_price_fast)
-    const { gas_price_fastest } = this.props;
-    const { gas_price_fast } = this.props;
-    const { gas_price_average } = this.props;
+    // console.log('gas_price_fastest', gas_price_fastest, 'gas_price_fast', gas_price_fast);
+    // const { gas_price_fastest } = this.props;
+    // const { gas_price_fast } = this.props;
+    // const { gas_price_average } = this.props;
+
     this.state = {
       menuOpen: false,
       notificationsOpen: false,
@@ -113,13 +119,44 @@ class Header extends React.Component {
       showNewMessage: false,
       hideMessage: true,
       run: true,
-      arrowImg: arrowUnactive, 
-       selectDefaultData: [
-        { value: 'Average', label:  `${gas_price_average}`, rating: 'safe' },
-        { value: 'Fast', label:  `${gas_price_fast}`, rating: 'good' },
-        { value: 'Fastest', label: `${gas_price_fastest}`, rating: 'quick' },
-      ] 
+      arrowImg: arrowUnactive,
+      selectDefaultData: [
+        { value: 'Average', label:  '0', rating: 'safe' },
+        { value: 'Fast', label:  '0', rating: 'good' },
+        { value: 'Fastest', label: '0', rating: 'quick' },
+      ]
     };
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.gas_price_fastest !== state.gas_price_fastest && props.gas_price_fastest !== 'undefined' && props.gas_price_fastest !== '0') {
+      return {
+        selectDefaultData: [
+          { value: 'Average', label:  `${props.gas_price_average}`, rating: 'safe' },
+          { value: 'Fast', label:  `${props.gas_price_fast}`, rating: 'good' },
+          { value: 'Fastest', label: `${props.gas_price_fastest}`, rating: 'quick' },
+        ]
+      };
+    }
+    if (props.gas_price_fast !== state.gas_price_fast && props.gas_price_fast !== 'undefined' && props.gas_price_fast !== '0') {
+      return {
+        selectDefaultData: [
+          { value: 'Average', label:  `${props.gas_price_average}`, rating: 'safe' },
+          { value: 'Fast', label:  `${props.gas_price_fast}`, rating: 'good' },
+          { value: 'Fastest', label: `${props.gas_price_fastest}`, rating: 'quick' },
+        ]
+      };
+    }
+    if(props.gas_price_average !== state.gas_price_average && props.gas_price_average !== 'undefined'  && props.gas_price_average !== '0') {
+      return {
+        selectDefaultData: [
+          { value: 'Average', label:  `${props.gas_price_average}`, rating: 'safe' },
+          { value: 'Fast', label:  `${props.gas_price_fast}`, rating: 'good' },
+          { value: 'Fastest', label: `${props.gas_price_fastest}`, rating: 'quick' },
+        ]
+      };
+    }
+    return null;
   }
 
   toggleFocus = () => {
@@ -144,7 +181,7 @@ class Header extends React.Component {
       web3.eth.getAccounts().then(accounts => {
         this.props.dispatch(loginUser(web3, accounts[0]));
       })
-      
+
     }).catch(err => {
       this.props.dispatch(loginError(err));
     });
@@ -159,28 +196,28 @@ class Header extends React.Component {
 
   doAdd90Days() {
     this.props.web3.currentProvider.send({
-      jsonrpc: "2.0", 
-      method: "evm_increaseTime", 
+      jsonrpc: "2.0",
+      method: "evm_increaseTime",
       params: [7776000],
       id: 1
     }, res => {
       this.props.web3.currentProvider.send({
-        jsonrpc: "2.0", 
-        method: "evm_mine", 
+        jsonrpc: "2.0",
+        method: "evm_mine",
         params: [],
         id: 2
       }, res => console.log)
-  });
- }
+    });
+  }
 
- doRebase() {
-  const ampleSenseVault = new this.props.web3.eth.Contract(AmplesenseVaultAbi.abi, CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT);
-  const ampl = new this.props.web3.eth.Contract(erc20Abi.abi, CONTRACT_ADDRESSES.AMPLE_CONTRACT);
-  ampl.methods.rebase("500").send({from: this.props.account}).then(receipt => {
-    ampleSenseVault.methods.rebase().send({from: this.props.account}).then(receipt => {
-    }).catch(err => console.log)
-  })
- }
+  doRebase() {
+    const ampleSenseVault = new this.props.web3.eth.Contract(AmplesenseVaultAbi.abi, CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT);
+    const ampl = new this.props.web3.eth.Contract(erc20Abi.abi, CONTRACT_ADDRESSES.AMPLE_CONTRACT);
+    ampl.methods.rebase("500").send({from: this.props.account}).then(receipt => {
+      ampleSenseVault.methods.rebase().send({from: this.props.account}).then(receipt => {
+      }).catch(err => console.log)
+    })
+  }
 
   changeArrowImg() {
     this.setState({
@@ -230,18 +267,9 @@ class Header extends React.Component {
 
     // const { focus } = this.state;
     const { navbarType, navbarColor, account } = this.props;
-    const { gas_price_fastest } = this.props;
-    const { gas_price_fast } = this.props;
-    const { gas_price_average } = this.props;
-
-    this.setState = {
-      selectDefaultData: [
-        { value: 'Average', label:  `${gas_price_average}`, rating: 'safe' },
-        { value: 'Fast', label:  `${gas_price_fast}`, rating: 'good' },
-        { value: 'Fastest', label: `${gas_price_fastest}`, rating: 'quick' },
-      ]
-    };
-
+    // const { gas_price_fastest } = this.props;
+    // const { gas_price_fast } = this.props;
+    // const { gas_price_average } = this.props;
 
     return (
       <Navbar
@@ -250,7 +278,7 @@ class Header extends React.Component {
         }`}
       >
 
-    <NavItem className={`${s.toggleSidebarNav} d-md-none d-flex mr-2`}>
+        <NavItem className={`${s.toggleSidebarNav} d-md-none d-flex mr-2`}>
           <NavLink
             className="ml-2 pr-4 pl-3"
             id="toggleSidebar"
@@ -262,37 +290,34 @@ class Header extends React.Component {
             />
           </NavLink>
         </NavItem>
-       
+
         <Button id="button-connected" className={`btn  ml-auto ${s.fullVersionBtn}`} onClick={this.doLogin}>{account? account.substr(0,8) + "...": "Wallet Connect"}</Button>
- 
-       {/* <Form className="form-label-left" >
-          <FormGroup row>
-             <Label  md="4"  className={"right"}>
-               <img src={p1} alt="" className={"mr-3"} />
-             </Label>
+        <Button id="button-connected" className={`btn  ml-auto ${s.fullVersionBtn}`} onClick={this.doLoginLocal}>{account? account.substr(0,8) + "...": "Wallet Connect Testnet"}</Button>
+        <Button id="button-time" className={`btn  ml-auto ${s.fullVersionBtn}`} onClick={this.doAdd90Days}>Add 90 days</Button>
+        <Button id="button-time" className={`btn  ml-auto ${s.fullVersionBtn}`} onClick={this.doRebase}>Rebase</Button>
+        {/* <div className={s.gasStation}>
+          <img className={s.gasImg} src={gasImage} alt="gas"></img>
+          <p></p>
+        </div> */}
+        <Form className={`form-label-left ${s.form}`} >
+          <FormGroup row className={s.formGroup}>
+            <Label  md="4"  className={"right"}>
+              <img src={gasSmallImg} alt="" className={"mr-3"} />
+            </Label>
 
             <Col md="8" className={s.select1}>
-              <Select 
+              <Select
                 id="gasGroup"
                 className="selectCustomization"
                 options={this.state.selectDefaultData}
                 defaultValue={this.state.selectDefaultData[1]}
-                selected={this.state.selectDefaultData[1]}
+                value={this.state.selectDefaultData[1]}
               />
             </Col>
-         </FormGroup>  
+          </FormGroup>
         </Form>
-         */ }    
-  <div>
-        <Button id="button-connected" className={`btn  ml-auto ${s.fullVersionBtn}`} onClick={this.doLoginLocal}>{account? account.substr(0,8) + "...": "Wallet Connect Testnet"}</Button>
-        <Button id="button-time" className={`btn  ml-auto ${s.fullVersionBtn}`} onClick={this.doAdd90Days}>Add 90 days</Button>
-        <Button id="button-time" className={`btn  ml-auto ${s.fullVersionBtn}`} onClick={this.doRebase}>Rebase</Button>
-  </div>
-        
-
-      <p align="right">
-            
-       </p>            
+        <p align="right">
+        </p>
       </Navbar>
     );
   }
@@ -310,7 +335,7 @@ function mapStateToProps(store) {
     account: store.auth.account,
     gas_price_fastest: store.blockchain.gas_price_fastest,
     gas_price_fast: store.blockchain.gas_price_fast,
-    gas_price_average: store.blockchain.gas_price_average,    
+    gas_price_average: store.blockchain.gas_price_average,
   };
 }
 

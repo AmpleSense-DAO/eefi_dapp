@@ -92,31 +92,29 @@ class Landing extends React.Component {
                   </Table>
                 </div>
 
-                <Table  className=" table-bordered" responsive>
-                  <thead>
-                    <tr >
-                      <th key={0} width="33%"  scope="col" className={"pl-0"}>
-                        <img height="240" src={p6} alt="" className={"mr-3"} />
-                        <h3>A growing ecosystem</h3>
-                        <p>Use your elastic assets to tap into a growing number of yield generation strategies,
-                          made possible by the rebase.
-                        </p>
-                      </th>
-                      <th key={1} width="33%" scope="col" className={"pl-0"}>
-                        <img height="240" src={p4} alt="" className={"mr-3"} />
-                        <h3>Powered by the community</h3>
-                        <p>Vault strategies are approved by holders of the kMPL governance token in exchange for token rewards.
-                        </p>
-                      </th>
-                      <th key={2} scope="col" className={"pl-0 align-items-center"}>
-                        <img height="240" src={p3} alt="" className={"mr-3"} />
-                        <h3>Connected to DeFi</h3>
-                        <p>Vault strategies are optimized to connect elastic asset holders to the broader DeFi landscape.
-                        </p>
-                      </th>
-                    </tr>
-                  </thead>
-                </Table>
+                <div  className="table-bordered" responsive>
+                  <div className={s.middleSection}>
+                    <div className={s.middleDiv}>
+                      <img height="240" src={p6} alt="" className={"mr-3"} />
+                      <h3>A growing ecosystem</h3>
+                      <p>Use your elastic assets to tap into a growing number of yield generation strategies,
+                        made possible by the rebase.
+                      </p>
+                    </div>
+                    <div className={s.middleDiv}>
+                      <img height="240" src={p4} alt="" className={"mr-3"} />
+                      <h3>Powered by the community</h3>
+                      <p>Vault strategies are approved by holders of the kMPL governance token in exchange for token rewards.
+                      </p>
+                    </div>
+                    <div className={s.middleDiv}>
+                      <img height="240" src={p3} alt="" className={"mr-3"} />
+                      <h3>Connected to DeFi</h3>
+                      <p>Vault strategies are optimized to connect elastic asset holders to the broader DeFi landscape.
+                      </p>
+                    </div>
+                  </div>
+                </div>
             </Col>
           </Row>
           <Row>

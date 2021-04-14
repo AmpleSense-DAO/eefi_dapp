@@ -238,7 +238,7 @@
 @media(max-width: 1020px) {
   .headerSearchInput {
     margin-left: 0!important;
-  }  
+  }
 }
 
 @media(max-width: 950px) {
@@ -262,4 +262,26 @@
       color: #fff;
     }
   }
+}
+
+@media(max-width: 1044px) {
+  .fullVersionBtn {
+    height: 100%;
+  }
+}
+
+.gasStation {
+  display: flex;
+}
+
+.gasImg {
+  width: 20px;
+}
+
+.form {
+  display: flex;
+}
+
+.formGroup {
+  margin-top: 16px;
 }

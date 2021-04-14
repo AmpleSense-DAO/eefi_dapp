@@ -255,7 +255,6 @@ function mapStateToProps(store) {
       deposits : store.blockchain.deposits,
       withdrawals : store.blockchain.withdrawals,
       vault_type : store.blockchain.vault_type,
-
     };
   }
 

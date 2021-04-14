@@ -1059,7 +1059,7 @@ class Sidebar extends React.Component {
             </LinksGroup>
 
 
-  <LinksGroup
+            <LinksGroup
               onActiveSidebarItemChange={activeItem =>
                 this.props.dispatch(changeActiveSidebarItem(activeItem))
               }
@@ -1091,8 +1091,6 @@ class Sidebar extends React.Component {
                 />
               )}
             </LinksGroup>
-
-
 			  </ul>
 
 			<p></p>
