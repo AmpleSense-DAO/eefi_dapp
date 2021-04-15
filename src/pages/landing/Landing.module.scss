@@ -1,5 +1,29 @@
 @import '../../styles/app';
 
+.middleSection {
+  display: flex;
+  justify-content: space-evenly;
+  background: #1240c2;
+  color: #f8f9fa;
+  border: none;
+}
+
+.middleDiv {
+  width: 33%;
+  text-align: center;
+  max-width: 500px;
+}
+
+@media (max-width: 900px) {
+  .middleSection {
+    flex-direction: column;
+  }
+  .middleDiv {
+    width: 100%;
+    max-width: 900px;
+  }
+}
+
 footer {
     font-size: 14px;
     position: absolute;
@@ -22,16 +46,13 @@ footer {
 .top-logo-1 {display: flex;}
 .left-logo-1 {display: flex;}
 
- @media only screen and (min-width: 812px) {
-
+@media only screen and (min-width: 812px) {
   [class*="top-logo-"] {
-    display: none; 
+    display: none;
   }
- 
 }
 
 @media only screen and (max-width: 811px) {
-
   [class*="left-logo-"] {
     display: none;
   }
@@ -79,8 +100,6 @@ footer {
   color: $text-muted;
   text-align: center;
 }
-
-
 
 .root {
   .dashboardBlock {
@@ -135,7 +154,7 @@ footer {
       position: static;
       margin-bottom: -28px;
     }
-    }
+  }
   .row {
     align-items: center;
     @include media-breakpoint-down(md) {
