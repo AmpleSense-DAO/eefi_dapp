@@ -483,31 +483,9 @@ class VaultDetail extends React.Component {
     const valueWei = value.mul(new web3.utils.BN(10**7));
     const current_time = Math.floor(Date.now()/1000);
     this.props.dispatch(makeDeposit(this.getVaultType(), web3, account, valueWei, {id: current_time, transactionHash: null, allowanceHash: null, returnValues: {amount: valueWei.toString()}, timestamp: current_time, mined: false, allowanceMined: false}));
-    // contract.allowance().then(allowance => {
-    //   const all = new web3.utils.BN(allowance.toString());
-    //   this.props.dispatch(checkAllowance(all));
-    //   const to_allow = new web3.utils.BN(valueWei.gt(all)? valueWei.sub(all) : "0");
-    //   if(to_allow > 0) {
-    //     contract.approve(valueWei).once('transactionHash', hash_allowance => {
-    //       contract.stake(valueWei.toString()).once('transactionHash', hash_deposit => {
-    //         this.props.dispatch(makeDeposit({id: current_time, transactionHash: hash_deposit, allowanceHash: hash_allowance, returnValues: {amount: valueWei.toString()}, timestamp: current_time, mined: false, allowanceMined: false}));
-    //       }).then(receipt => {
-    //         //after it's mined, update
-    //         this.props.dispatch(makeDeposit({id: current_time, mined: true}));
-    //       });
-    //     }).then(receipt => {
-    //       //after it's mined, update
-    //       this.props.dispatch(makeDeposit({id: current_time, allowanceMined: true}));
-    //     });
-    //   } else {
-    //       contract.stake(valueWei).once('transactionHash', hash_deposit => {
-    //         this.props.dispatch(makeDeposit({id: current_time, transactionHash: hash_deposit, allowanceHash: null}));
-    //       }).then(receipt => {
-    //         //after it's mined, update
-    //         this.props.dispatch(makeDeposit({id: current_time, mined: true}));
-    //       })
-    //   }
-    // });
+    this.setState({
+      amountToDeposit: 0
+    })
   }
 
 
@@ -538,12 +516,9 @@ class VaultDetail extends React.Component {
     const valueWei = value.mul(new web3.utils.BN(10**7));
     const current_time = Math.floor(Date.now()/1000);
     this.props.dispatch(makeWithdrawal(this.getVaultType(), web3, account, valueWei, {id: current_time, transactionHash: null, returnValues: {amount: valueWei.toString()}, timestamp: current_time, mined: false}));
-    // contract.unstake(valueWei).once('transactionHash', hash => {
-    //   //got tx
-    //   this.props.dispatch(makeWithdrawal({id: current_time, transactionHash: hash}));
-    // }).then(receipt => {
-    //   this.props.dispatch(makeWithdrawal({id: current_time, mined: true}));
-    // });
+    this.setState({
+      amountToWithdraw: 0
+    })
   }
 
   render() {
