@@ -5,13 +5,10 @@ import { FETCH_CLAIMABLE_AMPLESENSE_BALANCE } from '../actions/blockchain';
 import { FETCH_KMPL_PRICE } from '../actions/blockchain';
 import { FETCH_REWARD } from '../actions/blockchain';
 import { FETCH_ALLOWANCE } from '../actions/blockchain';
-import { MAKE_DEPOSIT } from '../actions/blockchain';
-import { MAKE_WITHDRAWAL } from '../actions/blockchain';
+import { MAKE_DEPOSIT, MAKE_WITHDRAWAL, FETCH_DEPOSITS, FETCH_WITHDRAWALS } from '../actions/blockchain';
 import { FETCH_GAS_PRICE_FASTEST } from '../actions/blockchain';
 import { FETCH_GAS_PRICE_FAST } from '../actions/blockchain';
 import { FETCH_GAS_PRICE_AVERAGE } from '../actions/blockchain';
-import { FETCH_DEPOSITS } from '../actions/blockchain';
-import { FETCH_WITHDRAWALS } from '../actions/blockchain';
 import { MAKE_CLAIM } from '../actions/blockchain';
 import { FETCH_TOTAL_STAKED } from '../actions/blockchain';
 
@@ -126,18 +123,12 @@ export default function blockchainReducer(state = defaultState, action) {
         withdrawals: new_withdrawals2
       });
     case FETCH_DEPOSITS:
-      let new_deposits = [];
-      if(action.payload)
-        new_deposits.push(action.payload);
       return Object.assign({}, state, {
-        deposits: new_deposits
+        deposits: action.payload.events
       });
     case FETCH_WITHDRAWALS:
-      let new_withdrawals = [];
-      if(action.payload)
-        new_withdrawals.push(action.payload);
       return Object.assign({}, state, {
-        withdrawals: new_withdrawals
+        withdrawals: action.payload.events
       });
     case MAKE_CLAIM:
       let claim_tx = state.claim_tx;

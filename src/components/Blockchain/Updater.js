@@ -153,18 +153,18 @@ export class VaultContract {
   getDepositEvent() {
     const contract = new this.state.web3.eth.Contract(this.state.type.vault_abi.abi, this.state.type.vault);
     if(this.state.type === VaultType.AMPLESENSE) {
-      return contract.events.Deposit({ fromBlock: 0, filter: { account:  this.state.account }, });
+      return contract.getPastEvents("Deposit", { fromBlock: 0, filter: { account:  this.state.account } });
     } else {
-      return contract.events.Staked({ fromBlock: 0, filter: { addr:  this.state.account }, });
+      return contract.getPastEvents("Staked", { fromBlock: 0, filter: { addr:  this.state.account } });
     }
   }
 
   getWithdrawalEvent() {
     const contract = new this.state.web3.eth.Contract(this.state.type.vault_abi.abi, this.state.type.vault);
     if(this.state.type === VaultType.AMPLESENSE) {
-      return contract.events.Withdrawal({ fromBlock: 0, filter: { account:  this.state.account }, });
+      return contract.getPastEvents("Withdrawal", { fromBlock: 0, filter: { account:  this.state.account } });
     } else {
-      return contract.events.Unstaked({ fromBlock: 0, filter: { addr:  this.state.account }, });
+      return contract.getPastEvents("Unstaked", { fromBlock: 0, filter: { addr:  this.state.account } });
     }
   }
 }
@@ -186,28 +186,12 @@ class BlockchainUpdater extends React.Component {
   componentDidMount() {
     const {web3, account,vault_type} = this.props;
     console.log("UUUUUUUUUUUUUUUUP", vault_type)
-    const contract = new VaultContract(this.getVaultType[vault_type], web3, account);
+    
     const that = this;
     this.timer = setInterval(this.pull, 15000);
     this.pull();
-    that.props.dispatch(fetchDeposits(null));
-    that.props.dispatch(fetchWithdrawals(null));
-    //fetch passed events
-    contract.getDepositEvent().on( 'data', function(event) {
-      //add timestamp
-      web3.eth.getBlock(event.blockNumber).then(block => {
-        event.timestamp = block.timestamp;
-        that.props.dispatch(fetchDeposits(event));
-      })
-    }).on('error', console.error);
-    //fetch passed events
-    contract.getWithdrawalEvent().on( 'data', function(event) {
-      //add timestamp
-      web3.eth.getBlock(event.blockNumber).then(block => {
-        event.timestamp = block.timestamp;
-        that.props.dispatch(fetchWithdrawals(event));
-      })
-    }).on('error', console.error);
+    this.props.dispatch(fetchDeposits(this.getVaultType[vault_type], web3, account));
+    this.props.dispatch(fetchWithdrawals(this.getVaultType[vault_type], web3, account));
 
     //get kMPL price
     axios.get(`https://api.coingecko.com/api/v3/coins/ethereum/contract/${CONTRACT_ADDRESSES.KMPL_CONTRACT}`).then(resp => {

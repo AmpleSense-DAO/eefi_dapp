@@ -12,6 +12,8 @@ export const FETCH_GAS_PRICE_FAST = 'FETCH_GAS_PRICE_FAST';
 export const FETCH_GAS_PRICE_AVERAGE = 'FETCH_GAS_PRICE_AVERAGE';
 export const FETCH_DEPOSITS = 'FETCH_DEPOSITS';
 export const FETCH_WITHDRAWALS = 'FETCH_WITHDRAWALS';
+export const ADD_DEPOSIT = 'ADD_DEPOSIT';
+export const ADD_WITHDRAWAL = 'ADD_WITHDRAWAL';
 export const FETCH_CLAIMABLE_AMPLESENSE_BALANCE = 'FETCH_CLAIMABLE_AMPLESENSE_BALANCE';
 export const MAKE_CLAIM = "MAKE_CLAIM";
 export const FETCH_TOTAL_STAKED = "FETCH_TOTAL_STAKED";
@@ -192,15 +194,59 @@ export function fetchGasPriceAverage(price) {
     payload: price
   };
 }
-export function fetchDeposits(deposits) {
-  return {
-    type: FETCH_DEPOSITS,
-    payload: deposits
+export function fetchDeposits(vaultType, web3, account) {
+  const contract = new VaultContract(vaultType, web3, account);
+  return function(dispatch) {
+    //fetch passed events
+    contract.getDepositEvent().then(events => {
+      //add timestamps
+      let block_promises = events.map(event => {
+        return web3.eth.getBlock(event.blockNumber);
+      })
+      Promise.all(block_promises).then(blocks => {
+        events = blocks.map((block, index) => {
+          events[index].timestamp = block.timestamp;
+          return events[index];
+        })
+        dispatch({
+          type: FETCH_DEPOSITS,
+          payload: {events : events}
+        });
+      })
+    })
   };
 }
-export function fetchWithdrawals(withdrawals) {
+export function fetchWithdrawals(vaultType, web3, account) {
+  const contract = new VaultContract(vaultType, web3, account);
+  return function(dispatch) {
+    //fetch passed events
+    contract.getWithdrawalEvent().then(events => {
+      //add timestamps
+      let block_promises = events.map(event => {
+        return web3.eth.getBlock(event.blockNumber);
+      })
+      Promise.all(block_promises).then(blocks => {
+        events = blocks.map((block, index) => {
+          events[index].timestamp = block.timestamp;
+          return events[index];
+        })
+        dispatch({
+          type: FETCH_WITHDRAWALS,
+          payload: {events : events}
+        });
+      })
+    })
+  };
+}
+export function addDeposit(event) {
   return {
-    type: FETCH_WITHDRAWALS,
-    payload: withdrawals
+    type: ADD_DEPOSIT,
+    payload: event
+  };
+}
+export function addWithdrawal(event) {
+  return {
+    type: ADD_WITHDRAWAL,
+    payload: event
   };
 }
