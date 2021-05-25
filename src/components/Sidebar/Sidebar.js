@@ -1072,7 +1072,7 @@ class Sidebar extends React.Component {
               activeItem={this.props.activeItem}
               header="Pioneer Vault III: kMPL/ETH"
               isHeader
-              link="/app/home/vault-detail/3"
+              link="/app/home/vault-detail/5"
               index="main"
             >
               {window.location.href.includes("vault-detail") ? (

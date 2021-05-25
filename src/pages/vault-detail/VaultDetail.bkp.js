@@ -18,7 +18,7 @@ import Widget from "../../components/Widget";
 import s from "./VaultDetail.module.scss";
 import ApexChart from "react-apexcharts";
 
-import {fetchAMPLBalance} from "../../actions/blockchain";
+import {fetchStakingTokenBalance} from "../../actions/blockchain";
 
 import {
   Form,
@@ -416,7 +416,7 @@ class VaultDetail extends React.Component {
   }
 
   render() {
-    const { ampl_balance } = this.props;
+    const { staking_token_balance } = this.props;
     return (
 
 
@@ -434,7 +434,7 @@ class VaultDetail extends React.Component {
          {/* Color options */}
             <Col md={6} sm={12} xs={12}>
               <Widget
-                title={<p style={{ fontWeight: 700 }}>AMPL Wallet Balance: {ampl_balance}</p>} 
+                title={<p style={{ fontWeight: 700 }}>AMPL Wallet Balance: {staking_token_balance}</p>} 
               >
                 <div>
                 
@@ -642,7 +642,7 @@ function mapStateToProps(store) {
   return {
     web3: store.auth.web3,
     account: store.auth.account,
-    ampl_balance: store.blockchain.ampl_balance
+    staking_token_balance: store.blockchain.staking_token_balance
   };
 }
 

@@ -105,12 +105,12 @@ class VaultNFTs extends React.Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(setVaultType(1));
+    this.props.dispatch(setVaultType(3));
   }
 
   toggleFirstTabs(tab) {
     if (this.state.activeFirstTab !== tab) {
-      this.props.dispatch(setVaultType(tab == 'tab11'? 1 : 4));
+      this.props.dispatch(setVaultType(tab == 'tab11'? 3 : 4));
       this.setState({
         activeFirstTab: tab,
       });
@@ -140,13 +140,6 @@ class VaultNFTs extends React.Component {
   render() {
     return (
       <div>
-
-
-      <p>
-        <h2>
-        Pioneer Fund Vault I: NTFs
-        </h2>
-        </p>
         {/* Tabs */}
         <Row>
           <Col md="12" xs="12">
@@ -202,8 +195,8 @@ function mapStateToProps(store) {
   return {
     web3: store.auth.web3,
     account: store.auth.account,
-    ampl_balance: store.blockchain.ampl_balance,
-    ampl_withdraw: store.blockchain.ampl_withdraw,
+    staking_token_balance: store.blockchain.staking_token_balance,
+    staking_token_withdraw: store.blockchain.staking_token_withdraw,
     claimable: store.blockchain.claimable,
     kmpl_price: store.blockchain.kmpl_price,
     reward: store.blockchain.reward,
