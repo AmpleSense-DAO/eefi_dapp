@@ -490,8 +490,6 @@ class VaultDetail extends React.Component {
 
 
   getVaultType() {
-
-
     switch(this.getId()) {
       case 0:
         return VaultType.AMPLESENSE;
