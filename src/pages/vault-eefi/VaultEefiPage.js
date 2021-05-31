@@ -395,7 +395,7 @@ class VaultEefiPage extends React.Component {
       <div className={s.root}>
         <p>
           <h2>
-            EEFI/ETH LP Token Vault
+            EEFI/USDC LP Token Vault
           </h2>
         </p>
 
@@ -492,7 +492,7 @@ class VaultEefiPage extends React.Component {
                     <tr key={0}>
                       <td className="fw-thin pl-0 fw-thin">
                         <h3>
-                          &nbsp;8,709 EEFI/ETH LP Tokens
+                          &nbsp;8,709 EEFI/USDC LP Tokens
                         </h3>
                         <p><h4>APY 90%</h4><br></br></p>
                       </td>

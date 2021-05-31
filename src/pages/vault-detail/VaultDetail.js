@@ -382,13 +382,13 @@ const splineArea = {
 
 class VaultDetail extends React.Component {
 
-   getId = () => {
-        const {match} = this.props;
-        if(!match.params.id) {
-          return this.props.forcedId;
-        }
-        return (parseInt(match.params.id) );
-   }
+  getId = () => {
+    const {match} = this.props;
+    if(!match.params.id) {
+      return this.props.forcedId;
+    }
+    return (parseInt(match.params.id) );
+  }
 
   static propTypes = {
     dispatch: PropTypes.func.isRequired
@@ -423,14 +423,14 @@ class VaultDetail extends React.Component {
     //console.log('value changed to', this.amountToDeposit)
   }
 
- handleChangeToWithdraw(evt) {
+  handleChangeToWithdraw(evt) {
     this.setState({
       amountToWithdraw: evt.target.value
     })
     //console.log('value changed to', this.amountToDeposit)
   }
- calculateAmountToDeposit(evt) {
 
+  calculateAmountToDeposit(evt) {
    const { ampl_balance, account, web3 } = this.props;
    const precision = (new VaultContract(this.getVaultType(), web3, account)).stakingTokenPrecision();
    this.setState({
@@ -512,8 +512,6 @@ class VaultDetail extends React.Component {
 
 
   getVaultType() {
-
-
     switch(this.getId()) {
       case 0:
         return VaultType.AMPLESENSE;
@@ -585,52 +583,51 @@ class VaultDetail extends React.Component {
         <h3>Connect your wallet to view vault details</h3>
       </div>)
     }
-    const ampl_balance_formatted = (new web3.utils.BN(ampl_balance).toNumber() / 10**9).toLocaleString(undefined,{ minimumFractionDigits: 2 });
-    const claimable_formatted = (new web3.utils.BN(claimable).toNumber() / 10**9).toLocaleString(undefined,{ minimumFractionDigits: 2 });
-    const ampl_withdraw_formatted = (new web3.utils.BN(ampl_withdraw).toNumber() / 10**9).toLocaleString(undefined,{ minimumFractionDigits: 2 });
-    const ampl_eth_reward_formatted = (new web3.utils.BN(reward.eth).toNumber() / 10**18).toLocaleString(undefined,{ minimumFractionDigits: 2 });
-    const ampl_token_reward_formatted =(new web3.utils.BN(reward.token).toNumber() / 10**9).toLocaleString(undefined,{ minimumFractionDigits: 2 });
+    // const ampl_balance_formatted = (new web3.utils.BN(ampl_balance).toNumber() / 10**9).toLocaleString(undefined,{ minimumFractionDigits: 2 });
+    // const claimable_formatted = (new web3.utils.BN(claimable).toNumber() / 10**9).toLocaleString(undefined,{ minimumFractionDigits: 2 });
+    // const ampl_withdraw_formatted = (new web3.utils.BN(ampl_withdraw).toNumber() / 10**9).toLocaleString(undefined,{ minimumFractionDigits: 2 });
+    // const ampl_eth_reward_formatted = (new web3.utils.BN(reward.eth).toNumber() / 10**18).toLocaleString(undefined,{ minimumFractionDigits: 2 });
+    // const ampl_token_reward_formatted =(new web3.utils.BN(reward.token).toNumber() / 10**9).toLocaleString(undefined,{ minimumFractionDigits: 2 });
     return (
 
       <div className={s.root}>
         <h2>
-        {contract.vaultName()}
+          {contract.vaultName()}
         </h2>
 
         <Row>
-
-         {/* Color options */}
+            {/* Color options */}
             <Col md={6} sm={12} xs={12}>
               <Widget
                 title={<p style={{ fontWeight: 700 }}>
-                {contract.stakingTokenSymbol()} Wallet Balance: {ampl_balance_formatted}  {contract.stakingTokenSymbol()}</p>}
+                {contract.stakingTokenSymbol()} LP Balance: {/*ampl_balance_formatted*/}  {contract.stakingTokenSymbol()}</p>}
               >
                 <div>
-                 <FormGroup>
-                  <Label for="bar"> Amount to Deposit</Label>
-                   <Table className="table-hover " responsive>
-                    <thead>
-                      <tr>
-                        <th key={0}  scope="col" className={"pl-0"}>
-                            <InputGroup>
-                              <Input id="amountToDeposit" onChange={this.handleChangeToDeposit} value={this.state.amountToDeposit} type="text" id="bar" />
-                              <InputGroupAddon addonType="append">
-                                <ButtonGroup>
-                                  <Button color="ample1" onClick={this.calculateAmountToDeposit} value={0.25}><i className="fa " />25%</Button>
-                                  <Button color="ample2" onClick={this.calculateAmountToDeposit} value={0.50}><i className="fa " />50%</Button>
-                                  <Button color="ample3" onClick={this.calculateAmountToDeposit} value={0.75}><i className="fa " />75%</Button>
-                                  <Button color="ample4" onClick={this.calculateAmountToDeposit} value={1.0}><i className="fa " />100%</Button>
-                                </ButtonGroup>
-                              </InputGroupAddon>
-                            </InputGroup>
-                        </th>
-                      </tr>
-                    </thead>
+                  <FormGroup>
+                    <Label for="bar"> Amount to Deposit</Label>
+                    <Table className="table-hover " responsive>
+                      <thead>
+                        <tr>
+                          <th key={0}  scope="col" className={"pl-0"}>
+                              <InputGroup>
+                                <Input id="amountToDeposit" onChange={this.handleChangeToDeposit} value={this.state.amountToDeposit} type="text" id="bar" />
+                                <InputGroupAddon addonType="append">
+                                  <ButtonGroup>
+                                    <Button color="ample1" onClick={this.calculateAmountToDeposit} value={0.25}><i className="fa " />25%</Button>
+                                    <Button color="ample2" onClick={this.calculateAmountToDeposit} value={0.50}><i className="fa " />50%</Button>
+                                    <Button color="ample3" onClick={this.calculateAmountToDeposit} value={0.75}><i className="fa " />75%</Button>
+                                    <Button color="ample4" onClick={this.calculateAmountToDeposit} value={1.0}><i className="fa " />100%</Button>
+                                  </ButtonGroup>
+                                </InputGroupAddon>
+                              </InputGroup>
+                          </th>
+                        </tr>
+                      </thead>
                     </Table>
-                 </FormGroup>
-                  <p className="fs-mini text-muted">
+                  </FormGroup>
+                  {/* <p className="fs-mini text-muted">
                     New deposits locked for 90 days.
-                  </p>
+                  </p> */}
                   <p className={"d-flex align-items-center "} align="center">
                     <Button color="default" size="lg" align="center" className="mb-md mr-sm" disabled={this.state.amountToDeposit === "0"}  onClick={this.doDeposit}>Deposit</Button>
                   </p>
@@ -640,12 +637,12 @@ class VaultDetail extends React.Component {
 
             {/* Size variants */ }
             <Col md={6} sm={12} xs={12}>
-                    <Widget
+              <Widget
                 title={<p style={{ fontWeight: 700 }}>
-                {contract.stakingTokenSymbol()} Available to Withdraw: {claimable_formatted} {contract.stakingTokenSymbol()}</p>}
+                {contract.stakingTokenSymbol()} Available to Withdraw: {/*claimable_formatted*/} {contract.stakingTokenSymbol()}</p>}
               >
-                <div>
-                   <FormGroup>
+                <div>forcedId
+                  <FormGroup>
                     <Label for="bar"> Amount to Withdraw </Label>
                     <Table className="table-hover " responsive>
                       <thead>
@@ -666,11 +663,11 @@ class VaultDetail extends React.Component {
                         </tr>
                       </thead>
                     </Table>
-                 </FormGroup>
+                  </FormGroup>
 
-                <p className="fs-mini text-muted">
+                {/* <p className="fs-mini text-muted">
                   Unlocked {contract.stakingTokenSymbol()}
-                </p>
+                </p> */}
                 <p className={"d-flex align-items-center "}>
                   <Button color="default" size="lg" className="mb-md mr-sm" disabled={this.state.amountToWithdraw === "0"} onClick={this.doWithdraw}>Withdraw</Button>
                 </p>
@@ -679,7 +676,7 @@ class VaultDetail extends React.Component {
             </Col>
         </Row>
 
-       <Row>
+        <Row>
           <Col sm={12}>
             <Widget>
               <h3>Your Staked Balance and Rewards</h3>
@@ -698,8 +695,8 @@ class VaultDetail extends React.Component {
                   <tr>
                     <td className="fw-thin pl-0 fw-thin">
                       <h3>
-                        &nbsp;{ampl_withdraw_formatted} {contract.stakingTokenSymbol()}
-                        </h3>
+                        &nbsp;{/*ampl_withdraw_formatted*/} {contract.stakingTokenSymbol()}
+                      </h3>
                       <h4>APY {tokenDetailedData[tokenId].apy}</h4>
                       <br></br>
                       {tokenDetailedData[tokenId].staked_section_desc_1 ? tokenDetailedData[tokenId].staked_section_desc_1 : null}  
@@ -709,14 +706,18 @@ class VaultDetail extends React.Component {
 
                     <td className={"pl-0 fw-thin"}>
                     <h4>
-                      <img height="30" src={p2} alt="" className={"mr-3"} />
-                      <span align="right">
-                       &nbsp;{ampl_eth_reward_formatted} {tokenDetailedData[tokenId].rewards_token_1}</span>
+                      { tokenId !== 1 && tokenId !== 4 &&
+                      <p>
+                        <img height="30" src={p2} alt="" className={"mr-3"} />
+                        <span align="right">
+                          &nbsp;{/*ampl_eth_reward_formatted*/} {tokenDetailedData[tokenId].rewards_token_1}
+                        </span>
+                      </p> }
                       <p>
                         <img height="30" src={p5} alt="" className={"mr-3"} />
                         <span align="right">
-                        &nbsp;{ampl_token_reward_formatted} {tokenDetailedData[tokenId].rewards_token_2}</span>
-                        </p>
+                        &nbsp;{/*ampl_token_reward_formatted*/} {tokenDetailedData[tokenId].rewards_token_2}</span>
+                      </p>
                     </h4>
                       <p>
                         <Button color="primary" className="mb-md mr-md" disabled={reward.token === "0" && reward.eth === "0"} onClick={this.doClaim}>Claim</Button>
@@ -780,7 +781,6 @@ class VaultDetail extends React.Component {
                   </tr>
                 </thead>
                 <tbody className="text-dark">
-
                   {withdrawals.slice(0).reverse().map(withdrawal => {
                     return <tr key={withdrawal.transactionHash}>
                       <td className="fw-normal pl-0 fw-thin">
@@ -800,7 +800,6 @@ class VaultDetail extends React.Component {
             </Widget>
           </Col>
         </Row>
-
      </div>
     );
   }

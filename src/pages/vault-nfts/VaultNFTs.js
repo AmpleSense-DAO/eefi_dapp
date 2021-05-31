@@ -95,8 +95,7 @@ class VaultNFTs extends React.Component {
         We searched for a solution of how to make widgets look like real widgets, so we decided that
         deep background - is what makes widgets look real.
         </p>
-        <p class="no-margin text-muted"><em>- Some One</em></p>
-`,
+        <p class="no-margin text-muted"><em>- Some One</em></p>`,
       }, {
         title: 'Check It',
         body: ' Why don\'t use Lore Ipsum? I think if some one says don\'t use lore ipsum it\'s very controversial point. I think the opposite actually.',
@@ -140,18 +139,15 @@ class VaultNFTs extends React.Component {
   render() {
     return (
       <div>
-
-
-      <p>
-        <h2>
-        Pioneer Fund Vault I: NTFs
-        </h2>
+        <p>
+          <h2>
+            Pioneer Fund Vault I: NTFs
+          </h2>
         </p>
         {/* Tabs */}
         <Row>
           <Col md="12" xs="12">
             <div className="clearfix">
-
               <Nav tabs className={`float-left ${s.coloredNav} shadow`}>
                 <NavItem>
                   <NavLink
@@ -169,30 +165,22 @@ class VaultNFTs extends React.Component {
                     <span>Manage Apollo NFTs</span>
                   </NavLink>
                 </NavItem>
-            
               </Nav>
             </div>
             {/* tab content */}
-
-            {this.props.account && <VaultDetail key={""+this.props.vault_type} forcedId={this.props.vault_type}/>}
-
-            <TabContent className='mb-lg shadow' activeTab={this.state.activeFirstTab}>
+            <div className={s.nftTitle}>
+              {this.props.account && <VaultDetail key={""+this.props.vault_type} forcedId={this.props.vault_type}/>}
+            </div>
+            {/* <TabContent className='mb-lg shadow' activeTab={this.state.activeFirstTab}>
               <TabPane tabId="tab11">
-                {/* <VaultDetail forcedId={2}/> */}
+                <VaultDetail forcedId={2}/>
               </TabPane>
-              
               <TabPane tabId="tab12">
-                {/* <VaultDetail forcedId={4}/> */}
+                <VaultDetail forcedId={4}/>
               </TabPane>
-            </TabContent>
-
+            </TabContent> */}
           </Col>
-
-  
         </Row>
-
-   
-
       </div>);
   }
 

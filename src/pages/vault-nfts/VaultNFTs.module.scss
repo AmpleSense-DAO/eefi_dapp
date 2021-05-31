@@ -53,7 +53,7 @@
       position: static;
       margin-bottom: -28px;
     }
-    }
+  }
   .row {
     align-items: center;
     @include media-breakpoint-down(md) {
@@ -70,4 +70,7 @@
       vertical-align: middle;
     }
   }
+}
+.nftTitle{
+  margin-top: 20px;
 }

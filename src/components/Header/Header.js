@@ -34,6 +34,7 @@ import { loginUser, loginError } from "../../actions/user";
 
 // import gasImage from '../../images/icons/gas-icon.png';
 import gasSmallImg from '../../images/icons/gas-icon-24.png';
+import mobileLogo from '../../images/mobilelogo.png';
 // import { stat } from "fs-extra";
 
 const AmplesenseVaultAbi = require("../../contracts/AmplesenseVault.json");
@@ -284,10 +285,11 @@ class Header extends React.Component {
             id="toggleSidebar"
             onClick={this.toggleSidebar}
           >
-            <i
+            {/* <i
               className={`la la-bars`}
               style={{ color: "#000" }}
-            />
+            /> */}
+            <img src={mobileLogo} alt=""/>
           </NavLink>
         </NavItem>
 

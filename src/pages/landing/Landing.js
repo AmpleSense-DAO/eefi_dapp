@@ -44,7 +44,7 @@ class Landing extends React.Component {
     const params = new URLSearchParams(this.props.location.search);
     const token = params.get("token");
     if (token) {
-  //    this.props.dispatch(receiveToken(token));
+      // this.props.dispatch(receiveToken(token));
     }
   }
 
@@ -60,24 +60,26 @@ class Landing extends React.Component {
           <Row>
               <Col >
                 <div  responsive>
-                  <div className="top-logo-1">
+                  <div className={s.topLogoSection}>
                     <img height="180px" src={p1} alt="" className={"mr-3 mt-2 top-logo-1"} />
                   </div>
                   <Table  className="table">
                     <tr>
                       <td  width="66%">
                         <div className={"text-info"}  >
-                          <span  className={"d-flex "}>&nbsp;
-                            <h2 className="display-4 d-flex">
-                              Unleash the power of your elastic assets
-                            </h2>
-                          </span>
-                          <span className={"d-flex"} >&nbsp;
-                            <h4>
-                              Earn token rewards, hedge against negative rebase and more
-                            </h4>
-                          </span>
-                          <br/>
+                          <div>
+                            <span  className={"d-flex "}>&nbsp;
+                              <h2 className="display-4 d-flex">
+                                Unleash the power of your elastic assets
+                              </h2>
+                            </span>
+                            <span className={"d-flex"} >
+                              <h4>
+                                Earn token rewards, hedge against negative rebase and more
+                              </h4>
+                            </span>
+                            <br/>
+                          </div>
                           <span className={"d-flex align-items-center "} responsive>
                             <Link to="/app/home/vault-summary">
                               <Button color="info" size="lg" className="mb-md mr-sm" responsive>Launch App</Button>
@@ -135,8 +137,9 @@ class Landing extends React.Component {
                         </h5>
                       </p>
                       <p className={"d-flex  align-items-center"}>&nbsp;
-                        <a target="_blank" href="https://en.wikipedia.org/wiki/Decentralized_autonomous_organization" rel="noopener noreferrer">
-                          <h5 className={"text-info white-space : normal" } >Learn about the DAO</h5>
+                        <a target="_blank" href="https://amplesense.io" rel="noopener noreferrer">
+                          {/* <h5 className={"text-info white-space : normal" } >Learn about the DAO</h5> */}
+                          <Button color="info" size="lg" className="mb-md mr-sm" responsive>Learn about the DAO</Button>
                         </a>
                       </p>
                     </div>
