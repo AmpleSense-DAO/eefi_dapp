@@ -5,7 +5,6 @@ import {
 import classnames from 'classnames';
 
 import dashboardLight from '../../images/light-dashboard.svg'
-import dashboardDark from '../../images/dark-dashboard.svg'
 import chartLight from '../../images/icons/Charts_outlined.svg'
 import chartDark from '../../images/icons/Charts_filled.svg'
 import coreLight from '../../images/icons/Core_outlined.svg'
@@ -139,7 +138,7 @@ class Icons extends React.Component {
 
                 <Col className="icon-list-item" lg={3} md={4} xs={12}><a
                     href="../icon/file-archive-o"
-                ><img src={dashboardDark} alt="" width={"15px"} style={{marginRight: 25}}/> dashboard-dark</a></Col>
+                ><img src="" alt="" width={"15px"} style={{marginRight: 25}}/> dashboard-dark</a></Col>
                 <Col className="icon-list-item" lg={3} md={4} xs={12}><a href="../icon/file"><img src={chartLight} alt="" width={"15px"} style={{marginRight: 25}}/> charts-light</a></Col>
 
                 <Col className="icon-list-item" lg={3} md={4} xs={12}><a

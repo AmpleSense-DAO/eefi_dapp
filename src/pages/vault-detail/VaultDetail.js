@@ -15,6 +15,7 @@ import p2 from "../../images/tokens/eefi_token_logo.png";
 // import p3 from "../../images/tokens/kappa_logo_kmpl.png";
 // import p4 from "../../images/tokens/apollo_cropped_edited_sm.png";
 import p5 from "../../images/tokens/ethereum-eth-logo.svg";
+import p7 from "../../images/tokens/kmpl_uni_logo.png";
 
 import {setVaultType, checkAllowance, makeDeposit, makeWithdrawal, makeClaim } from "../../actions/blockchain";
 
@@ -416,7 +417,7 @@ class VaultDetail extends React.Component {
     amountToWithdraw: "0"
   };
 
- handleChangeToDeposit(evt) {
+  handleChangeToDeposit(evt) {
     this.setState({
       amountToDeposit: evt.target.value
     })
@@ -431,19 +432,19 @@ class VaultDetail extends React.Component {
   }
 
   calculateAmountToDeposit(evt) {
-   const { ampl_balance, account, web3 } = this.props;
-   const precision = (new VaultContract(this.getVaultType(), web3, account)).stakingTokenPrecision();
-   this.setState({
-      amountToDeposit: parseFloat(ampl_balance / 10**precision * evt.target.value).toString()
+    const { ampl_balance, account, web3 } = this.props;
+    const precision = (new VaultContract(this.getVaultType(), web3, account)).stakingTokenPrecision();
+    this.setState({
+        amountToDeposit: parseFloat(ampl_balance / 10**precision * evt.target.value).toString()
     })
   }
 
   calculateAmountToWithdraw(evt) {
-   const { claimable, account, web3 } = this.props;
-   const precision = (new VaultContract(this.getVaultType(), web3, account)).stakingTokenPrecision();
-   this.setState({
-      amountToWithdraw: parseFloat(claimable / 10**precision * evt.target.value).toString()
-    })
+    const { claimable, account, web3 } = this.props;
+    const precision = (new VaultContract(this.getVaultType(), web3, account)).stakingTokenPrecision();
+    this.setState({
+        amountToWithdraw: parseFloat(claimable / 10**precision * evt.target.value).toString()
+      })
   }
 
   componentDidMount() {
@@ -591,16 +592,21 @@ class VaultDetail extends React.Component {
     return (
 
       <div className={s.root}>
-        <h2>
-          {contract.vaultName()}
-        </h2>
-
+        <div className={s.headerImg}>
+          { contract.stakingTokenSymbol() === "AMPL" && <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAMAAACdt4HsAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAJeUExURUxpcQAAAAAAAD8/PwAAAFVVVQAAAAAAAAAAAAAAAAAAAP///39/fwAAAA4ODgEBAQEBAQAAAP///wsLC////8bGxgoKCv///woKCg4ODgAAAA0NDQAAAExMTC4uLjMzMwoKChISEi0tLRQUFH9/f1ZWVkJCQjo6OhQUFCYmJhcXFw8PDw8PDwsLCwkJCUdHRyIiIgAAABkZGRAQEEhISFJSUhISEtfX1////zMzMxkZGUFBQSoqKg8PD0hISP///xUVFXt7eyEhISoqKhgYGCkpKR0dHR0dHQoKChAQEBQUFHFxcRoaGjg4OFlZWQkJCSQkJCIiIv///yUlJSUlJTIyMgsLCx0dHU1NTbS0tDAwMAoKChgYGBUVFQAAAAEBAQEBARISEnV1dTk5ORISEh8fHxMTE9DQ0EFBQQcHByUlJRwcHDk5OQ0NDRkZGQoKChISEgEBATk5OUlJSRgYGA8PD+Li4iYmJpubmxgYGBsbGzg4OA8PDw4ODh0dHRgYGFxcXAgICBwcHBEREZubmywsLCgoKKqqql1dXRcXFzAwMBoaGg4ODjMzMw0NDaWlpQsLCx4eHjU1NUNDQxAQEEdHRygoKA4ODhAQEAoKCnZ2diIiIjAwMDMzMzo6OikpKQ8PDxsbG0ZGRq+vr39/fxwcHFZWVhMTExISEggICB8fHwUFBb+/v2traw8PD6KiohEREQgICOXl5RYWFj09PRsbGyQkJBoaGgEBATw8PAwMDAICAiMjI2lpaSIiIgAAAAEBAQUFBQICAgQEBAgICAMDAwkJCQ0NDQYGBgcHB7CGDNAAAAC/dFJOUwD3/QQCA/4BAwT5AwL6yP78+wLWBBLKAfvH+MkGCpt31fRxxRovaFxxg8/Xxsg2TpT8y9M8PugNBU/cOoXJLgfWI5AGwoC/r/725BvERCj6XCwIlWZ+8pwuEYn9r8sH+vnrGlTsieYLPvyBs0f1ysnZ+1Uts+QJjBLHqFvx4JPNL/mg7hdbdwwmw1616QXwFPOyUVP3J3/G+/kcf2qqcW/DtzYgHMYs1NP1mfwUGsgW2fsKy0uuqq33WPn8hymLeTbbhQAAAhlJREFUWMPtVWVz3DAQXfscr3SXuzCnTVNmZkyZmZmZmSkpp8zMzMztygdp+6/qeOo2M/1QSzf95vfB49HM0+q93ScB+PDhwxMMTI6fJN3m16+VDJ9Do9K69lfdgMy2VA8MdT70HJSe3wBS1BXMF5pooqwBceF2fTW1C6FiLwJ4Kv6d9Kr2qhoY3Hh0RYTFWPtPBalwO//+rQsmLRijauG1xCW4Q0FrmZoGDN37cRevxjRRrqSBwU3reh4+OW5SxSaVTDB4mLgMxVBJwdhWCCjE6NjRBxfhCO6NFdJSBQ0cDkVPADNgzzYyl8+xeyKdg4PiJHK79BazMDoOZcc5BXbFD++3hQRwrhWkYdKR5LCRdlQrR5g8j/SRIyR3QNiw3lrkWMdhotCi/SUjyXFNdFW2k0IGw60wlWWjpIXraIlbtNcQyqjqIDXOqXBg9+K1vygc+ggtrbWUBg5naWcmug3pFm9DHTtJjDPiy+e0zy2J2LkrZVhdkEnE4LX14szvxnHoLjRzIMhs8MZ8FcI/QzVpqm5OGIqG57vwy0fxucbwGqHpFEyMh77eDLBP+o5iH6DYLWjMgCk0S5+dA8ybimdfrfef3j6usZIzLT08M21Ab0+v+ejN56kap1eMcnxn2KrfYGeFvjUtyTP+6V/LrNxzTyNFBSuzGju+M2jYLLegKBLp0bxFndqKN7zsi+birwVE8OHDh4//hp9kzYDsFysvpQAAAABJRU5ErkJggg==" height={80} width={80} alt="" className={s.mobileImg} />}
+          { contract.stakingTokenSymbol() !== "AMPL" && <img src={contract.tokenImagePath()} height={80} width={80} alt="" className={s.mobileImg} />}
+          <div className={s.headerText}>
+            <h2>
+              {contract.vaultName()}
+            </h2>
+          </div>
+        </div>
         <Row>
             {/* Color options */}
             <Col md={6} sm={12} xs={12}>
               <Widget
                 title={<p style={{ fontWeight: 700 }}>
-                {contract.stakingTokenSymbol()} LP Balance: {/*ampl_balance_formatted*/}  {contract.stakingTokenSymbol()}</p>}
+                {contract.stakingTokenSymbol()} Balance: {/*ampl_balance_formatted*/}  {contract.stakingTokenSymbol()}</p>}
               >
                 <div>
                   <FormGroup>
@@ -641,7 +647,7 @@ class VaultDetail extends React.Component {
                 title={<p style={{ fontWeight: 700 }}>
                 {contract.stakingTokenSymbol()} Available to Withdraw: {/*claimable_formatted*/} {contract.stakingTokenSymbol()}</p>}
               >
-                <div>forcedId
+                <div>
                   <FormGroup>
                     <Label for="bar"> Amount to Withdraw </Label>
                     <Table className="table-hover " responsive>
@@ -699,9 +705,9 @@ class VaultDetail extends React.Component {
                       </h3>
                       <h4>APY {tokenDetailedData[tokenId].apy}</h4>
                       <br></br>
-                      {tokenDetailedData[tokenId].staked_section_desc_1 ? tokenDetailedData[tokenId].staked_section_desc_1 : null}  
+                      {tokenDetailedData[tokenId].staked_section_desc_1 ? tokenDetailedData[tokenId].staked_section_desc_1 : null}
                       <br></br>
-                      {tokenDetailedData[tokenId].staked_section_desc_2 ? tokenDetailedData[tokenId].staked_section_desc_2 : null}  
+                      {tokenDetailedData[tokenId].staked_section_desc_2 ? tokenDetailedData[tokenId].staked_section_desc_2 : null}
                     </td>
 
                     <td className={"pl-0 fw-thin"}>

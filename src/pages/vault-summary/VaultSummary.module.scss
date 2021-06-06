@@ -5,12 +5,10 @@
 .table-vaults-short-1 {display: flex;}
 .table-vaults-long-1 {display: flex;}
 
- @media only screen and (min-width: 813px) {
-
+@media only screen and (min-width: 813px) {
   [class*="table-vaults-short-"] {
-    display: none; 
+    display: none;
   }
- 
 }
 
 @media only screen and (max-width: 812px) {
@@ -20,7 +18,11 @@
   }
 }
 
-
+@media only screen and (min-width: 813px) {
+  [class*="table-vaults-short-"] {
+    display: none;
+  }
+}
 
 .root {
   .dashboardBlock {
@@ -93,3 +95,10 @@
     }
   }
 }
+
+@media only screen and (max-width: 813px) {
+  .mobileImg {
+    margin: auto;
+  }
+}
+

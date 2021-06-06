@@ -68,7 +68,7 @@ class Landing extends React.Component {
                       <td  width="66%">
                         <div className={"text-info"}  >
                           <div>
-                            <span  className={"d-flex "}>&nbsp;
+                            <span  className={"d-flex "}>
                               <h2 className="display-4 d-flex">
                                 Unleash the power of your elastic assets
                               </h2>

@@ -38,11 +38,11 @@ export const CONTRACT_ADDRESSES = {
 }
 
 export const VaultType = {
-  AMPLESENSE : {vault: CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT, staking_token: CONTRACT_ADDRESSES.AMPLE_CONTRACT, vault_abi: AmplesenseVaultAbi, staking_token_abi: erc20Abi, staking_symbol: "AMPL", precision: 9, name: "Elastic Vault: AMPL > EEFI"},
-  PIONEER1A : {vault: CONTRACT_ADDRESSES.PIONEER1_CONTRACT, staking_token: CONTRACT_ADDRESSES.NFT1_CONTRACT, vault_abi: StakingERC721Abi, staking_token_abi: erc721Abi, staking_symbol: "EEFI/USDC", precision: 1, name: "EEFI/USDC LP Vault"},
-  PIONEER1B : {vault: CONTRACT_ADDRESSES.PIONEER1_CONTRACT, staking_token: CONTRACT_ADDRESSES.NFT2_CONTRACT, vault_abi: StakingERC721Abi, staking_token_abi: erc721Abi, staking_symbol: "kMPL/ETH", precision: 1, name: "kMPL/ETH LP Vault"},
-  PIONEER2 : {vault: CONTRACT_ADDRESSES.PIONEER2_CONTRACT, staking_token: CONTRACT_ADDRESSES.KMPL_CONTRACT, vault_abi: StakingERC20Abi, staking_token_abi: erc20Abi, staking_symbol: "kMPL", precision: 9, name: "Pioneer Fund Vault II: kMPL"},
-  LPSTAKING : {vault: CONTRACT_ADDRESSES.LPSTAKING_CONTRACT, staking_token: CONTRACT_ADDRESSES.Univ3_EEFI_ETH_CONTRACT, vault_abi: StakingERC20Abi, staking_token_abi: erc20Abi, staking_symbol: "UniswapV2", precision: 18, name: "EEFI/ETH LP Token Vault"}
+  AMPLESENSE : {vault: CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT, staking_token: CONTRACT_ADDRESSES.AMPLE_CONTRACT, vault_abi: AmplesenseVaultAbi, staking_token_abi: erc20Abi, staking_symbol: "AMPL", precision: 9, name: "Elastic Vault: AMPL > EEFI", path: "/src/images/tokens/ample.png"},
+  PIONEER1A : {vault: CONTRACT_ADDRESSES.PIONEER1_CONTRACT, staking_token: CONTRACT_ADDRESSES.NFT1_CONTRACT, vault_abi: StakingERC721Abi, staking_token_abi: erc721Abi, staking_symbol: "EEFI/USDC", precision: 1, name: "EEFI/USDC LP Vault", path: "/tables/media/new_ee_balancer.png"},
+  PIONEER1B : {vault: CONTRACT_ADDRESSES.PIONEER1_CONTRACT, staking_token: CONTRACT_ADDRESSES.NFT2_CONTRACT, vault_abi: StakingERC721Abi, staking_token_abi: erc721Abi, staking_symbol: "kMPL/ETH", precision: 1, name: "kMPL/ETH LP Vault", path: "/tables/media/kmpl_uni_logo.png"},
+  PIONEER2 : {vault: CONTRACT_ADDRESSES.PIONEER2_CONTRACT, staking_token: CONTRACT_ADDRESSES.KMPL_CONTRACT, vault_abi: StakingERC20Abi, staking_token_abi: erc20Abi, staking_symbol: "kMPL", precision: 9, name: "Pioneer Fund Vault II: kMPL", path: "/tables/media/kappa_logo_kmpl.png"},
+  LPSTAKING : {vault: CONTRACT_ADDRESSES.LPSTAKING_CONTRACT, staking_token: CONTRACT_ADDRESSES.Univ3_EEFI_ETH_CONTRACT, vault_abi: StakingERC20Abi, staking_token_abi: erc20Abi, staking_symbol: "Zeus NFT", precision: 18, name: "EEFI/ETH LP Token Vault", path: "/tables/media/apollo_cropped_edited_sm.png"}
 }
 
 export class VaultContract {
@@ -64,6 +64,10 @@ export class VaultContract {
 
   stakingTokenSymbol() {
     return this.state.type.staking_symbol;
+  }
+
+  tokenImagePath() {
+    return this.state.type.path;
   }
 
   allowance() {

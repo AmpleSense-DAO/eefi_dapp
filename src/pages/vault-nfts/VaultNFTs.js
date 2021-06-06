@@ -139,11 +139,12 @@ class VaultNFTs extends React.Component {
   render() {
     return (
       <div>
-        <p>
-          <h2>
+        <div className={s.headerImg}>
+          <img src="/tables/media/apollo_cropped_edited_sm.png" height={80} width={80} alt="" className={s.mobileImg} />
+          <h2 className={s.headerText}>
             Pioneer Fund Vault I: NTFs
           </h2>
-        </p>
+        </div>
         {/* Tabs */}
         <Row>
           <Col md="12" xs="12">
@@ -167,18 +168,18 @@ class VaultNFTs extends React.Component {
                 </NavItem>
               </Nav>
             </div>
-            {/* tab content */}
+            {/* tab content
             <div className={s.nftTitle}>
               {this.props.account && <VaultDetail key={""+this.props.vault_type} forcedId={this.props.vault_type}/>}
-            </div>
-            {/* <TabContent className='mb-lg shadow' activeTab={this.state.activeFirstTab}>
+            </div> */}
+            <TabContent className='mb-lg shadow' activeTab={this.state.activeFirstTab}>
               <TabPane tabId="tab11">
-                <VaultDetail forcedId={2}/>
+                {this.props.account && <VaultDetail forcedId={2}/> }
               </TabPane>
               <TabPane tabId="tab12">
-                <VaultDetail forcedId={4}/>
+                {this.props.account && <VaultDetail forcedId={4}/> }
               </TabPane>
-            </TabContent> */}
+            </TabContent>
           </Col>
         </Row>
       </div>);

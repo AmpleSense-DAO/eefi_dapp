@@ -44,7 +44,7 @@ import tablesFilled from "../../images/theme-icons/yellow/Tables_filled.svg";
 import mapsOutlined from "../../images/theme-icons/yellow/Maps_outlined.svg";
 import mapsFilled from "../../images/theme-icons/yellow/Maps_filled.svg";
 import extraOutlined from "../../images/light-extra.svg";
-import extraFilled from "../../images/dark-extra.svg";
+import extraFilled from "../../images/light-extra.svg";
 
 // danger
 import lightDashboardIconDanger from "../../images/theme-icons/red/Dashboard_outlined.svg";
