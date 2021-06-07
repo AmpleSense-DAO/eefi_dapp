@@ -39,7 +39,7 @@ import {
 // const AmplesenseVaultAbi = require("../../contracts/AmplesenseVault.json");
 // const erc20Abi = require("../../contracts/ERC20.json");
 // const { CONTRACT_ADDRESSES, VaultContract, VaultType } = require("../../components/Blockchain/Updater.js");
-const { VaultContract, VaultType } = require("../../components/Blockchain/Updater.js");
+const { VaultContract, VaultType, vaultTypeFromID } = require("../../components/Blockchain/Updater.js");
 
 const orderValueOverride = {
   options: {
@@ -395,6 +395,11 @@ class VaultDetail extends React.Component {
     dispatch: PropTypes.func.isRequired
   };
 
+  componentDidUpdate(prevProps, prevState) {
+    if(this.getId() >= 0)
+      this.props.dispatch(setVaultType(this.getId()));
+  }
+
   constructor(props) {
     super(props);
     this.forceUpdate = this.forceUpdate.bind(this)
@@ -421,22 +426,20 @@ class VaultDetail extends React.Component {
     this.setState({
       amountToDeposit: evt.target.value
     })
-    //console.log('value changed to', this.amountToDeposit)
   }
 
   handleChangeToWithdraw(evt) {
     this.setState({
       amountToWithdraw: evt.target.value
     })
-    //console.log('value changed to', this.amountToDeposit)
   }
 
   calculateAmountToDeposit(evt) {
-    const { ampl_balance, account, web3 } = this.props;
+    const { staking_token_balance, account, web3 } = this.props;
     const precision = (new VaultContract(this.getVaultType(), web3, account)).stakingTokenPrecision();
     this.setState({
-        amountToDeposit: parseFloat(ampl_balance / 10**precision * evt.target.value).toString()
-    })
+        amountToDeposit: parseFloat(staking_token_balance / 10**precision * evt.target.value).toString()
+    });
   }
 
   calculateAmountToWithdraw(evt) {
@@ -449,9 +452,6 @@ class VaultDetail extends React.Component {
 
   componentDidMount() {
     window.addEventListener("resize", this.forceUpdate.bind(this));
-
-    this.props.dispatch(setVaultType(this.getId()));
-    console.log("VAULT TYPE SET TO ", this.getId())
     this.setState({
       tokenDetailedDataList: tokenDetailedData
     })
@@ -465,7 +465,7 @@ class VaultDetail extends React.Component {
   doClaim() {
     const {account, web3} = this.props;
 
-    const contract = new VaultContract(this.getVaultType(), web3, account);
+    const contract = new VaultContract(vaultTypeFromID[this.getId()], web3, account);
 
     contract.claim().once('transactionHash', hash => {
       this.props.dispatch(makeClaim(hash, false));
@@ -478,40 +478,21 @@ class VaultDetail extends React.Component {
 
   doDeposit() {
     const {account, web3} = this.props;
-    const value = new web3.utils.BN(Math.floor(parseFloat(this.state.amountToDeposit) * 100));
-    const contract = new VaultContract(this.getVaultType(), web3, account);
-    // const precision = contract.stakingTokenPrecision();
-    const valueWei = value.mul(new web3.utils.BN(10**7));
+    
+    const contract = new VaultContract(vaultTypeFromID[this.getId()], web3, account);
+    const valueWei = contract.getValueWei(this.state.amountToDeposit);
     const current_time = Math.floor(Date.now()/1000);
-    this.props.dispatch(makeDeposit({id: current_time, transactionHash: null, allowanceHash: null, returnValues: {amount: valueWei.toString()}, timestamp: current_time, mined: false, allowanceMined: false}));
-    contract.allowance().then(allowance => {
-      const all = new web3.utils.BN(allowance.toString());
-      this.props.dispatch(checkAllowance(all));
-      const to_allow = new web3.utils.BN(valueWei.gt(all)? valueWei.sub(all) : "0");
-      if(to_allow > 0) {
-        contract.approve(valueWei).once('transactionHash', hash_allowance => {
-          contract.stake(valueWei.toString()).once('transactionHash', hash_deposit => {
-            this.props.dispatch(makeDeposit({id: current_time, transactionHash: hash_deposit, allowanceHash: hash_allowance, returnValues: {amount: valueWei.toString()}, timestamp: current_time, mined: false, allowanceMined: false}));
-          }).then(receipt => {
-            //after it's mined, update
-            this.props.dispatch(makeDeposit({id: current_time, mined: true}));
-          });
-        }).then(receipt => {
-          //after it's mined, update
-          this.props.dispatch(makeDeposit({id: current_time, allowanceMined: true}));
-        });
-      } else {
-          contract.stake(valueWei).once('transactionHash', hash_deposit => {
-            this.props.dispatch(makeDeposit({id: current_time, transactionHash: hash_deposit, allowanceHash: null}));
-          }).then(receipt => {
-            //after it's mined, update
-            this.props.dispatch(makeDeposit({id: current_time, mined: true}));
-          })
-      }
+    this.props.dispatch(makeDeposit(vaultTypeFromID[this.getId()], web3, account, valueWei, {id: current_time, transactionHash: null, allowanceHash: null, returnValues: {amount: valueWei.toString()}, timestamp: current_time, mined: false, allowanceMined: false}));
+    this.setState({
+      amountToDeposit: 0
     })
   }
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
   getVaultType() {
     switch(this.getId()) {
       case 0:
@@ -531,26 +512,23 @@ class VaultDetail extends React.Component {
 
   doWithdraw() {
     const {account, web3} = this.props;
-    const value = new web3.utils.BN(Math.floor(parseFloat(this.state.amountToWithdraw) * 100));
-    const contract = new VaultContract(this.getVaultType(), web3, account);
-    // const precision = contract.stakingTokenPrecision();
-    const valueWei = value.mul(new web3.utils.BN(10**7));
+    const value = new web3.utils.BN(Math.floor(parseFloat(this.state.amountToWithdraw) * 100000));
+    const contract = new VaultContract(vaultTypeFromID[this.getId()], web3, account);
+    const precision = contract.stakingTokenPrecision();
+    const valueWei = value.mul(new web3.utils.BN(10**(precision-5)));
     const current_time = Math.floor(Date.now()/1000);
-    this.props.dispatch(makeWithdrawal({id: current_time, transactionHash: null, returnValues: {amount: valueWei.toString()}, timestamp: current_time, mined: false}));
-    contract.unstake(valueWei).once('transactionHash', hash => {
-      //got tx
-      this.props.dispatch(makeWithdrawal({id: current_time, transactionHash: hash}));
-    }).then(receipt => {
-      this.props.dispatch(makeWithdrawal({id: current_time, mined: true}));
-    });
+    this.props.dispatch(makeWithdrawal(vaultTypeFromID[this.getId()], web3, account, valueWei, {id: current_time, transactionHash: null, returnValues: {amount: valueWei.toString()}, timestamp: current_time, mined: false}));
+    this.setState({
+      amountToWithdraw: 0
+    })
   }
 
   render() {
     var tokenId = 0;
     const {
       // vault_type,
-      ampl_balance,
-      ampl_withdraw,
+      staking_token_balance,
+      staking_token_withdraw,
       claimable,
       // kmpl_price,
       reward,
@@ -560,14 +538,12 @@ class VaultDetail extends React.Component {
       withdrawals
     } = this.props;
 
-    const contract = new VaultContract(this.getVaultType(), web3, account);
+    const contract = new VaultContract(vaultTypeFromID[this.getId()], web3, account);
 
     if (this.getId()) {
           tokenId = this.getId();
-        //  console.log('VAULT ID: ', this.getId());
     } else {
           tokenId = 0;
-        //  console.log('VAULT ID: no vault id');
     }
 
     // check that token id is between 0 and max tokens from the data file, otherwise return 0 - AMPL
@@ -584,11 +560,15 @@ class VaultDetail extends React.Component {
         <h3>Connect your wallet to view vault details</h3>
       </div>)
     }
-    // const ampl_balance_formatted = (new web3.utils.BN(ampl_balance).toNumber() / 10**9).toLocaleString(undefined,{ minimumFractionDigits: 2 });
-    // const claimable_formatted = (new web3.utils.BN(claimable).toNumber() / 10**9).toLocaleString(undefined,{ minimumFractionDigits: 2 });
-    // const ampl_withdraw_formatted = (new web3.utils.BN(ampl_withdraw).toNumber() / 10**9).toLocaleString(undefined,{ minimumFractionDigits: 2 });
-    // const ampl_eth_reward_formatted = (new web3.utils.BN(reward.eth).toNumber() / 10**18).toLocaleString(undefined,{ minimumFractionDigits: 2 });
-    // const ampl_token_reward_formatted =(new web3.utils.BN(reward.token).toNumber() / 10**9).toLocaleString(undefined,{ minimumFractionDigits: 2 });
+
+    const BN = (x) => web3.utils.toBN(x);
+
+    const staking_token_balance_formatted = BN(staking_token_balance).div(BN(10**contract.stakingTokenPrecision())).toString();
+    const claimable_formatted = BN(claimable).div(BN(10**contract.stakingTokenPrecision())).toString();
+    const staking_token_withdraw_formatted = BN(staking_token_withdraw).div(BN(10**contract.stakingTokenPrecision())).toString();
+    const ampl_eth_reward_formatted = web3.utils.fromWei(reward.eth, "ether");
+    //in case of pioneer1 there is no token reward
+    const ampl_token_reward_formatted = BN(reward.token? reward.token : 0).div(BN(10**contract.rewardTokenPrecision())).toString();
     return (
 
       <div className={s.root}>
@@ -606,7 +586,7 @@ class VaultDetail extends React.Component {
             <Col md={6} sm={12} xs={12}>
               <Widget
                 title={<p style={{ fontWeight: 700 }}>
-                {contract.stakingTokenSymbol()} Balance: {/*ampl_balance_formatted*/}  {contract.stakingTokenSymbol()}</p>}
+                {contract.stakingTokenSymbol()} Balance: {staking_token_balance_formatted}  {contract.stakingTokenSymbol()}</p>}
               >
                 <div>
                   <FormGroup>
@@ -701,7 +681,7 @@ class VaultDetail extends React.Component {
                   <tr>
                     <td className="fw-thin pl-0 fw-thin">
                       <h3>
-                        &nbsp;{/*ampl_withdraw_formatted*/} {contract.stakingTokenSymbol()}
+                      &nbsp;{staking_token_withdraw_formatted} {contract.stakingTokenSymbol()}
                       </h3>
                       <h4>APY {tokenDetailedData[tokenId].apy}</h4>
                       <br></br>
@@ -759,7 +739,7 @@ class VaultDetail extends React.Component {
                         &nbsp;{new Date(deposit.timestamp * 1000).toUTCString()}
                       </td>
                       <td className={"pl-0 fw-thin"}>
-                        &nbsp;{(deposit.returnValues.amount / 10**tokenDetailedData[tokenId].precision).toLocaleString(undefined,{ minimumFractionDigits: 2 })} {contract.stakingTokenSymbol()}
+                        &nbsp;{(deposit.returnValues.amount / 10**contract.stakingTokenPrecision()).toString()} {contract.stakingTokenSymbol()}
                       </td>
                       <td className={"pl-0 fw-thin"}>
                       {deposit.allowanceHash && <div>
@@ -794,7 +774,7 @@ class VaultDetail extends React.Component {
                         &nbsp;{new Date(withdrawal.timestamp * 1000).toUTCString()}
                       </td>
                       <td className={"pl-0 fw-thin"}>
-                        &nbsp;{(withdrawal.returnValues.amount / 10**tokenDetailedData[tokenId].precision).toLocaleString(undefined,{ minimumFractionDigits: 2 })} {contract.stakingTokenSymbol()}
+                        &nbsp;{(withdrawal.returnValues.amount / 10**contract.stakingTokenPrecision()).toString()} {contract.stakingTokenSymbol()}
                       </td>
                       <td className={"pl-0 fw-thin"}>
                         {withdrawal.transactionHash && <div>{withdrawal.transactionHash.substr(0,8)+"..."}   <a href={"https://www.etherscan.io/tx/" + withdrawal.transactionHash}  target="_blank" rel="noopener noreferrer">Link {withdrawal.mined === false && "(pending)"}</a></div>}</td>
@@ -815,14 +795,15 @@ function mapStateToProps(store) {
   return {
     web3: store.auth.web3,
     account: store.auth.account,
-    ampl_balance: store.blockchain.ampl_balance,
-    ampl_withdraw: store.blockchain.ampl_withdraw,
+    staking_token_balance: store.blockchain.staking_token_balance,
+    staking_token_withdraw: store.blockchain.staking_token_withdraw,
     claimable: store.blockchain.claimable,
     kmpl_price: store.blockchain.kmpl_price,
     reward: store.blockchain.reward,
     deposits: store.blockchain.deposits,
     withdrawals: store.blockchain.withdrawals,
-    claim_tx: store.blockchain.claim_tx
+    claim_tx: store.blockchain.claim_tx,
+    stakableNFTs: store.blockchain.stakableNFTs
   };
 }
 

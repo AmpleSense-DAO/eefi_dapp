@@ -1,28 +1,25 @@
-import { FETCH_AMPL_BALANCE } from '../actions/blockchain';
+import { FETCH_STAKING_TOKEN_BALANCE } from '../actions/blockchain';
 import { SET_VAULT_TYPE } from '../actions/blockchain';
-import { FETCH_AMPL_AMPLESENSE_BALANCE } from '../actions/blockchain';
+import { FETCH_STAKING_AMPLESENSE_BALANCE } from '../actions/blockchain';
 import { FETCH_CLAIMABLE_AMPLESENSE_BALANCE } from '../actions/blockchain';
 import { FETCH_KMPL_PRICE } from '../actions/blockchain';
 import { FETCH_REWARD } from '../actions/blockchain';
 import { FETCH_ALLOWANCE } from '../actions/blockchain';
-import { MAKE_DEPOSIT } from '../actions/blockchain';
-import { MAKE_WITHDRAWAL } from '../actions/blockchain';
+import { MAKE_DEPOSIT, MAKE_WITHDRAWAL, FETCH_DEPOSITS, FETCH_WITHDRAWALS, FETCH_STAKABLE_NFTS } from '../actions/blockchain';
 import { FETCH_GAS_PRICE_FASTEST } from '../actions/blockchain';
 import { FETCH_GAS_PRICE_FAST } from '../actions/blockchain';
 import { FETCH_GAS_PRICE_AVERAGE } from '../actions/blockchain';
-import { FETCH_DEPOSITS } from '../actions/blockchain';
-import { FETCH_WITHDRAWALS } from '../actions/blockchain';
 import { MAKE_CLAIM } from '../actions/blockchain';
 import { FETCH_TOTAL_STAKED } from '../actions/blockchain';
 
 const defaultState = {
   vault_type : 0,
-  ampl_balance: "0",
-  ampl_withdraw: "0",
+  staking_token_balance: "0",
+  staking_token_withdraw: "0",
   reward: {token:"0", eth:"0"},
   claimable: "0",
   kmpl_price: "0",
-  gas_price_fastet: "0",
+  gas_price_fastest: "0",
   gas_price_fast: "0",
   gas_price_average: "0",
   allowance: "0",
@@ -39,13 +36,13 @@ export default function blockchainReducer(state = defaultState, action) {
       return Object.assign({}, state, {
         vault_type: action.payload
       });
-    case FETCH_AMPL_BALANCE:
+    case FETCH_STAKING_TOKEN_BALANCE:
       return Object.assign({}, state, {
-        ampl_balance: action.payload
+        staking_token_balance: action.payload
       });
-    case FETCH_AMPL_AMPLESENSE_BALANCE:
+    case FETCH_STAKING_AMPLESENSE_BALANCE:
       return Object.assign({}, state, {
-        ampl_withdraw: action.payload
+        staking_token_withdraw: action.payload
       });
     case FETCH_CLAIMABLE_AMPLESENSE_BALANCE:
       return Object.assign({}, state, {
@@ -126,18 +123,16 @@ export default function blockchainReducer(state = defaultState, action) {
         withdrawals: new_withdrawals2
       });
     case FETCH_DEPOSITS:
-      let new_deposits = [];
-      if(action.payload)
-        new_deposits.push(action.payload);
       return Object.assign({}, state, {
-        deposits: new_deposits
+        deposits: action.payload.events
       });
     case FETCH_WITHDRAWALS:
-      let new_withdrawals = [];
-      if(action.payload)
-        new_withdrawals.push(action.payload);
       return Object.assign({}, state, {
-        withdrawals: new_withdrawals
+        withdrawals: action.payload.events
+      });
+    case FETCH_STAKABLE_NFTS:
+      return Object.assign({}, state, {
+        stakableNFTs: action.payload.stakableNfts
       });
     case MAKE_CLAIM:
       let claim_tx = state.claim_tx;

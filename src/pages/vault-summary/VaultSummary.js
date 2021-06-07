@@ -39,12 +39,15 @@ import p7 from "../../images/tokens/kmpl_uni_logo.png";
 
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
+
+import { fetchVaultSummary } from "../../../src/actions/vault";
+
 //import { WalletConnect, ProviderContext } from '../../components/Wallet/walletConnect'
 
 // import {fetchKMPLPrice} from "../../actions/blockchain";
 
 // const axios = require('axios')
-
+const { VaultContract, VaultType } = require("../../components/Blockchain/Updater.js");
 
 const orderValueOverride = {
   options: {
@@ -1310,9 +1313,36 @@ class VaultSummary extends React.Component {
     }
   }
 
+  getVaultType() {
+    switch(this.getId()) {
+      case 0:
+        return VaultType.AMPLESENSE;
+      case 1:
+        return VaultType.PIONEER1A;
+      case 2:
+        return VaultType.PIONEER2;
+      case 3:
+        return VaultType.LPSTAKING;
+      case 4:
+        return VaultType.PIONEER1B;
+      default:
+        return VaultType.AMPLESENSE;
+    }
+  }
 
   componentDidMount() {
+    const {
+      account,
+      web3,
+    } = this.props;
+
+    // const contract = new VaultContract(this.getVaultType(), web3, account);
+
     window.addEventListener("resize", this.forceUpdate.bind(this));
+    // if wallet is connected
+    if(account) {
+      this.props.dispatch(fetchVaultSummary());
+    }
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -1355,7 +1385,7 @@ class VaultSummary extends React.Component {
             <Widget title={<p className="text-info" style={{ fontWeight: 700 }}>TVL</p>}>
               <Row className={`justify-content-between mt-3`} noGutters>
                 <Col sm={8} className={"d-flex align-items-center"}>
-                  <h4 className={"fw-semi-bold mb-0"}>$ 82,410</h4>
+                  <h4 className={"fw-semi-bold mb-0"}>$ {this.props.vault.tvl}</h4>
                 </Col>
                 <Col
                   sm={4}
@@ -1375,7 +1405,7 @@ class VaultSummary extends React.Component {
               title={<p className="text-info" style={{ fontWeight: 700 }}>Your Portfolio</p>}>
               <Row className={`justify-content-between mt-3`} noGutters>
                 <Col sm={8} className={"d-flex align-items-center"}>
-                  <h4 className={"fw-semi-bold mb-0"}>$ 73,440</h4>
+                  <h4 className={"fw-semi-bold mb-0"}>$ {this.props.vault.portfolio}</h4>
                 </Col>
                 <Col
                   sm={4}
@@ -1395,7 +1425,7 @@ class VaultSummary extends React.Component {
               title={<p className="text-info" style={{ fontWeight: 700 }}>kMPL Price</p>} isBuyButton={true} pagelink={2}>
               <Row className={`justify-content-between mt-3`} noGutters>
                 <Col sm={8} className={"d-flex align-items-center"}>
-                  <h4 className={"fw-semi-bold mb-0"}>$ {kmpl_price} </h4>
+                  <h4 className={"fw-semi-bold mb-0"}>$ {this.props.vault.kmpl_price} </h4>
                 </Col>
                 <Col  sm={4}
                   className={"d-flex align-items-center justify-content-end"}
@@ -1414,7 +1444,7 @@ class VaultSummary extends React.Component {
               title={<p className="text-info" style={{ fontWeight: 700 }}>EEFI Price</p>} isBuyButton={true} pagelink={3}>
               <Row className={`justify-content-between mt-3`} noGutters>
                 <Col sm={8} className={"d-flex align-items-center"}>
-                  <h4 className={"fw-semi-bold mb-0"}>$ 41.05</h4>
+                  <h4 className={"fw-semi-bold mb-0"}>$ {this.props.vault.eefi_price}</h4>
                 </Col>
                 <Col
                   sm={4}
@@ -1425,7 +1455,6 @@ class VaultSummary extends React.Component {
                 </Col>
               </Row>
               <Row style={{ marginBottom: -9, marginTop: -1 }}>
-
               </Row>
             </Widget>
           </Col>
@@ -1499,6 +1528,7 @@ class VaultSummary extends React.Component {
                         <strong>Your Balance: </strong>&nbsp;$ 46,565
                       </p>
                     </td>
+
                     <td width="10%" className={"pl-0 fw-normal table-vaults-long-1"}>
                       <Link to="/app/home/vault-detail/0">
                       <p>
@@ -1519,7 +1549,7 @@ class VaultSummary extends React.Component {
         <Row>
           <Col sm={12}>
             <Widget>
-                <Table className="table-hover " responsive>
+              <Table className="table-hover " responsive>
                 <tbody className="text-dark">
                 <tr  key={0}>
                   <td width="35%" className=" pl-0 fw-thin table-vaults-long-1">
@@ -1584,8 +1614,9 @@ class VaultSummary extends React.Component {
                         <strong>Your Balance: </strong>&nbsp;$ 46,565
                       </p>
                     </td>
+
                     <td width="10%" className={"pl-0 fw-normal table-vaults-long-1"}>
-                     <Link to="/app/home/vault-detail/1">
+                      <Link to="/app/home/vault-detail/1">
                       <p>
                         <Button color="primary" className="mb-md mr-md">Select</Button>
                       </p>
@@ -1604,7 +1635,7 @@ class VaultSummary extends React.Component {
         <Row>
           <Col sm={12}>
             <Widget>
-                <Table className="table-hover " responsive>
+              <Table className="table-hover " responsive>
                 <tbody className="text-dark">
                 <tr  key={0}>
                   <td width="35%" className=" pl-0 fw-thin table-vaults-long-1">
@@ -1632,7 +1663,24 @@ class VaultSummary extends React.Component {
                         <Button color="primary" className="mb-md mr-md">Select</Button>
                       </p>
                       </Link>
-                  </td>
+                    </td>
+
+                    <td width="35%" className=" pl-0 fw-thin table-vaults-short-1">
+                      <Link to="/app/home/vault-gen-page">
+                        <p className={"d-flex  align-items-center fw-bold"}>
+                        <img src={p3} height={80} width={80} alt="" className={"mr-3"} />
+                        </p>
+                        <h5 className="text-info" >
+                        kMPL
+                        </h5>
+                      </Link>
+                      <Link to="/app/home/vault-gen-page">
+                        <p>
+                          <Button color="primary" className="mb-md mr-md">Select</Button>
+                        </p>
+                      </Link>
+                    </td>
+
                     <td width="30%" className={"pl-0 fw-thin table-vaults-long-1"}>
                       <p className={"d-flex  align-items-center text-info "}>
                         <strong>Deposit:</strong>&nbsp; kMPL Tokens
@@ -1653,8 +1701,16 @@ class VaultSummary extends React.Component {
                     </p>
                     <p className={"d-flex  align-items-center text-info"}>
 
-                    <strong>Your Balance: </strong>&nbsp;$ 46,565
-                     </p>
+                    <td width="25%" className={"pl-0 fw-thin table-vaults-long-1"}>
+                      <p className={"d-flex  align-items-center text-info"}>
+                        <strong>TVL: </strong> &nbsp; $ 2,944,565
+                      </p>
+                      <p className={"d-flex  align-items-center text-info"}>
+                        <strong>APY: </strong>&nbsp; 60%
+                      </p>
+                      <p className={"d-flex  align-items-center text-info"}>
+                        <strong>Your Balance: </strong>&nbsp;$ 46,565
+                      </p>
                     </td>
                     <td width="30%" className={"pl-0 fw-thin table-vaults-short-1"}>
                       <p className={"d-flex  align-items-center text-info "}>
@@ -1673,11 +1729,12 @@ class VaultSummary extends React.Component {
                         <strong>Your Balance: </strong>&nbsp;$ 6,565
                       </p>
                     </td>
+
                     <td width="10%" className={"pl-0 fw-normal table-vaults-long-1"}>
-                     <Link to="/app/home/vault-detail/2">
-                      <p>
-                        <Button color="primary" className="mb-md mr-md">Select</Button>
-                      </p>
+                      <Link to="/app/home/vault-detail/2">
+                        <p>
+                          <Button color="primary" className="mb-md mr-md">Select</Button>
+                        </p>
                       </Link>
                     </td>
                   </tr>
@@ -1692,7 +1749,7 @@ class VaultSummary extends React.Component {
     <Row>
           <Col sm={12}>
             <Widget>
-                <Table className="table-hover " responsive>
+              <Table className="table-hover " responsive>
                 <tbody className="text-dark">
                 <tr  key={0}>
                   <td width="35%" className=" pl-0 fw-thin table-vaults-long-1">
@@ -1731,9 +1788,6 @@ class VaultSummary extends React.Component {
                         <strong> Earn:</strong> &nbsp;ETH
                       </p>
                     </td>
-                    <td width="25%" className={"pl-0 fw-thin table-vaults-long-1"}>
-
-                    <p className={"d-flex  align-items-center text-info"}>
 
                     <strong>TVL: </strong> &nbsp;  N/A
                     </p>
@@ -1763,11 +1817,12 @@ class VaultSummary extends React.Component {
                         <strong>Your Balance: </strong>&nbsp;1
                       </p>
                     </td>
+
                     <td width="10%" className={"pl-0 fw-normal table-vaults-long-1"}>
-                     <Link to="/app/home/vault-nfts">
-                      <p>
-                        <Button color="primary" className="mb-md mr-md">Select</Button>
-                      </p>
+                      <Link to="/app/home/vault-nfts">
+                        <p>
+                          <Button color="primary" className="mb-md mr-md">Select</Button>
+                        </p>
                       </Link>
                     </td>
                   </tr>
@@ -1776,8 +1831,6 @@ class VaultSummary extends React.Component {
             </Widget>
           </Col>
         </Row>
-
-
 
   {/* kMPL/ETH  */}
         <Row>
@@ -1847,8 +1900,9 @@ class VaultSummary extends React.Component {
                         <strong>Your Balance: </strong>&nbsp;8,707
                       </p>
                     </td>
+
                     <td width="10%" className={"pl-0 fw-normal table-vaults-long-1"}>
-                     <Link to="/app/home/vault-detail/4">
+                      <Link to="/app/home/vault-detail/4">
                       <p>
                         <Button color="primary" className="mb-md mr-md">Select</Button>
                       </p>
@@ -1896,11 +1950,12 @@ class VaultSummary extends React.Component {
 
 function mapStateToProps(store) {
   return {
+    web3: store.auth.web3,
+    account: store.auth.account,
     sidebarColor: store.layout.sidebarColor,
     dashboardColor: store.layout.dashboardTheme,
-    account : store.account,
     kmpl_price: store.blockchain.kmpl_price,
-
+    vault: store.vault
   };
 }
 
