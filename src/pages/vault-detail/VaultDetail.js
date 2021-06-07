@@ -478,7 +478,6 @@ class VaultDetail extends React.Component {
 
   doDeposit() {
     const {account, web3} = this.props;
-    
     const contract = new VaultContract(vaultTypeFromID[this.getId()], web3, account);
     const valueWei = contract.getValueWei(this.state.amountToDeposit);
     const current_time = Math.floor(Date.now()/1000);
@@ -488,11 +487,6 @@ class VaultDetail extends React.Component {
     })
   }
 
-
-<<<<<<< HEAD
-=======
-
->>>>>>> master
   getVaultType() {
     switch(this.getId()) {
       case 0:

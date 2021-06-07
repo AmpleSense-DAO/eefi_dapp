@@ -1637,34 +1637,32 @@ class VaultSummary extends React.Component {
             <Widget>
               <Table className="table-hover " responsive>
                 <tbody className="text-dark">
-                <tr  key={0}>
-                  <td width="35%" className=" pl-0 fw-thin table-vaults-long-1">
-                  <Link to="/app/home/vault-detail/2">
-                      <span className={"d-flex  align-items-center fw-bold"}>
-                      <img src={p3} height={80} width={80} alt="" className={s.mobileImg} />
-                      <h4 className="text-info">
-                      kMPL
-                      </h4>
-                      </span>
-                  </Link>
-
-                  </td>
-                  <td width="35%" className=" pl-0 fw-thin table-vaults-short-1">
-                  <Link to="/app/home/vault-gen-page">
-                      <p className={"d-flex  align-items-center fw-bold"}>
-                        <img src={p3} height={80} width={80} alt="" className={s.mobileImg} />
-                      </p>
-                      <h5 className="text-info" >
-                      kMPL
-                      </h5>
-                   </Link>
-                   <Link to="/app/home/vault-gen-page">
+                  <tr  key={0}>
+                    <td width="35%" className=" pl-0 fw-thin table-vaults-long-1">
+                      <Link to="/app/home/vault-detail/2">
+                          <span className={"d-flex  align-items-center fw-bold"}>
+                          <img src={p3} height={80} width={80} alt="" className={s.mobileImg} />
+                          <h4 className="text-info">
+                          kMPL
+                          </h4>
+                          </span>
+                      </Link>
+                    </td>
+                    <td width="35%" className=" pl-0 fw-thin table-vaults-short-1">
+                      <Link to="/app/home/vault-gen-page">
+                          <p className={"d-flex  align-items-center fw-bold"}>
+                            <img src={p3} height={80} width={80} alt="" className={s.mobileImg} />
+                          </p>
+                          <h5 className="text-info" >
+                          kMPL
+                          </h5>
+                      </Link>
+                      <Link to="/app/home/vault-gen-page">
                       <p>
                         <Button color="primary" className="mb-md mr-md">Select</Button>
                       </p>
                       </Link>
                     </td>
-
                     <td width="35%" className=" pl-0 fw-thin table-vaults-short-1">
                       <Link to="/app/home/vault-gen-page">
                         <p className={"d-flex  align-items-center fw-bold"}>
@@ -1680,7 +1678,6 @@ class VaultSummary extends React.Component {
                         </p>
                       </Link>
                     </td>
-
                     <td width="30%" className={"pl-0 fw-thin table-vaults-long-1"}>
                       <p className={"d-flex  align-items-center text-info "}>
                         <strong>Deposit:</strong>&nbsp; kMPL Tokens
@@ -1689,18 +1686,6 @@ class VaultSummary extends React.Component {
                         <strong> Earn:</strong> &nbsp;EEFI, ETH
                       </p>
                     </td>
-                    <td width="25%" className={"pl-0 fw-thin table-vaults-long-1"}>
-
-                    <p className={"d-flex  align-items-center text-info"}>
-
-                    <strong>TVL: </strong> &nbsp; $ 2,944,565
-                    </p>
-                    <p className={"d-flex  align-items-center text-info"}>
-
-                    <strong>APY: </strong>&nbsp; 60%
-                    </p>
-                    <p className={"d-flex  align-items-center text-info"}>
-
                     <td width="25%" className={"pl-0 fw-thin table-vaults-long-1"}>
                       <p className={"d-flex  align-items-center text-info"}>
                         <strong>TVL: </strong> &nbsp; $ 2,944,565
@@ -1751,35 +1736,34 @@ class VaultSummary extends React.Component {
             <Widget>
               <Table className="table-hover " responsive>
                 <tbody className="text-dark">
-                <tr  key={0}>
-                  <td width="35%" className=" pl-0 fw-thin table-vaults-long-1">
-                  <Link to="/app/home/vault-nfts">
-                      <span className={"d-flex  align-items-center fw-bold"}>
-                      <img src={p4} height={80} width={80} alt="" className={s.mobileImg} />
-
-                      <h4 className="text-info">
-                      Pioneer NFTs
-                      </h4>
-                      </span>
-                  </Link>
-                  </td>
-                  <td width="35%" className=" pl-0 fw-thin table-vaults-short-1">
-                  <Link to="/app/home/vault-nfts">
-                      <p className={"d-flex  align-items-center fw-bold mb-md mr-md"}>
-                        <img src={p4} height={80} width={80} alt="" className={s.mobileImg} />
-                      </p>
-                      <span className={"d-flex fw-bold mb-md mr-md"}>
-                        <h5 className="text-info" style={{margin: "auto"}}>
-                          Pioneer <br />NFTs
-                        </h5>
-                      </span>
-                    </Link>
-                    <Link to="/app/home/vault-nfts">
-                      <p>
-                        <Button color="primary" className="mb-md mr-md">Select</Button>
-                      </p>
-                    </Link>
-                  </td>
+                  <tr  key={0}>
+                    <td width="35%" className=" pl-0 fw-thin table-vaults-long-1">
+                      <Link to="/app/home/vault-nfts">
+                        <span className={"d-flex  align-items-center fw-bold"}>
+                          <img src={p4} height={80} width={80} alt="" className={s.mobileImg} />
+                          <h4 className="text-info">
+                          Pioneer NFTs
+                          </h4>
+                        </span>
+                      </Link>
+                    </td>
+                    <td width="35%" className=" pl-0 fw-thin table-vaults-short-1">
+                      <Link to="/app/home/vault-nfts">
+                        <p className={"d-flex  align-items-center fw-bold mb-md mr-md"}>
+                          <img src={p4} height={80} width={80} alt="" className={s.mobileImg} />
+                        </p>
+                        <span className={"d-flex fw-bold mb-md mr-md"}>
+                          <h5 className="text-info" style={{margin: "auto"}}>
+                            Pioneer <br />NFTs
+                          </h5>
+                        </span>
+                      </Link>
+                      <Link to="/app/home/vault-nfts">
+                        <p>
+                          <Button color="primary" className="mb-md mr-md">Select</Button>
+                        </p>
+                      </Link>
+                    </td>
                     <td width="30%" className={"pl-0 fw-thin table-vaults-long-1"}>
                       <p className={"d-flex  align-items-center text-info "}>
                         <strong>Deposit:</strong>&nbsp; Pioneer NFTs
@@ -1788,17 +1772,16 @@ class VaultSummary extends React.Component {
                         <strong> Earn:</strong> &nbsp;ETH
                       </p>
                     </td>
-
-                    <strong>TVL: </strong> &nbsp;  N/A
-                    </p>
-                    <p className={"d-flex  align-items-center text-info"}>
-
-                    <strong>APY: </strong>&nbsp; N/A
-                    </p>
-                    <p className={"d-flex  align-items-center text-info"}>
-
-                    <strong>Your Balance: </strong>&nbsp; 1
-                     </p>
+                    <td>
+                      <p className={"d-flex  align-items-center text-info"}>
+                        <strong>TVL: </strong> &nbsp;  N/A
+                      </p>
+                      <p className={"d-flex  align-items-center text-info"}>
+                        <strong>APY: </strong>&nbsp; N/A
+                      </p>
+                      <p className={"d-flex  align-items-center text-info"}>
+                        <strong>Your Balance: </strong>&nbsp; 1
+                      </p>
                     </td>
                     <td width="30%" className={"pl-0 fw-thin table-vaults-short-1"}>
                       <p className={"d-flex  align-items-center text-info "}>
