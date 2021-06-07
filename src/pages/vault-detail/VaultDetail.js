@@ -477,10 +477,9 @@ class VaultDetail extends React.Component {
 
   doDeposit() {
     const {account, web3} = this.props;
-    const value = new web3.utils.BN(Math.floor(parseFloat(this.state.amountToDeposit) * 100000));
+    
     const contract = new VaultContract(vaultTypeFromID[this.getId()], web3, account);
-    const precision = contract.stakingTokenPrecision();
-    const valueWei = value.mul(new web3.utils.BN(10**(precision - 5)));
+    const valueWei = contract.getValueWei(this.state.amountToDeposit);
     const current_time = Math.floor(Date.now()/1000);
     this.props.dispatch(makeDeposit(vaultTypeFromID[this.getId()], web3, account, valueWei, {id: current_time, transactionHash: null, allowanceHash: null, returnValues: {amount: valueWei.toString()}, timestamp: current_time, mined: false, allowanceMined: false}));
     this.setState({
@@ -557,12 +556,15 @@ class VaultDetail extends React.Component {
         <h3>Connect your wallet to view vault details</h3>
       </div>)
     }
-    
-    const staking_token_balance_formatted = (new web3.utils.BN(staking_token_balance).toNumber() / 10**contract.stakingTokenPrecision()).toString();
-    const claimable_formatted = (new web3.utils.BN(claimable).toNumber() / 10**contract.stakingTokenPrecision()).toString();
-    const staking_token_withdraw_formatted = (new web3.utils.BN(staking_token_withdraw).toNumber() / 10**contract.stakingTokenPrecision()).toString();
-    const ampl_eth_reward_formatted = (new web3.utils.BN(reward.eth).toNumber() / 10**18).toString();
-    const ampl_token_reward_formatted =(new web3.utils.BN(reward.token).toNumber() / contract.rewardTokenPrecision()).toString();
+
+    const BN = (x) => web3.utils.toBN(x);
+
+    const staking_token_balance_formatted = BN(staking_token_balance).div(BN(10**contract.stakingTokenPrecision())).toString();
+    const claimable_formatted = BN(claimable).div(BN(10**contract.stakingTokenPrecision())).toString();
+    const staking_token_withdraw_formatted = BN(staking_token_withdraw).div(BN(10**contract.stakingTokenPrecision())).toString();
+    const ampl_eth_reward_formatted = web3.utils.fromWei(reward.eth, "ether");
+    //in case of pioneer1 there is no token reward
+    const ampl_token_reward_formatted = BN(reward.token? reward.token : 0).div(BN(10**contract.rewardTokenPrecision())).toString();
     return (
 
       <div className={s.root}>
@@ -790,7 +792,8 @@ function mapStateToProps(store) {
     reward: store.blockchain.reward,
     deposits: store.blockchain.deposits,
     withdrawals: store.blockchain.withdrawals,
-    claim_tx: store.blockchain.claim_tx
+    claim_tx: store.blockchain.claim_tx,
+    stakableNFTs: store.blockchain.stakableNFTs
   };
 }
 

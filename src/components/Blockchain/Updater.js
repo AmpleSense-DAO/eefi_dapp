@@ -13,7 +13,8 @@ import {
   fetchGasPriceFastest,
   fetchGasPriceFast,
   fetchGasPriceAverage,
-  fetchReward
+  fetchReward,
+  fetchStakableNFTs
 } from "../../actions/blockchain";
 
 const erc20Abi = require("../../contracts/ERC20.json");
@@ -35,7 +36,8 @@ export const CONTRACT_ADDRESSES = {
   LPSTAKING_CONTRACT: '0x3d1365eE0cC0D698B7e6d5b36d1A6AC7C5157442',
   NFT1_CONTRACT: '0xa4fd515560519A662Daf146518b5e1DA5501cacF',
   NFT2_CONTRACT: '0xa7D2D3AD0a50265E4eDC217dA750903dF6DEF3a4',
-  Univ3_EEFI_ETH_CONTRACT: '0xa4431e1C96930d7Fb1b345DAec4B196542594Db7'
+  Univ3_EEFI_ETH_CONTRACT: '0xa4431e1C96930d7Fb1b345DAec4B196542594Db7',
+  Univ3_KMPL_EEFI_CONTRACT: '0xD3196C95Ae07984e4e1Ba82f9F597ce75e02670F'
 }
 
 export const VaultType = {
@@ -43,18 +45,19 @@ export const VaultType = {
   LPSTAKING : {vault: CONTRACT_ADDRESSES.LPSTAKING_CONTRACT, staking_token: CONTRACT_ADDRESSES.Univ3_EEFI_ETH_CONTRACT, vault_abi: StakingERC20Abi, staking_token_abi: erc20Abi, staking_symbol: "UniswapV2", precision: 18, reward_token_precision: 9, name: "EEFI/ETH LP Token Vault"},
   PIONEER2 : {vault: CONTRACT_ADDRESSES.PIONEER2_CONTRACT, staking_token: CONTRACT_ADDRESSES.KMPL_CONTRACT, vault_abi: StakingERC20Abi, staking_token_abi: erc20Abi, staking_symbol: "kMPL", precision: 9, reward_token_precision: 9, name: "Pioneer Fund Vault II: kMPL"},
   PIONEER1A : {vault: CONTRACT_ADDRESSES.PIONEER1_CONTRACT, staking_token: CONTRACT_ADDRESSES.NFT1_CONTRACT, vault_abi: StakingERC721Abi, staking_token_abi: erc721Abi, staking_symbol: "ZNFT", precision: 0, reward_token_precision: 9, name: "Pioneer Fund Vault I: ZEUS"},
-  PIONEER1B : {vault: CONTRACT_ADDRESSES.PIONEER1_CONTRACT, staking_token: CONTRACT_ADDRESSES.NFT2_CONTRACT, vault_abi: StakingERC721Abi, staking_token_abi: erc721Abi, staking_symbol: "ANFT", precision: 0, reward_token_precision: 9, name: "Pioneer Fund Vault I: APOLLO"}
+  PIONEER1B : {vault: CONTRACT_ADDRESSES.PIONEER1_CONTRACT, staking_token: CONTRACT_ADDRESSES.NFT2_CONTRACT, vault_abi: StakingERC721Abi, staking_token_abi: erc721Abi, staking_symbol: "ANFT", precision: 0, reward_token_precision: 9, name: "Pioneer Fund Vault I: APOLLO"},
+  PIONEER3 : {vault: CONTRACT_ADDRESSES.PIONEER3_CONTRACT, staking_token: CONTRACT_ADDRESSES.Univ3_KMPL_EEFI_CONTRACT, vault_abi: StakingERC20Abi, staking_token_abi: erc20Abi, staking_symbol: "UniswapV2", precision: 18, reward_token_precision: 9, name: "Pioneer Fund Vault III: KMPL/ETH"},
 }
 
-export const vaultTypeFromID = [VaultType.AMPLESENSE, VaultType.LPSTAKING, VaultType.PIONEER2, VaultType.PIONEER1A, VaultType.PIONEER1B];
+export const vaultTypeFromID = [VaultType.AMPLESENSE, VaultType.LPSTAKING, VaultType.PIONEER2, VaultType.PIONEER1A, VaultType.PIONEER1B, VaultType.PIONEER3];
 
 export class VaultContract {
 
-  state = {web3: null, type: VaultType.AMPLESENSE, account: ""}
+  state = {web3: null, type: VaultType.AMPLESENSE, account: "", stakable: []}
 
   constructor(vaultType, web3, account) {
     // super();
-    this.state = {web3: web3, type: vaultType, account: account};
+    this.state = {web3: web3, type: vaultType, account: account, stakable: []};
   }
 
   vaultName() {
@@ -76,7 +79,7 @@ export class VaultContract {
   allowance() {
     const contract = new this.state.web3.eth.Contract(this.state.type.staking_token_abi.abi, this.state.type.staking_token);
     if(this.state.type === VaultType.PIONEER1A || this.state.type === VaultType.PIONEER1B) {
-      return contract.methods.isApprovedForAll(this.state.account, CONTRACT_ADDRESSES.PIONEER1).call();
+      return contract.methods.isApprovedForAll(this.state.account, CONTRACT_ADDRESSES.PIONEER1_CONTRACT).call();
     } else {
       return contract.methods.allowance(this.state.account, this.state.type.vault).call();
     }
@@ -113,10 +116,40 @@ export class VaultContract {
   approve(amount) {
     const contract = new this.state.web3.eth.Contract(this.state.type.staking_token_abi.abi, this.state.type.staking_token);
     if(this.state.type === VaultType.PIONEER1A || this.state.type === VaultType.PIONEER1B) {
-      return contract.methods.setApprovalForAll(CONTRACT_ADDRESSES.PIONEER1, true).send({from: this.state.account});
+      return contract.methods.setApprovalForAll(CONTRACT_ADDRESSES.PIONEER1_CONTRACT, true).send({from: this.state.account});
     } else {
       return contract.methods.approve(this.state.type.vault, amount.toString()).send({from: this.state.account});
     }
+  }
+
+  getValueWei(amount) {
+    if(this.state.type === VaultType.PIONEER1A || this.state.type === VaultType.PIONEER1B) {
+      return new this.state.web3.utils.BN(amount);
+    } else {
+      const value = new this.state.web3.utils.BN(Math.floor(parseFloat(amount) * 100000)); //prevents the loss of precision
+      const valueWei = value.mul(new this.state.web3.utils.BN(10**(this.stakingTokenPrecision() - 5)));
+      return valueWei;
+    }
+  }
+
+  async getStakableNFTTokens() {
+    return new Promise((resolve, reject) => {
+      if(this.state.type != VaultType.PIONEER1A && this.state.type != VaultType.PIONEER1B)
+        resolve([]); // no stakable nfts to compute for the other vaults
+      //build owned tokens list
+      let stakable = []
+      const token = new this.state.web3.eth.Contract(this.state.type.staking_token_abi.abi, this.state.type.staking_token);
+      token.getPastEvents("Transfer", { fromBlock: 0, filter: { to:  this.state.account } }).then(transfers => {
+        let ids = transfers.map(transfer => { return transfer.returnValues.tokenId; });
+        let ownership_promises = ids.map(id => { return token.methods.ownerOf(id).call()});
+        Promise.all(ownership_promises).then(ownerships => {
+          ids.map((id, index) => {  if(ownerships[index] == this.state.account) { stakable.push(id); } })
+          this.state.stakable = stakable;
+          console.log(this.state.stakable)
+          resolve(stakable);
+        }).catch(err => reject(err));
+      }).catch(err => reject(err));
+    });
   }
 
   stake(amount) {
@@ -124,23 +157,9 @@ export class VaultContract {
     if(this.state.type === VaultType.AMPLESENSE) {
       return contract.methods.makeDeposit(amount.toString()).send({from: this.state.account});
     } else if(this.state.type === VaultType.PIONEER1A || this.state.type === VaultType.PIONEER1B) {
-      //build owned tokens list
-      let to_stake = []
-      const token = new this.state.web3.eth.Contract(this.state.type.staking_token_abi.abi, this.state.type.staking_token);
-      token.getPastEvents("Transfer", { fromBlock: 0, filter: { to:  this.state.account } }).then(transfers => {
-        console.log("transfers", transfers)
-        let ids = transfers.map(transfer => { return transfer.tokenId; });
-        let ownership_promises = ids.map(id => { return token.methods.ownerOf(id)});
-        Promise.all(ownership_promises).then(ownerships => {
-          ids.map((id, index) => { 
-            if(ownerships[index] == this.state.account) {
-              to_stake.push(id);
-            }
-           })
-           console.log("to stake", to_stake);
-        })
-      })
-      return contract.methods.stake(to_stake, this.state.type.staking_token).send({from: this.state.account});
+        const to_stake = this.state.stakable.slice(0, Math.min(amount, this.state.stakable.length));
+        console.log(this.state.stakable, amount)
+        return contract.methods.stake(to_stake, this.state.type.staking_token === CONTRACT_ADDRESSES.NFT1_CONTRACT).send({from: this.state.account});
     }
     else {
       return contract.methods.stake(amount.toString(), "0x").send({from: this.state.account});
@@ -212,6 +231,7 @@ class BlockchainUpdater extends React.Component {
     this.pull();
     this.props.dispatch(fetchDeposits(vaultTypeFromID[vault_type], web3, account));
     this.props.dispatch(fetchWithdrawals(vaultTypeFromID[vault_type], web3, account));
+    this.props.dispatch(fetchStakableNFTs(vaultTypeFromID[vault_type], web3, account));
 
     //get kMPL price
     axios.get(`https://api.coingecko.com/api/v3/coins/ethereum/contract/${CONTRACT_ADDRESSES.KMPL_CONTRACT}`).then(resp => {

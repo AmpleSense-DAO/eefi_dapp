@@ -1,7 +1,7 @@
 import { VaultContract } from "../components/Blockchain/Updater";
 export const SET_VAULT_TYPE = 'SET_VAULT_TYPE';
-export const FETCH_AMPL_BALANCE = 'FETCH_AMPL_BALANCE';
-export const FETCH_AMPL_AMPLESENSE_BALANCE = 'FETCH_AMPL_AMPLESENSE_BALANCE';
+export const FETCH_STAKING_TOKEN_BALANCE = 'FETCH_STAKING_TOKEN_BALANCE';
+export const FETCH_STAKING_AMPLESENSE_BALANCE = 'FETCH_STAKING_AMPLESENSE_BALANCE';
 export const FETCH_KMPL_PRICE = 'FETCH_KMPL_PRICE';
 export const FETCH_REWARD = 'FETCH_REWARD';
 export const FETCH_ALLOWANCE = 'FETCH_ALLOWANCE';
@@ -12,6 +12,7 @@ export const FETCH_GAS_PRICE_FAST = 'FETCH_GAS_PRICE_FAST';
 export const FETCH_GAS_PRICE_AVERAGE = 'FETCH_GAS_PRICE_AVERAGE';
 export const FETCH_DEPOSITS = 'FETCH_DEPOSITS';
 export const FETCH_WITHDRAWALS = 'FETCH_WITHDRAWALS';
+export const FETCH_STAKABLE_NFTS = 'FETCH_STAKABLE_NFTS';
 export const ADD_DEPOSIT = 'ADD_DEPOSIT';
 export const ADD_WITHDRAWAL = 'ADD_WITHDRAWAL';
 export const FETCH_CLAIMABLE_AMPLESENSE_BALANCE = 'FETCH_CLAIMABLE_AMPLESENSE_BALANCE';
@@ -25,12 +26,12 @@ export function setVaultType(vaultType) {
   };
 }
 
-export function fetchAMPLBalance(vaultTypes, web3, account) {
+export function fetchStakingTokenBalance(vaultTypes, web3, account) {
   const contract = new VaultContract(vaultTypes, web3, account);
   return function(dispatch) {
     contract.stakingTokenBalance().then(balance => {
       dispatch({
-        type: FETCH_AMPL_BALANCE,
+        type: FETCH_STAKING_TOKEN_BALANCE,
         payload: balance
       });
     });
@@ -42,7 +43,7 @@ export function fetchAMPLAmplesenseBalance(vaultTypes, web3, account) {
   return function(dispatch) {
     contract.stakedTokenTotalBalance().then(balance => {
       dispatch({
-        type: FETCH_AMPL_AMPLESENSE_BALANCE,
+        type: FETCH_STAKING_AMPLESENSE_BALANCE,
         payload: balance
       });
     });
@@ -110,20 +111,23 @@ export function makeDeposit(vaultTypes, web3, account, valueWei, tx) {
       const all = new web3.utils.BN(allowance.toString());
       checkAllowance(all);
       const to_allow = new web3.utils.BN(valueWei.gt(all)? valueWei.sub(all) : "0");
-      if(to_allow > 0) {
+      if(to_allow > 0 || allowance === false /*NFT case*/) {
         contract.approve(valueWei).once('transactionHash', hash_allowance => {
-          contract.stake(valueWei.toString()).once('transactionHash', hash_deposit => {
-            dispatch({
-              type: MAKE_DEPOSIT,
-              payload: {deposit_tx: {id: current_time, transactionHash: hash_deposit, allowanceHash: hash_allowance, returnValues: {amount: valueWei.toString()}, timestamp: current_time, mined: false, allowanceMined: false}}
-            });
-          }).then(receipt => {
-            //after it's mined, update
-            dispatch({
-              type: MAKE_DEPOSIT,
-              payload: {deposit_tx: {id: current_time, mined: true}}
-            });
-          });
+          contract.getStakableNFTTokens().then(tokens => {
+            contract.stake(valueWei.toString())
+            .once('transactionHash', hash_deposit => {
+                dispatch({
+                  type: MAKE_DEPOSIT,
+                  payload: {deposit_tx: {id: current_time, transactionHash: hash_deposit, allowanceHash: hash_allowance, returnValues: {amount: valueWei.toString()}, timestamp: current_time, mined: false, allowanceMined: false}}
+                });
+              }).then(receipt => {
+                //after it's mined, update
+                dispatch({
+                  type: MAKE_DEPOSIT,
+                  payload: {deposit_tx: {id: current_time, mined: true}}
+                });
+              });
+          })
         }).then(receipt => {
           //after it's mined, update
           dispatch({
@@ -132,16 +136,18 @@ export function makeDeposit(vaultTypes, web3, account, valueWei, tx) {
           });
         });
       } else {
-        contract.stake(valueWei).once('transactionHash', hash_deposit => {
-          dispatch({
-            type: MAKE_DEPOSIT,
-            payload: {deposit_tx: {id: current_time, transactionHash: hash_deposit, allowanceHash: null}}
-          });
-        }).then(receipt => {
-          //after it's mined, update
-          dispatch({
-            type: MAKE_DEPOSIT,
-            payload: {deposit_tx: {id: current_time, mined: true}}
+        contract.getStakableNFTTokens().then(tokens => {
+          contract.stake(valueWei).once('transactionHash', hash_deposit => {
+            dispatch({
+              type: MAKE_DEPOSIT,
+              payload: {deposit_tx: {id: current_time, transactionHash: hash_deposit, allowanceHash: null}}
+            });
+          }).then(receipt => {
+            //after it's mined, update
+            dispatch({
+              type: MAKE_DEPOSIT,
+              payload: {deposit_tx: {id: current_time, mined: true}}
+            });
           });
         });
       }
@@ -216,6 +222,19 @@ export function fetchDeposits(vaultType, web3, account) {
     })
   };
 }
+
+export function fetchStakableNFTs(vaultType, web3, account) {
+  const contract = new VaultContract(vaultType, web3, account);
+  return function(dispatch) {
+    contract.getStakableNFTTokens().then(stakable => {
+      dispatch({
+        type: FETCH_STAKABLE_NFTS,
+        payload: {stakableNfts : stakable}
+      })
+    });
+  };
+}
+
 export function fetchWithdrawals(vaultType, web3, account) {
   const contract = new VaultContract(vaultType, web3, account);
   return function(dispatch) {
