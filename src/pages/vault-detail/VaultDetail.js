@@ -488,20 +488,7 @@ class VaultDetail extends React.Component {
   }
 
   getVaultType() {
-    switch(this.getId()) {
-      case 0:
-        return VaultType.AMPLESENSE;
-      case 1:
-        return VaultType.PIONEER1A;
-      case 2:
-        return VaultType.PIONEER2;
-      case 3:
-        return VaultType.LPSTAKING;
-      case 4:
-        return VaultType.PIONEER1B;
-      default:
-        return VaultType.AMPLESENSE;
-    }
+    return vaultTypeFromID[this.getId()];
   }
 
   doWithdraw() {

@@ -1,11 +1,11 @@
 import { FETCH_STAKING_TOKEN_BALANCE } from '../actions/blockchain';
 import { SET_VAULT_TYPE } from '../actions/blockchain';
-import { FETCH_STAKING_AMPLESENSE_BALANCE } from '../actions/blockchain';
+import { FETCH_STAKED_BALANCE } from '../actions/blockchain';
 import { FETCH_CLAIMABLE_AMPLESENSE_BALANCE } from '../actions/blockchain';
-import { FETCH_KMPL_PRICE } from '../actions/blockchain';
+import { FETCH_KMPL_PRICE, FETCH_EEFI_PRICE, FETCH_AMPL_PRICE, FETCH_ETH_PRICE } from '../actions/blockchain';
 import { FETCH_REWARD } from '../actions/blockchain';
 import { FETCH_ALLOWANCE } from '../actions/blockchain';
-import { MAKE_DEPOSIT, MAKE_WITHDRAWAL, FETCH_DEPOSITS, FETCH_WITHDRAWALS, FETCH_STAKABLE_NFTS } from '../actions/blockchain';
+import { MAKE_DEPOSIT, MAKE_WITHDRAWAL, FETCH_DEPOSITS, FETCH_WITHDRAWALS, FETCH_STAKABLE_NFTS, FETCH_VAULT_VALUE } from '../actions/blockchain';
 import { FETCH_GAS_PRICE_FASTEST } from '../actions/blockchain';
 import { FETCH_GAS_PRICE_FAST } from '../actions/blockchain';
 import { FETCH_GAS_PRICE_AVERAGE } from '../actions/blockchain';
@@ -19,6 +19,7 @@ const defaultState = {
   reward: {token:"0", eth:"0"},
   claimable: "0",
   kmpl_price: "0",
+  eefi_price: "0",
   gas_price_fastest: "0",
   gas_price_fast: "0",
   gas_price_average: "0",
@@ -26,7 +27,8 @@ const defaultState = {
   total_staked: "0",
   deposits: [],
   withdrawals: [],
-  claim_tx: {hash: "", mined: false}
+  claim_tx: {hash: "", mined: false},
+  vaultValues : {}
 };
 
 export default function blockchainReducer(state = defaultState, action) {
@@ -40,7 +42,7 @@ export default function blockchainReducer(state = defaultState, action) {
       return Object.assign({}, state, {
         staking_token_balance: action.payload
       });
-    case FETCH_STAKING_AMPLESENSE_BALANCE:
+    case FETCH_STAKED_BALANCE:
       return Object.assign({}, state, {
         staking_token_withdraw: action.payload
       });
@@ -52,6 +54,18 @@ export default function blockchainReducer(state = defaultState, action) {
       return Object.assign({}, state, {
         kmpl_price: action.payload
       });
+  case FETCH_EEFI_PRICE:
+    return Object.assign({}, state, {
+      eefi_price: action.payload
+    });
+  case FETCH_ETH_PRICE:
+    return Object.assign({}, state, {
+      eth_price: action.payload
+    });
+  case FETCH_AMPL_PRICE:
+    return Object.assign({}, state, {
+      ampl_price: action.payload
+    });
   case FETCH_TOTAL_STAKED:
       return Object.assign({}, state, {
         total_staked: action.payload
@@ -68,6 +82,13 @@ export default function blockchainReducer(state = defaultState, action) {
       return Object.assign({}, state, {
         gas_price_average: action.payload
       });
+  case FETCH_VAULT_VALUE:
+    let vaultValues = state.vaultValues;
+    const vault = action.payload;
+    vaultValues[vault.vaultType.name] = vault;
+    return Object.assign({}, state, {
+      vaultValues: vaultValues
+    });
    case FETCH_REWARD:
       return Object.assign({}, state, {
         reward: action.payload
@@ -95,7 +116,10 @@ export default function blockchainReducer(state = defaultState, action) {
         }
         return console.log(deposit);
       })
-      if(!did_find) {
+      // in case action.payload.deposit_tx.returnValues is undefined
+      // this means we are trying to update a transaction of another vault
+      // than the current one, so just ignore
+      if(!did_find && action.payload.deposit_tx.returnValues) {
         new_deposits2.push(action.payload.deposit_tx);
       }
       return Object.assign({}, state, {

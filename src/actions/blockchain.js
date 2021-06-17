@@ -1,8 +1,11 @@
-import { VaultContract } from "../components/Blockchain/Updater";
+import { VaultContract, VaultType, vaultTypeFromID } from "../components/Blockchain/Updater";
 export const SET_VAULT_TYPE = 'SET_VAULT_TYPE';
 export const FETCH_STAKING_TOKEN_BALANCE = 'FETCH_STAKING_TOKEN_BALANCE';
-export const FETCH_STAKING_AMPLESENSE_BALANCE = 'FETCH_STAKING_AMPLESENSE_BALANCE';
+export const FETCH_STAKED_BALANCE = 'FETCH_STAKED_BALANCE';
 export const FETCH_KMPL_PRICE = 'FETCH_KMPL_PRICE';
+export const FETCH_EEFI_PRICE = 'FETCH_EEFI_PRICE';
+export const FETCH_AMPL_PRICE = 'FETCH_AMPL_PRICE';
+export const FETCH_ETH_PRICE = 'FETCH_ETH_PRICE';
 export const FETCH_REWARD = 'FETCH_REWARD';
 export const FETCH_ALLOWANCE = 'FETCH_ALLOWANCE';
 export const MAKE_DEPOSIT = 'MAKE_DEPOSIT';
@@ -18,6 +21,7 @@ export const ADD_WITHDRAWAL = 'ADD_WITHDRAWAL';
 export const FETCH_CLAIMABLE_AMPLESENSE_BALANCE = 'FETCH_CLAIMABLE_AMPLESENSE_BALANCE';
 export const MAKE_CLAIM = "MAKE_CLAIM";
 export const FETCH_TOTAL_STAKED = "FETCH_TOTAL_STAKED";
+export const FETCH_VAULT_VALUE = "FETCH_VAULT_VALUE";
 
 export function setVaultType(vaultType) {
   return {
@@ -38,12 +42,12 @@ export function fetchStakingTokenBalance(vaultTypes, web3, account) {
   };
 }
 
-export function fetchAMPLAmplesenseBalance(vaultTypes, web3, account) {
+export function fetchStakedBalance(vaultTypes, web3, account) {
   const contract = new VaultContract(vaultTypes, web3, account);
   return function(dispatch) {
     contract.stakedTokenTotalBalance().then(balance => {
       dispatch({
-        type: FETCH_STAKING_AMPLESENSE_BALANCE,
+        type: FETCH_STAKED_BALANCE,
         payload: balance
       });
     });
@@ -74,9 +78,30 @@ export function fetchTotalStaked(vaultTypes, web3, account) {
   };
 }
 
+export function fetchAMPLPrice(price) {
+  return {
+    type: FETCH_AMPL_PRICE,
+    payload: price
+  };
+}
+
 export function fetchKMPLPrice(price) {
   return {
     type: FETCH_KMPL_PRICE,
+    payload: price
+  };
+}
+
+export function fetchEEFIPrice(price) {
+  return {
+    type: FETCH_EEFI_PRICE,
+    payload: price
+  };
+}
+
+export function fetchETHPrice(price) {
+  return {
+    type: FETCH_ETH_PRICE,
     payload: price
   };
 }
@@ -257,6 +282,36 @@ export function fetchWithdrawals(vaultType, web3, account) {
     })
   };
 }
+
+export function fetchTotalBalances(web3, account) {
+  return function(dispatch) {
+    vaultTypeFromID.forEach(type => {
+      const contract = new VaultContract(type, web3, account);
+      Promise.all([
+        contract.stakedTokenTotalBalance(),
+        contract.getReward(),
+        contract.totalStaked()
+      ]).then(([stakedBalance, rewardBalance, totalStakedBalance]) => {
+        const stakedAdustedBalance = stakedBalance / 10**contract.stakingTokenPrecision();
+        const totalStakedAdjustedBalance = totalStakedBalance / 10**contract.stakingTokenPrecision();
+        //sometimes the reward has token + eth, sometimes just the token, in which case rewardBalance isnt an object
+        let rewardTokenBalance = rewardBalance.token? rewardBalance.token : rewardBalance;
+        let rewardTokenAdjustedBalance = rewardTokenBalance / 10**contract.rewardTokenPrecision();
+        let rewardAdjustedBalance;
+        if(rewardBalance.token) {
+          rewardAdjustedBalance = { token: rewardTokenAdjustedBalance, eth : parseFloat(web3.utils.fromWei(rewardBalance.eth)) };
+        } else {
+          rewardAdjustedBalance = rewardTokenAdjustedBalance;
+        }
+        dispatch({
+          type: FETCH_VAULT_VALUE,
+          payload: {vaultType : type, stakedBalance : stakedAdustedBalance, totalStakedBalance: totalStakedAdjustedBalance, rewardBalance : rewardAdjustedBalance}
+        });
+      })
+    })
+  };
+}
+
 export function addDeposit(event) {
   return {
     type: ADD_DEPOSIT,

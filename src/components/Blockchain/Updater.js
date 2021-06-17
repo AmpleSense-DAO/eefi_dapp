@@ -6,15 +6,19 @@ import {
   fetchStakingTokenBalance,
   fetchDeposits,
   fetchWithdrawals,
-  fetchAMPLAmplesenseBalance,
+  fetchStakedBalance,
   fetchClaimableBalance,
   fetchTotalStaked,
   fetchKMPLPrice,
+  fetchEEFIPrice,
+  fetchAMPLPrice,
+  fetchETHPrice,
   fetchGasPriceFastest,
   fetchGasPriceFast,
   fetchGasPriceAverage,
   fetchReward,
-  fetchStakableNFTs
+  fetchStakableNFTs,
+  fetchTotalBalances
 } from "../../actions/blockchain";
 
 const erc20Abi = require("../../contracts/ERC20.json");
@@ -37,7 +41,8 @@ export const CONTRACT_ADDRESSES = {
   NFT1_CONTRACT: '0xa4fd515560519A662Daf146518b5e1DA5501cacF',
   NFT2_CONTRACT: '0xa7D2D3AD0a50265E4eDC217dA750903dF6DEF3a4',
   Univ3_EEFI_ETH_CONTRACT: '0xa4431e1C96930d7Fb1b345DAec4B196542594Db7',
-  Univ3_KMPL_EEFI_CONTRACT: '0xD3196C95Ae07984e4e1Ba82f9F597ce75e02670F'
+  Univ3_KMPL_EEFI_CONTRACT: '0xD3196C95Ae07984e4e1Ba82f9F597ce75e02670F',
+  EEFI_CONTRACT: '0xbCB8D2114344f349ac73B9954e7b36dfA4D26619'
 }
 
 export const VaultType = {
@@ -58,6 +63,44 @@ export class VaultContract {
   constructor(vaultType, web3, account) {
     // super();
     this.state = {web3: web3, type: vaultType, account: account, stakable: []};
+  }
+
+  getStakingTokenPrice(kmpl_price, ampl_price, nft1_price, nft2_price, eefi_eth_price, kmpl_eefi_price) {
+    switch(this.state.type) {
+      case VaultType.AMPLESENSE:
+        return ampl_price;
+      case VaultType.PIONEER1A:
+        return nft1_price;
+      case VaultType.PIONEER1B:
+        return nft2_price;
+      case VaultType.PIONEER2:
+        return kmpl_price;
+      case VaultType.PIONEER3:
+        return kmpl_eefi_price;
+      case VaultType.LPSTAKING:
+        return eefi_eth_price;
+      default:
+        return "0";
+    }
+  }
+
+  getRewardTokenPrice(eefi_price) {
+    switch(this.state.type) {
+      case VaultType.AMPLESENSE:
+        return eefi_price;
+      case VaultType.PIONEER1A:
+        return "0"; // no token reward
+      case VaultType.PIONEER1B:
+        return "0"; // no token reward
+      case VaultType.PIONEER2:
+        return eefi_price;
+      case VaultType.PIONEER3:
+        return eefi_price;
+      case VaultType.LPSTAKING:
+        return eefi_price;
+      default:
+        return "0";
+    }
   }
 
   vaultName() {
@@ -235,7 +278,9 @@ class BlockchainUpdater extends React.Component {
     this.pull();
     this.props.dispatch(fetchDeposits(vaultTypeFromID[vault_type], web3, account));
     this.props.dispatch(fetchWithdrawals(vaultTypeFromID[vault_type], web3, account));
-    this.props.dispatch(fetchStakableNFTs(vaultTypeFromID[vault_type], web3, account));
+    this.props.dispatch(fetchTotalBalances(web3, account));
+    // uncomment if you need to access stake nft list
+    //this.props.dispatch(fetchStakableNFTs(vaultTypeFromID[vault_type], web3, account));
 
     //get kMPL price
     axios.get(`https://api.coingecko.com/api/v3/coins/ethereum/contract/${CONTRACT_ADDRESSES.KMPL_CONTRACT}`).then(resp => {
@@ -244,6 +289,33 @@ class BlockchainUpdater extends React.Component {
     }).catch(e => {
       // in case of failure set price to $50
       this.props.dispatch(fetchKMPLPrice(50));
+    });
+
+    //get kMPL price
+    axios.get(`https://api.coingecko.com/api/v3/coins/ethereum/contract/${CONTRACT_ADDRESSES.EEFI_CONTRACT}`).then(resp => {
+    const eefiPrice = resp.data.market_data.current_price.usd
+    this.props.dispatch(fetchEEFIPrice(eefiPrice));
+    }).catch(e => {
+      // in case of failure set price to $100
+      this.props.dispatch(fetchEEFIPrice(100));
+    });
+
+    //get AMPL price
+    axios.get(`https://api.coingecko.com/api/v3/coins/ethereum/contract/${CONTRACT_ADDRESSES.AMPLE_CONTRACT}`).then(resp => {
+    const amplPrice = resp.data.market_data.current_price.usd
+    this.props.dispatch(fetchAMPLPrice(amplPrice));
+    }).catch(e => {
+      // in case of failure set price to $500
+      this.props.dispatch(fetchAMPLPrice(500));
+    });
+
+    //get ETH price
+    axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd`).then(resp => {
+    const ethPrice = resp.data.ethereum.usd
+    this.props.dispatch(fetchETHPrice(ethPrice));
+    }).catch(e => {
+      // in case of failure set price to $500
+      this.props.dispatch(fetchETHPrice(2000));
     });
   }
 
@@ -257,7 +329,7 @@ class BlockchainUpdater extends React.Component {
 
     this.props.dispatch(fetchStakingTokenBalance(vaultTypeFromID[vault_type], web3, account));
 
-    this.props.dispatch(fetchAMPLAmplesenseBalance(vaultTypeFromID[vault_type], web3, account));
+    this.props.dispatch(fetchStakedBalance(vaultTypeFromID[vault_type], web3, account));
 
     this.props.dispatch(fetchClaimableBalance(vaultTypeFromID[vault_type], web3, account));
 

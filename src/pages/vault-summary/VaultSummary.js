@@ -40,14 +40,12 @@ import p7 from "../../images/tokens/kmpl_uni_logo.png";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { fetchVaultSummary } from "../../../src/actions/vault";
-
 //import { WalletConnect, ProviderContext } from '../../components/Wallet/walletConnect'
 
 // import {fetchKMPLPrice} from "../../actions/blockchain";
 
 // const axios = require('axios')
-const { VaultContract, VaultType } = require("../../components/Blockchain/Updater.js");
+const { VaultContract, VaultType, vaultTypeFromID } = require("../../components/Blockchain/Updater.js");
 
 const orderValueOverride = {
   options: {
@@ -1314,20 +1312,7 @@ class VaultSummary extends React.Component {
   }
 
   getVaultType() {
-    switch(this.getId()) {
-      case 0:
-        return VaultType.AMPLESENSE;
-      case 1:
-        return VaultType.PIONEER1A;
-      case 2:
-        return VaultType.PIONEER2;
-      case 3:
-        return VaultType.LPSTAKING;
-      case 4:
-        return VaultType.PIONEER1B;
-      default:
-        return VaultType.AMPLESENSE;
-    }
+    return vaultTypeFromID[this.getId()];
   }
 
   componentDidMount() {
@@ -1339,10 +1324,6 @@ class VaultSummary extends React.Component {
     // const contract = new VaultContract(this.getVaultType(), web3, account);
 
     window.addEventListener("resize", this.forceUpdate.bind(this));
-    // if wallet is connected
-    if(account) {
-      this.props.dispatch(fetchVaultSummary());
-    }
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -1372,8 +1353,47 @@ class VaultSummary extends React.Component {
 
   render() {
 
-    const { kmpl_price } = this.props;
+    const { kmpl_price, eefi_price, ampl_price, eth_price } = this.props;
 
+    const amplesensevaultValues = this.props.vaultValues["Elastic Vault: AMPL > EEFI"];
+    const pioneer1AValues = this.props.vaultValues["Pioneer Fund Vault I: APOLLO"];
+    const pioneer1BValues = this.props.vaultValues["Pioneer Fund Vault I: ZEUS"];
+    const pioneer2Values = this.props.vaultValues["Pioneer Fund Vault II: kMPL"];
+    const pioneer3Values = this.props.vaultValues["Pioneer Fund Vault III: KMPL/ETH"];
+    const lpStakingValues = this.props.vaultValues["EEFI/ETH LP Token Vault"];
+
+    const amplesenseVaultStaking = amplesensevaultValues? amplesensevaultValues.stakedBalance * ampl_price : 0;
+    const pioneer1AStaking = pioneer1AValues? pioneer1AValues.stakedBalance * 0 : 0;
+    const pioneer1BStaking = pioneer1BValues? pioneer1BValues.stakedBalance * 0 : 0;
+    const pioneer2Staking = pioneer2Values? pioneer2Values.stakedBalance * kmpl_price : 0;
+    const pioneer3Staking = pioneer3Values? pioneer3Values.stakedBalance * 0 : 0;
+    const lpStakingStaking = lpStakingValues? lpStakingValues.stakedBalance * 0 : 0;
+
+    const amplesenseVaultReward = amplesensevaultValues? amplesensevaultValues.rewardBalance.token * eefi_price + amplesensevaultValues.rewardBalance.eth * eth_price : 0;
+    const pioneer1AReward = pioneer1AValues? pioneer1AValues.rewardBalance * eth_price : 0;
+    const pioneer1BReward = pioneer1BValues? pioneer1BValues.rewardBalance * eth_price : 0;
+    const pioneer2Reward = pioneer2Values? pioneer2Values.rewardBalance.token * eefi_price + pioneer2Values.rewardBalance.eth * eth_price : 0;
+    const pioneer3Reward = pioneer3Values? pioneer3Values.rewardBalance.token * eefi_price + pioneer3Values.rewardBalance.eth * eth_price : 0;
+    const lpStakingReward = lpStakingValues? lpStakingValues.rewardBalance.token * eefi_price + lpStakingValues.rewardBalance.eth * eth_price : 0;
+
+    const amplesenseVaultTVL = amplesensevaultValues? amplesensevaultValues.totalStakedBalance * ampl_price : 0;
+    const pioneer1ATVL = pioneer1AValues? pioneer1AValues.totalStakedBalance * 0 : 0;
+    const pioneer1BTVL = pioneer1BValues? pioneer1BValues.totalStakedBalance * 0 : 0;
+    const pioneer2TVL = pioneer2Values? pioneer2Values.totalStakedBalance * kmpl_price : 0;
+    const pioneer3TVL = pioneer3Values? pioneer3Values.totalStakedBalance * 0 : 0;
+    const lpStakingTVL = lpStakingValues? lpStakingValues.totalStakedBalance * 0 : 0;
+
+    // console.log(eefi_price, ampl_price, kmpl_price, eth_price)
+
+    console.log(amplesenseVaultStaking,pioneer1AStaking,pioneer1BStaking,pioneer2Staking,pioneer3Staking,lpStakingStaking);
+    console.log(amplesenseVaultReward,pioneer1AReward,pioneer1BReward,pioneer2Reward,pioneer3Reward,lpStakingReward);
+
+    const portfolio = amplesenseVaultStaking + pioneer1AStaking + pioneer1BStaking + pioneer2Staking + pioneer3Staking + lpStakingStaking
+    + amplesenseVaultReward + pioneer1AReward + pioneer1BReward + pioneer2Reward + pioneer3Reward + lpStakingReward;
+
+    const tvl = amplesenseVaultTVL + pioneer1ATVL + pioneer1BTVL + pioneer2TVL + pioneer3TVL + lpStakingTVL;
+
+    console.log(this.props.vaultValues)
     return (
 
       <div className={s.root}>
@@ -1385,14 +1405,14 @@ class VaultSummary extends React.Component {
             <Widget title={<p className="text-info" style={{ fontWeight: 700 }}>TVL</p>}>
               <Row className={`justify-content-between mt-3`} noGutters>
                 <Col sm={8} className={"d-flex align-items-center"}>
-                  <h4 className={"fw-semi-bold mb-0"}>$ {this.props.vault.tvl}</h4>
+                  <h4 className={"fw-semi-bold mb-0"}>$ {tvl}</h4>
                 </Col>
                 <Col
                   sm={4}
                   className={"d-flex align-items-center justify-content-end"}
                 >
                   <img src={stocksImg} alt="" className={"mr-1"} />
-                  <p className={"text-success mb-0"}>40%</p>
+                  <p className={"text-success mb-0"}>N/A</p>
                 </Col>
               </Row>
               <Row style={{ marginBottom: -9, marginTop: -1 }}>
@@ -1405,14 +1425,14 @@ class VaultSummary extends React.Component {
               title={<p className="text-info" style={{ fontWeight: 700 }}>Your Portfolio</p>}>
               <Row className={`justify-content-between mt-3`} noGutters>
                 <Col sm={8} className={"d-flex align-items-center"}>
-                  <h4 className={"fw-semi-bold mb-0"}>$ {this.props.vault.portfolio}</h4>
+                  <h4 className={"fw-semi-bold mb-0"}>$ {portfolio}</h4>
                 </Col>
                 <Col
                   sm={4}
                   className={"d-flex align-items-center justify-content-end"}
                 >
                   <img src={stocksImg} alt="" className={"mr-1"} />
-                  <p className={"text-success mb-0"}>15%</p>
+                  <p className={"text-success mb-0"}>N/A</p>
                 </Col>
               </Row>
               <Row style={{ marginBottom: -9, marginTop: -1 }}>
@@ -1425,13 +1445,13 @@ class VaultSummary extends React.Component {
               title={<p className="text-info" style={{ fontWeight: 700 }}>kMPL Price</p>} isBuyButton={true} pagelink={2}>
               <Row className={`justify-content-between mt-3`} noGutters>
                 <Col sm={8} className={"d-flex align-items-center"}>
-                  <h4 className={"fw-semi-bold mb-0"}>$ {this.props.vault.kmpl_price} </h4>
+                  <h4 className={"fw-semi-bold mb-0"}>$ {kmpl_price} </h4>
                 </Col>
                 <Col  sm={4}
                   className={"d-flex align-items-center justify-content-end"}
                 >
                   <img src={stocksImg} alt="" className={"mr-1"} />
-                  <p className={"text-success mb-0"}>15%</p>
+                  <p className={"text-success mb-0"}>N/A</p>
                 </Col>
               </Row>
               <Row style={{ marginBottom: -9, marginTop: -1 }}>
@@ -1444,14 +1464,14 @@ class VaultSummary extends React.Component {
               title={<p className="text-info" style={{ fontWeight: 700 }}>EEFI Price</p>} isBuyButton={true} pagelink={3}>
               <Row className={`justify-content-between mt-3`} noGutters>
                 <Col sm={8} className={"d-flex align-items-center"}>
-                  <h4 className={"fw-semi-bold mb-0"}>$ {this.props.vault.eefi_price}</h4>
+                  <h4 className={"fw-semi-bold mb-0"}>$ {eefi_price}</h4>
                 </Col>
                 <Col
                   sm={4}
                   className={"d-flex align-items-center justify-content-end"}
                 >
                   <img src={stocksImg} alt="" className={"mr-1"} />
-                  <p className={"text-success mb-0"}>15%</p>
+                  <p className={"text-success mb-0"}>N/A</p>
                 </Col>
               </Row>
               <Row style={{ marginBottom: -9, marginTop: -1 }}>
@@ -1502,13 +1522,13 @@ class VaultSummary extends React.Component {
                     </td>
                     <td width="25%" className={"pl-0 fw-thin table-vaults-long-1"}>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>TVL: </strong> &nbsp; $ 2,444,565
+                        <strong>TVL: </strong> &nbsp; $ {amplesenseVaultTVL}
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>APY: </strong>&nbsp; 60%
+                        <strong>APY: </strong>&nbsp; N/A
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>Your Balance: </strong>&nbsp;$ 46,565
+                        <strong>Your Balance: </strong>&nbsp;$ {amplesenseVaultStaking + amplesenseVaultReward}
                       </p>
                     </td>
                     <td width="30%" className={"pl-0 fw-thin table-vaults-short-1"}>
@@ -1519,13 +1539,13 @@ class VaultSummary extends React.Component {
                         <strong> Earn:</strong> &nbsp;EEFI, ETH
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>TVL: </strong> &nbsp; $ 2,444,565
+                        <strong>TVL: </strong> &nbsp; $ {amplesenseVaultTVL}
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>APY: </strong>&nbsp; 60%
+                        <strong>APY: </strong>&nbsp; N/A
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>Your Balance: </strong>&nbsp;$ 46,565
+                        <strong>Your Balance: </strong>&nbsp;$ {amplesenseVaultStaking + amplesenseVaultReward}
                       </p>
                     </td>
 
@@ -1588,13 +1608,13 @@ class VaultSummary extends React.Component {
                     </td>
                     <td width="25%" className={"pl-0 fw-thin table-vaults-long-1"}>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>TVL: </strong> &nbsp; $ 2,944,565
+                        <strong>TVL: </strong> &nbsp; $ {lpStakingTVL}
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>APY: </strong>&nbsp; 400%
+                        <strong>APY: </strong>&nbsp; N/A
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>Your Balance: </strong>&nbsp;$ 46,565
+                        <strong>Your Balance: </strong>&nbsp;$ {lpStakingStaking + lpStakingReward}
                       </p>
                     </td>
                     <td width="30%" className={"pl-0 fw-thin table-vaults-short-1"}>
@@ -1605,13 +1625,13 @@ class VaultSummary extends React.Component {
                         <strong> Earn:</strong> &nbsp;EEFI, USDC
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>TVL: </strong> &nbsp; $ 2,444,565
+                        <strong>TVL: </strong> &nbsp; $ {lpStakingTVL}
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>APY: </strong>&nbsp; 400%
+                        <strong>APY: </strong>&nbsp; N/A
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>Your Balance: </strong>&nbsp;$ 46,565
+                        <strong>Your Balance: </strong>&nbsp;$ {lpStakingStaking + lpStakingReward}
                       </p>
                     </td>
 
@@ -1688,13 +1708,13 @@ class VaultSummary extends React.Component {
                     </td>
                     <td width="25%" className={"pl-0 fw-thin table-vaults-long-1"}>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>TVL: </strong> &nbsp; $ 2,944,565
+                        <strong>TVL: </strong> &nbsp; $ {pioneer2TVL}
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>APY: </strong>&nbsp; 60%
+                        <strong>APY: </strong>&nbsp; N/A
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>Your Balance: </strong>&nbsp;$ 46,565
+                        <strong>Your Balance: </strong>&nbsp;$ {pioneer2Staking + pioneer2Reward}
                       </p>
                     </td>
                     <td width="30%" className={"pl-0 fw-thin table-vaults-short-1"}>
@@ -1705,13 +1725,13 @@ class VaultSummary extends React.Component {
                         <strong> Earn:</strong> &nbsp;EEFI, ETH
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>TVL: </strong> &nbsp; $ 2,444,565
+                        <strong>TVL: </strong> &nbsp; $ {pioneer2TVL}
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>APY: </strong>&nbsp; 60%
+                        <strong>APY: </strong>&nbsp; N/A
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>Your Balance: </strong>&nbsp;$ 6,565
+                        <strong>Your Balance: </strong>&nbsp;$ {pioneer2Staking + pioneer2Reward}
                       </p>
                     </td>
 
@@ -1774,13 +1794,13 @@ class VaultSummary extends React.Component {
                     </td>
                     <td>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>TVL: </strong> &nbsp;  N/A
+                        <strong>TVL: </strong> &nbsp; $ {pioneer1ATVL + pioneer1BTVL}
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
                         <strong>APY: </strong>&nbsp; N/A
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>Your Balance: </strong>&nbsp; 1
+                        <strong>Your Balance: </strong>&nbsp; $ {pioneer1AStaking + pioneer1BStaking + pioneer1AReward + pioneer1BReward}
                       </p>
                     </td>
                     <td width="30%" className={"pl-0 fw-thin table-vaults-short-1"}>
@@ -1791,13 +1811,13 @@ class VaultSummary extends React.Component {
                         <strong> Earn:</strong> &nbsp;ETH
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>TVL: </strong> &nbsp; N/A
+                        <strong>TVL: </strong> &nbsp; $ {pioneer1ATVL + pioneer1BTVL}
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
                         <strong>APY: </strong>&nbsp; N/A
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>Your Balance: </strong>&nbsp;1
+                        <strong>Your Balance: </strong>&nbsp; $ {pioneer1AStaking + pioneer1BStaking + pioneer1AReward + pioneer1BReward}
                       </p>
                     </td>
 
@@ -1857,13 +1877,13 @@ class VaultSummary extends React.Component {
                     </td>
                     <td width="25%" className={"pl-0 fw-thin table-vaults-long-1"}>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>TVL: </strong> &nbsp; $ 3,567,543
+                        <strong>TVL: </strong> &nbsp; $ {pioneer3TVL}
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>APY: </strong>&nbsp; 90 %
+                        <strong>APY: </strong>&nbsp; N/A
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>Your Balance: </strong>&nbsp; 1
+                        <strong>Your Balance: </strong>&nbsp; $ {pioneer3Staking + pioneer3Reward}
                       </p>
                     </td>
                     <td width="30%" className={"pl-0 fw-thin table-vaults-short-1"}>
@@ -1874,13 +1894,13 @@ class VaultSummary extends React.Component {
                         <strong> Earn:</strong> &nbsp;EEFI, ETH
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>TVL: </strong> &nbsp;  $ 3,567,543
+                        <strong>TVL: </strong> &nbsp; $ {pioneer3TVL}
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>APY: </strong>&nbsp; 90%
+                        <strong>APY: </strong>&nbsp; N/A
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>Your Balance: </strong>&nbsp;8,707
+                        <strong>Your Balance: </strong>&nbsp; $ {pioneer3Staking + pioneer3Reward}
                       </p>
                     </td>
 
@@ -1938,7 +1958,11 @@ function mapStateToProps(store) {
     sidebarColor: store.layout.sidebarColor,
     dashboardColor: store.layout.dashboardTheme,
     kmpl_price: store.blockchain.kmpl_price,
-    vault: store.vault
+    eefi_price: store.blockchain.eefi_price,
+    ampl_price: store.blockchain.ampl_price,
+    eth_price: store.blockchain.eth_price,
+    vault: store.vault,
+    vaultValues: store.blockchain.vaultValues
   };
 }
 
