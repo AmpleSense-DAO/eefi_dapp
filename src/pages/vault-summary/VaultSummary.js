@@ -1843,7 +1843,7 @@ class VaultSummary extends React.Component {
                 <tbody className="text-dark">
                   <tr  key={0}>
                     <td width="35%" className=" pl-0 fw-thin table-vaults-long-1">
-                      <Link to="/app/home/vault-detail/4">
+                      <Link to="/app/home/vault-detail/5">
                         <span className={"d-flex  align-items-center fw-bold"}>
                         <img src={p7} height={80} width={80} alt="" className={s.mobileImg} />
                         <h4 className="text-info">
@@ -1853,7 +1853,7 @@ class VaultSummary extends React.Component {
                       </Link>
                     </td>
                     <td width="35%" className=" pl-0 fw-thin table-vaults-short-1">
-                      <Link to="/app/home/vault-nfts">
+                      <Link to="/app/home/vault-detail/5">
                         <p className={"d-flex  align-items-center fw-bold mb-md mr-md"}>
                         <img src={p7} height={80} width={80} alt="" className={s.mobileImg} />
                         </p>
@@ -1861,7 +1861,7 @@ class VaultSummary extends React.Component {
                         kMPL/ETH <br></br>LP Tokens
                         </h5>
                       </Link>
-                      <Link to="/app/home/vault-nfts">
+                      <Link to="/app/home/vault-detail/5">
                         <p>
                           <Button color="primary" className="mb-md mr-md">Select</Button>
                         </p>
@@ -1905,7 +1905,7 @@ class VaultSummary extends React.Component {
                     </td>
 
                     <td width="10%" className={"pl-0 fw-normal table-vaults-long-1"}>
-                      <Link to="/app/home/vault-detail/4">
+                      <Link to="/app/home/vault-detail/5">
                       <p>
                         <Button color="primary" className="mb-md mr-md">Select</Button>
                       </p>
