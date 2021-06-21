@@ -125,7 +125,8 @@ class Header extends React.Component {
         { value: 'Average', label:  '0', rating: 'safe' },
         { value: 'Fast', label:  '0', rating: 'good' },
         { value: 'Fastest', label: '0', rating: 'quick' },
-      ]
+      ],
+      defaultData : { value: 'Fast', label: '0', rating: 'good'}
     };
   }
 
@@ -264,6 +265,24 @@ class Header extends React.Component {
       menuOpen: !this.state.menuOpen,
     });
   }
+
+  handleChange(value) {
+    this.setState({
+      defaultData: value
+    })
+  }
+
+  determineIndex(options, choice) {
+    var index = 0;
+    options.forEach((option, i) => {
+      if (option.value == choice.value) {
+        index = i;
+      }
+    });
+
+    return index;
+  }
+
   render() {
 
     // const { focus } = this.state;
@@ -271,6 +290,7 @@ class Header extends React.Component {
     // const { gas_price_fastest } = this.props;
     // const { gas_price_fast } = this.props;
     // const { gas_price_average } = this.props;
+    var index = this.determineIndex(this.state.selectDefaultData, this.state.defaultData);
 
     return (
       <Navbar
@@ -313,7 +333,8 @@ class Header extends React.Component {
                 className="selectCustomization"
                 options={this.state.selectDefaultData}
                 defaultValue={this.state.selectDefaultData[1]}
-                value={this.state.selectDefaultData[1]}
+                value={this.state.selectDefaultData[index]}
+                onChange = {value => this.handleChange(value)}
               />
             </Col>
           </FormGroup>

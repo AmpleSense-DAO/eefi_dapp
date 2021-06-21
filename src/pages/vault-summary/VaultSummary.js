@@ -1571,33 +1571,33 @@ class VaultSummary extends React.Component {
             <Widget>
               <Table className="table-hover " responsive>
                 <tbody className="text-dark">
-                <tr  key={0}>
-                  <td width="35%" className=" pl-0 fw-thin table-vaults-long-1">
-                  <Link to="/app/home/vault-detail/1">
-                      <span className={"d-flex  align-items-center fw-bold"}>
-                      <img src={p2} height={80} width={80} alt=""  className={s.mobileImg} />
+                  <tr key={0}>
+                    <td width="35%" className=" pl-0 fw-thin table-vaults-long-1">
+                      <Link to="/app/home/vault-detail/1">
+                        <span className={"d-flex  align-items-center fw-bold"}>
+                        <img src={p2} height={80} width={80} alt=""  className={s.mobileImg} />
 
-                      <h4 className="text-info">
-                      EEFI/USDC LP Tokens
-                      </h4>
-                      </span>
-                  </Link>
-                  </td>
-                  <td width="35%" className=" pl-0 fw-thin table-vaults-short-1">
-                  <Link to="/app/home/vault-eefi">
-                      <p className={"d-flex  align-items-center fw-bold"}>
-                      <img src={p2} height={80} width={80} alt=""  className={s.mobileImg} />
-                      </p>
-                       <h5 className="text-info" >
-                      EEFI/USDC<br></br>LP Tokens
-                      </h5>
-                   </Link>
-                   <Link to="/app/home/vault-eefi">
-                      <p>
-                        <Button color="primary" className="mb-md mr-md">Select</Button>
-                      </p>
-                   </Link>
-                  </td>
+                        <h4 className="text-info">
+                        EEFI/USDC LP Tokens
+                        </h4>
+                        </span>
+                      </Link>
+                    </td>
+                    <td width="35%" className=" pl-0 fw-thin table-vaults-short-1">
+                      <Link to="/app/home/vault-eefi">
+                        <p className={"d-flex  align-items-center fw-bold"}>
+                          <img src={p2} height={80} width={80} alt=""  className={s.mobileImg} />
+                        </p>
+                        <h5 className="text-info" >
+                        EEFI/USDC<br></br>LP Tokens
+                        </h5>
+                      </Link>
+                      <Link to="/app/home/vault-eefi">
+                        <p>
+                          <Button color="primary" className="mb-md mr-md">Select</Button>
+                        </p>
+                      </Link>
+                    </td>
                     <td width="30%" className={"pl-0 fw-thin table-vaults-long-1"}>
                       <p className={"d-flex  align-items-center text-info "}>
                         <strong>Deposit:</strong>&nbsp; EEFI/USDC LP Tokens
@@ -1657,7 +1657,7 @@ class VaultSummary extends React.Component {
             <Widget>
               <Table className="table-hover " responsive>
                 <tbody className="text-dark">
-                  <tr  key={0}>
+                  <tr key={0}>
                     <td width="35%" className=" pl-0 fw-thin table-vaults-long-1">
                       <Link to="/app/home/vault-detail/2">
                           <span className={"d-flex  align-items-center fw-bold"}>
@@ -1670,20 +1670,20 @@ class VaultSummary extends React.Component {
                     </td>
                     <td width="35%" className=" pl-0 fw-thin table-vaults-short-1">
                       <Link to="/app/home/vault-gen-page">
-                          <p className={"d-flex  align-items-center fw-bold"}>
-                            <img src={p3} height={80} width={80} alt="" className={s.mobileImg} />
-                          </p>
-                          <h5 className="text-info" >
-                          kMPL
-                          </h5>
+                        <p className={"d-flex  align-items-center fw-bold"}>
+                          <img src={p3} height={80} width={80} alt="" className={s.mobileImg} />
+                        </p>
+                        <h5 className="text-info" >
+                        kMPL
+                        </h5>
                       </Link>
                       <Link to="/app/home/vault-gen-page">
-                      <p>
-                        <Button color="primary" className="mb-md mr-md">Select</Button>
-                      </p>
+                        <p>
+                          <Button color="primary" className="mb-md mr-md">Select</Button>
+                        </p>
                       </Link>
                     </td>
-                    <td width="35%" className=" pl-0 fw-thin table-vaults-short-1">
+                    {/* <td width="35%" className=" pl-0 fw-thin table-vaults-short-1">
                       <Link to="/app/home/vault-gen-page">
                         <p className={"d-flex  align-items-center fw-bold"}>
                         <img src={p3} height={80} width={80} alt="" className={"mr-3"} />
@@ -1697,7 +1697,7 @@ class VaultSummary extends React.Component {
                           <Button color="primary" className="mb-md mr-md">Select</Button>
                         </p>
                       </Link>
-                    </td>
+                    </td> */}
                     <td width="30%" className={"pl-0 fw-thin table-vaults-long-1"}>
                       <p className={"d-flex  align-items-center text-info "}>
                         <strong>Deposit:</strong>&nbsp; kMPL Tokens
@@ -1750,8 +1750,8 @@ class VaultSummary extends React.Component {
         </Row>
 
 
-    {/* Pioneer NFTs  */}
-    <Row>
+        {/* Pioneer NFTs  */}
+        <Row>
           <Col sm={12}>
             <Widget>
               <Table className="table-hover " responsive>
@@ -1792,7 +1792,7 @@ class VaultSummary extends React.Component {
                         <strong> Earn:</strong> &nbsp;ETH
                       </p>
                     </td>
-                    <td>
+                    <td width="25%" className={"pl-0 fw-thin table-vaults-long-1"}>
                       <p className={"d-flex  align-items-center text-info"}>
                         <strong>TVL: </strong> &nbsp; $ {pioneer1ATVL + pioneer1BTVL}
                       </p>
@@ -1835,7 +1835,7 @@ class VaultSummary extends React.Component {
           </Col>
         </Row>
 
-  {/* kMPL/ETH  */}
+        {/* kMPL/ETH  */}
         <Row>
           <Col sm={12}>
             <Widget>
