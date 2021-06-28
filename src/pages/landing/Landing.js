@@ -69,7 +69,7 @@ class Landing extends React.Component {
                         <div className={"text-info"}  >
                           <div>
                             <span  className={"d-flex "}>
-                              <h2 className="display-4 d-flex">
+                              <h2 className="display-4 d-flex" style={{ fontSize: '46px'}}>
                                 Unleash the power of your elastic assets
                               </h2>
                             </span>
