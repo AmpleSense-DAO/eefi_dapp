@@ -215,7 +215,7 @@ class Header extends React.Component {
   doRebase() {
     const ampleSenseVault = new this.props.web3.eth.Contract(AmplesenseVaultAbi.abi, CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT);
     const ampl = new this.props.web3.eth.Contract(erc20Abi.abi, CONTRACT_ADDRESSES.AMPLE_CONTRACT);
-    ampl.methods.rebase("500").send({from: this.props.account}).then(receipt => {
+    ampl.methods.forceRebase("0","500").send({from: this.props.account}).then(receipt => {
       ampleSenseVault.methods.rebase().send({from: this.props.account}).then(receipt => {
       }).catch(err => console.log)
     })

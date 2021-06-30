@@ -22,6 +22,7 @@ export const FETCH_CLAIMABLE_AMPLESENSE_BALANCE = 'FETCH_CLAIMABLE_AMPLESENSE_BA
 export const MAKE_CLAIM = "MAKE_CLAIM";
 export const FETCH_TOTAL_STAKED = "FETCH_TOTAL_STAKED";
 export const FETCH_VAULT_VALUE = "FETCH_VAULT_VALUE";
+export const FETCH_TVL_VALUE = "FETCH_TVL_VALUE";
 
 export function setVaultType(vaultType) {
   return {
@@ -279,6 +280,27 @@ export function fetchWithdrawals(vaultType, web3, account) {
           payload: {events : events}
         });
       })
+    })
+  };
+}
+
+export function fetchTVLHistory(web3, account) {
+  return function(dispatch) {
+    let promises = [];
+    vaultTypeFromID.forEach(type => {
+      const contract = new VaultContract(type, web3, account);
+      promises.push(new Promise(async (resolve, reject) => {
+        const changes = await contract.getStakeChangedEvent();
+        resolve({changes, contract});
+      }));
+    });
+    Promise.all(promises).then((results) => {
+      const merged = [].concat.apply([], results);
+      
+      dispatch({
+        type: FETCH_TVL_VALUE,
+        payload: merged
+      });
     })
   };
 }

@@ -606,7 +606,7 @@ class VaultDetail extends React.Component {
             <Col md={6} sm={12} xs={12}>
               <Widget
                 title={<p style={{ fontWeight: 700 }}>
-                {contract.stakingTokenSymbol()} Available to Withdraw: {/*claimable_formatted*/} {contract.stakingTokenSymbol()}</p>}
+                {contract.stakingTokenSymbol()} Available to Withdraw: {claimable_formatted} {contract.stakingTokenSymbol()}</p>}
               >
                 <div>
                   <FormGroup>

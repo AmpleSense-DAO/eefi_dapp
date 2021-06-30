@@ -1353,7 +1353,7 @@ class VaultSummary extends React.Component {
 
   render() {
 
-    const { kmpl_price, eefi_price, ampl_price, eth_price } = this.props;
+    const { kmpl_price, eefi_price, ampl_price, eth_price, history } = this.props;
 
     const amplesensevaultValues = this.props.vaultValues["Elastic Vault: AMPL > EEFI"];
     const pioneer1AValues = this.props.vaultValues["Pioneer Fund Vault I: APOLLO"];
@@ -1384,16 +1384,51 @@ class VaultSummary extends React.Component {
     const lpStakingTVL = lpStakingValues? lpStakingValues.totalStakedBalance * 0 : 0;
 
     // console.log(eefi_price, ampl_price, kmpl_price, eth_price)
-
-    console.log(amplesenseVaultStaking,pioneer1AStaking,pioneer1BStaking,pioneer2Staking,pioneer3Staking,lpStakingStaking);
-    console.log(amplesenseVaultReward,pioneer1AReward,pioneer1BReward,pioneer2Reward,pioneer3Reward,lpStakingReward);
-
     const portfolio = amplesenseVaultStaking + pioneer1AStaking + pioneer1BStaking + pioneer2Staking + pioneer3Staking + lpStakingStaking
     + amplesenseVaultReward + pioneer1AReward + pioneer1BReward + pioneer2Reward + pioneer3Reward + lpStakingReward;
 
     const tvl = amplesenseVaultTVL + pioneer1ATVL + pioneer1BTVL + pioneer2TVL + pioneer3TVL + lpStakingTVL;
 
-    console.log(this.props.vaultValues)
+    let all_tvl = [];
+
+    history && history.forEach(tvl_event => {
+      let tvl = [];
+      const changes = tvl_event.changes;
+      const contract = tvl_event.contract;
+      changes.forEach(change => {
+        let adjustedAmount = change.returnValues.total;
+        if(contract.stakingTokenPrecision() > 0)
+          adjustedAmount /= 10**contract.stakingTokenPrecision();
+        
+        tvl.push({total: adjustedAmount * contract.getStakingTokenPrice(kmpl_price, ampl_price, 0, 0, 0, 0), timestamp : change.returnValues.timestamp, name: contract.vaultName()});
+      });
+      all_tvl.push(tvl);
+    });
+
+    let merged = [].concat.apply([], all_tvl).sort((a, b) => a.timestamp - b.timestamp);
+
+    let tvl_map = new Map();
+    tvl_map.set("Elastic Vault: AMPL > EEFI", 0);
+    tvl_map.set("EEFI/ETH LP Token Vault", 0);
+    tvl_map.set("Pioneer Fund Vault II: kMPL", 0);
+    tvl_map.set("Pioneer Fund Vault I: ZEUS", 0);
+    tvl_map.set("Pioneer Fund Vault I: APOLLO", 0);
+    tvl_map.set("Pioneer Fund Vault III: KMPL/ETH", 0);
+
+    const flat_tvl = merged.map(element => {
+      tvl_map.set(element.name, element.total);
+
+      let total = 0;
+      tvl_map.forEach((value) => {
+        total += value;
+      })
+
+      return {timestamp: element.timestamp, total : total};
+    });
+
+    console.log(flat_tvl);
+
+    
     return (
 
       <div className={s.root}>
@@ -1933,13 +1968,12 @@ class VaultSummary extends React.Component {
             >
               <Row style={{ marginTop: -36 }}>
                 <Col sm={12}>
-                  <ApexChart
+                  {/* <ApexChart
                     className="sparkline-chart"
-                    series={this.state.splineArea.series}
                     options={this.state.splineArea.options}
-                    type={"area"}
+                    type={"timeseries"}
                     height={"350px"}
-                  />
+                  /> */}
                 </Col>
               </Row>
             </Widget>
@@ -1962,7 +1996,8 @@ function mapStateToProps(store) {
     ampl_price: store.blockchain.ampl_price,
     eth_price: store.blockchain.eth_price,
     vault: store.vault,
-    vaultValues: store.blockchain.vaultValues
+    vaultValues: store.blockchain.vaultValues,
+    history: store.blockchain.history_tvl
   };
 }
 

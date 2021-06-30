@@ -18,7 +18,8 @@ import {
   fetchGasPriceAverage,
   fetchReward,
   fetchStakableNFTs,
-  fetchTotalBalances
+  fetchTotalBalances,
+  fetchTVLHistory
 } from "../../actions/blockchain";
 
 const erc20Abi = require("../../contracts/ERC20.json");
@@ -31,18 +32,19 @@ const axios = require('axios')
 
 //define variables for contract addresses
 export const CONTRACT_ADDRESSES = {
-  AMPLE_SENSE_VAULT: '0x3522AEffd3626C9445ca6B35B68C8454C0f8EdA1',
-  AMPLE_CONTRACT: '0xe56d6a85FFc5830F0307d1c6608a4017267bbFe4',
-  KMPL_CONTRACT: '0xA76F8D27E724D6ffbce9DFF343f74A2B0ffc1468',
-  PIONEER1_CONTRACT: '0xb6DA7bdD0D5AEA4d1ce58A2E68f38c5ff755a160',
-  PIONEER2_CONTRACT: '0x90b0DAE9c719D33fbe1FD0e0969A2E86936dbFf6',
-  PIONEER3_CONTRACT: '0x30BA9F1554B3C1E574A2e7dA03EfE62F3b7d3bBC',
-  LPSTAKING_CONTRACT: '0x3d1365eE0cC0D698B7e6d5b36d1A6AC7C5157442',
-  NFT1_CONTRACT: '0xa4fd515560519A662Daf146518b5e1DA5501cacF',
-  NFT2_CONTRACT: '0xa7D2D3AD0a50265E4eDC217dA750903dF6DEF3a4',
-  Univ3_EEFI_ETH_CONTRACT: '0xa4431e1C96930d7Fb1b345DAec4B196542594Db7',
-  Univ3_KMPL_EEFI_CONTRACT: '0xD3196C95Ae07984e4e1Ba82f9F597ce75e02670F',
-  EEFI_CONTRACT: '0xbCB8D2114344f349ac73B9954e7b36dfA4D26619'
+  AMPLE_SENSE_VAULT: '0xeDFa58b9372F854840f577734502A8B251a6fC60',
+  AMPLE_CONTRACT: '0xd6Bcb301910F171DcC3463Bdc309305aCE7ebF43',
+  KMPL_CONTRACT: '0xC42B34f2DE19174e29e0e3F11b03bC4cD2AA63ab',
+  PIONEER1_CONTRACT: '0x16e7BB00530bE00F1C9ED1BB7D1AA5B820A3470a',
+  PIONEER2_CONTRACT: '0xA5883aBAa947056053A386F8710505331108b5e2',
+  PIONEER3_CONTRACT: '0x51FAbddfACFdfA66C4385F720F277d491EF26653',
+  LPSTAKING_CONTRACT: '0x6AE47fb2dC7370FfdCE53C003BC58eBd95aED125',
+  NFT1_CONTRACT: '0xDA7A842D3EcF81dd254E03962c8C695342EeB3A2',
+  NFT2_CONTRACT: '0x9Cb2Db9923dAd0E998D7ab260Cf6c0f29486d01C',
+  Univ3_EEFI_ETH_CONTRACT: '0x5E4689bD5f389614632c4d8bb36f09da3e63A4B9',
+  Univ3_KMPL_EEFI_CONTRACT: '0xe53F4dF1451965006b161a37aE58a055C49EAD22',
+  EEFI_CONTRACT: '0x0c779645ecfe884295F00a208f956C33F082Bb1C',
+  TOKEN_DISTRIBUTOR: '0x038CC878a4d31Bd7683AB85207f23cD05182dFea'
 }
 
 export const VaultType = {
@@ -256,6 +258,11 @@ export class VaultContract {
       return contract.getPastEvents("Unstaked", { fromBlock: 0, filter: { addr:  this.state.account } });
     }
   }
+
+  getStakeChangedEvent() {
+    const contract = new this.state.web3.eth.Contract(this.state.type.vault_abi.abi, this.state.type.vault);
+    return contract.getPastEvents("StakeChanged", { fromBlock: 0 });
+  }
 }
 
 class BlockchainUpdater extends React.Component {
@@ -279,6 +286,7 @@ class BlockchainUpdater extends React.Component {
     this.props.dispatch(fetchDeposits(vaultTypeFromID[vault_type], web3, account));
     this.props.dispatch(fetchWithdrawals(vaultTypeFromID[vault_type], web3, account));
     this.props.dispatch(fetchTotalBalances(web3, account));
+    this.props.dispatch(fetchTVLHistory(web3, account));
     // uncomment if you need to access stake nft list
     //this.props.dispatch(fetchStakableNFTs(vaultTypeFromID[vault_type], web3, account));
 
