@@ -12,8 +12,8 @@ import s from "./VaultDetail.module.scss";
 //tokens
 // import p1 from "../../images/tokens/ample.png";
 import p2 from "../../images/tokens/eefi_token_logo.png";
-// import p3 from "../../images/tokens/kappa_logo_kmpl.png";
-// import p4 from "../../images/tokens/apollo_cropped_edited_sm.png";
+import p3 from "../../images/tokens/kappa_logo_kmpl.png";
+import p4 from "../../images/tokens/apollo_cropped_edited_sm.png";
 import p5 from "../../images/tokens/ethereum-eth-logo.svg";
 import p7 from "../../images/tokens/kmpl_uni_logo.png";
 
@@ -555,7 +555,11 @@ class VaultDetail extends React.Component {
       <div className={s.root}>
         <div className={s.headerImg}>
           { contract.stakingTokenSymbol() === "AMPL" && <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAMAAACdt4HsAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAJeUExURUxpcQAAAAAAAD8/PwAAAFVVVQAAAAAAAAAAAAAAAAAAAP///39/fwAAAA4ODgEBAQEBAQAAAP///wsLC////8bGxgoKCv///woKCg4ODgAAAA0NDQAAAExMTC4uLjMzMwoKChISEi0tLRQUFH9/f1ZWVkJCQjo6OhQUFCYmJhcXFw8PDw8PDwsLCwkJCUdHRyIiIgAAABkZGRAQEEhISFJSUhISEtfX1////zMzMxkZGUFBQSoqKg8PD0hISP///xUVFXt7eyEhISoqKhgYGCkpKR0dHR0dHQoKChAQEBQUFHFxcRoaGjg4OFlZWQkJCSQkJCIiIv///yUlJSUlJTIyMgsLCx0dHU1NTbS0tDAwMAoKChgYGBUVFQAAAAEBAQEBARISEnV1dTk5ORISEh8fHxMTE9DQ0EFBQQcHByUlJRwcHDk5OQ0NDRkZGQoKChISEgEBATk5OUlJSRgYGA8PD+Li4iYmJpubmxgYGBsbGzg4OA8PDw4ODh0dHRgYGFxcXAgICBwcHBEREZubmywsLCgoKKqqql1dXRcXFzAwMBoaGg4ODjMzMw0NDaWlpQsLCx4eHjU1NUNDQxAQEEdHRygoKA4ODhAQEAoKCnZ2diIiIjAwMDMzMzo6OikpKQ8PDxsbG0ZGRq+vr39/fxwcHFZWVhMTExISEggICB8fHwUFBb+/v2traw8PD6KiohEREQgICOXl5RYWFj09PRsbGyQkJBoaGgEBATw8PAwMDAICAiMjI2lpaSIiIgAAAAEBAQUFBQICAgQEBAgICAMDAwkJCQ0NDQYGBgcHB7CGDNAAAAC/dFJOUwD3/QQCA/4BAwT5AwL6yP78+wLWBBLKAfvH+MkGCpt31fRxxRovaFxxg8/Xxsg2TpT8y9M8PugNBU/cOoXJLgfWI5AGwoC/r/725BvERCj6XCwIlWZ+8pwuEYn9r8sH+vnrGlTsieYLPvyBs0f1ysnZ+1Uts+QJjBLHqFvx4JPNL/mg7hdbdwwmw1616QXwFPOyUVP3J3/G+/kcf2qqcW/DtzYgHMYs1NP1mfwUGsgW2fsKy0uuqq33WPn8hymLeTbbhQAAAhlJREFUWMPtVWVz3DAQXfscr3SXuzCnTVNmZkyZmZmZmSkpp8zMzMztygdp+6/qeOo2M/1QSzf95vfB49HM0+q93ScB+PDhwxMMTI6fJN3m16+VDJ9Do9K69lfdgMy2VA8MdT70HJSe3wBS1BXMF5pooqwBceF2fTW1C6FiLwJ4Kv6d9Kr2qhoY3Hh0RYTFWPtPBalwO//+rQsmLRijauG1xCW4Q0FrmZoGDN37cRevxjRRrqSBwU3reh4+OW5SxSaVTDB4mLgMxVBJwdhWCCjE6NjRBxfhCO6NFdJSBQ0cDkVPADNgzzYyl8+xeyKdg4PiJHK79BazMDoOZcc5BXbFD++3hQRwrhWkYdKR5LCRdlQrR5g8j/SRIyR3QNiw3lrkWMdhotCi/SUjyXFNdFW2k0IGw60wlWWjpIXraIlbtNcQyqjqIDXOqXBg9+K1vygc+ggtrbWUBg5naWcmug3pFm9DHTtJjDPiy+e0zy2J2LkrZVhdkEnE4LX14szvxnHoLjRzIMhs8MZ8FcI/QzVpqm5OGIqG57vwy0fxucbwGqHpFEyMh77eDLBP+o5iH6DYLWjMgCk0S5+dA8ybimdfrfef3j6usZIzLT08M21Ab0+v+ejN56kap1eMcnxn2KrfYGeFvjUtyTP+6V/LrNxzTyNFBSuzGju+M2jYLLegKBLp0bxFndqKN7zsi+birwVE8OHDh4//hp9kzYDsFysvpQAAAABJRU5ErkJggg==" height={80} width={80} alt="" className={s.mobileImg} />}
-          { contract.stakingTokenSymbol() !== "AMPL" && <img src={contract.tokenImagePath()} height={80} width={80} alt="" className={s.mobileImg} />}
+          { contract.stakingTokenSymbol() === "Balancer LP" && <img src={p2} height={80} width={80} alt="" className={s.mobileImg} />}
+          { contract.stakingTokenSymbol() === "kMPL" && <img src={p3} height={80} width={80} alt="" className={s.mobileImg} />}
+          { contract.stakingTokenSymbol() === "ZNFT" && <div></div>}
+          { contract.stakingTokenSymbol() === "ANFT" && <div></div>}
+          { contract.stakingTokenSymbol() === "UniswapV2" && <img src={p7} height={80} width={80} alt="" className={s.mobileImg} />}
           <div className={s.headerText}>
             <h2>
               {contract.vaultName()}
@@ -567,7 +571,7 @@ class VaultDetail extends React.Component {
             <Col md={6} sm={12} xs={12}>
               <Widget
                 title={<p style={{ fontWeight: 700 }}>
-                {contract.stakingTokenSymbol()} Balance: {staking_token_balance_formatted}  {contract.stakingTokenSymbol()}</p>}
+                {contract.stakingTokenSymbol()} {contract.stakingTokenSymbol()==="Balancer LP" ? "Tokens" : "Balance"}: {staking_token_balance_formatted}  {contract.stakingTokenSymbol()}</p>}
               >
                 <div>
                   <FormGroup>
@@ -592,9 +596,10 @@ class VaultDetail extends React.Component {
                       </thead>
                     </Table>
                   </FormGroup>
-                  {/* <p className="fs-mini text-muted">
-                    New deposits locked for 90 days.
-                  </p> */}
+                  { contract.stakingTokenSymbol()==="AMPL" &&
+                  <p className="fs-mini text-muted">
+                    {contract.stakingTokenSymbol()} deposits locked for 90 days.
+                  </p> }
                   <p className={"d-flex align-items-center "} align="center">
                     <Button color="default" size="lg" align="center" className="mb-md mr-sm" disabled={this.state.amountToDeposit === "0"}  onClick={this.doDeposit}>Deposit</Button>
                   </p>
@@ -606,7 +611,7 @@ class VaultDetail extends React.Component {
             <Col md={6} sm={12} xs={12}>
               <Widget
                 title={<p style={{ fontWeight: 700 }}>
-                {contract.stakingTokenSymbol()} Available to Withdraw: {claimable_formatted} {contract.stakingTokenSymbol()}</p>}
+                {contract.stakingTokenSymbol()} {contract.stakingTokenSymbol()==="Balancer LP" ? "Tokens" : ""} Available to Withdraw: {claimable_formatted} {contract.stakingTokenSymbol()}</p>}
               >
                 <div>
                   <FormGroup>
@@ -651,7 +656,7 @@ class VaultDetail extends React.Component {
                 <thead>
                   <tr>
                     <th key={0} width="50%"  scope="col" className={"pl-0"}>
-                      &nbsp;Staked {contract.stakingTokenSymbol()}
+                      &nbsp;Staked {contract.stakingTokenSymbol()} {contract.stakingTokenSymbol()==="Balancer LP" ? "Tokens" : ""}
                     </th>
                     <th key={2} scope="col" className={"pl-0"}>
                       &nbsp;Rewards
@@ -662,7 +667,7 @@ class VaultDetail extends React.Component {
                   <tr>
                     <td className="fw-thin pl-0 fw-thin">
                       <h3>
-                      &nbsp;{staking_token_withdraw_formatted} {contract.stakingTokenSymbol()}
+                      &nbsp;{staking_token_withdraw_formatted} {contract.stakingTokenSymbol()} {contract.stakingTokenSymbol()==="Balancer LP" ? "Tokens" : ""}
                       </h3>
                       <h4>APY {tokenDetailedData[tokenId].apy}</h4>
                       <br></br>
@@ -673,17 +678,17 @@ class VaultDetail extends React.Component {
 
                     <td className={"pl-0 fw-thin"}>
                     <h4>
-                      { tokenId !== 1 && tokenId !== 4 &&
+                      { contract.stakingTokenSymbol() !== "ANFT" && contract.stakingTokenSymbol() !== "ZNFT" &&
                       <p>
                         <img height="30" src={p2} alt="" className={"mr-3"} />
                         <span align="right">
-                          &nbsp;{/*ampl_eth_reward_formatted*/} {tokenDetailedData[tokenId].rewards_token_1}
+                          &nbsp;{ampl_eth_reward_formatted} {tokenDetailedData[tokenId].rewards_token_1}
                         </span>
                       </p> }
                       <p>
                         <img height="30" src={p5} alt="" className={"mr-3"} />
                         <span align="right">
-                        &nbsp;{/*ampl_token_reward_formatted*/} {tokenDetailedData[tokenId].rewards_token_2}</span>
+                        &nbsp;{ampl_token_reward_formatted} {tokenDetailedData[tokenId].rewards_token_2}</span>
                       </p>
                     </h4>
                       <p>

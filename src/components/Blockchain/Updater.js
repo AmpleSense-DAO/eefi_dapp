@@ -49,7 +49,7 @@ export const CONTRACT_ADDRESSES = {
 
 export const VaultType = {
   AMPLESENSE : {vault: CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT, staking_token: CONTRACT_ADDRESSES.AMPLE_CONTRACT, vault_abi: AmplesenseVaultAbi, staking_token_abi: erc20Abi, staking_symbol: "AMPL", precision: 9, reward_token_precision: 9, name: "Elastic Vault: AMPL > EEFI"},
-  LPSTAKING : {vault: CONTRACT_ADDRESSES.LPSTAKING_CONTRACT, staking_token: CONTRACT_ADDRESSES.Univ3_EEFI_ETH_CONTRACT, vault_abi: StakingERC20Abi, staking_token_abi: erc20Abi, staking_symbol: "UniswapV2", precision: 18, reward_token_precision: 9, name: "EEFI/ETH LP Token Vault"},
+  LPSTAKING : {vault: CONTRACT_ADDRESSES.LPSTAKING_CONTRACT, staking_token: CONTRACT_ADDRESSES.Univ3_EEFI_ETH_CONTRACT, vault_abi: StakingERC20Abi, staking_token_abi: erc20Abi, staking_symbol: "Balancer LP", precision: 18, reward_token_precision: 9, name: "EEFI/USDC LP Token Vault"},
   PIONEER2 : {vault: CONTRACT_ADDRESSES.PIONEER2_CONTRACT, staking_token: CONTRACT_ADDRESSES.KMPL_CONTRACT, vault_abi: StakingERC20Abi, staking_token_abi: erc20Abi, staking_symbol: "kMPL", precision: 9, reward_token_precision: 9, name: "Pioneer Fund Vault II: kMPL"},
   PIONEER1A : {vault: CONTRACT_ADDRESSES.PIONEER1_CONTRACT, staking_token: CONTRACT_ADDRESSES.NFT1_CONTRACT, vault_abi: StakingERC721Abi, staking_token_abi: erc721Abi, staking_symbol: "ZNFT", precision: 0, reward_token_precision: 9, name: "Pioneer Fund Vault I: ZEUS"},
   PIONEER1B : {vault: CONTRACT_ADDRESSES.PIONEER1_CONTRACT, staking_token: CONTRACT_ADDRESSES.NFT2_CONTRACT, vault_abi: StakingERC721Abi, staking_token_abi: erc721Abi, staking_symbol: "ANFT", precision: 0, reward_token_precision: 9, name: "Pioneer Fund Vault I: APOLLO"},

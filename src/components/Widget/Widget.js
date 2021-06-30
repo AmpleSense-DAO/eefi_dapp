@@ -205,7 +205,7 @@ class Widget extends React.Component {
         >
           {title ? (
             typeof title === "string" ? (
-              <div style={{ display: "flex", justifyContent: "space-around"}}>
+              <div style={{ display: "flex", justifyContent: "space-between"}}>
                 <h5 className={s.title}>{title}</h5>
                 { isBuyButton &&
                     <Link to={`/app/home/vault-detail/${pagelink}`} style={{ marginTop: '20px'}}>
@@ -213,7 +213,7 @@ class Widget extends React.Component {
                     </Link>}
               </div>
             ) : (
-              <div style={{ display: "flex", justifyContent: "space-around"}}>
+              <div style={{ display: "flex", justifyContent: "space-between"}}>
                 <header className={s.title}>{title}</header>
                 { isBuyButton &&
                     <Link to={`/app/home/vault-detail/${pagelink}`} style={{ marginTop: '20px'}}>
