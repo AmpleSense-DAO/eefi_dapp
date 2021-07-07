@@ -99,11 +99,9 @@ class Header extends React.Component {
     this.toggleMessages = this.toggleMessages.bind(this);
     this.toggleSidebar = this.toggleSidebar.bind(this);
     this.doLogin = this.doLogin.bind(this);
-    this.doLoginLocal = this.doLoginLocal.bind(this);
-    this.doAdd90Days = this.doAdd90Days.bind(this);
     this.changeArrowImg = this.changeArrowImg.bind(this);
     this.changeArrowImgOut = this.changeArrowImgOut.bind(this);
-    this.doRebase = this.doRebase.bind(this);
+
 
     // console.log('gas_price_fastest', gas_price_fastest, 'gas_price_fast', gas_price_fast);
     // const { gas_price_fastest } = this.props;
@@ -189,38 +187,6 @@ class Header extends React.Component {
     });
   }
 
-  doLoginLocal() {
-    let web3 = new Web3("ws://127.0.0.1:8545/");
-    web3.eth.getAccounts().then(accounts => {
-      this.props.dispatch(loginUser(web3, accounts[0]));
-    })
-  }
-
-  doAdd90Days() {
-    this.props.web3.currentProvider.send({
-      jsonrpc: "2.0",
-      method: "evm_increaseTime",
-      params: [7776000],
-      id: 1
-    }, res => {
-      this.props.web3.currentProvider.send({
-        jsonrpc: "2.0",
-        method: "evm_mine",
-        params: [],
-        id: 2
-      }, res => console.log)
-    });
-  }
-
-  doRebase() {
-    const ampleSenseVault = new this.props.web3.eth.Contract(AmplesenseVaultAbi.abi, CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT);
-    const ampl = new this.props.web3.eth.Contract(erc20Abi.abi, CONTRACT_ADDRESSES.AMPLE_CONTRACT);
-    ampl.methods.forceRebase("0","500").send({from: this.props.account}).then(receipt => {
-      ampleSenseVault.methods.rebase().send({from: this.props.account}).then(receipt => {
-      }).catch(err => console.log)
-    })
-  }
-
   changeArrowImg() {
     this.setState({
       arrowImg: arrowActive
@@ -275,7 +241,7 @@ class Header extends React.Component {
   determineIndex(options, choice) {
     var index = 0;
     options.forEach((option, i) => {
-      if (option.value == choice.value) {
+      if (option.value === choice.value) {
         index = i;
       }
     });
@@ -313,17 +279,14 @@ class Header extends React.Component {
           </NavLink>
         </NavItem>
 
-        <Button id="button-connected" className={`btn  ml-auto ${s.fullVersionBtn}`} onClick={this.doLogin}>{account? account.substr(0,8) + "...": "Wallet Connect"}</Button>
-        <Button id="button-connected" className={`btn  ml-auto ${s.fullVersionBtn}`} onClick={this.doLoginLocal}>{account? account.substr(0,8) + "...": "Wallet Connect Testnet"}</Button>
-        <Button id="button-time" className={`btn  ml-auto ${s.fullVersionBtn}`} onClick={this.doAdd90Days}>Add 90 days</Button>
-        <Button id="button-time" className={`btn  ml-auto ${s.fullVersionBtn}`} onClick={this.doRebase}>Rebase</Button>
+        <Button id="button-connected" className={`btn ${s.fullVersionBtn}`} onClick={this.doLogin}>{account? account.substr(0,8) + "...": "Wallet Connect"}</Button>
         {/* <div className={s.gasStation}>
           <img className={s.gasImg} src={gasImage} alt="gas"></img>
           <p></p>
         </div> */}
         <Form className={`form-label-left ${s.form}`} >
           <FormGroup row className={s.formGroup}>
-            <Label  md="4"  className={"right"}>
+            <Label  md="4"  className={`right ${s.gasLabel}`}>
               <img src={gasSmallImg} alt="" className={"mr-3"} />
             </Label>
 
@@ -339,8 +302,6 @@ class Header extends React.Component {
             </Col>
           </FormGroup>
         </Form>
-        <p align="right">
-        </p>
       </Navbar>
     );
   }

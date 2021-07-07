@@ -183,7 +183,7 @@ export class VaultContract {
 
   async getStakableNFTTokens() {
     return new Promise((resolve, reject) => {
-      if(this.state.type != VaultType.PIONEER1A && this.state.type != VaultType.PIONEER1B)
+      if(this.state.type !== VaultType.PIONEER1A && this.state.type !== VaultType.PIONEER1B)
         resolve([]); // no stakable nfts to compute for the other vaults
       //build owned tokens list
       let stakable = []
@@ -192,7 +192,7 @@ export class VaultContract {
         let ids = transfers.map(transfer => { return transfer.returnValues.tokenId; });
         let ownership_promises = ids.map(id => { return token.methods.ownerOf(id).call()});
         Promise.all(ownership_promises).then(ownerships => {
-          ids.map((id, index) => {  if(ownerships[index] == this.state.account) { stakable.push(id); } })
+          ids.map((id, index) => {  if(ownerships[index] === this.state.account) { stakable.push(id); } })
           this.state.stakable = stakable;
           console.log(this.state.stakable)
           resolve(stakable);

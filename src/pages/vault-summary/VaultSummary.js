@@ -1316,10 +1316,7 @@ class VaultSummary extends React.Component {
   }
 
   componentDidMount() {
-    const {
-      account,
-      web3,
-    } = this.props;
+    // const { account, web3 } = this.props;
 
     // const contract = new VaultContract(this.getVaultType(), web3, account);
 
@@ -1390,7 +1387,6 @@ class VaultSummary extends React.Component {
     const tvl = amplesenseVaultTVL + pioneer1ATVL + pioneer1BTVL + pioneer2TVL + pioneer3TVL + lpStakingTVL;
 
     let all_tvl = [];
-
     history && history.forEach(tvl_event => {
       let tvl = [];
       const changes = tvl_event.changes;
@@ -1399,7 +1395,7 @@ class VaultSummary extends React.Component {
         let adjustedAmount = change.returnValues.total;
         if(contract.stakingTokenPrecision() > 0)
           adjustedAmount /= 10**contract.stakingTokenPrecision();
-        
+
         tvl.push({total: adjustedAmount * contract.getStakingTokenPrice(kmpl_price, ampl_price, 0, 0, 0, 0), timestamp : change.returnValues.timestamp, name: contract.vaultName()});
       });
       all_tvl.push(tvl);
@@ -1423,12 +1419,88 @@ class VaultSummary extends React.Component {
         total += value;
       })
 
-      return {timestamp: element.timestamp, total : total};
+      return [parseInt(new Date(parseInt(element.timestamp)*1000).getTime()), total];
     });
 
-    console.log(flat_tvl);
+    var chartData = {
+      series: [
+        {
+          name: "TVL",
+          data: flat_tvl,
+        },
+      ],
+      options: {
+        chart: {
+          height: 350,
+          type: "area",
+          toolbar: {
+            show: false,
+          },
+        },
+        fill: {
+          colors: ["rgba(202, 238, 245, 0.3)", "rgba(0,0,0,0)"],
+          type: "solid",
+        },
+        colors: ["#4DC7DF", "#323232"],
+        legend: {
+          position: "top",
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        stroke: {
+          curve: "smooth",
+        },
+        grid: {
+          borderColor: 'rgba(196, 196, 196, 0.2)'
+        },
+        yaxis: {
+          labels: {
+            style: {
+              colors: [
+                "rgba(18, 4, 0, .5)",
+                "rgba(18, 4, 0, .5)",
+                "rgba(18, 4, 0, .5)",
+                "rgba(18, 4, 0, .5)",
+                "rgba(18, 4, 0, .5)",
+                "rgba(18, 4, 0, .5)",
+                "rgba(18, 4, 0, .5)",
+              ],
+              fontWeight: 300,
+            },
+          },
+        },
+        xaxis: {
+          type: "datetime",
+          labels: {
+            style: {
+              colors: [
+                "rgba(18, 4, 0, .5)",
+                "rgba(18, 4, 0, .5)",
+                "rgba(18, 4, 0, .5)",
+                "rgba(18, 4, 0, .5)",
+                "rgba(18, 4, 0, .5)",
+                "rgba(18, 4, 0, .5)",
+                "rgba(18, 4, 0, .5)",
+              ],
+              fontWeight: 300,
+            },
+            datetimeFormatter: {
+              year: 'yyyy',
+              month: 'MMM \'yy',
+              day: 'dd MMM',
+              hour: 'HH:mm'
+            }
+          },
+        },
+        tooltip: {
+          x: {
+            format: "dd/MM/yy HH:mm",
+          },
+        },
+      },
+    };
 
-    
     return (
 
       <div className={s.root}>
@@ -1970,12 +2042,13 @@ class VaultSummary extends React.Component {
             >
               <Row style={{ marginTop: -36 }}>
                 <Col sm={12}>
-                  {/* <ApexChart
+                  <ApexChart
                     className="sparkline-chart"
-                    options={this.state.splineArea.options}
-                    type={"timeseries"}
+                    series={chartData.series}
+                    options={chartData.options}
+                    type={"area"}
                     height={"350px"}
-                  /> */}
+                  />
                 </Col>
               </Row>
             </Widget>
