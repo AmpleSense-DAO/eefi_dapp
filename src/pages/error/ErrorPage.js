@@ -2,14 +2,12 @@ import React from "react";
 import { Container } from "reactstrap";
 
 import s from "./ErrorPage.module.scss";
-import errorImg from "../../images/error-page-img.svg";
 
 class ErrorPage extends React.Component {
   render() {
     return (
       <div className={s.errorPage}>
         <Container>
-          <img src={errorImg} alt="error" />
           <div className={`${s.errorContainer}`}>
             <h1 className={s.errorInfo}>Peugeot 504</h1>
             <p className={s.errorHelp}>

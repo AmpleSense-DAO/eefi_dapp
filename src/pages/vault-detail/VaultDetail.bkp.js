@@ -418,15 +418,9 @@ class VaultDetail extends React.Component {
   render() {
     const { staking_token_balance } = this.props;
     return (
-
-
-      
       <div className={s.root}>
-
-<p>
-        <h2>
-        Elastic Vault: AMPL > EEFI
-        </h2>
+        <p>
+          <h2>Elastic Vault: AMPL > EEFI</h2>
         </p>
 
         <Row>
@@ -434,41 +428,39 @@ class VaultDetail extends React.Component {
          {/* Color options */}
             <Col md={6} sm={12} xs={12}>
               <Widget
+<<<<<<< HEAD
+                title={<p style={{ fontWeight: 700 }}>AMPL Wallet Balance: {ampl_balance}</p>}
+=======
                 title={<p style={{ fontWeight: 700 }}>AMPL Wallet Balance: {staking_token_balance}</p>} 
+>>>>>>> master
               >
                 <div>
-                
-               <FormGroup>
-                        <Label for="bar">
-                          Amount to Deposit
-                        </Label>
+                  <FormGroup>
+                    <Label for="bar">
+                      Amount to Deposit
+                    </Label>
 
-                       <Table className="table-hover " responsive>
-                        <thead>
-                          <tr>
-                            <th key={0}  scope="col" className={"pl-0"}>
+                    <Table className="table-hover " responsive>
+                      <thead>
+                        <tr>
+                          <th key={0}  scope="col" className={"pl-0"}>
+                            <InputGroup>
+                              <Input type="text" id="bar" />
+                              <InputGroupAddon addonType="append">
+                                <ButtonGroup>
+                                  <Button color="ample1"><i className="fa " />25%</Button>
+                                  <Button color="ample2"><i className="fa " />50%</Button>
+                                  <Button color="ample3"><i className="fa " />75%</Button>
+                                  <Button color="ample4"><i className="fa " />100%</Button>
+                                </ButtonGroup>
+                              </InputGroupAddon>
+                            </InputGroup>
+                          </th>
+                        </tr>
+                      </thead>
+                    </Table>
+                  </FormGroup>
 
-                                <InputGroup>
-                                  <Input type="text" id="bar" />
-                                  <InputGroupAddon addonType="append">
-                                    <ButtonGroup>
-                                      <Button color="ample1"><i className="fa " />25%</Button>
-                                      <Button color="ample2"><i className="fa " />50%</Button>
-                                      <Button color="ample3"><i className="fa " />75%</Button>
-                                      <Button color="ample4"><i className="fa " />100%</Button>
-                                    </ButtonGroup>
-                                  </InputGroupAddon>
-                                </InputGroup>
-                            </th>             
-                          </tr>
-                        </thead>
-                        </Table>
-
-
-                      </FormGroup>
-
-
-               
                   <p className="fs-mini text-muted">
                     New deposits locked for 90 days.
                   </p>
@@ -481,38 +473,32 @@ class VaultDetail extends React.Component {
 
             {/* Size variants */ }
             <Col md={6} sm={12} xs={12}>
-                    <Widget
+              <Widget
                 title={<p style={{ fontWeight: 700 }}>AMPL Available to Withdraw: 5,169 AMPL</p>} 
               >
                 <div>
-                
-                   <FormGroup>
-                        <Label for="bar">
-                          Amount to Deposit
-                        </Label>
- 
-               <Table className="table-hover " responsive>
-                <thead>
-                  <tr>
-                    <th key={0}  scope="col" className={"pl-0"}>
-
-                        <InputGroup>
-                          <Input type="text" id="bar" />
-                          <InputGroupAddon addonType="append">
-                            <ButtonGroup>
-                              <Button color="ample1"><i className="fa " />25%</Button>
-                              <Button color="ample2"><i className="fa " />50%</Button>
-                              <Button color="ample3"><i className="fa " />75%</Button>
-                              <Button color="ample4"><i className="fa " />100%</Button>
-                            </ButtonGroup>
-                          </InputGroupAddon>
-                        </InputGroup>
-                    </th>             
-                  </tr>
-                </thead>
-                </Table>
-
-                      </FormGroup>
+                    <FormGroup>
+                      <Label for="bar">Amount to Deposit</Label>
+                      <Table className="table-hover " responsive>
+                        <thead>
+                          <tr>
+                            <th key={0}  scope="col" className={"pl-0"}>
+                              <InputGroup>
+                                <Input type="text" id="bar" />
+                                <InputGroupAddon addonType="append">
+                                  <ButtonGroup>
+                                    <Button color="ample1"><i className="fa " />25%</Button>
+                                    <Button color="ample2"><i className="fa " />50%</Button>
+                                    <Button color="ample3"><i className="fa " />75%</Button>
+                                    <Button color="ample4"><i className="fa " />100%</Button>
+                                  </ButtonGroup>
+                                </InputGroupAddon>
+                              </InputGroup>
+                            </th>
+                          </tr>
+                        </thead>
+                      </Table>
+                    </FormGroup>
 
                   <p className="fs-mini text-muted">
                     Unlocked AMPL
@@ -524,7 +510,7 @@ class VaultDetail extends React.Component {
               </Widget>
             </Col>
         </Row>
-   
+
        <Row>
           <Col sm={12}>
             <Widget>
@@ -538,10 +524,10 @@ class VaultDetail extends React.Component {
                     <th key={0} width="50%"  scope="col" className={"pl-0"}>
                       &nbsp;Staked AMPL
                     </th>
-                    
+
                     <th key={2} scope="col" className={"pl-0"}>
                       &nbsp;Rewards
-                    </th>                  
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="text-dark ">
@@ -552,29 +538,28 @@ class VaultDetail extends React.Component {
                         </h3>
                       <p><h4>APY 60%</h4><br></br>Portion of AMPL sold during positive rebases, <br></br>Balance can decline during negative rebases.</p>
                     </td>
-                    
+
                     <td className={"pl-0 fw-thin"}>
                     <h4>
                       <img height="30" src={p2} alt="" className={"mr-3"} />
                       <span align="right">
-                       &nbsp;309.23 EEFI</span>     
+                       &nbsp;309.23 EEFI</span>
                       <p>
                         <img height="30" src={p5} alt="" className={"mr-3"} />
                         <span align="right">
-                        &nbsp;9.23 ETH</span>  
+                        &nbsp;9.23 ETH</span>
                         </p>
                     </h4>
                       <p>
                         <Button color="primary" className="mb-md mr-md">Claim</Button>
                       </p>
                     </td>
-                  </tr>   
+                  </tr>
                 </tbody>
               </Table>
 
               </p>
 
-           
 
 <p>
 <h3>Your Deposit History</h3>
@@ -593,11 +578,11 @@ class VaultDetail extends React.Component {
                     </th>
                     <th key={2} scope="col" className={"pl-0"}>
                       &nbsp;Tx Link
-                    </th>           
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="text-dark">
-                 
+
                   <tr key={0}>
                     <td className="fw-normal pl-0 fw-thin">
                       &nbsp;2021/03/15
@@ -607,8 +592,8 @@ class VaultDetail extends React.Component {
                     </td>
                     <td className={"pl-0 fw-thin"}>
                     &nbsp;0xde...   <a href="https://www.etherscan.io"  target="_blank">Link</a></td>
-                  </tr>   
-              
+                  </tr>
+
                   <tr key={1}>
                     <td className="fw-normal pl-0 fw-thin">
                       &nbsp;2021/04/15
@@ -618,7 +603,7 @@ class VaultDetail extends React.Component {
                     </td>
                     <td className={"pl-0 fw-thin"}>
                     &nbsp;0xf3...   <a href="https://www.etherscan.io"  target="_blank">Link</a></td>
-                  </tr>   
+                  </tr>
 
                 </tbody>
               </Table>
@@ -630,9 +615,6 @@ class VaultDetail extends React.Component {
         </Row>
 
 
-
-   
-  
      </div>
     );
   }

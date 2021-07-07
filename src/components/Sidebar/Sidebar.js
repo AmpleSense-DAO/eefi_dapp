@@ -44,7 +44,7 @@ import tablesFilled from "../../images/theme-icons/yellow/Tables_filled.svg";
 import mapsOutlined from "../../images/theme-icons/yellow/Maps_outlined.svg";
 import mapsFilled from "../../images/theme-icons/yellow/Maps_filled.svg";
 import extraOutlined from "../../images/light-extra.svg";
-import extraFilled from "../../images/dark-extra.svg";
+import extraFilled from "../../images/light-extra.svg";
 
 // danger
 import lightDashboardIconDanger from "../../images/theme-icons/red/Dashboard_outlined.svg";
@@ -902,135 +902,134 @@ class Sidebar extends React.Component {
           })}`}
         >
           <header className={s.logo}>
-           <Link to="/landing">
-            <img src={this.getLogoImage()} alt="logo" className={s.logoStyle} />
+            <Link to="/landing">
+              <img src={this.getLogoImage()} alt="logo" className={s.logoStyle} />
             </Link>
             <span>&nbsp;</span>
           </header>
           <section className={s.menuWrapper}>
             <h2 className={s.navTitle}>Vaults</h2>
             <ul className={s.nav}>
+              <LinksGroup
+                onActiveSidebarItemChange={activeItem =>
+                  this.props.dispatch(changeActiveSidebarItem(activeItem))
+                }
+                activeItem={this.props.activeItem}
+                header="Vault Summary"
+                isHeader
+                link="/app/home/vault-summary"
+                index="main">
+                {window.location.href.includes("vault-summary") ? (
+                  <img
+                    src={darkDashboardIcon}
+                    alt="lightDashboard"
+                    width={"24px"}
+                    height={"24px"}
+                  />
+                ) : (
+                  <img
+                    src={lightDashboardIcon}
+                    alt="lightDashboard"
+                    width={"24px"}
+                    height={"24px"}
+                  />
+                )}
+              </LinksGroup>
+
+              <LinksGroup
+                onActiveSidebarItemChange={
+                  activeItem =>
+                  this.props.dispatch(changeActiveSidebarItem(activeItem))
+
+                }
+                // onActiveSidebarItemChange={
+                // 	activeItem => this.props.dispatch(setVaultType(0))
+                // }
+
+                activeItem={this.props.activeItem}
+                header="Elastic Vault: AMPL -> EEFI"
+                isHeader
+                link="/app/home/vault-detail/0"
+                index="main">
+
+                {window.location.href.includes("vault-detail") ? (
+                  <img
+                    src={darkDashboardIcon}
+                    alt="lightDashboard"
+                    width={"24px"}
+                    height={"24px"}
+                  />
+                ) : (
+                  <img
+                    src={lightDashboardIcon}
+                    alt="lightDashboard"
+                    width={"24px"}
+                    height={"24px"}
+                  />
+                )}
+              </LinksGroup>
+
+              <LinksGroup
+                onActiveSidebarItemChange={activeItem =>
+                  this.props.dispatch(changeActiveSidebarItem(activeItem))
+                }
+                // onActiveSidebarItemChange={
+                // 	activeItem => this.props.dispatch(setVaultType(3))
+                // }
+
+                activeItem={this.props.activeItem}
+                header="EEFI/USDC LP Token Vault"
+                isHeader
+                link="/app/home/vault-detail/1"
+                index="main">
+                {window.location.href.includes("vault-detail") ? (
+                  <img
+                    src={darkDashboardIcon}
+                    alt="lightDashboard"
+                    width={"24px"}
+                    height={"24px"}
+                  />
+                ) : (
+                  <img
+                    src={lightDashboardIcon}
+                    alt="lightDashboard"
+                    width={"24px"}
+                    height={"24px"}
+                  />
+                )}
+              </LinksGroup>
 
             <LinksGroup
               onActiveSidebarItemChange={activeItem =>
                 this.props.dispatch(changeActiveSidebarItem(activeItem))
               }
-              activeItem={this.props.activeItem}
-              header="Vault Summary"
-              isHeader
-              link="/app/home/vault-summary"
-              index="main">
-              {window.location.href.includes("vault-summary") ? (
-                <img
-                  src={darkDashboardIcon}
-                  alt="lightDashboard"
-                  width={"24px"}
-                  height={"24px"}
-                />
-              ) : (
-                <img
-                  src={lightDashboardIcon}
-                  alt="lightDashboard"
-                  width={"24px"}
-                  height={"24px"}
-                />
-              )}
-            </LinksGroup>
-
-            <LinksGroup
-              onActiveSidebarItemChange={
-              	activeItem =>
-                this.props.dispatch(changeActiveSidebarItem(activeItem))
-
-              }
               // onActiveSidebarItemChange={
-              // 	activeItem => this.props.dispatch(setVaultType(0))
+              //   activeItem => this.props.dispatch(setVaultType(2))
               // }
 
               activeItem={this.props.activeItem}
-              header="Elastic Vault: AMPL -> EEFI"
+              header="Pioneer Vault II: kMPL"
               isHeader
-              link="/app/home/vault-detail/0"
+              link="/app/home/vault-detail/2"
               index="main">
-
-              {window.location.href.includes("vault-detail") ? (
-                <img
-                  src={darkDashboardIcon}
-                  alt="lightDashboard"
-                  width={"24px"}
-                  height={"24px"}
-                />
-              ) : (
-                <img
-                  src={lightDashboardIcon}
-                  alt="lightDashboard"
-                  width={"24px"}
-                  height={"24px"}
-                />
-              )}
+                {window.location.href.includes("vault-detail") ? (
+                  <img
+                    src={darkDashboardIcon}
+                    alt="lightDashboard"
+                    width={"24px"}
+                    height={"24px"}
+                  />
+                ) : (
+                  <img
+                    src={lightDashboardIcon}
+                    alt="lightDashboard"
+                    width={"24px"}
+                    height={"24px"}
+                  />
+                )}
             </LinksGroup>
 
-            <LinksGroup
-              onActiveSidebarItemChange={activeItem =>
-                this.props.dispatch(changeActiveSidebarItem(activeItem))
-              }
-              // onActiveSidebarItemChange={
-              // 	activeItem => this.props.dispatch(setVaultType(3))
-              // }
-
-              activeItem={this.props.activeItem}
-              header="EEFI/ETH LP Token Vault"
-              isHeader
-              link="/app/home/vault-detail/1"
-              index="main">
-              {window.location.href.includes("vault-detail") ? (
-                <img
-                  src={darkDashboardIcon}
-                  alt="lightDashboard"
-                  width={"24px"}
-                  height={"24px"}
-                />
-              ) : (
-                <img
-                  src={lightDashboardIcon}
-                  alt="lightDashboard"
-                  width={"24px"}
-                  height={"24px"}
-                />
-              )}
-            </LinksGroup>
-
-          <LinksGroup
-            onActiveSidebarItemChange={activeItem =>
-              this.props.dispatch(changeActiveSidebarItem(activeItem))
-            }
-            // onActiveSidebarItemChange={
-            //   activeItem => this.props.dispatch(setVaultType(2))
-            // }
-
-            activeItem={this.props.activeItem}
-            header="Pioneer Vault II: kMPL"
-            isHeader
-            link="/app/home/vault-detail/2"
-            index="main">
-              {window.location.href.includes("vault-detail") ? (
-                <img
-                  src={darkDashboardIcon}
-                  alt="lightDashboard"
-                  width={"24px"}
-                  height={"24px"}
-                />
-              ) : (
-                <img
-                  src={lightDashboardIcon}
-                  alt="lightDashboard"
-                  width={"24px"}
-                  height={"24px"}
-                />
-              )}
-          </LinksGroup>
-
-    		  <LinksGroup
+    		    <LinksGroup
               onActiveSidebarItemChange={activeItem =>
                 this.props.dispatch(changeActiveSidebarItem(activeItem))
               }
@@ -1057,18 +1056,13 @@ class Sidebar extends React.Component {
                 />
               )}
             </LinksGroup>
-
-
             <LinksGroup
               onActiveSidebarItemChange={activeItem =>
                 this.props.dispatch(changeActiveSidebarItem(activeItem))
               }
-
               /*onActiveSidebarItemChange={
               	activeItem => this.props.dispatch(setVaultType(3))
               }*/
-
-
               activeItem={this.props.activeItem}
               header="Pioneer Vault III: kMPL/ETH"
               isHeader
@@ -1091,103 +1085,94 @@ class Sidebar extends React.Component {
                 />
               )}
             </LinksGroup>
-			  </ul>
-
-			<p></p>
-			<p></p>
-			<p></p>
-
+			    </ul>
+            <p></p>
+            <p></p>
+            <p></p>
             <h5 className={s.navTitle}>Info and Docs</h5>
             <ul className={s.nav}>
+              <LinksGroup
+                onActiveSidebarItemChange={activeItem =>
+                  this.props.dispatch(changeActiveSidebarItem(activeItem))
+                }
+                activeItem={this.props.activeItem}
+                header="AmpleSense DAO"
+                isHeader
+                link="/app/home/vault-summary"
+                index="main"
+              >
+                {window.location.href.includes("dashboard") ? (
+                  <img
+                    src={darkDashboardIcon}
+                    alt="lightDashboard"
+                    width={"24px"}
+                    height={"24px"}
+                  />
+                ) : (
+                  <img
+                    src={lightDashboardIcon}
+                    alt="lightDashboard"
+                    width={"24px"}
+                    height={"24px"}
+                  />
+                )}
+              </LinksGroup>
 
-			 <LinksGroup
-              onActiveSidebarItemChange={activeItem =>
-                this.props.dispatch(changeActiveSidebarItem(activeItem))
-              }
-              activeItem={this.props.activeItem}
-              header="AmpleSense DAO"
-              isHeader
-              link="/app/home/vault-summary"
-              index="main"
-            >
-              {window.location.href.includes("dashboard") ? (
-                <img
-                  src={darkDashboardIcon}
-                  alt="lightDashboard"
-                  width={"24px"}
-                  height={"24px"}
-                />
-              ) : (
-                <img
-                  src={lightDashboardIcon}
-                  alt="lightDashboard"
-                  width={"24px"}
-                  height={"24px"}
-                />
-              )}
-            </LinksGroup>
+              {/* <LinksGroup
+                onActiveSidebarItemChange={activeItem =>
+                  this.props.dispatch(changeActiveSidebarItem(activeItem))
+                }
+                activeItem={this.props.activeItem}
+                header="Propose Vault Strategy"
+                isHeader
+                link="/app/home/vault-summary"
+                index="main"
+              >
+                {window.location.href.includes("dashboard") ? (
+                  <img
+                    src={darkDashboardIcon}
+                    alt="lightDashboard"
+                    width={"24px"}
+                    height={"24px"}
+                  />
+                ) : (
+                  <img
+                    src={lightDashboardIcon}
+                    alt="lightDashboard"
+                    width={"24px"}
+                    height={"24px"}
+                  />
+                )}
+              </LinksGroup> */}
 
-			 <LinksGroup
-              onActiveSidebarItemChange={activeItem =>
-                this.props.dispatch(changeActiveSidebarItem(activeItem))
-              }
-              activeItem={this.props.activeItem}
-              header="Propose Vault Strategy"
-              isHeader
-              link="/app/home/vault-summary"
-              index="main"
-            >
-              {window.location.href.includes("dashboard") ? (
-                <img
-                  src={darkDashboardIcon}
-                  alt="lightDashboard"
-                  width={"24px"}
-                  height={"24px"}
-                />
-              ) : (
-                <img
-                  src={lightDashboardIcon}
-                  alt="lightDashboard"
-                  width={"24px"}
-                  height={"24px"}
-                />
-              )}
-            </LinksGroup>
-
-            	 <LinksGroup
-              onActiveSidebarItemChange={activeItem =>
-                this.props.dispatch(changeActiveSidebarItem(activeItem))
-              }
-              activeItem={this.props.activeItem}
-              header="Vault Docs"
-              isHeader
-              link="/app/home/vault-summary"
-              index="main"
-            >
-              {window.location.href.includes("dashboard") ? (
-                <img
-                  src={darkDashboardIcon}
-                  alt="lightDashboard"
-                  width={"24px"}
-                  height={"24px"}
-                />
-              ) : (
-                <img
-                  src={lightDashboardIcon}
-                  alt="lightDashboard"
-                  width={"24px"}
-                  height={"24px"}
-                />
-              )}
-            </LinksGroup>
-
-          
+              <LinksGroup
+                onActiveSidebarItemChange={activeItem =>
+                  this.props.dispatch(changeActiveSidebarItem(activeItem))
+                }
+                activeItem={this.props.activeItem}
+                header="Vault Docs"
+                isHeader
+                link="/app/home/vault-summary"
+                index="main"
+              >
+                {window.location.href.includes("dashboard") ? (
+                  <img
+                    src={darkDashboardIcon}
+                    alt="lightDashboard"
+                    width={"24px"}
+                    height={"24px"}
+                  />
+                ) : (
+                  <img
+                    src={lightDashboardIcon}
+                    alt="lightDashboard"
+                    width={"24px"}
+                    height={"24px"}
+                  />
+                )}
+              </LinksGroup>
             </ul>
-
-
-           </section>
-          
-
+          </section>
         </nav>
       </div>
     );

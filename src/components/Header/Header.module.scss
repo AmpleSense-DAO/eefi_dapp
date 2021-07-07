@@ -6,6 +6,7 @@
   box-shadow: var(--navbar-shadow);
   height: $navbar-height;
   flex-wrap: nowrap;
+  justify-content: space-between;
   transition: background-color .2s ease, margin .2s ease;
 
   &Light {
@@ -17,16 +18,15 @@
     font-size: 33px;
   }
 
-.right {
-  float: right;
-  width: 300px;
-  border: 3px solid #73AD21;
-  padding: 10px;
-}
+  .right {
+    float: right;
+    width: 300px;
+    border: 3px solid #73AD21;
+    padding: 10px;
+  }
 
   .toggleSidebarNav {
     height: calc(100% + 14px);
-    background: #FEB049;
   }
 
   &.navbarFloatingType {
@@ -267,8 +267,47 @@
 @media(max-width: 1044px) {
   .fullVersionBtn {
     height: 100%;
+    margin-right: 15px;
+  }
+  .gasLabel {
+    width: auto;
+    padding-right: 1px;
+  }
+  .select1 {
+    width: fit-content;
+  }
+  .formGroup {
+    flex-wrap: nowrap;
+  }
+  .form {
+    padding-left: 10px !important;
+    margin-right: 10px;
   }
 }
+
+// @media (min-width: 320px) and (max-width: 374px) {
+//   .toggleSidebarNav {
+//     width: 80px;
+//   }
+//   .fullVersionBtn {
+//     padding-top: 2px;
+//     padding-left: 5px;
+//     padding-right: 5px;
+//   }
+//   .gasLabel {
+//     padding-top: 10px;
+//     padding-left: 10px;
+//   }
+//   .form {
+//     padding-left: 0px;
+//     width: 80px;
+//   }
+//   .select1 {
+//     padding-left: 0px;
+//     width: 77px;
+//     padding-right: 2px;
+//   }
+// }
 
 .gasStation {
   display: flex;

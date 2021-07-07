@@ -71,7 +71,6 @@ export default [
     rewards_token_1 : 'Various Token Rewards',
     rewards_token_2 : '',
     token_price: 42.38,
-   
     wallet_balance_amount: '83,569',
     available_to_withdraw_amount: '5,169',
     rewards_token_amount_1 : '309.23',
@@ -87,16 +86,12 @@ export default [
     apy: 'N/A',
     tvl: 'N/A',
     earn_token:'ETH',
-
     rewards_token_1 : 'ETH',
     rewards_token_2 : '',
     token_price: 402.38,
-
-     wallet_balance_amount: '23,569',
-     available_to_withdraw_amount: '5,169',
-     rewards_token_amount_1 : '3.23',
-     rewards_token_amount_2 : '190.23',
-  
+    wallet_balance_amount: '23,569',
+    available_to_withdraw_amount: '5,169',
+    rewards_token_amount_1 : '3.23',
+    rewards_token_amount_2 : '190.23',
   },
-  
 ]

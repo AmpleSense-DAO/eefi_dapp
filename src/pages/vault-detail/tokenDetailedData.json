@@ -10,7 +10,6 @@
     "rewards_token_2" : "ETH",
     "staked_section_desc_1" : "Portion of AMPL sold during positive rebases,",
     "staked_section_desc_2" : "Balance can decline during negative rebases.",
-
     "apy": "60%",
     "tvl": "$ 10,345,567",
     "token_price": "142.38",
@@ -22,8 +21,8 @@
   {
     "id": 1,
     "img": "p2",
-    "title": "EEFI/ETH LP Token Vault",
-    "token_name": "EEFI/ETH LP Tokens",
+    "title": "EEFI/USDC LP Token Vault",
+    "token_name": "EEFI/USDC LP Tokens",
     "apy": "400%",
     "tvl": "$ 2,545,566",
     "earn_token":"EEFI/ETH",
@@ -46,12 +45,11 @@
     "precision": 9,
     "apy": "60%",
     "tvl": "$ 1,145,567",
-    "earn_token":"Various Token Rewards",
-    "rewards_token_1" : "Various Token Rewards",
-    "rewards_token_2" : "",
+    "earn_token":"EEFI",
+    "rewards_token_1" : "EEFI",
+    "rewards_token_2" : "ETH",
     "staked_section_desc_1" : "",
     "staked_section_desc_2" : "",
-
     "token_price": "42.38",
     "wallet_balance_amount": "83,569",
     "available_to_withdraw_amount": "5,169",
@@ -66,11 +64,10 @@
     "apy": "N/A",
     "tvl": "N/A",
     "earn_token":"ETH",
-    "rewards_token_1" : "ETH",
-    "rewards_token_2" : "",
+    "rewards_token_1" : "",
+    "rewards_token_2" : "ETH",
     "staked_section_desc_1" : "",
     "staked_section_desc_2" : "",
-
     "token_price": "402.38",
     "wallet_balance_amount": "23,569",
     "available_to_withdraw_amount": "5,169",
@@ -78,8 +75,7 @@
     "rewards_token_amount_2" : "190.23"
 
   },
-
-   {
+  {
     "id": 4,
     "img": "p5",
     "title": "kMPL/ETH LP Token Vault",
@@ -87,8 +83,8 @@
     "apy": "N/A",
     "tvl": "N/A",
     "earn_token":"ETH",
-    "rewards_token_1" : "Various Token Rewards",
-    "rewards_token_2" : "",
+    "rewards_token_1" : "EEFI",
+    "rewards_token_2" : "ETH",
     "staked_section_desc_1" : "",
     "staked_section_desc_2" : "",
 
@@ -97,11 +93,46 @@
     "available_to_withdraw_amount": "5,169",
     "rewards_token_amount_1" : "",
     "rewards_token_amount_2" : ""
+  },
 
+  {
+    "id": 6,
+    "img": "p5",
+    "title": "kMPL/ETH LP Token Vault",
+    "token_name": "kMPL/ETH LP Token",
+    "apy": "N/A",
+    "tvl": "N/A",
+    "earn_token":"ETH",
+    "rewards_token_1" : "EEFI",
+    "rewards_token_2" : "ETH",
+    "staked_section_desc_1" : "",
+    "staked_section_desc_2" : "",
+
+    "token_price": "402.38",
+    "wallet_balance_amount": "23,569",
+    "available_to_withdraw_amount": "5,169",
+    "rewards_token_amount_1" : "",
+    "rewards_token_amount_2" : ""
+  },
+
+  {
+    "id": 7,
+    "img": "p5",
+    "title": "kMPL/ETH LP Token Vault",
+    "token_name": "kMPL/ETH LP Token",
+    "apy": "N/A",
+    "tvl": "N/A",
+    "earn_token":"ETH",
+    "rewards_token_1" : "EEFI",
+    "rewards_token_2" : "ETH",
+    "staked_section_desc_1" : "",
+    "staked_section_desc_2" : "",
+
+    "token_price": "402.38",
+    "wallet_balance_amount": "23,569",
+    "available_to_withdraw_amount": "5,169",
+    "rewards_token_amount_1" : "",
+    "rewards_token_amount_2" : ""
   }
-  
-
-
-
 
 ]

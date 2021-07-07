@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 import { UncontrolledTooltip } from "reactstrap";
 import s from "./Widget.module.scss";
 import classNames from "classnames";
@@ -81,6 +82,7 @@ class Widget extends React.Component {
       reloading: false,
       modal: false,
       apiData: "",
+
     };
   }
 
@@ -164,8 +166,11 @@ class Widget extends React.Component {
       widgetType,
       updateWidgetData,
       options, //eslint-disable-line
+      isBuyButton,
+      pagelink,
       ...attributes
     } = this.props;
+
     const mainControls = !!(
       close ||
       fullscreen ||
@@ -200,11 +205,24 @@ class Widget extends React.Component {
         >
           {title ? (
             typeof title === "string" ? (
-              <h5 className={s.title}>{title}</h5>
+              <div style={{ display: "flex", justifyContent: "space-between"}}>
+                <h5 className={s.title}>{title}</h5>
+                { isBuyButton &&
+                    <Link to={`/app/home/vault-detail/${pagelink}`} style={{ marginTop: '20px'}}>
+                      <Button color="primary" className="mb-md mr-md" size="sm">BUY</Button>
+                    </Link>}
+              </div>
             ) : (
-              <header className={s.title}>{title}</header>
+              <div style={{ display: "flex", justifyContent: "space-between"}}>
+                <header className={s.title}>{title}</header>
+                { isBuyButton &&
+                    <Link to={`/app/home/vault-detail/${pagelink}`} style={{ marginTop: '20px'}}>
+                      <Button color="primary" className="mb-md mr-md" size="sm">BUY</Button>
+                    </Link>}
+              </div>
             )
           ) : null}
+
 
           {!customControls && mainControls && (
             <div className={`${s.widgetControls} widget-controls`}>

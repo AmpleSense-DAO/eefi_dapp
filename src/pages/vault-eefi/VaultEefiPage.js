@@ -395,14 +395,14 @@ class VaultEefiPage extends React.Component {
       <div className={s.root}>
         <p>
           <h2>
-            EEFI/ETH LP Token Vault
+            EEFI/USDC LP Token Vault
           </h2>
         </p>
 
         <Row>
           {/* Color options */}
           <Col md={6} sm={12} xs={12}>
-            <Widget title={<p style={{ fontWeight: 700 }}>EEFI/ETH LP Token Balance: 83,569 </p>} >
+            <Widget title={<p style={{ fontWeight: 700 }}>Balancer LP Tokens: 83,569 </p>} >
               <div>
                 <FormGroup>
                   <Label for="bar">
@@ -437,7 +437,7 @@ class VaultEefiPage extends React.Component {
 
           {/* Size variants */}
           <Col md={6} sm={12} xs={12}>
-            <Widget title={<p style={{ fontWeight: 700 }}>Withdraw EEFI/ETH LP Token Balance: 12,569 </p>} >
+            <Widget title={<p style={{ fontWeight: 700 }}>Balancer LP Tokens Available to Withdraw: 12,569 </p>} >
               <div>
                 <FormGroup>
                   <Label for="bar">
@@ -492,7 +492,7 @@ class VaultEefiPage extends React.Component {
                     <tr key={0}>
                       <td className="fw-thin pl-0 fw-thin">
                         <h3>
-                          &nbsp;8,709 EEFI/ETH LP Tokens
+                          &nbsp;8,709 EEFI/USDC LP Tokens
                         </h3>
                         <p><h4>APY 90%</h4><br></br></p>
                       </td>
