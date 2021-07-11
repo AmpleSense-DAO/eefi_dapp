@@ -1315,6 +1315,10 @@ class VaultSummary extends React.Component {
     return vaultTypeFromID[this.getId()];
   }
 
+  numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
   componentDidMount() {
     // const { account, web3 } = this.props;
 
@@ -1512,7 +1516,7 @@ class VaultSummary extends React.Component {
             <Widget title={<p className="text-info" style={{ fontWeight: 700 }}>TVL</p>}>
               <Row className={`justify-content-between mt-3`} noGutters>
                 <Col sm={8} className={"d-flex align-items-center"}>
-                  <h4 className={"fw-semi-bold mb-0"}>$ {tvl}</h4>
+                  <h4 className={"fw-semi-bold mb-0"}>$ {this.numberWithCommas(tvl)}</h4>
                 </Col>
                 <Col
                   sm={4}
@@ -2031,12 +2035,7 @@ class VaultSummary extends React.Component {
             <Widget
               title={
                 <Row>
-                  <Col xs={12} sm={5}>
-                    <p style={{ fontWeight: 700 }}>Total Value Locked: All Vaults</p>
-                  </Col>
-                  <Col xs={12} sm={7}>
-                    <div className="chart-legend" />
-                  </Col>
+                  <p style={{ fontWeight: 700 }}>Total Value Locked: All Vaults</p>
                 </Row>
               }
             >

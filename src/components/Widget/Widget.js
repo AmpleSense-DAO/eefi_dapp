@@ -213,7 +213,7 @@ class Widget extends React.Component {
                     </Link>}
               </div>
             ) : (
-              <div style={{ display: "flex", justifyContent: "space-between"}}>
+              <div style={{ display: "flex", justifyContent: "center"}}>
                 <header className={s.title}>{title}</header>
                 { isBuyButton &&
                     <Link to={`/app/home/vault-detail/${pagelink}`} style={{ marginTop: '20px'}}>
