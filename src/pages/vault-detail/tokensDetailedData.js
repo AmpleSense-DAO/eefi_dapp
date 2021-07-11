@@ -20,7 +20,6 @@ import p1 from "../../images/tokens/ample.png";
 import p2 from "../../images/tokens/eefi_token_logo.png";
 import p3 from "../../images/tokens/kappa_logo_kmpl.png";
 import p4 from "../../images/tokens/apollo_cropped_edited_sm.png";
-import p5 from "../../images/userAvatar.png";
 import p6 from "../../images/tokens/zeus_cropped_edited_sm.png";
 
 

@@ -31,7 +31,6 @@ import Colors from "../../pages/core/colors";
 import Grid from "../../pages/core/grid";
 import Maps from "../../pages/maps";
 import Notifications from "../../pages/notifications/Notifications";
-import Icons from "../../pages/icons";
 import StaticTables from "../../pages/tables/static";
 import DynamicTables from "../../pages/tables/dynamic";
 import Alerts from "../../pages/ui-elements/alerts";
@@ -213,7 +212,6 @@ class Layout extends React.Component {
                       path={"/app/ui/notifications"}
                       component={Notifications}
                     />
-                    <Route path={"/app/ui/icons"} component={Icons} />
                     <Route path={"/app/ui/alerts"} component={Alerts} />
                     <Route path={"/app/ui/badge"} component={Badge} />
                     <Route path={"/app/ui/card"} component={Card} />

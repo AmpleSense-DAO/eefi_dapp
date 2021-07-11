@@ -14,20 +14,14 @@ import {
   DropdownToggle,
 } from "reactstrap";
 
-import Widget from "../../components/Widget";
 import Rating from "../product/components/Rating/Rating";
 import s from "./Management.module.scss";
-
-// icons
-import EditIcon from '../../images/icons/create.svg'
-import DeleteIcon from '../../images/icons/delete.svg'
 
 import {
   getProductsRequest,
   deleteProductRequest,
 } from "../../actions/products";
 import Loader from "../../components/Loader";
-import cx from "classnames";
 
 class Management extends React.Component {
   static propTypes = {
@@ -207,64 +201,6 @@ class Management extends React.Component {
 
     return (
       <div>
-        <Alert
-          color="warning"
-          className={cx(s.promoAlert, { [s.showAlert]: this.state.promoAlert })}
-          toggle={() => this.setState({ promoAlert: false })}
-          style={{paddingRight: 20}}
-        >
-          This page is only available in{" "}
-          <a
-            className="text-white font-weight-bold"
-            rel="noreferrer noopener"
-            href="https://flatlogic.com/admin-dashboards/sing-app-react-node-js"
-            target="_blank"
-          >
-            Flatlogic One with Node.js
-          </a>{" "}
-          integration!
-        </Alert>
-        {this.props.products.map((product) => (
-          <Widget>
-            <div
-              className={"d-flex align-items-center justify-content-between"}
-            >
-              <img src={product.img} height={130} width={170} alt="" />
-              <h3 className={"mb-0"}>{product.title}</h3>
-              <div
-                className={
-                  "d-flex flex-column align-items-center justify-content-center"
-                }
-              >
-                <Rating rating={"4.0"} size={1} />
-                <button className="btn-link ml-3" style={{ fontSize: 14 }}>
-                  53 Reviews
-                </button>
-              </div>
-              <div
-                className={
-                  "d-flex flex-column align-items-center justify-content-center"
-                }
-              >
-                <small className={"fw-thin"}>STARTING MSRP:</small>
-                <h4 className={"mb-0"}>${product.price}</h4>
-              </div>
-              <div
-                className={
-                  "d-flex flex-column align-items-center justify-content-center"
-                }
-              >
-                <Button color={"info"} className={"mb-2 w-100"}>
-                  <img src={EditIcon} alt="edit" width={18} style={{paddingBottom: 4}}/>
-                  Edit
-                </Button>
-                <Button color={"danger"} className={"w-100"}>
-                  <img src={DeleteIcon} alt="delete" width={18} style={{paddingBottom: 4}}/>
-                  Delete</Button>
-              </div>
-            </div>
-          </Widget>
-        ))}
       </div>
     );
   }
