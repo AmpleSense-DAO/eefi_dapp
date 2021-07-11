@@ -49,13 +49,11 @@ import Tabs from "../../pages/ui-elements/tabs-accordion";
 import FormValidation from "../../pages/forms/validation";
 import FormElements from "../../pages/forms/elements";
 import FormWizard from "../../pages/forms/wizard";
-import ChartsOverview from "../../pages/charts";
 import GridSeparate from "../../pages/grid";
 import Modal from '../../pages/ui-elements/modal'
 import Products from "../../pages/products";
 import Product from "../../pages/product";
 import SPackage from "../../pages/package";
-import Email from '../../pages/email'
 
 class Layout extends React.Component {
   static propTypes = {
@@ -229,16 +227,11 @@ class Layout extends React.Component {
                       component={FormElements}
                     />
                     <Route path={"/app/forms/wizard"} component={FormWizard} />
-                    <Route
-                      path={"/app/charts/overview"}
-                      component={ChartsOverview} 
-                    />
                     <Route path={"/app/grid"} component={GridSeparate} />
                     <Route path={"/app/ecommerce/products"} component={Products} />
                     <Route path={"/app/ecommerce/product/:id"} component={Product} exact/>
                     <Route path={"/app/ecommerce/product"} component={Product} />
                     <Route path={"/app/package"} component={SPackage} />
-                    <Route path={"/app/email"} component={Email} />
                     <Route render={() => <Redirect to={{pathname: '/error'}}/>}/>
                   </Switch>
                 </CSSTransition>
