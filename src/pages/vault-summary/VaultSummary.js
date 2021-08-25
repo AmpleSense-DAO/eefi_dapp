@@ -32,7 +32,6 @@ import p1 from "../../images/tokens/ample.png";
 import p2 from "../../images/tokens/new_ee_balancer.png";
 import p3 from "../../images/tokens/kappa_logo_kmpl.png";
 import p4 from "../../images/tokens/apollo_cropped_edited_sm.png";
-// import p5 from "../../images/userAvatar.png";
 // import p6 from "../../images/tokens/zeus_cropped_edited_sm.png";
 import p7 from "../../images/tokens/kmpl_uni_logo.png";
 
@@ -1315,6 +1314,10 @@ class VaultSummary extends React.Component {
     return vaultTypeFromID[this.getId()];
   }
 
+  numberWithCommas(x) {
+    return String(x).replace(/(?<!\..*)(\d)(?=(?:\d{3})+(?:\.|$))/g, '$1,');
+  }
+
   componentDidMount() {
     // const { account, web3 } = this.props;
 
@@ -1512,7 +1515,7 @@ class VaultSummary extends React.Component {
             <Widget title={<p className="text-info" style={{ fontWeight: 700 }}>TVL</p>}>
               <Row className={`justify-content-between mt-3`} noGutters>
                 <Col sm={8} className={"d-flex align-items-center"}>
-                  <h4 className={"fw-semi-bold mb-0"}>$ {tvl}</h4>
+                  <h6 className={"fw-semi-bold mb-0"}>$ {this.numberWithCommas(tvl)}</h6>
                 </Col>
                 <Col
                   sm={4}
@@ -1532,7 +1535,7 @@ class VaultSummary extends React.Component {
               title={<p className="text-info" style={{ fontWeight: 700 }}>Your Portfolio</p>}>
               <Row className={`justify-content-between mt-3`} noGutters>
                 <Col sm={8} className={"d-flex align-items-center"}>
-                  <h4 className={"fw-semi-bold mb-0"}>$ {portfolio}</h4>
+                  <h6 className={"fw-semi-bold mb-0"}>$ {this.numberWithCommas(portfolio)}</h6>
                 </Col>
                 <Col
                   sm={4}
@@ -1552,7 +1555,7 @@ class VaultSummary extends React.Component {
               title={<p className="text-info" style={{ fontWeight: 700 }}>kMPL Price</p>} isBuyButton={true} pagelink={2}>
               <Row className={`justify-content-between mt-3`} noGutters>
                 <Col sm={8} className={"d-flex align-items-center"}>
-                  <h4 className={"fw-semi-bold mb-0"}>$ {kmpl_price} </h4>
+                  <h6 className={"fw-semi-bold mb-0"}>$ {this.numberWithCommas(kmpl_price)} </h6>
                 </Col>
                 <Col  sm={4}
                   className={"d-flex align-items-center justify-content-end"}
@@ -1571,7 +1574,7 @@ class VaultSummary extends React.Component {
               title={<p className="text-info" style={{ fontWeight: 700 }}>EEFI Price</p>} isBuyButton={true} pagelink={3}>
               <Row className={`justify-content-between mt-3`} noGutters>
                 <Col sm={8} className={"d-flex align-items-center"}>
-                  <h4 className={"fw-semi-bold mb-0"}>$ {eefi_price}</h4>
+                  <h6 className={"fw-semi-bold mb-0"}>$ {this.numberWithCommas(eefi_price)}</h6>
                 </Col>
                 <Col
                   sm={4}
@@ -1602,7 +1605,7 @@ class VaultSummary extends React.Component {
                           <h4 className="text-info">
                           AMPL
                           </h4>
-                          </span>
+                        </span>
                       </Link>
                     </td>
 
@@ -1629,13 +1632,13 @@ class VaultSummary extends React.Component {
                     </td>
                     <td width="25%" className={"pl-0 fw-thin table-vaults-long-1"}>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>TVL: </strong> &nbsp; $ {amplesenseVaultTVL}
+                        <strong>TVL: </strong> &nbsp; $ {this.numberWithCommas(amplesenseVaultTVL)}
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
                         <strong>APY: </strong>&nbsp; N/A
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>Your Balance: </strong>&nbsp;$ {amplesenseVaultStaking + amplesenseVaultReward}
+                        <strong>Your Balance: </strong>&nbsp;$ {this.numberWithCommas(amplesenseVaultStaking + amplesenseVaultReward)}
                       </p>
                     </td>
                     <td width="30%" className={"pl-0 fw-thin table-vaults-short-1"}>
@@ -1646,13 +1649,13 @@ class VaultSummary extends React.Component {
                         <strong> Earn:</strong> &nbsp;EEFI, ETH
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>TVL: </strong> &nbsp; $ {amplesenseVaultTVL}
+                        <strong>TVL: </strong> &nbsp; $ {this.numberWithCommas(amplesenseVaultTVL)}
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
                         <strong>APY: </strong>&nbsp; N/A
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>Your Balance: </strong>&nbsp;$ {amplesenseVaultStaking + amplesenseVaultReward}
+                        <strong>Your Balance: </strong>&nbsp;$ {this.numberWithCommas(amplesenseVaultStaking + amplesenseVaultReward)}
                       </p>
                     </td>
 
@@ -1717,13 +1720,13 @@ class VaultSummary extends React.Component {
                     </td>
                     <td width="25%" className={"pl-0 fw-thin table-vaults-long-1"}>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>TVL: </strong> &nbsp; $ {lpStakingTVL}
+                        <strong>TVL: </strong> &nbsp; $ {this.numberWithCommas(lpStakingTVL)}
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
                         <strong>APY: </strong>&nbsp; N/A
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>Your Balance: </strong>&nbsp;$ {lpStakingStaking + lpStakingReward}
+                        <strong>Your Balance: </strong>&nbsp;$ $ {this.numberWithCommas(lpStakingStaking + lpStakingReward)}
                       </p>
                     </td>
                     <td width="30%" className={"pl-0 fw-thin table-vaults-short-1"}>
@@ -1734,13 +1737,13 @@ class VaultSummary extends React.Component {
                         <strong> Earn:</strong> &nbsp;EEFI, USDC
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>TVL: </strong> &nbsp; $ {lpStakingTVL}
+                        <strong>TVL: </strong> &nbsp; $ {this.numberWithCommas(lpStakingTVL)}
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
                         <strong>APY: </strong>&nbsp; N/A
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>Your Balance: </strong>&nbsp;$ {lpStakingStaking + lpStakingReward}
+                        <strong>Your Balance: </strong>&nbsp;$ {this.numberWithCommas(lpStakingStaking + lpStakingReward)}
                       </p>
                     </td>
 
@@ -1817,13 +1820,13 @@ class VaultSummary extends React.Component {
                     </td>
                     <td width="25%" className={"pl-0 fw-thin table-vaults-long-1"}>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>TVL: </strong> &nbsp; $ {pioneer2TVL}
+                        <strong>TVL: </strong> &nbsp; $ {this.numberWithCommas(pioneer2TVL)}
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
                         <strong>APY: </strong>&nbsp; N/A
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>Your Balance: </strong>&nbsp;$ {pioneer2Staking + pioneer2Reward}
+                        <strong>Your Balance: </strong>&nbsp;$ {this.numberWithCommas(pioneer2Staking + pioneer2Reward)}
                       </p>
                     </td>
                     <td width="30%" className={"pl-0 fw-thin table-vaults-short-1"}>
@@ -1834,13 +1837,13 @@ class VaultSummary extends React.Component {
                         <strong> Earn:</strong> &nbsp;EEFI, ETH
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>TVL: </strong> &nbsp; $ {pioneer2TVL}
+                        <strong>TVL: </strong> &nbsp; $ {this.numberWithCommas(pioneer2TVL)}
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
                         <strong>APY: </strong>&nbsp; N/A
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>Your Balance: </strong>&nbsp;$ {pioneer2Staking + pioneer2Reward}
+                        <strong>Your Balance: </strong>&nbsp;$ {this.numberWithCommas(pioneer2Staking + pioneer2Reward)}
                       </p>
                     </td>
 
@@ -1903,13 +1906,13 @@ class VaultSummary extends React.Component {
                     </td>
                     <td width="25%" className={"pl-0 fw-thin table-vaults-long-1"}>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>TVL: </strong> &nbsp; $ {pioneer1ATVL + pioneer1BTVL}
+                        <strong>TVL: </strong> &nbsp; $ {this.numberWithCommas(pioneer1ATVL + pioneer1BTVL)}
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
                         <strong>APY: </strong>&nbsp; N/A
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>Your Balance: </strong>&nbsp; $ {pioneer1AStaking + pioneer1BStaking + pioneer1AReward + pioneer1BReward}
+                        <strong>Your Balance: </strong>&nbsp; $ {this.numberWithCommas(pioneer1AStaking + pioneer1BStaking + pioneer1AReward + pioneer1BReward)}
                       </p>
                     </td>
                     <td width="30%" className={"pl-0 fw-thin table-vaults-short-1"}>
@@ -1920,13 +1923,13 @@ class VaultSummary extends React.Component {
                         <strong> Earn:</strong> &nbsp;ETH
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>TVL: </strong> &nbsp; $ {pioneer1ATVL + pioneer1BTVL}
+                        <strong>TVL: </strong> &nbsp; $ {this.numberWithCommas(pioneer1ATVL + pioneer1BTVL)}
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
                         <strong>APY: </strong>&nbsp; N/A
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>Your Balance: </strong>&nbsp; $ {pioneer1AStaking + pioneer1BStaking + pioneer1AReward + pioneer1BReward}
+                        <strong>Your Balance: </strong>&nbsp; $ {this.numberWithCommas(pioneer1AStaking + pioneer1BStaking + pioneer1AReward + pioneer1BReward)}
                       </p>
                     </td>
 
@@ -1986,13 +1989,13 @@ class VaultSummary extends React.Component {
                     </td>
                     <td width="25%" className={"pl-0 fw-thin table-vaults-long-1"}>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>TVL: </strong> &nbsp; $ {pioneer3TVL}
+                        <strong>TVL: </strong> &nbsp; $ {this.numberWithCommas(pioneer3TVL)}
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
                         <strong>APY: </strong>&nbsp; N/A
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>Your Balance: </strong>&nbsp; $ {pioneer3Staking + pioneer3Reward}
+                        <strong>Your Balance: </strong>&nbsp; $ {this.numberWithCommas(pioneer3Staking + pioneer3Reward)}
                       </p>
                     </td>
                     <td width="30%" className={"pl-0 fw-thin table-vaults-short-1"}>
@@ -2003,13 +2006,13 @@ class VaultSummary extends React.Component {
                         <strong> Earn:</strong> &nbsp;EEFI, ETH
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>TVL: </strong> &nbsp; $ {pioneer3TVL}
+                        <strong>TVL: </strong> &nbsp; $ {this.numberWithCommas(pioneer3TVL)}
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
                         <strong>APY: </strong>&nbsp; N/A
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>Your Balance: </strong>&nbsp; $ {pioneer3Staking + pioneer3Reward}
+                        <strong>Your Balance: </strong>&nbsp; $ {this.numberWithCommas(pioneer3Staking + pioneer3Reward)}
                       </p>
                     </td>
 
@@ -2031,12 +2034,7 @@ class VaultSummary extends React.Component {
             <Widget
               title={
                 <Row>
-                  <Col xs={12} sm={5}>
-                    <p style={{ fontWeight: 700 }}>Total Value Locked: All Vaults</p>
-                  </Col>
-                  <Col xs={12} sm={7}>
-                    <div className="chart-legend" />
-                  </Col>
+                  <p style={{ fontWeight: 700 }}>Total Value Locked: All Vaults</p>
                 </Row>
               }
             >

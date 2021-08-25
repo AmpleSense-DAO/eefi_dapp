@@ -31,7 +31,6 @@ import Colors from "../../pages/core/colors";
 import Grid from "../../pages/core/grid";
 import Maps from "../../pages/maps";
 import Notifications from "../../pages/notifications/Notifications";
-import Icons from "../../pages/icons";
 import StaticTables from "../../pages/tables/static";
 import DynamicTables from "../../pages/tables/dynamic";
 import Alerts from "../../pages/ui-elements/alerts";
@@ -47,25 +46,14 @@ import Navbar from "../../pages/ui-elements/navbar";
 import Popovers from "../../pages/ui-elements/popovers";
 import Progress from "../../pages/ui-elements/progress";
 import Tabs from "../../pages/ui-elements/tabs-accordion";
-import Calendar from "../../pages/extra/calendar";
-import Invoice from "../../pages/extra/invoice";
-import Gallery from "../../pages/extra/gallery";
-import SearchResult from "../../pages/extra/search";
-import Timeline from "../../pages/extra/timeline";
 import FormValidation from "../../pages/forms/validation";
 import FormElements from "../../pages/forms/elements";
 import FormWizard from "../../pages/forms/wizard";
-import ChartsOverview from "../../pages/charts";
-import ApexCharts from "../../pages/charts/apex";
-import Echarts from "../../pages/charts/echarts";
 import GridSeparate from "../../pages/grid";
 import Modal from '../../pages/ui-elements/modal'
-import Management from "../../pages/management";
 import Products from "../../pages/products";
 import Product from "../../pages/product";
-import Profile from "../../pages/profile";
 import SPackage from "../../pages/package";
-import Email from '../../pages/email'
 
 class Layout extends React.Component {
   static propTypes = {
@@ -213,7 +201,6 @@ class Layout extends React.Component {
                       path={"/app/ui/notifications"}
                       component={Notifications}
                     />
-                    <Route path={"/app/ui/icons"} component={Icons} />
                     <Route path={"/app/ui/alerts"} component={Alerts} />
                     <Route path={"/app/ui/badge"} component={Badge} />
                     <Route path={"/app/ui/card"} component={Card} />
@@ -231,14 +218,6 @@ class Layout extends React.Component {
                     <Route path={"/app/ui/progress"} component={Progress} />
                     <Route path={"/app/ui/tabs"} component={Tabs} />
                     <Route path={"/app/ui/modal"} component={Modal} />
-                    <Route path={"/app/extra/calendar"} component={Calendar} />
-                    <Route path={"/app/extra/invoice"} component={Invoice} />
-                    <Route path={"/app/extra/gallery"} component={Gallery} />
-                    <Route
-                      path={"/app/extra/search"}
-                      component={SearchResult}
-                    />
-                    <Route path={"/app/extra/timeline"} component={Timeline} />
                     <Route
                       path={"/app/forms/validation"}
                       component={FormValidation}
@@ -248,20 +227,11 @@ class Layout extends React.Component {
                       component={FormElements}
                     />
                     <Route path={"/app/forms/wizard"} component={FormWizard} />
-                    <Route
-                      path={"/app/charts/overview"}
-                      component={ChartsOverview} 
-                    />
-                    <Route path={"/app/charts/apex"} component={ApexCharts} />
-                    <Route path={"/app/charts/echarts"} component={Echarts} />
                     <Route path={"/app/grid"} component={GridSeparate} />
-                    <Route path={"/app/ecommerce/management"} component={Management} />
                     <Route path={"/app/ecommerce/products"} component={Products} />
                     <Route path={"/app/ecommerce/product/:id"} component={Product} exact/>
                     <Route path={"/app/ecommerce/product"} component={Product} />
-                    <Route path={"/app/profile"} component={Profile} />
                     <Route path={"/app/package"} component={SPackage} />
-                    <Route path={"/app/email"} component={Email} />
                     <Route render={() => <Redirect to={{pathname: '/error'}}/>}/>
                   </Switch>
                 </CSSTransition>
