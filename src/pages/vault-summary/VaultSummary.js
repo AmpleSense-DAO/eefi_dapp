@@ -1360,7 +1360,7 @@ class VaultSummary extends React.Component {
     const pioneer1BValues = this.props.vaultValues["Pioneer Fund Vault I: ZEUS"];
     const pioneer2Values = this.props.vaultValues["Pioneer Fund Vault II: kMPL"];
     const pioneer3Values = this.props.vaultValues["Pioneer Fund Vault III: KMPL/ETH"];
-    const lpStakingValues = this.props.vaultValues["EEFI/USDC LP Token Vault"];
+    const lpStakingValues = this.props.vaultValues["EEFI/ETH LP Token Vault"];
 
     const amplesenseVaultStaking = amplesensevaultValues? amplesensevaultValues.stakedBalance * ampl_price : 0;
     const pioneer1AStaking = pioneer1AValues? pioneer1AValues.stakedBalance * 0 : 0;
@@ -1675,7 +1675,7 @@ class VaultSummary extends React.Component {
 
 
 
-        {/* EEFI/USDC LP Tokens */}
+        {/* EEFI/ETH LP Tokens */}
         <Row>
           <Col sm={12}>
             <Widget>
@@ -1688,7 +1688,7 @@ class VaultSummary extends React.Component {
                         <img src={p2} height={80} width={80} alt=""  className={s.mobileImg} />
 
                         <h4 className="text-info">
-                          EEFI/USDC LP Tokens
+                          EEFI/ETH LP Tokens
                         </h4>
                         </span>
                       </Link>
@@ -1700,7 +1700,7 @@ class VaultSummary extends React.Component {
                           <img src={p2} height={80} width={80} alt=""  className={s.mobileImg} />
                         </p>
                         <h5 className="text-info" >
-                        EEFI/USDC<br></br>LP Tokens
+                        EEFI/ETH<br></br>LP Tokens
                         </h5>
                       </Link>
                       {/* <Link to="/app/home/vault-eefi"> */}
@@ -1712,7 +1712,7 @@ class VaultSummary extends React.Component {
                     </td>
                     <td width="30%" className={"pl-0 fw-thin table-vaults-long-1"}>
                       <p className={"d-flex  align-items-center text-info "}>
-                        <strong>Deposit:</strong>&nbsp; EEFI/USDC LP Tokens
+                        <strong>Deposit:</strong>&nbsp; EEFI/ETH LP Tokens
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
                         <strong> Earn:</strong> &nbsp;EEFI, ETH
@@ -1731,7 +1731,7 @@ class VaultSummary extends React.Component {
                     </td>
                     <td width="30%" className={"pl-0 fw-thin table-vaults-short-1"}>
                       <p className={"d-flex  align-items-center text-info "}>
-                        <strong>Deposit:</strong>&nbsp; EEFI/USDC LP Tokens
+                        <strong>Deposit:</strong>&nbsp; EEFI/ETH LP Tokens
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
                         <strong> Earn:</strong> &nbsp;EEFI, USDC

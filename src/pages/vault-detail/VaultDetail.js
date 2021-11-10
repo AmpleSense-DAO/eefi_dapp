@@ -549,7 +549,8 @@ class VaultDetail extends React.Component {
     const staking_token_withdraw_formatted = BN(staking_token_withdraw).div(BN(10**contract.stakingTokenPrecision())).toString();
     const ampl_eth_reward_formatted = web3.utils.fromWei(reward.eth, "ether");
     //in case of pioneer1 there is no token reward
-    const ampl_token_reward_formatted = BN(reward.token? reward.token : 0).div(BN(10**contract.rewardTokenPrecision())).toString();
+    const ampl_token_reward_formatted = (BN(reward.token? reward.token : 0) / BN(10**contract.rewardTokenPrecision())).toFixed(4);
+    console.log(staking_token_withdraw, reward.eth, reward.token, ampl_token_reward_formatted);
     return (
 
       <div className={s.root}>
@@ -682,13 +683,13 @@ class VaultDetail extends React.Component {
                       <p>
                         <img height="30" src={p2} alt="" className={"mr-3"} />
                         <span align="right">
-                          &nbsp;{ampl_eth_reward_formatted} {tokenDetailedData[tokenId].rewards_token_1}
+                          &nbsp;{ampl_token_reward_formatted} {tokenDetailedData[tokenId].rewards_token_1}
                         </span>
                       </p> }
                       <p>
                         <img height="30" src={p5} alt="" className={"mr-3"} />
                         <span align="right">
-                        &nbsp;{ampl_token_reward_formatted} {tokenDetailedData[tokenId].rewards_token_2}</span>
+                        &nbsp;{ampl_eth_reward_formatted} {tokenDetailedData[tokenId].rewards_token_2}</span>
                       </p>
                     </h4>
                       <p>

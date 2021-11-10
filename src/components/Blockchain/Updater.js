@@ -32,28 +32,28 @@ const axios = require('axios')
 
 //define variables for contract addresses
 export const CONTRACT_ADDRESSES = {
-  AMPLE_SENSE_VAULT: '0xd0B52f78e470B0ae28742946C9FCEA17973E621C',
-  AMPLE_CONTRACT: '0xAd8Eb2224F4f3aef5d9c0Db4c55D3ba0fD316673',
-  KMPL_CONTRACT: '0x69D7CA3F11Db8C478f0135BAf3C97EfeCA8B2099',
-  PIONEER1_CONTRACT: '0xCF57935Ad774d5D2Df9511aF1834CFb98135b314',
-  PIONEER2_CONTRACT: '0x0A4D19C4A53aA761A84771516f94Df94Cca8541B',
-  PIONEER3_CONTRACT: '0x36b0C8A8D07778e0411eBdF68D66089c73cdEec6',
-  LPSTAKING_CONTRACT: '0x78aDf7c8FE684A56b84EDfC75b1D04cDA0b250Cb',
-  NFT1_CONTRACT: '0x23747C5DEd528514C1d9Be369ACA2d0c9A82e4eB',
-  NFT2_CONTRACT: '0x958B819838834F70caA5ff007942EebdF04D69A3',
-  Univ3_EEFI_ETH_CONTRACT: '0x7843020baDe936360a5F0Ae110FaD9bc9414bE7d',
-  Univ3_KMPL_EEFI_CONTRACT: '0xc331b0CC51f2b609eEDb26ED2e38D72273A0C835',
-  EEFI_CONTRACT: '0xE0421C30779A9de7a80367bdEC094B174AA47cf9',
-  TOKEN_DISTRIBUTOR: '0xf06A446df4e6C0EA1Af9876b0fA7D3AE7339e9eB'
+  AMPLE_SENSE_VAULT: '0x7bc06c482DEAd17c0e297aFbC32f6e63d3846650',
+  AMPLE_CONTRACT: '0xd46ba6d942050d489dbd938a2c909a5d5039a161',
+  KMPL_CONTRACT: '0xe8d17542dfe79ff4fbd4b850f2d39dc69c4489a2',
+  PIONEER1_CONTRACT: '0xdbC43Ba45381e02825b14322cDdd15eC4B3164E6',
+  PIONEER2_CONTRACT: '0x04C89607413713Ec9775E14b954286519d836FEf',
+  PIONEER3_CONTRACT: '0x4C4a2f8c81640e47606d3fd77B353E87Ba015584',
+  LPSTAKING_CONTRACT: '0x21dF544947ba3E8b3c32561399E88B52Dc8b2823',
+  NFT1_CONTRACT: '0x2a99792F7C310874F3C24860c06322E26D162c6B',
+  NFT2_CONTRACT: '0x74ee0c3882b97d3d2a04c81c72d16878876329e4',
+  Univ3_EEFI_ETH_CONTRACT: '0xAEd4F588652D7b86f64D36F08703f5c00DA1A12d',
+  Univ3_KMPL_EEFI_CONTRACT: '0x0225Cf1C420BE7BDFBF3a70AD7035F5737D2C7a5',
+  EEFI_CONTRACT: '0xcfe53426950562347a6D2B90bE99D98167eac32d',
+  TOKEN_DISTRIBUTOR: '0x8f415d0cad1bE9F75563B8Ee451926e0689d7615'
 }
 
 export const VaultType = {
-  AMPLESENSE : {vault: CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT, staking_token: CONTRACT_ADDRESSES.AMPLE_CONTRACT, vault_abi: AmplesenseVaultAbi, staking_token_abi: erc20Abi, staking_symbol: "AMPL", precision: 9, reward_token_precision: 9, name: "Elastic Vault: AMPL > EEFI"},
-  LPSTAKING : {vault: CONTRACT_ADDRESSES.LPSTAKING_CONTRACT, staking_token: CONTRACT_ADDRESSES.Univ3_EEFI_ETH_CONTRACT, vault_abi: StakingERC20Abi, staking_token_abi: erc20Abi, staking_symbol: "Balancer LP", precision: 18, reward_token_precision: 9, name: "EEFI/USDC LP Token Vault"},
-  PIONEER2 : {vault: CONTRACT_ADDRESSES.PIONEER2_CONTRACT, staking_token: CONTRACT_ADDRESSES.KMPL_CONTRACT, vault_abi: StakingERC20Abi, staking_token_abi: erc20Abi, staking_symbol: "kMPL", precision: 9, reward_token_precision: 9, name: "Pioneer Fund Vault II: kMPL"},
-  PIONEER1A : {vault: CONTRACT_ADDRESSES.PIONEER1_CONTRACT, staking_token: CONTRACT_ADDRESSES.NFT1_CONTRACT, vault_abi: StakingERC721Abi, staking_token_abi: erc721Abi, staking_symbol: "ZNFT", precision: 0, reward_token_precision: 9, name: "Pioneer Fund Vault I: ZEUS"},
-  PIONEER1B : {vault: CONTRACT_ADDRESSES.PIONEER1_CONTRACT, staking_token: CONTRACT_ADDRESSES.NFT2_CONTRACT, vault_abi: StakingERC721Abi, staking_token_abi: erc721Abi, staking_symbol: "ANFT", precision: 0, reward_token_precision: 9, name: "Pioneer Fund Vault I: APOLLO"},
-  PIONEER3 : {vault: CONTRACT_ADDRESSES.PIONEER3_CONTRACT, staking_token: CONTRACT_ADDRESSES.Univ3_KMPL_EEFI_CONTRACT, vault_abi: StakingERC20Abi, staking_token_abi: erc20Abi, staking_symbol: "UniswapV2", precision: 18, reward_token_precision: 9, name: "Pioneer Fund Vault III: KMPL/ETH"},
+  AMPLESENSE : {vault: CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT, staking_token: CONTRACT_ADDRESSES.AMPLE_CONTRACT, vault_abi: AmplesenseVaultAbi, staking_token_abi: erc20Abi, staking_symbol: "AMPL", precision: 9, reward_token_precision: 18, name: "Elastic Vault: AMPL > EEFI"},
+  LPSTAKING : {vault: CONTRACT_ADDRESSES.LPSTAKING_CONTRACT, staking_token: CONTRACT_ADDRESSES.Univ3_EEFI_ETH_CONTRACT, vault_abi: StakingERC20Abi, staking_token_abi: erc20Abi, staking_symbol: "Balancer LP", precision: 18, reward_token_precision: 18, name: "EEFI/ETH LP Token Vault"},
+  PIONEER2 : {vault: CONTRACT_ADDRESSES.PIONEER2_CONTRACT, staking_token: CONTRACT_ADDRESSES.KMPL_CONTRACT, vault_abi: StakingERC20Abi, staking_token_abi: erc20Abi, staking_symbol: "kMPL", precision: 9, reward_token_precision: 18, name: "Pioneer Fund Vault II: kMPL"},
+  PIONEER1A : {vault: CONTRACT_ADDRESSES.PIONEER1_CONTRACT, staking_token: CONTRACT_ADDRESSES.NFT1_CONTRACT, vault_abi: StakingERC721Abi, staking_token_abi: erc721Abi, staking_symbol: "ZNFT", precision: 0, reward_token_precision: 18, name: "Pioneer Fund Vault I: ZEUS"},
+  PIONEER1B : {vault: CONTRACT_ADDRESSES.PIONEER1_CONTRACT, staking_token: CONTRACT_ADDRESSES.NFT2_CONTRACT, vault_abi: StakingERC721Abi, staking_token_abi: erc721Abi, staking_symbol: "ANFT", precision: 0, reward_token_precision: 18, name: "Pioneer Fund Vault I: APOLLO"},
+  PIONEER3 : {vault: CONTRACT_ADDRESSES.PIONEER3_CONTRACT, staking_token: CONTRACT_ADDRESSES.Univ3_KMPL_EEFI_CONTRACT, vault_abi: StakingERC20Abi, staking_token_abi: erc20Abi, staking_symbol: "UniswapV2", precision: 18, reward_token_precision: 18, name: "Pioneer Fund Vault III: KMPL/ETH"},
 }
 
 export const vaultTypeFromID = [VaultType.AMPLESENSE, VaultType.LPSTAKING, VaultType.PIONEER2, VaultType.PIONEER1A, VaultType.PIONEER1B, VaultType.PIONEER3];
@@ -167,7 +167,7 @@ export class VaultContract {
     if(this.state.type === VaultType.PIONEER1A || this.state.type === VaultType.PIONEER1B) {
       return contract.methods.setApprovalForAll(CONTRACT_ADDRESSES.PIONEER1_CONTRACT, true).send({from: this.state.account});
     } else {
-      return contract.methods.approve(this.state.type.vault, amount.toString()).send({from: this.state.account});
+      return contract.methods.approve(this.state.type.vault, amount.toString()).send({from: this.state.account, chainId : 55});
     }
   }
 
@@ -218,7 +218,7 @@ export class VaultContract {
   unstake(amount) {
     const contract = new this.state.web3.eth.Contract(this.state.type.vault_abi.abi, this.state.type.vault);
     if(this.state.type === VaultType.AMPLESENSE) {
-      return contract.methods.withdraw(amount.toString()).send({from: this.state.account});
+      return contract.methods.withdrawAMPL(amount.toString()).send({from: this.state.account});
     } else if(this.state.type === VaultType.PIONEER1A || this.state.type === VaultType.PIONEER1B) {
       return contract.methods.unstake(amount.toString(), this.state.type.staking_token).send({from: this.state.account});
     }

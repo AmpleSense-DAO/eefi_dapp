@@ -21,8 +21,8 @@
   {
     "id": 1,
     "img": "p2",
-    "title": "EEFI/USDC LP Token Vault",
-    "token_name": "EEFI/USDC LP Tokens",
+    "title": "EEFI/ETH LP Token Vault",
+    "token_name": "EEFI/ETH LP Tokens",
     "apy": "400%",
     "tvl": "$ 2,545,566",
     "earn_token":"EEFI/ETH",

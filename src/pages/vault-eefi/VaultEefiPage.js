@@ -395,7 +395,7 @@ class VaultEefiPage extends React.Component {
       <div className={s.root}>
         <p>
           <h2>
-            EEFI/USDC LP Token Vault
+            EEFI/ETH LP Token Vault
           </h2>
         </p>
 
