@@ -287,7 +287,7 @@ class BlockchainUpdater extends React.Component {
     const {web3, account,vault_type} = this.props;
     
     const that = this;
-    this.timer = setInterval(this.pull, 15000);
+    this.timer = setInterval(this.pull, 5000);
     this.pull();
     this.props.dispatch(fetchDeposits(vaultTypeFromID[vault_type], web3, account));
     this.props.dispatch(fetchWithdrawals(vaultTypeFromID[vault_type], web3, account));
@@ -357,6 +357,8 @@ class BlockchainUpdater extends React.Component {
       this.props.dispatch(fetchGasPriceFastest(Math.floor(ethGasStationData.fastest / 10)));
       this.props.dispatch(fetchGasPriceFast(Math.floor(Math.floor(ethGasStationData.fast / 10))));
       this.props.dispatch(fetchGasPriceAverage(Math.floor(ethGasStationData.average / 10)));
+    }).catch(err => {
+      console.log(err);
     });
   }
 }
