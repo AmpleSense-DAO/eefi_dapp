@@ -44,15 +44,15 @@ export const CONTRACT_ADDRESSES = {
   Univ3_EEFI_ETH_CONTRACT: '0xAEd4F588652D7b86f64D36F08703f5c00DA1A12d',
   Univ3_KMPL_EEFI_CONTRACT: '0x0225Cf1C420BE7BDFBF3a70AD7035F5737D2C7a5',
   EEFI_CONTRACT: '0xcfe53426950562347a6D2B90bE99D98167eac32d',
-  TOKEN_DISTRIBUTOR: '0x8f415d0cad1bE9F75563B8Ee451926e0689d7615'
+  TOKEN_DISTRIBUTOR: '0x172076E0166D1F9Cc711C77Adf8488051744980C'
 }
 
 export const VaultType = {
   AMPLESENSE : {vault: CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT, staking_token: CONTRACT_ADDRESSES.AMPLE_CONTRACT, vault_abi: AmplesenseVaultAbi, staking_token_abi: erc20Abi, staking_symbol: "AMPL", precision: 9, reward_token_precision: 18, name: "Elastic Vault: AMPL > EEFI"},
   LPSTAKING : {vault: CONTRACT_ADDRESSES.LPSTAKING_CONTRACT, staking_token: CONTRACT_ADDRESSES.Univ3_EEFI_ETH_CONTRACT, vault_abi: StakingERC20Abi, staking_token_abi: erc20Abi, staking_symbol: "Balancer LP", precision: 18, reward_token_precision: 18, name: "EEFI/ETH LP Token Vault"},
   PIONEER2 : {vault: CONTRACT_ADDRESSES.PIONEER2_CONTRACT, staking_token: CONTRACT_ADDRESSES.KMPL_CONTRACT, vault_abi: StakingERC20Abi, staking_token_abi: erc20Abi, staking_symbol: "kMPL", precision: 9, reward_token_precision: 18, name: "Pioneer Fund Vault II: kMPL"},
-  PIONEER1A : {vault: CONTRACT_ADDRESSES.PIONEER1_CONTRACT, staking_token: CONTRACT_ADDRESSES.NFT1_CONTRACT, vault_abi: StakingERC721Abi, staking_token_abi: erc721Abi, staking_symbol: "ZNFT", precision: 0, reward_token_precision: 18, name: "Pioneer Fund Vault I: ZEUS"},
-  PIONEER1B : {vault: CONTRACT_ADDRESSES.PIONEER1_CONTRACT, staking_token: CONTRACT_ADDRESSES.NFT2_CONTRACT, vault_abi: StakingERC721Abi, staking_token_abi: erc721Abi, staking_symbol: "ANFT", precision: 0, reward_token_precision: 18, name: "Pioneer Fund Vault I: APOLLO"},
+  PIONEER1A : {vault: CONTRACT_ADDRESSES.PIONEER1_CONTRACT, staking_token: CONTRACT_ADDRESSES.NFT1_CONTRACT, vault_abi: StakingERC721Abi, staking_token_abi: erc721Abi, staking_symbol: "ZNFT", precision: 1, reward_token_precision: 18, name: "Pioneer Fund Vault I: ZEUS"},
+  PIONEER1B : {vault: CONTRACT_ADDRESSES.PIONEER1_CONTRACT, staking_token: CONTRACT_ADDRESSES.NFT2_CONTRACT, vault_abi: StakingERC721Abi, staking_token_abi: erc721Abi, staking_symbol: "ANFT", precision: 1, reward_token_precision: 18, name: "Pioneer Fund Vault I: APOLLO"},
   PIONEER3 : {vault: CONTRACT_ADDRESSES.PIONEER3_CONTRACT, staking_token: CONTRACT_ADDRESSES.Univ3_KMPL_EEFI_CONTRACT, vault_abi: StakingERC20Abi, staking_token_abi: erc20Abi, staking_symbol: "UniswapV2", precision: 18, reward_token_precision: 18, name: "Pioneer Fund Vault III: KMPL/ETH"},
 }
 
@@ -111,6 +111,12 @@ export class VaultContract {
 
   stakingTokenPrecision() {
     return this.state.type.precision;
+  }
+
+  stakingTokenPrecisionName() {
+    if(this.state.type.precision === 1) return "wei";
+    if(this.state.type.precision === 9) return "gwei";
+    return "ether";
   }
 
   rewardTokenPrecision() {

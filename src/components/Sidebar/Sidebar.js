@@ -978,7 +978,7 @@ class Sidebar extends React.Component {
                 // }
 
                 activeItem={this.props.activeItem}
-                header="EEFI/USDC LP Token Vault"
+                header="EEFI/ETH LP Token Vault"
                 isHeader
                 link="/app/home/vault-detail/1"
                 index="main">

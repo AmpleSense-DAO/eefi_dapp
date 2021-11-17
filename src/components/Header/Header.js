@@ -39,6 +39,7 @@ import mobileLogo from '../../images/mobilelogo.png';
 
 const AmplesenseVaultAbi = require("../../contracts/AmplesenseVault.json");
 const erc20Abi = require("../../contracts/ERC20.json");
+const TokenDistributorAbi = require("../../contracts/TokenDistributor.json");
 const { CONTRACT_ADDRESSES } = require("../../components/Blockchain/Updater.js");
 
 const providerOptions = {
@@ -199,6 +200,31 @@ class Header extends React.Component {
     })
   }
 
+  getAMPL() {
+    const contract = new this.props.web3.eth.Contract(TokenDistributorAbi.abi, CONTRACT_ADDRESSES.TOKEN_DISTRIBUTOR);
+    contract.methods.getAMPL().send({from: this.props.account});  
+  }
+
+  getKMPL() {
+    const contract = new this.props.web3.eth.Contract(TokenDistributorAbi.abi, CONTRACT_ADDRESSES.TOKEN_DISTRIBUTOR);
+    contract.methods.getKMPL().send({from: this.props.account});  
+  }
+
+  getEEFI() {
+    const contract = new this.props.web3.eth.Contract(TokenDistributorAbi.abi, CONTRACT_ADDRESSES.TOKEN_DISTRIBUTOR);
+    contract.methods.getEEFI().send({from: this.props.account});  
+  }
+
+  getKMPLETHLP() {
+    const contract = new this.props.web3.eth.Contract(TokenDistributorAbi.abi, CONTRACT_ADDRESSES.TOKEN_DISTRIBUTOR);
+    contract.methods.getKMPLETHLP().send({from: this.props.account});  
+  }
+
+  getEEFIETHLP() {
+    const contract = new this.props.web3.eth.Contract(TokenDistributorAbi.abi, CONTRACT_ADDRESSES.TOKEN_DISTRIBUTOR);
+    contract.methods.getEEFIETHLP().send({from: this.props.account});
+  }
+
   // collapse/uncolappse
   switchSidebar() {
     if (this.props.sidebarOpened) {
@@ -280,6 +306,11 @@ class Header extends React.Component {
         </NavItem>
 
         <Button id="button-connected" className={`btn ${s.fullVersionBtn}`} onClick={this.doLogin}>{account? account.substr(0,8) + "...": "Wallet Connect"}</Button>
+        <Button id="getampl" onClick={() => {this.getAMPL()}}>DEBUG Get AMPL</Button>
+        <Button id="getkmpl" onClick={() => {this.getKMPL()}}>DEBUG Get KMPL</Button>
+        <Button id="geteefi" onClick={() => {this.getEEFI()}}>DEBUG Get EEFI</Button>
+        <Button id="getkmpleth" onClick={() => {this.getKMPLETHLP()}}>DEBUG Get KMPL/ETH LP</Button>
+        <Button id="geteefieth" onClick={() => {this.getEEFIETHLP()}}>DEBUG Get EEFI/ETH LP</Button>
         {/* <div className={s.gasStation}>
           <img className={s.gasImg} src={gasImage} alt="gas"></img>
           <p></p>

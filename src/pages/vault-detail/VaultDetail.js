@@ -436,17 +436,17 @@ class VaultDetail extends React.Component {
 
   calculateAmountToDeposit(evt) {
     const { staking_token_balance, account, web3 } = this.props;
-    const precision = (new VaultContract(this.getVaultType(), web3, account)).stakingTokenPrecision();
+    const precisionName = (new VaultContract(this.getVaultType(), web3, account)).stakingTokenPrecisionName();
     this.setState({
-        amountToDeposit: parseFloat(staking_token_balance / 10**precision * evt.target.value).toString()
+        amountToDeposit: (web3.utils.fromWei(staking_token_balance, precisionName) * evt.target.value).toString()
     });
   }
 
   calculateAmountToWithdraw(evt) {
     const { claimable, account, web3 } = this.props;
-    const precision = (new VaultContract(this.getVaultType(), web3, account)).stakingTokenPrecision();
+    const precisionName = (new VaultContract(this.getVaultType(), web3, account)).stakingTokenPrecisionName();
     this.setState({
-        amountToWithdraw: parseFloat(claimable / 10**precision * evt.target.value).toString()
+        amountToWithdraw: (web3.utils.fromWei(claimable, precisionName) * evt.target.value).toString()
       })
   }
 
@@ -493,10 +493,9 @@ class VaultDetail extends React.Component {
 
   doWithdraw() {
     const {account, web3} = this.props;
-    const value = new web3.utils.BN(Math.floor(parseFloat(this.state.amountToWithdraw) * 100000));
     const contract = new VaultContract(vaultTypeFromID[this.getId()], web3, account);
-    const precision = contract.stakingTokenPrecision();
-    const valueWei = value.mul(new web3.utils.BN(10**(precision-5)));
+
+    const valueWei = web3.utils.toWei(this.state.amountToWithdraw, contract.stakingTokenPrecisionName());
     const current_time = Math.floor(Date.now()/1000);
     this.props.dispatch(makeWithdrawal(vaultTypeFromID[this.getId()], web3, account, valueWei, {id: current_time, transactionHash: null, returnValues: {amount: valueWei.toString()}, timestamp: current_time, mined: false}));
     this.setState({
@@ -542,15 +541,12 @@ class VaultDetail extends React.Component {
       </div>)
     }
 
-    const BN = (x) => web3.utils.toBN(x);
-
-    const staking_token_balance_formatted = BN(staking_token_balance).div(BN(10**contract.stakingTokenPrecision())).toString();
-    const claimable_formatted = BN(claimable).div(BN(10**contract.stakingTokenPrecision())).toString();
-    const staking_token_withdraw_formatted = BN(staking_token_withdraw).div(BN(10**contract.stakingTokenPrecision())).toString();
+    const staking_token_balance_formatted = web3.utils.fromWei(staking_token_balance,contract.stakingTokenPrecisionName());
+    const claimable_formatted = web3.utils.fromWei(claimable,contract.stakingTokenPrecisionName());
+    const staking_token_withdraw_formatted = web3.utils.fromWei(staking_token_withdraw,contract.stakingTokenPrecisionName());
     const ampl_eth_reward_formatted = web3.utils.fromWei(reward.eth, "ether");
     //in case of pioneer1 there is no token reward
-    const ampl_token_reward_formatted = (BN(reward.token? reward.token : 0) / BN(10**contract.rewardTokenPrecision())).toFixed(4);
-    console.log(staking_token_withdraw, reward.eth, reward.token, ampl_token_reward_formatted);
+    const ampl_token_reward_formatted = web3.utils.fromWei(reward.token? reward.token : "0",contract.stakingTokenPrecisionName());
     return (
 
       <div className={s.root}>
@@ -726,7 +722,7 @@ class VaultDetail extends React.Component {
                         &nbsp;{new Date(deposit.timestamp * 1000).toUTCString()}
                       </td>
                       <td className={"pl-0 fw-thin"}>
-                        &nbsp;{(deposit.returnValues.amount / 10**contract.stakingTokenPrecision()).toString()} {contract.stakingTokenSymbol()}
+                        &nbsp;{web3.utils.fromWei(deposit.returnValues.amount,contract.stakingTokenPrecisionName())} {contract.stakingTokenSymbol()}
                       </td>
                       <td className={"pl-0 fw-thin"}>
                       {deposit.allowanceHash && <div>
@@ -761,7 +757,7 @@ class VaultDetail extends React.Component {
                         &nbsp;{new Date(withdrawal.timestamp * 1000).toUTCString()}
                       </td>
                       <td className={"pl-0 fw-thin"}>
-                        &nbsp;{(withdrawal.returnValues.amount / 10**contract.stakingTokenPrecision()).toString()} {contract.stakingTokenSymbol()}
+                        &nbsp;{web3.utils.fromWei(withdrawal.returnValues.amount, contract.stakingTokenPrecisionName())} {contract.stakingTokenSymbol()}
                       </td>
                       <td className={"pl-0 fw-thin"}>
                         {withdrawal.transactionHash && <div>{withdrawal.transactionHash.substr(0,8)+"..."}   <a href={"https://www.etherscan.io/tx/" + withdrawal.transactionHash}  target="_blank" rel="noopener noreferrer">Link {withdrawal.mined === false && "(pending)"}</a></div>}</td>

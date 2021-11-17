@@ -1,0 +1,70 @@
+{
+    "abi": [
+        {
+          "inputs": [
+            {
+              "internalType": "contract IERC20",
+              "name": "_ampl_token",
+              "type": "address"
+            },
+            {
+              "internalType": "contract IERC20",
+              "name": "_eefi_token",
+              "type": "address"
+            },
+            {
+              "internalType": "contract IERC20",
+              "name": "_kmpl_token",
+              "type": "address"
+            },
+            {
+              "internalType": "contract IERC20",
+              "name": "_kmplethlp",
+              "type": "address"
+            },
+            {
+              "internalType": "contract IERC20",
+              "name": "_eefiethlp",
+              "type": "address"
+            }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "constructor"
+        },
+        {
+          "inputs": [],
+          "name": "getAMPL",
+          "outputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "getEEFI",
+          "outputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "getEEFIETHLP",
+          "outputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "getKMPL",
+          "outputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "getKMPLETHLP",
+          "outputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        }
+      ]
+}
