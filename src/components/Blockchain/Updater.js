@@ -154,7 +154,16 @@ export class VaultContract {
     const contract = new this.state.web3.eth.Contract(this.state.type.vault_abi.abi, this.state.type.vault);
     if(this.state.type === VaultType.AMPLESENSE) {
       return contract.methods.balanceOf(this.state.account).call()
-    } else {
+    } else if(this.state.type === VaultType.PIONEER1A || this.state.type === VaultType.PIONEER1B) {
+      return new Promise((resolve, reject) => {
+        contract.methods.totalTokenStakedFor(this.state.account).call({from: this.state.account}).then(result => {
+          resolve(this.state.type === VaultType.PIONEER1A? result.tokenA : result.tokenB);
+        }).catch(err => {
+          reject(err);
+        })
+      });
+    }
+    else {
       return contract.methods.totalStakedFor(this.state.account).call()
     }
   }
@@ -163,6 +172,14 @@ export class VaultContract {
     const contract = new this.state.web3.eth.Contract(this.state.type.vault_abi.abi, this.state.type.vault);
     if(this.state.type === VaultType.AMPLESENSE) {
       return contract.methods.totalClaimableBy(this.state.account).call()
+    } else if(this.state.type === VaultType.PIONEER1A || this.state.type === VaultType.PIONEER1B) {
+      return new Promise((resolve, reject) => {
+        contract.methods.totalTokenStakedFor(this.state.account).call({from: this.state.account}).then(result => {
+          resolve(this.state.type === VaultType.PIONEER1A? result.tokenA : result.tokenB);
+        }).catch(err => {
+          reject(err);
+        })
+      });
     } else {
       return contract.methods.totalStakedFor(this.state.account).call()
     }
@@ -173,7 +190,7 @@ export class VaultContract {
     if(this.state.type === VaultType.PIONEER1A || this.state.type === VaultType.PIONEER1B) {
       return contract.methods.setApprovalForAll(CONTRACT_ADDRESSES.PIONEER1_CONTRACT, true).send({from: this.state.account});
     } else {
-      return contract.methods.approve(this.state.type.vault, amount.toString()).send({from: this.state.account, chainId : 55});
+      return contract.methods.approve(this.state.type.vault, new this.state.web3.utils.BN("0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff")).send({from: this.state.account});
     }
   }
 
@@ -213,7 +230,6 @@ export class VaultContract {
       return contract.methods.makeDeposit(amount.toString()).send({from: this.state.account});
     } else if(this.state.type === VaultType.PIONEER1A || this.state.type === VaultType.PIONEER1B) {
         const to_stake = this.state.stakable.slice(0, Math.min(amount, this.state.stakable.length));
-        console.log(this.state.stakable, amount)
         return contract.methods.stake(to_stake, this.state.type.staking_token === CONTRACT_ADDRESSES.NFT1_CONTRACT).send({from: this.state.account});
     }
     else {

@@ -169,7 +169,7 @@ class VaultNFTs extends React.Component {
               </Nav>
             </div>
             <div className={s.nftTitle}>
-              {this.props.account && <VaultDetail key={""+this.props.vault_type} forcedId={this.props.vault_type}/>}
+              {this.props.account && this.props.vault_type && <VaultDetail key={""+this.props.vault_type} forcedId={this.props.vault_type}/>}
             </div>
             {/* <TabContent className='mb-lg shadow' activeTab={this.state.activeFirstTab}> */}
               {/* <TabPane tabId="tab11"> */}
