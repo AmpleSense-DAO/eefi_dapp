@@ -35,25 +35,25 @@ export const CONTRACT_ADDRESSES = {
   AMPLE_SENSE_VAULT: '0x7bc06c482DEAd17c0e297aFbC32f6e63d3846650',
   AMPLE_CONTRACT: '0xd46ba6d942050d489dbd938a2c909a5d5039a161',
   KMPL_CONTRACT: '0xe8d17542dfe79ff4fbd4b850f2d39dc69c4489a2',
-  PIONEER1_CONTRACT: '0xdbC43Ba45381e02825b14322cDdd15eC4B3164E6',
-  PIONEER2_CONTRACT: '0x04C89607413713Ec9775E14b954286519d836FEf',
-  PIONEER3_CONTRACT: '0x4C4a2f8c81640e47606d3fd77B353E87Ba015584',
-  LPSTAKING_CONTRACT: '0x21dF544947ba3E8b3c32561399E88B52Dc8b2823',
+  PIONEER1_CONTRACT: '0x922D6956C99E12DFeB3224DEA977D0939758A1Fe',
+  PIONEER2_CONTRACT: '0x5081a39b8A5f0E35a8D959395a630b68B74Dd30f',
+  PIONEER3_CONTRACT: '0x1fA02b2d6A771842690194Cf62D91bdd92BfE28d',
+  LPSTAKING_CONTRACT: '0xdbC43Ba45381e02825b14322cDdd15eC4B3164E6',
   NFT1_CONTRACT: '0x2a99792F7C310874F3C24860c06322E26D162c6B',
   NFT2_CONTRACT: '0x74ee0c3882b97d3d2a04c81c72d16878876329e4',
-  Univ3_EEFI_ETH_CONTRACT: '0xAEd4F588652D7b86f64D36F08703f5c00DA1A12d',
-  Univ3_KMPL_EEFI_CONTRACT: '0x0225Cf1C420BE7BDFBF3a70AD7035F5737D2C7a5',
+  Balancer_EEFI_ETH_CONTRACT: '0x93ab2aFDED588A9e7F3Ef569834b13685D612f96',
+  Univ3_KMPL_ETH_CONTRACT: '0x0E2E8d0E47a035d5118E6c5Bc0212EFA0bdF8504',
   EEFI_CONTRACT: '0xcfe53426950562347a6D2B90bE99D98167eac32d',
-  TOKEN_DISTRIBUTOR: '0x172076E0166D1F9Cc711C77Adf8488051744980C'
+  TOKEN_DISTRIBUTOR: '0xD8a5a9b31c3C0232E196d518E89Fd8bF83AcAd43'
 }
 
 export const VaultType = {
   AMPLESENSE : {vault: CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT, staking_token: CONTRACT_ADDRESSES.AMPLE_CONTRACT, vault_abi: AmplesenseVaultAbi, staking_token_abi: erc20Abi, staking_symbol: "AMPL", precision: 9, reward_token_precision: 18, name: "Elastic Vault: AMPL > EEFI"},
-  LPSTAKING : {vault: CONTRACT_ADDRESSES.LPSTAKING_CONTRACT, staking_token: CONTRACT_ADDRESSES.Univ3_EEFI_ETH_CONTRACT, vault_abi: StakingERC20Abi, staking_token_abi: erc20Abi, staking_symbol: "Balancer LP", precision: 18, reward_token_precision: 18, name: "EEFI/ETH LP Token Vault"},
+  LPSTAKING : {vault: CONTRACT_ADDRESSES.LPSTAKING_CONTRACT, staking_token: CONTRACT_ADDRESSES.Balancer_EEFI_ETH_CONTRACT, vault_abi: StakingERC20Abi, staking_token_abi: erc20Abi, staking_symbol: "Balancer LP", precision: 18, reward_token_precision: 18, name: "EEFI/ETH LP Token Vault"},
   PIONEER2 : {vault: CONTRACT_ADDRESSES.PIONEER2_CONTRACT, staking_token: CONTRACT_ADDRESSES.KMPL_CONTRACT, vault_abi: StakingERC20Abi, staking_token_abi: erc20Abi, staking_symbol: "kMPL", precision: 9, reward_token_precision: 18, name: "Pioneer Fund Vault II: kMPL"},
   PIONEER1A : {vault: CONTRACT_ADDRESSES.PIONEER1_CONTRACT, staking_token: CONTRACT_ADDRESSES.NFT1_CONTRACT, vault_abi: StakingERC721Abi, staking_token_abi: erc721Abi, staking_symbol: "ZNFT", precision: 1, reward_token_precision: 18, name: "Pioneer Fund Vault I: ZEUS"},
   PIONEER1B : {vault: CONTRACT_ADDRESSES.PIONEER1_CONTRACT, staking_token: CONTRACT_ADDRESSES.NFT2_CONTRACT, vault_abi: StakingERC721Abi, staking_token_abi: erc721Abi, staking_symbol: "ANFT", precision: 1, reward_token_precision: 18, name: "Pioneer Fund Vault I: APOLLO"},
-  PIONEER3 : {vault: CONTRACT_ADDRESSES.PIONEER3_CONTRACT, staking_token: CONTRACT_ADDRESSES.Univ3_KMPL_EEFI_CONTRACT, vault_abi: StakingERC20Abi, staking_token_abi: erc20Abi, staking_symbol: "UniswapV2", precision: 18, reward_token_precision: 18, name: "Pioneer Fund Vault III: KMPL/ETH"},
+  PIONEER3 : {vault: CONTRACT_ADDRESSES.PIONEER3_CONTRACT, staking_token: CONTRACT_ADDRESSES.Univ3_KMPL_ETH_CONTRACT, vault_abi: StakingERC20Abi, staking_token_abi: erc20Abi, staking_symbol: "UniswapV2", precision: 18, reward_token_precision: 18, name: "Pioneer Fund Vault III: KMPL/ETH"},
 }
 
 export const vaultTypeFromID = [VaultType.AMPLESENSE, VaultType.LPSTAKING, VaultType.PIONEER2, VaultType.PIONEER1A, VaultType.PIONEER1B, VaultType.PIONEER3];
