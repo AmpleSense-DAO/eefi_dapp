@@ -190,7 +190,7 @@ export class VaultContract {
     if(this.state.type === VaultType.PIONEER1A || this.state.type === VaultType.PIONEER1B) {
       return contract.methods.setApprovalForAll(CONTRACT_ADDRESSES.PIONEER1_CONTRACT, true).send({from: this.state.account});
     } else {
-      const infiniteAmount =  (new this.state.web3.utils.BN("99999999999999999999999999999999999999999"));
+      const infiniteAmount =  new this.state.web3.utils.BN("99999999999999999999999999999999999999999");
       return contract.methods.approve(this.state.type.vault, infiniteAmount).send({from: this.state.account});
     }
   }
@@ -199,7 +199,7 @@ export class VaultContract {
     if(this.state.type === VaultType.PIONEER1A || this.state.type === VaultType.PIONEER1B) {
       return new this.state.web3.utils.BN(amount);
     } else {
-      return new this.state.web3.utils.toWei(amount, this.stakingTokenPrecisionName());
+      return new this.state.web3.utils.BN(this.state.web3.utils.toWei(amount, this.stakingTokenPrecisionName()));
     }
   }
 
