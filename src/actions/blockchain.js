@@ -44,7 +44,6 @@ export function fetchStakingTokenBalance(vaultTypes, web3, account) {
 }
 
 export function fetchStakedBalance(vaultTypes, web3, account) {
-  console.log(vaultTypes);
   const contract = new VaultContract(vaultTypes, web3, account);
   return function(dispatch) {
     contract.stakedTokenTotalBalance().then(balance => {
