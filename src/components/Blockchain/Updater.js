@@ -190,8 +190,7 @@ export class VaultContract {
     if(this.state.type === VaultType.PIONEER1A || this.state.type === VaultType.PIONEER1B) {
       return contract.methods.setApprovalForAll(CONTRACT_ADDRESSES.PIONEER1_CONTRACT, true).send({from: this.state.account});
     } else {
-      const infiniteAmount =  new this.state.web3.utils.BN("99999999999999999999999999999999999999999");
-      return contract.methods.approve(this.state.type.vault, infiniteAmount).send({from: this.state.account});
+      return contract.methods.approve(this.state.type.vault, "99999999999999999999999999999999999999999").send({from: this.state.account});
     }
   }
 
