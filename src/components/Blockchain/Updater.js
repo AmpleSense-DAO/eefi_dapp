@@ -190,7 +190,7 @@ export class VaultContract {
     if(this.state.type === VaultType.PIONEER1A || this.state.type === VaultType.PIONEER1B) {
       return contract.methods.setApprovalForAll(CONTRACT_ADDRESSES.PIONEER1_CONTRACT, true).send({from: this.state.account});
     } else {
-      return contract.methods.approve(this.state.type.vault, new this.state.web3.utils.BN("0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff")).send({from: this.state.account});
+      return contract.methods.approve(this.state.type.vault, new this.state.web3.utils.BN("0xffffffffffffffffffffffff")).send({from: this.state.account});
     }
   }
 
@@ -198,9 +198,7 @@ export class VaultContract {
     if(this.state.type === VaultType.PIONEER1A || this.state.type === VaultType.PIONEER1B) {
       return new this.state.web3.utils.BN(amount);
     } else {
-      const value = new this.state.web3.utils.BN(Math.floor(parseFloat(amount) * 100000)); //prevents the loss of precision
-      const valueWei = value.mul(new this.state.web3.utils.BN(10**(this.stakingTokenPrecision() - 5)));
-      return valueWei;
+      return new this.state.web3.utils.toWei(amount, this.stakingTokenPrecisionName());
     }
   }
 
