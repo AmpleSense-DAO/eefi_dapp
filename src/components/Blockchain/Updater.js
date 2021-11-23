@@ -123,6 +123,11 @@ export class VaultContract {
     return this.state.type.reward_token_precision;
   }
 
+  rewardTokenPrecisionName() {
+    if(this.state.type.reward_token_precision === 9) return "gwei";
+    return "ether";
+  }
+
   stakingTokenSymbol() {
     return this.state.type.staking_symbol;
   }

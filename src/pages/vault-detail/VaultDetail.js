@@ -546,7 +546,7 @@ class VaultDetail extends React.Component {
     const staking_token_withdraw_formatted = web3.utils.fromWei(staking_token_withdraw,contract.stakingTokenPrecisionName());
     const ampl_eth_reward_formatted = web3.utils.fromWei(reward.eth, "ether");
     //in case of pioneer1 there is no token reward
-    const ampl_token_reward_formatted = web3.utils.fromWei(reward.token? reward.token : "0",contract.stakingTokenPrecisionName());
+    const ampl_token_reward_formatted = web3.utils.fromWei(reward.token? reward.token : "0",contract.rewardTokenPrecisionName());
     return (
 
       <div className={s.root}>
