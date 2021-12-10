@@ -244,8 +244,10 @@ export class VaultContract {
     const contract = new this.state.web3.eth.Contract(this.state.type.vault_abi.abi, this.state.type.vault);
     if(this.state.type === VaultType.AMPLESENSE) {
       return contract.methods.withdrawAMPL(amount.toString()).send({from: this.state.account});
-    } else if(this.state.type === VaultType.PIONEER1A || this.state.type === VaultType.PIONEER1B) {
-      return contract.methods.unstake(amount.toString(), this.state.type.staking_token).send({from: this.state.account});
+    } else if(this.state.type === VaultType.PIONEER1A) {
+      return contract.methods.unstake(amount.toString(), true).send({from: this.state.account});
+    } else if(this.state.type === VaultType.PIONEER1B) {
+      return contract.methods.unstake(amount.toString(), false).send({from: this.state.account});
     }
      else {
       return contract.methods.unstake(amount.toString(), "0x").send({from: this.state.account});
