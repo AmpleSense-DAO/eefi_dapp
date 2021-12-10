@@ -119,6 +119,25 @@ export class VaultContract {
     return "ether";
   }
 
+  maxStakingTokenDisplayPrecision() {
+    switch(this.state.type) {
+      case VaultType.AMPLESENSE:
+        return 3;
+      case VaultType.PIONEER1A:
+        return 0;
+      case VaultType.PIONEER1B:
+        return 0;
+      case VaultType.PIONEER2:
+        return 3;
+      case VaultType.PIONEER3:
+        return 3;
+      case VaultType.LPSTAKING:
+        return 9;
+      default:
+        return 0;
+    }
+  }
+
   rewardTokenPrecision() {
     return this.state.type.reward_token_precision;
   }

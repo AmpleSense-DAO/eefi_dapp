@@ -437,16 +437,24 @@ class VaultDetail extends React.Component {
   calculateAmountToDeposit(evt) {
     const { staking_token_balance, account, web3 } = this.props;
     const precisionName = (new VaultContract(this.getVaultType(), web3, account)).stakingTokenPrecisionName();
+    const maxStakingTokenPrecision = (new VaultContract(this.getVaultType(), web3, account)).maxStakingTokenDisplayPrecision();
     this.setState({
-        amountToDeposit: (web3.utils.fromWei(staking_token_balance, precisionName) * evt.target.value).toString()
+        amountToDeposit: (web3.utils.fromWei(staking_token_balance, precisionName) * evt.target.value).toLocaleString('en-US', {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: maxStakingTokenPrecision
+      })
     });
   }
 
   calculateAmountToWithdraw(evt) {
     const { claimable, account, web3 } = this.props;
     const precisionName = (new VaultContract(this.getVaultType(), web3, account)).stakingTokenPrecisionName();
+    const maxStakingTokenPrecision = (new VaultContract(this.getVaultType(), web3, account)).maxStakingTokenDisplayPrecision();
     this.setState({
-        amountToWithdraw: (web3.utils.fromWei(claimable, precisionName) * evt.target.value).toString()
+        amountToWithdraw: (web3.utils.fromWei(claimable, precisionName) * evt.target.value).toLocaleString('en-US', {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: maxStakingTokenPrecision
+      })
       })
   }
 
@@ -531,8 +539,6 @@ class VaultDetail extends React.Component {
       tokenId = 0;
     }
 
-    console.log(tokenId)
-
     if(!account) {
       return (
       <div className={s.root}>
@@ -543,12 +549,12 @@ class VaultDetail extends React.Component {
       </div>)
     }
 
-    const staking_token_balance_formatted = web3.utils.fromWei(staking_token_balance,contract.stakingTokenPrecisionName());
+    const staking_token_balance_formatted = parseFloat(web3.utils.fromWei(staking_token_balance,contract.stakingTokenPrecisionName())).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: contract.maxStakingTokenDisplayPrecision() });
     const claimable_formatted = web3.utils.fromWei(claimable,contract.stakingTokenPrecisionName());
-    const staking_token_withdraw_formatted = web3.utils.fromWei(staking_token_withdraw,contract.stakingTokenPrecisionName());
-    const ampl_eth_reward_formatted = web3.utils.fromWei(reward.eth, "ether");
+    const staking_token_withdraw_formatted = parseFloat(web3.utils.fromWei(staking_token_withdraw,contract.stakingTokenPrecisionName())).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: contract.maxStakingTokenDisplayPrecision() });;
+    const ampl_eth_reward_formatted = parseFloat(web3.utils.fromWei(reward.eth, "ether")).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 3 });
     //in case of pioneer1 there is no token reward
-    const ampl_token_reward_formatted = web3.utils.fromWei(reward.token? reward.token : "0",contract.rewardTokenPrecisionName());
+    const ampl_token_reward_formatted = parseFloat(web3.utils.fromWei(reward.token? reward.token : "0",contract.rewardTokenPrecisionName())).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 3 });
     return (
 
       <div className={s.root}>
@@ -724,7 +730,7 @@ class VaultDetail extends React.Component {
                         &nbsp;{new Date(deposit.timestamp * 1000).toUTCString()}
                       </td>
                       <td className={"pl-0 fw-thin"}>
-                        &nbsp;{web3.utils.fromWei(deposit.returnValues.amount,contract.stakingTokenPrecisionName())} {contract.stakingTokenSymbol()}
+                        &nbsp;{parseFloat(web3.utils.fromWei(deposit.returnValues.amount,contract.stakingTokenPrecisionName())).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: contract.maxStakingTokenDisplayPrecision() })} {contract.stakingTokenSymbol()}
                       </td>
                       <td className={"pl-0 fw-thin"}>
                       {deposit.allowanceHash && <div>
@@ -759,7 +765,7 @@ class VaultDetail extends React.Component {
                         &nbsp;{new Date(withdrawal.timestamp * 1000).toUTCString()}
                       </td>
                       <td className={"pl-0 fw-thin"}>
-                        &nbsp;{web3.utils.fromWei(withdrawal.returnValues.amount, contract.stakingTokenPrecisionName())} {contract.stakingTokenSymbol()}
+                        &nbsp;{parseFloat(web3.utils.fromWei(withdrawal.returnValues.amount, contract.stakingTokenPrecisionName())).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: contract.maxStakingTokenDisplayPrecision() })} {contract.stakingTokenSymbol()}
                       </td>
                       <td className={"pl-0 fw-thin"}>
                         {withdrawal.transactionHash && <div>{withdrawal.transactionHash.substr(0,8)+"..."}   <a href={"https://www.etherscan.io/tx/" + withdrawal.transactionHash}  target="_blank" rel="noopener noreferrer">Link {withdrawal.mined === false && "(pending)"}</a></div>}</td>
