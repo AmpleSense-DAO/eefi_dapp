@@ -292,7 +292,7 @@ export class VaultContract {
     if(this.state.type === VaultType.AMPLESENSE) {
       return contract.getPastEvents("Deposit", { fromBlock: 0, filter: { account:  this.state.account } });
     } else {
-      return contract.getPastEvents("Staked", { fromBlock: 0, filter: { addr:  this.state.account } });
+      return contract.getPastEvents("Staked", { fromBlock: 0, filter: { addr:  this.state.account, account: this.state.account } });
     }
   }
 
@@ -301,7 +301,7 @@ export class VaultContract {
     if(this.state.type === VaultType.AMPLESENSE) {
       return contract.getPastEvents("Withdrawal", { fromBlock: 0, filter: { account:  this.state.account } });
     } else {
-      return contract.getPastEvents("Unstaked", { fromBlock: 0, filter: { addr:  this.state.account } });
+      return contract.getPastEvents("Unstaked", { fromBlock: 0, filter: { addr:  this.state.account, account: this.state.account } });
     }
   }
 
