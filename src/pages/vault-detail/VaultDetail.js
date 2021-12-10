@@ -550,7 +550,7 @@ class VaultDetail extends React.Component {
     }
 
     const staking_token_balance_formatted = parseFloat(web3.utils.fromWei(staking_token_balance,contract.stakingTokenPrecisionName())).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: contract.maxStakingTokenDisplayPrecision() });
-    const claimable_formatted = web3.utils.fromWei(claimable,contract.stakingTokenPrecisionName());
+    const claimable_formatted = parseFloat(web3.utils.fromWei(claimable,contract.stakingTokenPrecisionName())).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: contract.maxStakingTokenDisplayPrecision() });
     const staking_token_withdraw_formatted = parseFloat(web3.utils.fromWei(staking_token_withdraw,contract.stakingTokenPrecisionName())).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: contract.maxStakingTokenDisplayPrecision() });;
     const ampl_eth_reward_formatted = parseFloat(web3.utils.fromWei(reward.eth, "ether")).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 3 });
     //in case of pioneer1 there is no token reward
