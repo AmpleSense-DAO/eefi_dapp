@@ -640,7 +640,7 @@ class VaultDetail extends React.Component {
                   Unlocked {contract.stakingTokenSymbol()}
                 </p> */}
                 <p className={"d-flex align-items-center "}>
-                  <Button color="default" size="lg" className="mb-md mr-sm" disabled={this.state.amountToWithdraw === "0"} onClick={this.doWithdraw}>Withdraw</Button>
+                  <Button color="default" size="lg" className="mb-md mr-sm" disabled={this.state.amountToWithdraw === "0"} onClick={this.doWithdraw}>Claim/Withdraw</Button>
                 </p>
               </div>
               </Widget>
