@@ -1315,7 +1315,7 @@ class VaultSummary extends React.Component {
   }
 
   numberWithCommas(x) {
-    return String(x).replace(/(?<!\..*)(\d)(?=(?:\d{3})+(?:\.|$))/g, '$1,');
+    return String(parseFloat(x).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2})).replace(/(?<!\..*)(\d)(?=(?:\d{3})+(?:\.|$))/g, '$1,');
   }
 
   componentDidMount() {
