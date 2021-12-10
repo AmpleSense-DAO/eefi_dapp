@@ -535,12 +535,18 @@ class VaultDetail extends React.Component {
     }
 
     let withdrawDate = null;
+    let dd,mm,yyyy;
 
     if(tokenId == 0 && deposits.length > 0) {
       const first = deposits[0];
       const withdrawable = first.timestamp + 90*24*60*60;
-      if(withdrawable * 1000 > Date.now())
+      if(withdrawable * 1000 > Date.now()) {
         withdrawDate = new Date(withdrawable * 1000);
+
+        dd = String(withdrawDate.getDate()).padStart(2, '0');
+        mm = String(withdrawDate.getMonth() + 1).padStart(2, '0'); //January is 0!
+        yyyy = withdrawDate.getFullYear();
+      }
     }
 
     // check that token id is between 0 and max tokens from the data file, otherwise return 0 - AMPL
@@ -625,8 +631,10 @@ class VaultDetail extends React.Component {
             <Col md={6} sm={12} xs={12}>
               <Widget
                 title={<p style={{ fontWeight: 700 }}>
-                {contract.stakingTokenSymbol()} {contract.stakingTokenSymbol()==="Balancer LP" ? "Tokens" : ""} Available to Withdraw: {claimable_formatted} {contract.stakingTokenSymbol() } {withdrawDate? " (Next unlock: " + withdrawDate.toUTCString() + ")" :""}</p>}
+                {contract.stakingTokenSymbol()} {contract.stakingTokenSymbol()==="Balancer LP" ? "Tokens" : ""} Available to Withdraw: {claimable_formatted} {contract.stakingTokenSymbol()}</p>}
               >
+                {withdrawDate && <p style={{ fontWeight: 400 }}>
+                      Estimated Date Initial AMPL Deposit Available to Withdraw: {dd}.{mm}.{yyyy}</p>}
                 <div>
                   <FormGroup>
                     <Label for="bar"> Amount to Withdraw </Label>
