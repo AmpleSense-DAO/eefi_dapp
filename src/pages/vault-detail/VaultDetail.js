@@ -531,6 +531,8 @@ class VaultDetail extends React.Component {
       tokenId = 0;
     }
 
+    console.log(tokenId)
+
     if(!account) {
       return (
       <div className={s.root}>
@@ -581,9 +583,9 @@ class VaultDetail extends React.Component {
                                 <Input id="amountToDeposit" onChange={this.handleChangeToDeposit} value={this.state.amountToDeposit} type="text" id="bar" />
                                 <InputGroupAddon addonType="append">
                                   <ButtonGroup>
-                                    <Button color="ample1" onClick={this.calculateAmountToDeposit} value={0.25}><i className="fa " />25%</Button>
-                                    <Button color="ample2" onClick={this.calculateAmountToDeposit} value={0.50}><i className="fa " />50%</Button>
-                                    <Button color="ample3" onClick={this.calculateAmountToDeposit} value={0.75}><i className="fa " />75%</Button>
+                                  {/*do not display for nfts*/tokenId != 3 && tokenId != 4 && <Button color="ample1" onClick={this.calculateAmountToDeposit} value={0.25}><i className="fa " />25%</Button>}
+                                    {/*do not display for nfts*/tokenId != 3 && tokenId != 4 && <Button color="ample2" onClick={this.calculateAmountToDeposit} value={0.50}><i className="fa " />50%</Button>}
+                                    {/*do not display for nfts*/tokenId != 3 && tokenId != 4 && <Button color="ample3" onClick={this.calculateAmountToDeposit} value={0.75}><i className="fa " />75%</Button>}
                                     <Button color="ample4" onClick={this.calculateAmountToDeposit} value={1.0}><i className="fa " />100%</Button>
                                   </ButtonGroup>
                                 </InputGroupAddon>
@@ -621,9 +623,9 @@ class VaultDetail extends React.Component {
                               <Input id="amountToWithdraw" onChange={this.handleChangeToWithdraw} value={this.state.amountToWithdraw} type="text" id="bar" />
                               <InputGroupAddon addonType="append">
                                 <ButtonGroup>
-                                  <Button color="ample1" onClick={this.calculateAmountToWithdraw} value={0.25}><i className="fa " />25%</Button>
-                                  <Button color="ample2" onClick={this.calculateAmountToWithdraw} value={0.50}><i className="fa " />50%</Button>
-                                  <Button color="ample3" onClick={this.calculateAmountToWithdraw} value={0.75}><i className="fa " />75%</Button>
+                                  {/*do not display for nfts*/tokenId != 3 && tokenId != 4 && <Button color="ample1" onClick={this.calculateAmountToWithdraw} value={0.25}><i className="fa " />25%</Button>}
+                                  {/*do not display for nfts*/tokenId != 3 && tokenId != 4 && <Button color="ample2" onClick={this.calculateAmountToWithdraw} value={0.50}><i className="fa " />50%</Button>}
+                                  {/*do not display for nfts*/tokenId != 3 && tokenId != 4 && <Button color="ample3" onClick={this.calculateAmountToWithdraw} value={0.75}><i className="fa " />75%</Button>}
                                   <Button color="ample4" onClick={this.calculateAmountToWithdraw} value={1.0}><i className="fa " />100%</Button>
                                 </ButtonGroup>
                               </InputGroupAddon>
