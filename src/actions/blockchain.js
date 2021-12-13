@@ -5,6 +5,8 @@ export const FETCH_STAKED_BALANCE = 'FETCH_STAKED_BALANCE';
 export const FETCH_KMPL_PRICE = 'FETCH_KMPL_PRICE';
 export const FETCH_EEFI_PRICE = 'FETCH_EEFI_PRICE';
 export const FETCH_AMPL_PRICE = 'FETCH_AMPL_PRICE';
+export const FETCH_ZNFT_PRICE = 'FETCH_ZNFT_PRICE';
+export const FETCH_ANFT_PRICE = 'FETCH_ANFT_PRICE';
 export const FETCH_ETH_PRICE = 'FETCH_ETH_PRICE';
 export const FETCH_REWARD = 'FETCH_REWARD';
 export const FETCH_ALLOWANCE = 'FETCH_ALLOWANCE';
@@ -89,6 +91,20 @@ export function fetchAMPLPrice(price) {
 export function fetchKMPLPrice(price) {
   return {
     type: FETCH_KMPL_PRICE,
+    payload: price
+  };
+}
+
+export function fetchZNFTPrice(price) {
+  return {
+    type: FETCH_ZNFT_PRICE,
+    payload: price
+  };
+}
+
+export function fetchANFTPrice(price) {
+  return {
+    type: FETCH_ANFT_PRICE,
     payload: price
   };
 }

@@ -10,6 +10,8 @@ import {
   fetchClaimableBalance,
   fetchTotalStaked,
   fetchKMPLPrice,
+  fetchZNFTPrice,
+  fetchANFTPrice,
   fetchEEFIPrice,
   fetchAMPLPrice,
   fetchETHPrice,
@@ -368,9 +370,24 @@ class BlockchainUpdater extends React.Component {
     const ethPrice = resp.data.ethereum.usd
     this.props.dispatch(fetchETHPrice(ethPrice));
     }).catch(e => {
-      // in case of failure set price to $500
-      this.props.dispatch(fetchETHPrice(2000));
+      // in case of failure set price to $4000
+      this.props.dispatch(fetchETHPrice(4000));
     });
+
+    //get ZNFT price
+    axios.get(`https://api.opensea.io/api/v1/collection/zeus-kgeyser-pioneer-nft/stats`).then(resp => {
+    this.props.dispatch(fetchZNFTPrice(resp.data.stats.floor_price));
+    }).catch(e => {
+      this.props.dispatch(fetchZNFTPrice(0));
+    });
+
+    //get ANFT price
+    axios.get(`https://api.opensea.io/api/v1/collection/apollo-kgeyser-pioneer-nft-v2/stats`).then(resp => {
+    this.props.dispatch(fetchANFTPrice(resp.data.stats.floor_price));
+    }).catch(e => {
+      this.props.dispatch(fetchANFTPrice(0));
+    });
+    
   }
 
   render() {

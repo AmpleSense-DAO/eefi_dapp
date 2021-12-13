@@ -1362,6 +1362,8 @@ class VaultSummary extends React.Component {
     const pioneer3Values = this.props.vaultValues["Pioneer Fund Vault III: KMPL/ETH"];
     const lpStakingValues = this.props.vaultValues["EEFI/ETH LP Token Vault"];
 
+    console.log(pioneer1AValues, pioneer1BValues)
+
     const amplesenseVaultStaking = amplesensevaultValues? amplesensevaultValues.stakedBalance * ampl_price : 0;
     const pioneer1AStaking = pioneer1AValues? pioneer1AValues.stakedBalance * 0 : 0;
     const pioneer1BStaking = pioneer1BValues? pioneer1BValues.stakedBalance * 0 : 0;
@@ -1726,7 +1728,7 @@ class VaultSummary extends React.Component {
                         <strong>APY: </strong>&nbsp; N/A
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>Your Balance: </strong>&nbsp;$ $ {this.numberWithCommas(lpStakingStaking + lpStakingReward)}
+                        <strong>Your Balance: </strong>&nbsp;$ {this.numberWithCommas(lpStakingStaking + lpStakingReward)}
                       </p>
                     </td>
                     <td width="30%" className={"pl-0 fw-thin table-vaults-short-1"}>
@@ -2068,6 +2070,8 @@ function mapStateToProps(store) {
     eefi_price: store.blockchain.eefi_price,
     ampl_price: store.blockchain.ampl_price,
     eth_price: store.blockchain.eth_price,
+    znft_price: store.blockchain.znft_price,
+    anft_price: store.blockchain.anft_price,
     vault: store.vault,
     vaultValues: store.blockchain.vaultValues,
     history: store.blockchain.history_tvl

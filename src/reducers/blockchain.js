@@ -2,7 +2,7 @@ import { FETCH_STAKING_TOKEN_BALANCE } from '../actions/blockchain';
 import { SET_VAULT_TYPE } from '../actions/blockchain';
 import { FETCH_STAKED_BALANCE } from '../actions/blockchain';
 import { FETCH_CLAIMABLE_AMPLESENSE_BALANCE } from '../actions/blockchain';
-import { FETCH_KMPL_PRICE, FETCH_EEFI_PRICE, FETCH_AMPL_PRICE, FETCH_ETH_PRICE, FETCH_TVL_VALUE } from '../actions/blockchain';
+import { FETCH_KMPL_PRICE, FETCH_EEFI_PRICE, FETCH_AMPL_PRICE, FETCH_ETH_PRICE, FETCH_TVL_VALUE, FETCH_ZNFT_PRICE, FETCH_ANFT_PRICE } from '../actions/blockchain';
 import { FETCH_REWARD } from '../actions/blockchain';
 import { FETCH_ALLOWANCE } from '../actions/blockchain';
 import { MAKE_DEPOSIT, MAKE_WITHDRAWAL, FETCH_DEPOSITS, FETCH_WITHDRAWALS, FETCH_STAKABLE_NFTS, FETCH_VAULT_VALUE } from '../actions/blockchain';
@@ -54,6 +54,14 @@ export default function blockchainReducer(state = defaultState, action) {
       return Object.assign({}, state, {
         kmpl_price: action.payload
       });
+    case FETCH_ZNFT_PRICE:
+      return Object.assign({}, state, {
+        znft_price: action.payload
+      });
+    case FETCH_ANFT_PRICE:
+      return Object.assign({}, state, {
+        anft_price: action.payload
+    });
   case FETCH_EEFI_PRICE:
     return Object.assign({}, state, {
       eefi_price: action.payload
