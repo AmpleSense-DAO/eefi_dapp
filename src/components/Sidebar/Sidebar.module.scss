@@ -44,6 +44,7 @@
   & .root {
     @include media-breakpoint-down(sm) {
       width: 0;
+      overflow-x: hidden;
     }
   }
 }
@@ -67,10 +68,6 @@
   span {
     font-weight: $font-weight-bold;
   }
-}
-
-.sidebarClose .logo {
-  display: none;
 }
 
 .staticSidebar .logo {
@@ -106,9 +103,6 @@
   }
 }
 
-.sidebarClose .navTitle {
-  opacity: 0;
-}
 
 .staticSidebar .navTitle {
   opacity: 1;

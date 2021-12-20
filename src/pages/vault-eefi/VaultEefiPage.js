@@ -382,7 +382,7 @@ class VaultEefiPage extends React.Component {
   };
 
   componentDidMount() {
-    window.addEventListener("resize", this.forceUpdate.bind(this))
+    //window.addEventListener("resize", this.forceUpdate.bind(this))
   }
 
   forceUpdate() {

@@ -3,38 +3,29 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router";
 import { Button, Form, FormGroup, Label, Col } from "reactstrap";
-import Web3 from 'web3';
-import Select from 'react-select';
+import Web3 from "web3";
+import Select from "react-select";
 import Web3Modal from "web3modal";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import Fortmatic from "fortmatic";
 import MewConnect from "@myetherwallet/mewconnect-web-client";
 import Authereum from "authereum";
-import {
-  Navbar,
-  NavItem,
-  NavLink,
-} from "reactstrap";
+import { Navbar, NavItem, NavLink } from "reactstrap";
 
 import cx from "classnames";
 import { NavbarTypes } from "../../reducers/layout";
-import {
-  toggleSidebar,
-  openSidebar,
-  closeSidebar,
-  changeActiveSidebarItem,
-} from "../../actions/navigation";
+import { toggleSidebar, openSidebar, closeSidebar, changeActiveSidebarItem } from "../../actions/navigation";
 
-import arrowActive from '../../images/Arrow 6.svg'
-import arrowUnactive from '../../images/Arrow 5.svg'
+import arrowActive from "../../images/Arrow 6.svg";
+import arrowUnactive from "../../images/Arrow 5.svg";
 
 import s from "./Header.module.scss"; // eslint-disable-line css-modules/no-unused-class
 
-import { loginUser, loginError } from "../../actions/user";
+import { loginUser, loginError, logoutUser } from "../../actions/user";
 
 // import gasImage from '../../images/icons/gas-icon.png';
-import gasSmallImg from '../../images/icons/gas-icon-24.png';
-import mobileLogo from '../../images/mobilelogo.png';
+import gasSmallImg from "../../images/icons/gas-icon-24.png";
+import mobileLogo from "../../images/mobilelogo.png";
 // import { stat } from "fs-extra";
 
 const AmplesenseVaultAbi = require("../../contracts/AmplesenseVault.json");
@@ -52,36 +43,35 @@ const providerOptions = {
       package: null
     },*/
   walletconnect: {
-      package: WalletConnectProvider, // required
-      options: {
-      infuraId: "4372ea8a08ea4629bf10104f4c86a900" // required
-      }
+    package: WalletConnectProvider, // required
+    options: {
+      infuraId: "4372ea8a08ea4629bf10104f4c86a900", // required
+    },
   },
   fortmatic: {
-      package: Fortmatic, // required
-      options: {
-          key: "FORTMATIC_KEY" // required
-      }
+    package: Fortmatic, // required
+    options: {
+      key: "FORTMATIC_KEY", // required
+    },
   },
   mewconnect: {
-      package: MewConnect, // required
-      options: {
-        infuraId: "4372ea8a08ea4629bf10104f4c86a900" // required
-      }
+    package: MewConnect, // required
+    options: {
+      infuraId: "4372ea8a08ea4629bf10104f4c86a900", // required
+    },
   },
   authereum: {
-      package: Authereum // required
-  }
+    package: Authereum, // required
+  },
 };
 
 const web3Modal = new Web3Modal({
   // network: "mainnet", // optional
   // cacheProvider: true, // optional
-  providerOptions // required
+  providerOptions, // required
 });
 
 class Header extends React.Component {
-
   static propTypes = {
     sidebarOpened: PropTypes.bool.isRequired,
     sidebarStatic: PropTypes.bool.isRequired,
@@ -103,7 +93,6 @@ class Header extends React.Component {
     this.changeArrowImg = this.changeArrowImg.bind(this);
     this.changeArrowImgOut = this.changeArrowImgOut.bind(this);
 
-
     // console.log('gas_price_fastest', gas_price_fastest, 'gas_price_fast', gas_price_fast);
     // const { gas_price_fastest } = this.props;
     // const { gas_price_fast } = this.props;
@@ -121,40 +110,40 @@ class Header extends React.Component {
       run: true,
       arrowImg: arrowUnactive,
       selectDefaultData: [
-        { value: 'Average', label:  '0', rating: 'safe' },
-        { value: 'Fast', label:  '0', rating: 'good' },
-        { value: 'Fastest', label: '0', rating: 'quick' },
+        { value: "Average", label: "0", rating: "safe" },
+        { value: "Fast", label: "0", rating: "good" },
+        { value: "Fastest", label: "0", rating: "quick" },
       ],
-      defaultData : { value: 'Fast', label: '0', rating: 'good'}
+      defaultData: { value: "Fast", label: "0", rating: "good" },
     };
   }
 
   static getDerivedStateFromProps(props, state) {
-    if (props.gas_price_fastest !== state.gas_price_fastest && props.gas_price_fastest !== 'undefined' && props.gas_price_fastest !== '0') {
+    if (props.gas_price_fastest !== state.gas_price_fastest && props.gas_price_fastest !== "undefined" && props.gas_price_fastest !== "0") {
       return {
         selectDefaultData: [
-          { value: 'Average', label:  `${props.gas_price_average}`, rating: 'safe' },
-          { value: 'Fast', label:  `${props.gas_price_fast}`, rating: 'good' },
-          { value: 'Fastest', label: `${props.gas_price_fastest}`, rating: 'quick' },
-        ]
+          { value: "Average", label: `${props.gas_price_average}`, rating: "safe" },
+          { value: "Fast", label: `${props.gas_price_fast}`, rating: "good" },
+          { value: "Fastest", label: `${props.gas_price_fastest}`, rating: "quick" },
+        ],
       };
     }
-    if (props.gas_price_fast !== state.gas_price_fast && props.gas_price_fast !== 'undefined' && props.gas_price_fast !== '0') {
+    if (props.gas_price_fast !== state.gas_price_fast && props.gas_price_fast !== "undefined" && props.gas_price_fast !== "0") {
       return {
         selectDefaultData: [
-          { value: 'Average', label:  `${props.gas_price_average}`, rating: 'safe' },
-          { value: 'Fast', label:  `${props.gas_price_fast}`, rating: 'good' },
-          { value: 'Fastest', label: `${props.gas_price_fastest}`, rating: 'quick' },
-        ]
+          { value: "Average", label: `${props.gas_price_average}`, rating: "safe" },
+          { value: "Fast", label: `${props.gas_price_fast}`, rating: "good" },
+          { value: "Fastest", label: `${props.gas_price_fastest}`, rating: "quick" },
+        ],
       };
     }
-    if(props.gas_price_average !== state.gas_price_average && props.gas_price_average !== 'undefined'  && props.gas_price_average !== '0') {
+    if (props.gas_price_average !== state.gas_price_average && props.gas_price_average !== "undefined" && props.gas_price_average !== "0") {
       return {
         selectDefaultData: [
-          { value: 'Average', label:  `${props.gas_price_average}`, rating: 'safe' },
-          { value: 'Fast', label:  `${props.gas_price_fast}`, rating: 'good' },
-          { value: 'Fastest', label: `${props.gas_price_fastest}`, rating: 'quick' },
-        ]
+          { value: "Average", label: `${props.gas_price_average}`, rating: "safe" },
+          { value: "Fast", label: `${props.gas_price_fast}`, rating: "good" },
+          { value: "Fastest", label: `${props.gas_price_fastest}`, rating: "quick" },
+        ],
       };
     }
     return null;
@@ -177,62 +166,85 @@ class Header extends React.Component {
   }
 
   doLogin() {
-    web3Modal.connect().then(provider => {
-      let web3 = new Web3(provider);
-      web3.eth.getAccounts().then(accounts => {
-        this.props.dispatch(loginUser(web3, accounts[0]));
+    web3Modal
+      .connect()
+      .then((provider) => {
+        // let web3 = new Web3(provider);
+        // web3.eth.getAccounts().then((accounts) => {
+        //   this.props.dispatch(loginUser(web3, accounts[0]));
+        // });
       })
-
-    }).catch(err => {
-      this.props.dispatch(loginError(err));
-    });
+      .catch((err) => {
+        this.props.dispatch(loginError(err));
+      });
   }
-
+  componentDidMount() {
+    var self = this;
+    let web3 = new Web3(window.web3.currentProvider);
+    window.setInterval(function () {
+      web3.eth.getAccounts().then((accounts) => {
+        var account = accounts[0];
+        if (!account) {
+          self.props.dispatch(logoutUser());
+        } else if (account !== self.props.account) {
+          self.props.dispatch(loginUser(web3, account));
+        }
+      });
+    }, 200);
+    // web3.eth.getAccounts().then((accounts) => {
+    //   if (accounts[0]) {
+    //     console.log(accounts[0]);
+    //     this.props.dispatch(loginUser(web3, accounts[0]));
+    //   } else {
+    //     // this.props.dispatch(logoutUser());
+    //   }
+    // });
+  }
   changeArrowImg() {
     this.setState({
-      arrowImg: arrowActive
-    })
+      arrowImg: arrowActive,
+    });
   }
 
   changeArrowImgOut() {
     this.setState({
-      arrowImg: arrowUnactive
-    })
+      arrowImg: arrowUnactive,
+    });
   }
 
   getAMPL() {
     const contract = new this.props.web3.eth.Contract(TokenDistributorAbi.abi, CONTRACT_ADDRESSES.TOKEN_DISTRIBUTOR);
-    contract.methods.getAMPL().send({from: this.props.account});  
+    contract.methods.getAMPL().send({ from: this.props.account });
   }
 
   getKMPL() {
     const contract = new this.props.web3.eth.Contract(TokenDistributorAbi.abi, CONTRACT_ADDRESSES.TOKEN_DISTRIBUTOR);
-    contract.methods.getKMPL().send({from: this.props.account});  
+    contract.methods.getKMPL().send({ from: this.props.account });
   }
 
   getEEFI() {
     const contract = new this.props.web3.eth.Contract(TokenDistributorAbi.abi, CONTRACT_ADDRESSES.TOKEN_DISTRIBUTOR);
-    contract.methods.getEEFI().send({from: this.props.account});  
+    contract.methods.getEEFI().send({ from: this.props.account });
   }
 
   getKMPLETHLP() {
     const contract = new this.props.web3.eth.Contract(TokenDistributorAbi.abi, CONTRACT_ADDRESSES.TOKEN_DISTRIBUTOR);
-    contract.methods.getKMPLETHLP().send({from: this.props.account});  
+    contract.methods.getKMPLETHLP().send({ from: this.props.account });
   }
 
   getEEFIETHLP() {
     const contract = new this.props.web3.eth.Contract(TokenDistributorAbi.abi, CONTRACT_ADDRESSES.TOKEN_DISTRIBUTOR);
-    contract.methods.getEEFIETHLP().send({from: this.props.account});
+    contract.methods.getEEFIETHLP().send({ from: this.props.account });
   }
 
   getZNFT() {
     const contract = new this.props.web3.eth.Contract(TokenDistributorAbi.abi, CONTRACT_ADDRESSES.TOKEN_DISTRIBUTOR);
-    contract.methods.getToken1().send({from: this.props.account});  
+    contract.methods.getToken1().send({ from: this.props.account });
   }
 
   getANFT() {
     const contract = new this.props.web3.eth.Contract(TokenDistributorAbi.abi, CONTRACT_ADDRESSES.TOKEN_DISTRIBUTOR);
-    contract.methods.getToken2().send({from: this.props.account});  
+    contract.methods.getToken2().send({ from: this.props.account });
   }
 
   // collapse/uncolappse
@@ -270,8 +282,8 @@ class Header extends React.Component {
 
   handleChange(value) {
     this.setState({
-      defaultData: value
-    })
+      defaultData: value,
+    });
   }
 
   determineIndex(options, choice) {
@@ -286,7 +298,6 @@ class Header extends React.Component {
   }
 
   render() {
-
     // const { focus } = this.state;
     const { navbarType, navbarColor, account } = this.props;
     // const { gas_price_fastest } = this.props;
@@ -295,53 +306,37 @@ class Header extends React.Component {
     var index = this.determineIndex(this.state.selectDefaultData, this.state.defaultData);
 
     return (
-      <Navbar
-        className={`${s.root} ${cx({[s.rootLight]: navbarColor === '#FFFFFF'})} ${
-          navbarType === NavbarTypes.FLOATING ? s.navbarFloatingType : ""
-        }`}
-      >
-
+      <Navbar className={`${s.root} ${cx({ [s.rootLight]: navbarColor === "#FFFFFF" })} ${navbarType === NavbarTypes.FLOATING ? s.navbarFloatingType : ""}`}>
         <NavItem className={`${s.toggleSidebarNav} d-md-none d-flex mr-2`}>
-          <NavLink
-            className="ml-2 pr-4 pl-3"
-            id="toggleSidebar"
-            onClick={this.toggleSidebar}
-          >
+          <NavLink className="ml-2 pr-4 pl-3" id="toggleSidebar" onClick={this.toggleSidebar}>
             {/* <i
               className={`la la-bars`}
               style={{ color: "#000" }}
             /> */}
-            <img src={mobileLogo} alt=""/>
+            <img src={mobileLogo} alt="" />
           </NavLink>
         </NavItem>
-
-        <Button id="button-connected" className={`btn ${s.fullVersionBtn}`} onClick={this.doLogin}>{account? account.substr(0,8) + "...": "Wallet Connect"}</Button>
-        <Button id="getampl" onClick={() => {this.getAMPL()}}>DEBUG Get AMPL</Button>
-        <Button id="getkmpl" onClick={() => {this.getKMPL()}}>DEBUG Get KMPL</Button>
-        <Button id="geteefi" onClick={() => {this.getEEFI()}}>DEBUG Get EEFI</Button>
+        <Button id="button-connected" className={`btn ${s.fullVersionBtn}`} onClick={this.doLogin}>
+          {account ? account.substr(0, 8) + "..." : "Connect Wallet"}
+        </Button>
+        {/* <Button id="getampl" onClick={() => {this.getAMPL()}}>DEBUG Get AMPL</Button> */}
+        {/* <Button id="getkmpl" onClick={() => {this.getKMPL()}}>DEBUG Get KMPL</Button> */}
+        {/* <Button id="geteefi" onClick={() => {this.getEEFI()}}>DEBUG Get EEFI</Button> */}
         {/* <Button id="getkmpleth" onClick={() => {this.getKMPLETHLP()}}>DEBUG Get KMPL/ETH LP</Button> */}
-        <Button id="geteefieth" onClick={() => {this.getEEFIETHLP()}}>DEBUG Get EEFI/ETH LP</Button>
-        <Button id="geteefieth" onClick={() => {this.getANFT()}}>DEBUG Get ANFT</Button>
-        <Button id="geteefieth" onClick={() => {this.getZNFT()}}>DEBUG Get ZNFT</Button>
+        {/* <Button id="geteefieth" onClick={() => {this.getEEFIETHLP()}}>DEBUG Get EEFI/ETH LP</Button> */}
+        {/* <Button id="geteefieth" onClick={() => {this.getANFT()}}>DEBUG Get ANFT</Button> */}
+        {/* <Button id="geteefieth" onClick={() => {this.getZNFT()}}>DEBUG Get ZNFT</Button> */}
         {/* <div className={s.gasStation}>
           <img className={s.gasImg} src={gasImage} alt="gas"></img>
           <p></p>
         </div> */}
-        <Form className={`form-label-left ${s.form}`} >
+        <Form className={`form-label-left ${s.form}`}>
           <FormGroup row className={s.formGroup}>
-            <Label  md="4"  className={`right ${s.gasLabel}`}>
-              <img src={gasSmallImg} alt="" className={"mr-3"} />
+            <Label className={`right ${s.gasLabel}`}>
+              <img src={gasSmallImg} alt="" className={"mr-31"} />
             </Label>
-
-            <Col md="8" className={s.select1}>
-              <Select
-                id="gasGroup"
-                className="selectCustomization"
-                options={this.state.selectDefaultData}
-                defaultValue={this.state.selectDefaultData[1]}
-                value={this.state.selectDefaultData[index]}
-                onChange = {value => this.handleChange(value)}
-              />
+            <Col className={s.select1}>
+              <Select id="gasGroup" className="selectCustomization" options={this.state.selectDefaultData} defaultValue={this.state.selectDefaultData[1]} value={this.state.selectDefaultData[index]} onChange={(value) => this.handleChange(value)} />
             </Col>
           </FormGroup>
         </Form>
@@ -349,8 +344,6 @@ class Header extends React.Component {
     );
   }
 }
-
-
 
 function mapStateToProps(store) {
   return {

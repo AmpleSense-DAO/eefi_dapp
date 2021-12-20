@@ -49,7 +49,7 @@ class ProductList extends Component {
     if (this.props.products.length !== 0) {
       this.setState({ localProducts: this.props.products });
     }
-    window.addEventListener("resize", this.forceUpdate.bind(this));
+    //window.addEventListener("resize", this.forceUpdate.bind(this));
   }
 
   componentDidUpdate(prevProps) {

@@ -8,7 +8,7 @@ import Hammer from "rc-hammerjs";
 import Dashboard from "../../pages/dashboard";
 import VaultSummary from "../../pages/vault-summary";
 import VaultDetail from "../../pages/vault-detail";
-import BlockchainUpdater from '../Blockchain/Updater';
+import BlockchainUpdater from "../Blockchain/Updater";
 import VaultGenPage from "../../pages/vault-gen-page";
 import VaultEefiPage from "../../pages/vault-eefi";
 import VaultNFTs from "../../pages/vault-nfts";
@@ -16,11 +16,7 @@ import VaultNFTs from "../../pages/vault-nfts";
 import { SidebarTypes } from "../../reducers/layout";
 import Header from "../Header";
 import Sidebar from "../Sidebar";
-import {
-  openSidebar,
-  closeSidebar,
-  toggleSidebar,
-} from "../../actions/navigation";
+import { openSidebar, closeSidebar, toggleSidebar } from "../../actions/navigation";
 import s from "./Layout.module.scss";
 import { DashboardThemes } from "../../reducers/layout";
 import Helper from "../Helper";
@@ -50,7 +46,7 @@ import FormValidation from "../../pages/forms/validation";
 import FormElements from "../../pages/forms/elements";
 import FormWizard from "../../pages/forms/wizard";
 import GridSeparate from "../../pages/grid";
-import Modal from '../../pages/ui-elements/modal'
+import Modal from "../../pages/ui-elements/modal";
 import Products from "../../pages/products";
 import Product from "../../pages/product";
 import SPackage from "../../pages/package";
@@ -72,8 +68,8 @@ class Layout extends React.Component {
   constructor(props) {
     super(props);
 
-    this.handleSwipe = this.handleSwipe.bind(this);
-    this.handleCloseSidebar = this.handleCloseSidebar.bind(this);
+    // this.handleSwipe = this.handleSwipe.bind(this);
+    // this.handleCloseSidebar = this.handleCloseSidebar.bind(this);
   }
 
   componentDidMount() {
@@ -82,15 +78,18 @@ class Layout extends React.Component {
   }
 
   componentWillUnmount() {
-    window.removeEventListener("resize", this.handleResize.bind(this));
+    // window.removeEventListener("resize", this.handleResize.bind(this));
   }
 
   handleResize() {
     if (window.innerWidth < 768) {
-      this.props.dispatch(toggleSidebar());
-    } else if (window.innerWidth >= 768) {
-      this.props.dispatch(openSidebar());
+      this.props.sidebarOpened && this.props.dispatch(closeSidebar());
     }
+    // if (window.innerWidth < 768) {
+    //   this.props.dispatch(toggleSidebar());
+    // } else if (window.innerWidth >= 768) {
+    //   this.props.dispatch(openSidebar());
+    // }
   }
 
   handleCloseSidebar(e) {
@@ -112,25 +111,9 @@ class Layout extends React.Component {
       }
     }
   }
-
   render() {
     return (
-      <div
-        className={[
-          s.root,
-          !this.props.sidebarOpened ? s.sidebarClose : "",
-          "flatlogic-one",
-          `dashboard-${this.props.sidebarType === SidebarTypes.TRANSPARENT ? "light" : this.props.sidebarColor}`,
-          `dashboard-${
-            this.props.dashboardTheme !== "light" &&
-            this.props.dashboardTheme !== "dark"
-              ? this.props.dashboardTheme
-              : "" 
-          }`,
-
-        ].join(" ")}
-        onClick={e => this.handleCloseSidebar(e)}
-      >
+      <div className={[s.root, "", "flatlogic-one", `dashboard-${this.props.sidebarType === SidebarTypes.TRANSPARENT ? "light" : this.props.sidebarColor}`, `dashboard-${this.props.dashboardTheme !== "light" && this.props.dashboardTheme !== "dark" ? this.props.dashboardTheme : ""}`].join(" ")} onClick={(e) => this.handleCloseSidebar(e)}>
         <Sidebar />
         <div className={s.wrap}>
           <Header />
@@ -139,78 +122,31 @@ class Layout extends React.Component {
           <Hammer onSwipe={this.handleSwipe}>
             <main className={s.content}>
               <TransitionGroup>
-                <CSSTransition
-                  key={this.props.location.key}
-                  classNames="fade"
-                  timeout={200}
-                >
+                <CSSTransition key={this.props.location.key} classNames="fade" timeout={200}>
                   <Switch>
-                    <Route
-                      path="/app/home"
-                      exact
-                      render={() => <Redirect to="/app/home/dashboard" />}
-                    />
-                    <Route
-                      path="/app/home/dashboard"
-                      exact
-                      component={Dashboard}
-                    />
-                    <Route
-                      path="/app/home/vault-summary"
-                      exact
-                      component={VaultSummary}
-                    />
-                     <Route
-                      path="/app/home/vault-detail/:id"
-                      component={VaultDetail}
-                      exact
-                    />
-                   <Route
-                      path="/app/home/vault-gen-page"
-                      exact
-                      component={VaultGenPage}
-                    />
-                     <Route
-                      path="/app/home/vault-eefi"
-                      exact
-                      component={VaultEefiPage}
-                    /> 
-                   <Route
-                      path="/app/home/vault-nfts"
-                      exact
-                      component={VaultNFTs}
-                    />
-             
-                    <Route
-                      path={"/app/core/typography"}
-                      component={Typography}
-                    />
+                    <Route path="/app/home" exact render={() => <Redirect to="/app/home/dashboard" />} />
+                    <Route path="/app/home/dashboard" exact component={Dashboard} />
+                    <Route path="/app/home/vault-summary" exact component={VaultSummary} />
+                    <Route path="/app/home/vault-detail/:id" component={VaultDetail} exact />
+                    <Route path="/app/home/vault-gen-page" exact component={VaultGenPage} />
+                    <Route path="/app/home/vault-eefi" exact component={VaultEefiPage} />
+                    <Route path="/app/home/vault-nfts" exact component={VaultNFTs} />
+
+                    <Route path={"/app/core/typography"} component={Typography} />
                     <Route path={"/app/core/colors"} component={Colors} />
                     <Route path={"/app/core/grid"} component={Grid} />
-                    <Route
-                      path={"/app/tables/basic"}
-                      component={StaticTables}
-                    />
-                    <Route
-                      path={"/app/tables/dynamic"}
-                      component={DynamicTables}
-                    />
+                    <Route path={"/app/tables/basic"} component={StaticTables} />
+                    <Route path={"/app/tables/dynamic"} component={DynamicTables} />
                     <Route path={"/app/maps/google"} component={Maps} />
                     <Route path={"/app/maps/vector"} component={VectorMap} />
-                    <Route
-                      path={"/app/ui/notifications"}
-                      component={Notifications}
-                    />
+                    <Route path={"/app/ui/notifications"} component={Notifications} />
                     <Route path={"/app/ui/alerts"} component={Alerts} />
                     <Route path={"/app/ui/badge"} component={Badge} />
                     <Route path={"/app/ui/card"} component={Card} />
                     <Route path={"/app/ui/buttons"} component={Buttons} />
                     <Route path={"/app/ui/carousel"} component={Carousel} />
                     <Route path={"/app/ui/jumbotron"} component={Jumbotron} />
-                    <Route
-                      path={"/app/ui/list-groups"}
-                      component={ListGroups}
-                    />
+                    <Route path={"/app/ui/list-groups"} component={ListGroups} />
                     <Route path={"/app/ui/modal"} component={Modal} />
                     <Route path={"/app/ui/nav"} component={Nav} />
                     <Route path={"/app/ui/navbar"} component={Navbar} />
@@ -218,25 +154,19 @@ class Layout extends React.Component {
                     <Route path={"/app/ui/progress"} component={Progress} />
                     <Route path={"/app/ui/tabs"} component={Tabs} />
                     <Route path={"/app/ui/modal"} component={Modal} />
-                    <Route
-                      path={"/app/forms/validation"}
-                      component={FormValidation}
-                    />
-                    <Route
-                      path={"/app/forms/elements"}
-                      component={FormElements}
-                    />
+                    <Route path={"/app/forms/validation"} component={FormValidation} />
+                    <Route path={"/app/forms/elements"} component={FormElements} />
                     <Route path={"/app/forms/wizard"} component={FormWizard} />
                     <Route path={"/app/grid"} component={GridSeparate} />
                     <Route path={"/app/ecommerce/products"} component={Products} />
-                    <Route path={"/app/ecommerce/product/:id"} component={Product} exact/>
+                    <Route path={"/app/ecommerce/product/:id"} component={Product} exact />
                     <Route path={"/app/ecommerce/product"} component={Product} />
                     <Route path={"/app/package"} component={SPackage} />
-                    <Route render={() => <Redirect to={{pathname: '/error'}}/>}/>
+                    <Route render={() => <Redirect to={{ pathname: "/error" }} />} />
                   </Switch>
                 </CSSTransition>
               </TransitionGroup>
-              {this.props.account && <BlockchainUpdater key={""+this.props.vault_type}/>}
+              {this.props.account && <BlockchainUpdater key={"" + this.props.vault_type} />}
             </main>
           </Hammer>
         </div>
@@ -253,7 +183,7 @@ function mapStateToProps(store) {
     sidebarType: store.layout.sidebarType,
     sidebarColor: store.layout.sidebarColor,
     account: store.auth.account,
-    vault_type : store.blockchain.vault_type
+    vault_type: store.blockchain.vault_type,
   };
 }
 

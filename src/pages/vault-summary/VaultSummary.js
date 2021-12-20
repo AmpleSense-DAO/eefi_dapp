@@ -3,21 +3,21 @@ import { Row, Col, Table, Button } from "reactstrap";
 import { Link } from "react-router-dom";
 
 import usersImg from "../../images/usersImg.svg";
-import usersDangerImg from '../../images/theme-icons/red/Users.svg'
-import usersSuccessImg from '../../images/theme-icons/green/Users.svg'
-import usersInfoImg from '../../images/theme-icons/blue/Users.svg'
+import usersDangerImg from "../../images/theme-icons/red/Users.svg";
+import usersSuccessImg from "../../images/theme-icons/green/Users.svg";
+import usersInfoImg from "../../images/theme-icons/blue/Users.svg";
 import smileImg from "../../images/smileImg.svg";
-import smileDangerImg from '../../images/theme-icons/red/Smile.svg'
-import smileSuccessImg from '../../images/theme-icons/green/Smile.svg'
-import smileInfoImg from '../../images/theme-icons/blue/Smile.svg'
+import smileDangerImg from "../../images/theme-icons/red/Smile.svg";
+import smileSuccessImg from "../../images/theme-icons/green/Smile.svg";
+import smileInfoImg from "../../images/theme-icons/blue/Smile.svg";
 import totalSale from "../../images/total-sale.svg";
-import totalSaleDangerImg from '../../images/theme-icons/red/Sale.svg'
-import totalSaleSuccessImg from '../../images/theme-icons/green/Sale.svg'
-import totalSaleInfoImg from '../../images/theme-icons/blue/Sale.svg'
+import totalSaleDangerImg from "../../images/theme-icons/red/Sale.svg";
+import totalSaleSuccessImg from "../../images/theme-icons/green/Sale.svg";
+import totalSaleInfoImg from "../../images/theme-icons/blue/Sale.svg";
 import orders from "../../images/orders.svg";
-import ordersDangerImg from '../../images/theme-icons/red/Orders.svg'
-import ordersSuccessImg from '../../images/theme-icons/green/Orders.svg'
-import ordersInfoImg from '../../images/theme-icons/blue/Orders.svg'
+import ordersDangerImg from "../../images/theme-icons/red/Orders.svg";
+import ordersSuccessImg from "../../images/theme-icons/green/Orders.svg";
+import ordersInfoImg from "../../images/theme-icons/blue/Orders.svg";
 import stocksImg from "../../images/stocks.svg";
 
 import { chartData } from "./chartsMock";
@@ -34,7 +34,6 @@ import p3 from "../../images/tokens/kappa_logo_kmpl.png";
 import p4 from "../../images/tokens/apollo_cropped_edited_sm.png";
 // import p6 from "../../images/tokens/zeus_cropped_edited_sm.png";
 import p7 from "../../images/tokens/kmpl_uni_logo.png";
-
 
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
@@ -225,7 +224,6 @@ const orderValueOverrideInfo = {
     },
   },
 };
-
 
 const convertionRateOverride = {
   series: [
@@ -687,7 +685,6 @@ const area2Info = {
   },
 };
 
-
 const splineArea = {
   series: [
     {
@@ -718,46 +715,22 @@ const splineArea = {
       curve: "smooth",
     },
     grid: {
-      borderColor: 'rgba(196, 196, 196, 0.2)'
+      borderColor: "rgba(196, 196, 196, 0.2)",
     },
     yaxis: {
       labels: {
         style: {
-          colors: [
-            "rgba(18, 4, 0, .5)",
-            "rgba(18, 4, 0, .5)",
-            "rgba(18, 4, 0, .5)",
-            "rgba(18, 4, 0, .5)",
-            "rgba(18, 4, 0, .5)",
-            "rgba(18, 4, 0, .5)",
-            "rgba(18, 4, 0, .5)",
-          ],
+          colors: ["rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)"],
           fontWeight: 300,
         },
       },
     },
     xaxis: {
       type: "datetime",
-      categories: [
-        "2021-05-24",
-        "2021-05-25",
-        "2021-05-26",
-        "2021-05-27",
-        "2021-05-28",
-        "2021-05-29",
-        "2021-05-30",
-      ],
+      categories: ["2021-05-24", "2021-05-25", "2021-05-26", "2021-05-27", "2021-05-28", "2021-05-29", "2021-05-30"],
       labels: {
         style: {
-          colors: [
-            "rgba(18, 4, 0, .5)",
-            "rgba(18, 4, 0, .5)",
-            "rgba(18, 4, 0, .5)",
-            "rgba(18, 4, 0, .5)",
-            "rgba(18, 4, 0, .5)",
-            "rgba(18, 4, 0, .5)",
-            "rgba(18, 4, 0, .5)",
-          ],
+          colors: ["rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)"],
           fontWeight: 300,
         },
       },
@@ -804,46 +777,22 @@ const splineAreaDanger = {
       curve: "smooth",
     },
     grid: {
-      borderColor: 'rgba(196, 196, 196, 0.2)'
+      borderColor: "rgba(196, 196, 196, 0.2)",
     },
     yaxis: {
       labels: {
         style: {
-          colors: [
-            "rgba(18, 4, 0, .5)",
-            "rgba(18, 4, 0, .5)",
-            "rgba(18, 4, 0, .5)",
-            "rgba(18, 4, 0, .5)",
-            "rgba(18, 4, 0, .5)",
-            "rgba(18, 4, 0, .5)",
-            "rgba(18, 4, 0, .5)",
-          ],
+          colors: ["rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)"],
           fontWeight: 300,
         },
       },
     },
     xaxis: {
       type: "datetime",
-      categories: [
-        "2018-09-19T00:00:00.000Z",
-        "2018-09-19T01:30:00.000Z",
-        "2018-09-19T02:30:00.000Z",
-        "2018-09-19T03:30:00.000Z",
-        "2018-09-19T04:30:00.000Z",
-        "2018-09-19T05:30:00.000Z",
-        "2018-09-19T06:30:00.000Z",
-      ],
+      categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"],
       labels: {
         style: {
-          colors: [
-            "rgba(18, 4, 0, .5)",
-            "rgba(18, 4, 0, .5)",
-            "rgba(18, 4, 0, .5)",
-            "rgba(18, 4, 0, .5)",
-            "rgba(18, 4, 0, .5)",
-            "rgba(18, 4, 0, .5)",
-            "rgba(18, 4, 0, .5)",
-          ],
+          colors: ["rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)"],
           fontWeight: 300,
         },
       },
@@ -890,46 +839,22 @@ const splineAreaSuccess = {
       curve: "smooth",
     },
     grid: {
-      borderColor: 'rgba(196, 196, 196, 0.2)'
+      borderColor: "rgba(196, 196, 196, 0.2)",
     },
     yaxis: {
       labels: {
         style: {
-          colors: [
-            "rgba(18, 4, 0, .5)",
-            "rgba(18, 4, 0, .5)",
-            "rgba(18, 4, 0, .5)",
-            "rgba(18, 4, 0, .5)",
-            "rgba(18, 4, 0, .5)",
-            "rgba(18, 4, 0, .5)",
-            "rgba(18, 4, 0, .5)",
-          ],
+          colors: ["rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)"],
           fontWeight: 300,
         },
       },
     },
     xaxis: {
       type: "datetime",
-      categories: [
-        "2018-09-19T00:00:00.000Z",
-        "2018-09-19T01:30:00.000Z",
-        "2018-09-19T02:30:00.000Z",
-        "2018-09-19T03:30:00.000Z",
-        "2018-09-19T04:30:00.000Z",
-        "2018-09-19T05:30:00.000Z",
-        "2018-09-19T06:30:00.000Z",
-      ],
+      categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"],
       labels: {
         style: {
-          colors: [
-            "rgba(18, 4, 0, .5)",
-            "rgba(18, 4, 0, .5)",
-            "rgba(18, 4, 0, .5)",
-            "rgba(18, 4, 0, .5)",
-            "rgba(18, 4, 0, .5)",
-            "rgba(18, 4, 0, .5)",
-            "rgba(18, 4, 0, .5)",
-          ],
+          colors: ["rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)"],
           fontWeight: 300,
         },
       },
@@ -972,46 +897,22 @@ const splineAreaInfo = {
       curve: "smooth",
     },
     grid: {
-      borderColor: 'rgba(196, 196, 196, 0.2)'
+      borderColor: "rgba(196, 196, 196, 0.2)",
     },
     yaxis: {
       labels: {
         style: {
-          colors: [
-            "rgba(18, 4, 0, .5)",
-            "rgba(18, 4, 0, .5)",
-            "rgba(18, 4, 0, .5)",
-            "rgba(18, 4, 0, .5)",
-            "rgba(18, 4, 0, .5)",
-            "rgba(18, 4, 0, .5)",
-            "rgba(18, 4, 0, .5)",
-          ],
+          colors: ["rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)"],
           fontWeight: 300,
         },
       },
     },
     xaxis: {
       type: "datetime",
-      categories: [
-        "2018-09-19T00:00:00.000Z",
-        "2018-09-19T01:30:00.000Z",
-        "2018-09-19T02:30:00.000Z",
-        "2018-09-19T03:30:00.000Z",
-        "2018-09-19T04:30:00.000Z",
-        "2018-09-19T05:30:00.000Z",
-        "2018-09-19T06:30:00.000Z",
-      ],
+      categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"],
       labels: {
         style: {
-          colors: [
-            "rgba(18, 4, 0, .5)",
-            "rgba(18, 4, 0, .5)",
-            "rgba(18, 4, 0, .5)",
-            "rgba(18, 4, 0, .5)",
-            "rgba(18, 4, 0, .5)",
-            "rgba(18, 4, 0, .5)",
-            "rgba(18, 4, 0, .5)",
-          ],
+          colors: ["rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)"],
           fontWeight: 300,
         },
       },
@@ -1023,8 +924,6 @@ const splineAreaInfo = {
     },
   },
 };
-
-
 
 class VaultSummary extends React.Component {
   constructor() {
@@ -1041,46 +940,48 @@ class VaultSummary extends React.Component {
     pie: {
       options: {
         chart: {
-          type: 'donut'
+          type: "donut",
         },
-        colors: ['#FFBF69', "#323232", '#FF7769'],
+        colors: ["#FFBF69", "#323232", "#FF7769"],
         labels: ["On progress", "Canceled", "Booked"],
         stroke: {
           show: false,
-          width: 0
+          width: 0,
         },
         plotOptions: {
           pie: {
             donut: {
-              size: '45%'
-            }
-          }
+              size: "45%",
+            },
+          },
         },
         dataLabels: {
           dropShadow: {
-            enabled: false
-          }
+            enabled: false,
+          },
         },
         legend: {
-          show: false
+          show: false,
         },
-        responsive: [{
-          breakpoint: 480,
-          options: {
-            chart: {
-              width: 200
+        responsive: [
+          {
+            breakpoint: 480,
+            options: {
+              chart: {
+                width: 200,
+              },
+              legend: {
+                position: "bottom",
+              },
             },
-            legend: {
-              position: 'bottom'
-            }
-          }
-        }]
-      }
+          },
+        ],
+      },
     },
     usersImg: usersImg,
     smileImg: smileImg,
     saleImg: totalSale,
-    ordersImg: orders
+    ordersImg: orders,
   };
 
   updateChartsColor(themeColor) {
@@ -1095,49 +996,51 @@ class VaultSummary extends React.Component {
           area: { ...area },
           area2: { ...area2 },
           splineArea: { ...splineArea },
-              pie: {
-                options: {
-                  chart: {
-                    type: 'donut'
-                  },
-                  colors: ['#FFBF69', "#323232", '#FF7769'],
-                  labels: ["On progress", "Canceled", "Booked"],
-                  stroke: {
-                    show: false,
-                    width: 0
-                  },
-                  plotOptions: {
-                    pie: {
-                      donut: {
-                        size: '45%'
-                      }
-                    }
-                  },
-                  dataLabels: {
-                    dropShadow: {
-                      enabled: false
-                    }
-                  },
-                  legend: {
-                    show: false
-                  },
-                  responsive: [{
-                    breakpoint: 480,
-                    options: {
-                      chart: {
-                        width: 200
-                      },
-                      legend: {
-                        position: 'bottom'
-                      }
-                    }
-                  }]
-                }
+          pie: {
+            options: {
+              chart: {
+                type: "donut",
               },
+              colors: ["#FFBF69", "#323232", "#FF7769"],
+              labels: ["On progress", "Canceled", "Booked"],
+              stroke: {
+                show: false,
+                width: 0,
+              },
+              plotOptions: {
+                pie: {
+                  donut: {
+                    size: "45%",
+                  },
+                },
+              },
+              dataLabels: {
+                dropShadow: {
+                  enabled: false,
+                },
+              },
+              legend: {
+                show: false,
+              },
+              responsive: [
+                {
+                  breakpoint: 480,
+                  options: {
+                    chart: {
+                      width: 200,
+                    },
+                    legend: {
+                      position: "bottom",
+                    },
+                  },
+                },
+              ],
+            },
+          },
           usersImg: usersImg,
           smileImg: smileImg,
           saleImg: totalSale,
-          ordersImg: orders
+          ordersImg: orders,
         });
         break;
       case "danger":
@@ -1152,47 +1055,49 @@ class VaultSummary extends React.Component {
           pie: {
             options: {
               chart: {
-                type: 'donut'
+                type: "donut",
               },
-              colors: ['#FF7769', "#323232", '#FFA983'],
+              colors: ["#FF7769", "#323232", "#FFA983"],
               labels: ["On progress", "Canceled", "Booked"],
               stroke: {
                 show: false,
-                width: 0
+                width: 0,
               },
               plotOptions: {
                 pie: {
                   donut: {
-                    size: '45%'
-                  }
-                }
+                    size: "45%",
+                  },
+                },
               },
               dataLabels: {
                 dropShadow: {
-                  enabled: false
-                }
+                  enabled: false,
+                },
               },
               legend: {
-                show: false
+                show: false,
               },
-              responsive: [{
-                breakpoint: 480,
-                options: {
-                  chart: {
-                    width: 200
+              responsive: [
+                {
+                  breakpoint: 480,
+                  options: {
+                    chart: {
+                      width: 200,
+                    },
+                    legend: {
+                      position: "bottom",
+                    },
                   },
-                  legend: {
-                    position: 'bottom'
-                  }
-                }
-              }]
-            }
+                },
+              ],
+            },
           },
           splineArea: { ...splineAreaDanger },
           usersImg: usersDangerImg,
           smileImg: smileDangerImg,
           saleImg: totalSaleDangerImg,
-          ordersImg: ordersDangerImg
+          ordersImg: ordersDangerImg,
         });
         break;
       case "success":
@@ -1208,46 +1113,48 @@ class VaultSummary extends React.Component {
           pie: {
             options: {
               chart: {
-                type: 'donut'
+                type: "donut",
               },
-              colors: ['#81D4BB', "#323232", '#FFA983'],
+              colors: ["#81D4BB", "#323232", "#FFA983"],
               labels: ["On progress", "Canceled", "Booked"],
               stroke: {
                 show: false,
-                width: 0
+                width: 0,
               },
               plotOptions: {
                 pie: {
                   donut: {
-                    size: '45%'
-                  }
-                }
+                    size: "45%",
+                  },
+                },
               },
               dataLabels: {
                 dropShadow: {
-                  enabled: false
-                }
+                  enabled: false,
+                },
               },
               legend: {
-                show: false
+                show: false,
               },
-              responsive: [{
-                breakpoint: 480,
-                options: {
-                  chart: {
-                    width: 200
+              responsive: [
+                {
+                  breakpoint: 480,
+                  options: {
+                    chart: {
+                      width: 200,
+                    },
+                    legend: {
+                      position: "bottom",
+                    },
                   },
-                  legend: {
-                    position: 'bottom'
-                  }
-                }
-              }]
-            }
+                },
+              ],
+            },
           },
           usersImg: usersSuccessImg,
           smileImg: smileSuccessImg,
           saleImg: totalSaleSuccessImg,
-          ordersImg: ordersSuccessImg
+          ordersImg: ordersSuccessImg,
         });
         break;
       case "info":
@@ -1263,46 +1170,48 @@ class VaultSummary extends React.Component {
           pie: {
             options: {
               chart: {
-                type: 'donut'
+                type: "donut",
               },
-              colors: ['#4DC7DF', "#323232", '#FF7769'],
+              colors: ["#4DC7DF", "#323232", "#FF7769"],
               labels: ["On progress", "Canceled", "Booked"],
               stroke: {
                 show: false,
-                width: 0
+                width: 0,
               },
               plotOptions: {
                 pie: {
                   donut: {
-                    size: '45%'
-                  }
-                }
+                    size: "45%",
+                  },
+                },
               },
               dataLabels: {
                 dropShadow: {
-                  enabled: false
-                }
+                  enabled: false,
+                },
               },
               legend: {
-                show: false
+                show: false,
               },
-              responsive: [{
-                breakpoint: 480,
-                options: {
-                  chart: {
-                    width: 200
+              responsive: [
+                {
+                  breakpoint: 480,
+                  options: {
+                    chart: {
+                      width: 200,
+                    },
+                    legend: {
+                      position: "bottom",
+                    },
                   },
-                  legend: {
-                    position: 'bottom'
-                  }
-                }
-              }]
-            }
+                },
+              ],
+            },
           },
           usersImg: usersInfoImg,
           smileImg: smileInfoImg,
           saleImg: totalSaleInfoImg,
-          ordersImg: ordersInfoImg
+          ordersImg: ordersInfoImg,
         });
         break;
       default:
@@ -1315,7 +1224,7 @@ class VaultSummary extends React.Component {
   }
 
   numberWithCommas(x) {
-    return String(parseFloat(x).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2})).replace(/(?<!\..*)(\d)(?=(?:\d{3})+(?:\.|$))/g, '$1,');
+    return String(parseFloat(x).toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 2 })).replace(/(?<!\..*)(\d)(?=(?:\d{3})+(?:\.|$))/g, "$1,");
   }
 
   componentDidMount() {
@@ -1352,7 +1261,6 @@ class VaultSummary extends React.Component {
   }
 
   render() {
-
     const { kmpl_price, eefi_price, ampl_price, eth_price, history } = this.props;
 
     const amplesensevaultValues = this.props.vaultValues["Elastic Vault: AMPL > EEFI"];
@@ -1362,49 +1270,48 @@ class VaultSummary extends React.Component {
     const pioneer3Values = this.props.vaultValues["Pioneer Fund Vault III: KMPL/ETH"];
     const lpStakingValues = this.props.vaultValues["EEFI/ETH LP Token Vault"];
 
-    console.log(pioneer1AValues, pioneer1BValues)
+    console.log(pioneer1AValues, pioneer1BValues);
 
-    const amplesenseVaultStaking = amplesensevaultValues? amplesensevaultValues.stakedBalance * ampl_price : 0;
-    const pioneer1AStaking = pioneer1AValues? pioneer1AValues.stakedBalance * 0 : 0;
-    const pioneer1BStaking = pioneer1BValues? pioneer1BValues.stakedBalance * 0 : 0;
-    const pioneer2Staking = pioneer2Values? pioneer2Values.stakedBalance * kmpl_price : 0;
-    const pioneer3Staking = pioneer3Values? pioneer3Values.stakedBalance * 0 : 0;
-    const lpStakingStaking = lpStakingValues? lpStakingValues.stakedBalance * 0 : 0;
+    const amplesenseVaultStaking = amplesensevaultValues ? amplesensevaultValues.stakedBalance * ampl_price : 0;
+    const pioneer1AStaking = pioneer1AValues ? pioneer1AValues.stakedBalance * 0 : 0;
+    const pioneer1BStaking = pioneer1BValues ? pioneer1BValues.stakedBalance * 0 : 0;
+    const pioneer2Staking = pioneer2Values ? pioneer2Values.stakedBalance * kmpl_price : 0;
+    const pioneer3Staking = pioneer3Values ? pioneer3Values.stakedBalance * 0 : 0;
+    const lpStakingStaking = lpStakingValues ? lpStakingValues.stakedBalance * 0 : 0;
 
-    const amplesenseVaultReward = amplesensevaultValues? amplesensevaultValues.rewardBalance.token * eefi_price + amplesensevaultValues.rewardBalance.eth * eth_price : 0;
-    const pioneer1AReward = pioneer1AValues? pioneer1AValues.rewardBalance * eth_price : 0;
-    const pioneer1BReward = pioneer1BValues? pioneer1BValues.rewardBalance * eth_price : 0;
-    const pioneer2Reward = pioneer2Values? pioneer2Values.rewardBalance.token * eefi_price + pioneer2Values.rewardBalance.eth * eth_price : 0;
-    const pioneer3Reward = pioneer3Values? pioneer3Values.rewardBalance.token * eefi_price + pioneer3Values.rewardBalance.eth * eth_price : 0;
-    const lpStakingReward = lpStakingValues? lpStakingValues.rewardBalance.token * eefi_price + lpStakingValues.rewardBalance.eth * eth_price : 0;
+    const amplesenseVaultReward = amplesensevaultValues ? amplesensevaultValues.rewardBalance.token * eefi_price + amplesensevaultValues.rewardBalance.eth * eth_price : 0;
+    const pioneer1AReward = pioneer1AValues ? pioneer1AValues.rewardBalance * eth_price : 0;
+    const pioneer1BReward = pioneer1BValues ? pioneer1BValues.rewardBalance * eth_price : 0;
+    const pioneer2Reward = pioneer2Values ? pioneer2Values.rewardBalance.token * eefi_price + pioneer2Values.rewardBalance.eth * eth_price : 0;
+    const pioneer3Reward = pioneer3Values ? pioneer3Values.rewardBalance.token * eefi_price + pioneer3Values.rewardBalance.eth * eth_price : 0;
+    const lpStakingReward = lpStakingValues ? lpStakingValues.rewardBalance.token * eefi_price + lpStakingValues.rewardBalance.eth * eth_price : 0;
 
-    const amplesenseVaultTVL = amplesensevaultValues? amplesensevaultValues.totalStakedBalance * ampl_price : 0;
-    const pioneer1ATVL = pioneer1AValues? pioneer1AValues.totalStakedBalance * 0 : 0;
-    const pioneer1BTVL = pioneer1BValues? pioneer1BValues.totalStakedBalance * 0 : 0;
-    const pioneer2TVL = pioneer2Values? pioneer2Values.totalStakedBalance * kmpl_price : 0;
-    const pioneer3TVL = pioneer3Values? pioneer3Values.totalStakedBalance * 0 : 0;
-    const lpStakingTVL = lpStakingValues? lpStakingValues.totalStakedBalance * 0 : 0;
+    const amplesenseVaultTVL = amplesensevaultValues ? amplesensevaultValues.totalStakedBalance * ampl_price : 0;
+    const pioneer1ATVL = pioneer1AValues ? pioneer1AValues.totalStakedBalance * 0 : 0;
+    const pioneer1BTVL = pioneer1BValues ? pioneer1BValues.totalStakedBalance * 0 : 0;
+    const pioneer2TVL = pioneer2Values ? pioneer2Values.totalStakedBalance * kmpl_price : 0;
+    const pioneer3TVL = pioneer3Values ? pioneer3Values.totalStakedBalance * 0 : 0;
+    const lpStakingTVL = lpStakingValues ? lpStakingValues.totalStakedBalance * 0 : 0;
 
     // console.log(eefi_price, ampl_price, kmpl_price, eth_price)
-    const portfolio = amplesenseVaultStaking + pioneer1AStaking + pioneer1BStaking + pioneer2Staking + pioneer3Staking + lpStakingStaking
-    + amplesenseVaultReward + pioneer1AReward + pioneer1BReward + pioneer2Reward + pioneer3Reward + lpStakingReward;
+    const portfolio = amplesenseVaultStaking + pioneer1AStaking + pioneer1BStaking + pioneer2Staking + pioneer3Staking + lpStakingStaking + amplesenseVaultReward + pioneer1AReward + pioneer1BReward + pioneer2Reward + pioneer3Reward + lpStakingReward;
 
     const tvl = amplesenseVaultTVL + pioneer1ATVL + pioneer1BTVL + pioneer2TVL + pioneer3TVL + lpStakingTVL;
 
     let all_tvl = [];
-    history && history.forEach(tvl_event => {
-      let tvl = [];
-      const changes = tvl_event.changes;
-      const contract = tvl_event.contract;
-      changes.forEach(change => {
-        let adjustedAmount = change.returnValues.total;
-        if(contract.stakingTokenPrecision() > 0)
-          adjustedAmount /= 10**contract.stakingTokenPrecision();
+    history &&
+      history.forEach((tvl_event) => {
+        let tvl = [];
+        const changes = tvl_event.changes;
+        const contract = tvl_event.contract;
+        changes.forEach((change) => {
+          let adjustedAmount = change.returnValues.total;
+          if (contract.stakingTokenPrecision() > 0) adjustedAmount /= 10 ** contract.stakingTokenPrecision();
 
-        tvl.push({total: adjustedAmount * contract.getStakingTokenPrice(kmpl_price, ampl_price, 0, 0, 0, 0), timestamp : change.returnValues.timestamp, name: contract.vaultName()});
+          tvl.push({ total: adjustedAmount * contract.getStakingTokenPrice(kmpl_price, ampl_price, 0, 0, 0, 0), timestamp: change.returnValues.timestamp, name: contract.vaultName() });
+        });
+        all_tvl.push(tvl);
       });
-      all_tvl.push(tvl);
-    });
 
     let merged = [].concat.apply([], all_tvl).sort((a, b) => a.timestamp - b.timestamp);
 
@@ -1416,15 +1323,15 @@ class VaultSummary extends React.Component {
     tvl_map.set("Pioneer Fund Vault I: APOLLO", 0);
     tvl_map.set("Pioneer Fund Vault III: KMPL/ETH", 0);
 
-    const flat_tvl = merged.map(element => {
+    const flat_tvl = merged.map((element) => {
       tvl_map.set(element.name, element.total);
 
       let total = 0;
       tvl_map.forEach((value) => {
         total += value;
-      })
-
-      return [parseInt(new Date(parseInt(element.timestamp)*1000).getTime()), total];
+      });
+      total = total.toFixed(3);
+      return [parseInt(new Date(parseInt(element.timestamp) * 1000).getTime()), total];
     });
 
     var chartData = {
@@ -1457,20 +1364,16 @@ class VaultSummary extends React.Component {
           curve: "smooth",
         },
         grid: {
-          borderColor: 'rgba(196, 196, 196, 0.2)'
+          borderColor: "rgba(196, 196, 196, 0.2)",
         },
         yaxis: {
           labels: {
+            formatter: function (value) {
+              value = value.toLocaleString("en-US");
+              return "$" + value;
+            },
             style: {
-              colors: [
-                "rgba(18, 4, 0, .5)",
-                "rgba(18, 4, 0, .5)",
-                "rgba(18, 4, 0, .5)",
-                "rgba(18, 4, 0, .5)",
-                "rgba(18, 4, 0, .5)",
-                "rgba(18, 4, 0, .5)",
-                "rgba(18, 4, 0, .5)",
-              ],
+              colors: ["rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)"],
               fontWeight: 300,
             },
           },
@@ -1479,23 +1382,15 @@ class VaultSummary extends React.Component {
           type: "datetime",
           labels: {
             style: {
-              colors: [
-                "rgba(18, 4, 0, .5)",
-                "rgba(18, 4, 0, .5)",
-                "rgba(18, 4, 0, .5)",
-                "rgba(18, 4, 0, .5)",
-                "rgba(18, 4, 0, .5)",
-                "rgba(18, 4, 0, .5)",
-                "rgba(18, 4, 0, .5)",
-              ],
+              colors: ["rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)", "rgba(18, 4, 0, .5)"],
               fontWeight: 300,
             },
             datetimeFormatter: {
-              year: 'yyyy',
-              month: 'MMM \'yy',
-              day: 'dd MMM',
-              hour: 'HH:mm'
-            }
+              year: "yyyy",
+              month: "MMM 'yy",
+              day: "dd MMM",
+              hour: "HH:mm",
+            },
           },
         },
         tooltip: {
@@ -1507,91 +1402,97 @@ class VaultSummary extends React.Component {
     };
 
     return (
-
       <div className={s.root}>
-        <h2>
-        Vault Summary
-        </h2>
+        <h2>Vault Summary</h2>
         <Row>
           <Col xl={3}>
-            <Widget title={<p className="text-info" style={{ fontWeight: 700 }}>TVL</p>}>
+            <Widget
+              title={
+                <p className="text-info" style={{ fontWeight: 700 }}>
+                  TVL
+                </p>
+              }
+            >
               <Row className={`justify-content-between mt-3`} noGutters>
                 <Col sm={8} className={"d-flex align-items-center"}>
                   <h6 className={"fw-semi-bold mb-0"}>$ {this.numberWithCommas(tvl)}</h6>
                 </Col>
-                <Col
-                  sm={4}
-                  className={"d-flex align-items-center justify-content-end"}
-                >
+                <Col sm={4} className={"d-flex align-items-center justify-content-end"}>
                   <img src={stocksImg} alt="" className={"mr-1"} />
                   <p className={"text-success mb-0"}>N/A</p>
                 </Col>
               </Row>
-              <Row style={{ marginBottom: -9, marginTop: -1 }}>
-              </Row>
+              <Row style={{ marginBottom: -9, marginTop: -1 }}></Row>
             </Widget>
           </Col>
 
           <Col xl={3}>
             <Widget
-              title={<p className="text-info" style={{ fontWeight: 700 }}>Your Portfolio</p>}>
+              title={
+                <p className="text-info" style={{ fontWeight: 700 }}>
+                  Your Portfolio
+                </p>
+              }
+            >
               <Row className={`justify-content-between mt-3`} noGutters>
                 <Col sm={8} className={"d-flex align-items-center"}>
                   <h6 className={"fw-semi-bold mb-0"}>$ {this.numberWithCommas(portfolio)}</h6>
                 </Col>
-                <Col
-                  sm={4}
-                  className={"d-flex align-items-center justify-content-end"}
-                >
+                <Col sm={4} className={"d-flex align-items-center justify-content-end"}>
                   <img src={stocksImg} alt="" className={"mr-1"} />
                   <p className={"text-success mb-0"}>N/A</p>
                 </Col>
               </Row>
-              <Row style={{ marginBottom: -9, marginTop: -1 }}>
-              </Row>
+              <Row style={{ marginBottom: -9, marginTop: -1 }}></Row>
             </Widget>
           </Col>
 
           <Col xl={3}>
             <Widget
-              title={<p className="text-info" style={{ fontWeight: 700 }}>kMPL Price</p>} isBuyButton={true} pagelink={2}>
+              title={
+                <p className="text-info" style={{ fontWeight: 700 }}>
+                  kMPL Price
+                </p>
+              }
+              isBuyButton={true}
+              pagelink={2}
+            >
               <Row className={`justify-content-between mt-3`} noGutters>
                 <Col sm={8} className={"d-flex align-items-center"}>
                   <h6 className={"fw-semi-bold mb-0"}>$ {this.numberWithCommas(kmpl_price)} </h6>
                 </Col>
-                <Col  sm={4}
-                  className={"d-flex align-items-center justify-content-end"}
-                >
+                <Col sm={4} className={"d-flex align-items-center justify-content-end"}>
                   <img src={stocksImg} alt="" className={"mr-1"} />
                   <p className={"text-success mb-0"}>N/A</p>
                 </Col>
               </Row>
-              <Row style={{ marginBottom: -9, marginTop: -1 }}>
-              </Row>
+              <Row style={{ marginBottom: -9, marginTop: -1 }}></Row>
             </Widget>
           </Col>
 
           <Col xl={3}>
             <Widget
-              title={<p className="text-info" style={{ fontWeight: 700 }}>EEFI Price</p>} isBuyButton={true} pagelink={3}>
+              title={
+                <p className="text-info" style={{ fontWeight: 700 }}>
+                  EEFI Price
+                </p>
+              }
+              isBuyButton={true}
+              pagelink={3}
+            >
               <Row className={`justify-content-between mt-3`} noGutters>
                 <Col sm={8} className={"d-flex align-items-center"}>
                   <h6 className={"fw-semi-bold mb-0"}>$ {this.numberWithCommas(eefi_price)}</h6>
                 </Col>
-                <Col
-                  sm={4}
-                  className={"d-flex align-items-center justify-content-end"}
-                >
+                <Col sm={4} className={"d-flex align-items-center justify-content-end"}>
                   <img src={stocksImg} alt="" className={"mr-1"} />
                   <p className={"text-success mb-0"}>N/A</p>
                 </Col>
               </Row>
-              <Row style={{ marginBottom: -9, marginTop: -1 }}>
-              </Row>
+              <Row style={{ marginBottom: -9, marginTop: -1 }}></Row>
             </Widget>
           </Col>
         </Row>
-
 
         {/* AMPL */}
         <Row>
@@ -1603,10 +1504,8 @@ class VaultSummary extends React.Component {
                     <td width="35%" className=" align-items-center  table-vaults-long-1 ">
                       <Link to="/app/home/vault-detail/0">
                         <span className={"d-flex  align-items-center fw-bold"}>
-                          <img src={p1} height={80} width={80} alt=""  className={s.mobileImg} />
-                          <h4 className="text-info">
-                          AMPL
-                          </h4>
+                          <img src={p1} height={80} width={80} alt="" className={s.mobileImg} />
+                          <h4 className="text-info">AMPL</h4>
                         </span>
                       </Link>
                     </td>
@@ -1614,14 +1513,14 @@ class VaultSummary extends React.Component {
                     <td width="35%" className=" pl-0 fw-thin table-vaults-short-1">
                       <Link to="/app/home/vault-detail/0">
                         <p className={"d-flex  align-items-center fw-bold"}>
-                          <img src={p1} height={80} width={80} alt="" className={s.mobileImg}/>
+                          <img src={p1} height={80} width={80} alt="" className={s.mobileImg} />
                         </p>
-                        <h5 className="text-info" >
-                          AMPL
-                        </h5>
+                        <h5 className="text-info">AMPL</h5>
                       </Link>
                       <Link to="/app/home/vault-detail/0">
-                        <Button color="primary" className="mb-md mr-md">Select</Button>
+                        <Button color="primary" className="mb-md mr-md">
+                          Select
+                        </Button>
                       </Link>
                     </td>
                     <td width="30%" className={"pl-0 fw-thin table-vaults-long-1"}>
@@ -1663,9 +1562,11 @@ class VaultSummary extends React.Component {
 
                     <td width="10%" className={"pl-0 fw-normal table-vaults-long-1"}>
                       <Link to="/app/home/vault-detail/0">
-                      <p>
-                        <Button color="primary" className="mb-md mr-md">Select</Button>
-                      </p>
+                        <p>
+                          <Button color="primary" className="mb-md mr-md">
+                            Select
+                          </Button>
+                        </p>
                       </Link>
                     </td>
                   </tr>
@@ -1674,8 +1575,6 @@ class VaultSummary extends React.Component {
             </Widget>
           </Col>
         </Row>
-
-
 
         {/* EEFI/ETH LP Tokens */}
         <Row>
@@ -1687,11 +1586,9 @@ class VaultSummary extends React.Component {
                     <td width="35%" className=" pl-0 fw-thin table-vaults-long-1">
                       <Link to="/app/home/vault-detail/1">
                         <span className={"d-flex  align-items-center fw-bold"}>
-                        <img src={p2} height={80} width={80} alt=""  className={s.mobileImg} />
+                          <img src={p2} height={80} width={80} alt="" className={s.mobileImg} />
 
-                        <h4 className="text-info">
-                          EEFI/ETH LP Tokens
-                        </h4>
+                          <h4 className="text-info">EEFI/ETH LP Tokens</h4>
                         </span>
                       </Link>
                     </td>
@@ -1699,16 +1596,18 @@ class VaultSummary extends React.Component {
                       {/* <Link to="/app/home/vault-eefi"> */}
                       <Link to="/app/home/vault-detail/1">
                         <p className={"d-flex  align-items-center fw-bold"}>
-                          <img src={p2} height={80} width={80} alt=""  className={s.mobileImg} />
+                          <img src={p2} height={80} width={80} alt="" className={s.mobileImg} />
                         </p>
-                        <h5 className="text-info" >
-                        EEFI/ETH<br></br>LP Tokens
+                        <h5 className="text-info">
+                          EEFI/ETH<br></br>LP Tokens
                         </h5>
                       </Link>
                       {/* <Link to="/app/home/vault-eefi"> */}
                       <Link to="/app/home/vault-detail/1">
                         <p>
-                          <Button color="primary" className="mb-md mr-md">Select</Button>
+                          <Button color="primary" className="mb-md mr-md">
+                            Select
+                          </Button>
                         </p>
                       </Link>
                     </td>
@@ -1751,9 +1650,11 @@ class VaultSummary extends React.Component {
 
                     <td width="10%" className={"pl-0 fw-normal table-vaults-long-1"}>
                       <Link to="/app/home/vault-detail/1">
-                      <p>
-                        <Button color="primary" className="mb-md mr-md">Select</Button>
-                      </p>
+                        <p>
+                          <Button color="primary" className="mb-md mr-md">
+                            Select
+                          </Button>
+                        </p>
                       </Link>
                     </td>
                   </tr>
@@ -1762,8 +1663,6 @@ class VaultSummary extends React.Component {
             </Widget>
           </Col>
         </Row>
-
-
 
         {/* kMPL Tokens */}
         <Row>
@@ -1774,12 +1673,10 @@ class VaultSummary extends React.Component {
                   <tr key={0}>
                     <td width="35%" className=" pl-0 fw-thin table-vaults-long-1">
                       <Link to="/app/home/vault-detail/2">
-                          <span className={"d-flex  align-items-center fw-bold"}>
+                        <span className={"d-flex  align-items-center fw-bold"}>
                           <img src={p3} height={80} width={80} alt="" className={s.mobileImg} />
-                          <h4 className="text-info">
-                          kMPL
-                          </h4>
-                          </span>
+                          <h4 className="text-info">kMPL</h4>
+                        </span>
                       </Link>
                     </td>
                     <td width="35%" className=" pl-0 fw-thin table-vaults-short-1">
@@ -1787,13 +1684,13 @@ class VaultSummary extends React.Component {
                         <p className={"d-flex  align-items-center fw-bold"}>
                           <img src={p3} height={80} width={80} alt="" className={s.mobileImg} />
                         </p>
-                        <h5 className="text-info" >
-                        kMPL
-                        </h5>
+                        <h5 className="text-info">kMPL</h5>
                       </Link>
                       <Link to="/app/home/vault-gen-page">
                         <p>
-                          <Button color="primary" className="mb-md mr-md">Select</Button>
+                          <Button color="primary" className="mb-md mr-md">
+                            Select
+                          </Button>
                         </p>
                       </Link>
                     </td>
@@ -1852,7 +1749,9 @@ class VaultSummary extends React.Component {
                     <td width="10%" className={"pl-0 fw-normal table-vaults-long-1"}>
                       <Link to="/app/home/vault-detail/2">
                         <p>
-                          <Button color="primary" className="mb-md mr-md">Select</Button>
+                          <Button color="primary" className="mb-md mr-md">
+                            Select
+                          </Button>
                         </p>
                       </Link>
                     </td>
@@ -1863,21 +1762,18 @@ class VaultSummary extends React.Component {
           </Col>
         </Row>
 
-
         {/* Pioneer NFTs  */}
         <Row>
           <Col sm={12}>
             <Widget>
               <Table className="table-hover " responsive>
                 <tbody className="text-dark">
-                  <tr  key={0}>
+                  <tr key={0}>
                     <td width="35%" className=" pl-0 fw-thin table-vaults-long-1">
                       <Link to="/app/home/vault-nfts">
                         <span className={"d-flex  align-items-center fw-bold"}>
                           <img src={p4} height={80} width={80} alt="" className={s.mobileImg} />
-                          <h4 className="text-info">
-                          Pioneer NFTs
-                          </h4>
+                          <h4 className="text-info">Pioneer NFTs</h4>
                         </span>
                       </Link>
                     </td>
@@ -1887,14 +1783,17 @@ class VaultSummary extends React.Component {
                           <img src={p4} height={80} width={80} alt="" className={s.mobileImg} />
                         </p>
                         <span className={"d-flex fw-bold mb-md mr-md"}>
-                          <h5 className="text-info" style={{margin: "auto"}}>
-                            Pioneer <br />NFTs
+                          <h5 className="text-info" style={{ margin: "auto" }}>
+                            Pioneer <br />
+                            NFTs
                           </h5>
                         </span>
                       </Link>
                       <Link to="/app/home/vault-nfts">
                         <p>
-                          <Button color="primary" className="mb-md mr-md">Select</Button>
+                          <Button color="primary" className="mb-md mr-md">
+                            Select
+                          </Button>
                         </p>
                       </Link>
                     </td>
@@ -1938,7 +1837,9 @@ class VaultSummary extends React.Component {
                     <td width="10%" className={"pl-0 fw-normal table-vaults-long-1"}>
                       <Link to="/app/home/vault-nfts">
                         <p>
-                          <Button color="primary" className="mb-md mr-md">Select</Button>
+                          <Button color="primary" className="mb-md mr-md">
+                            Select
+                          </Button>
                         </p>
                       </Link>
                     </td>
@@ -1955,29 +1856,29 @@ class VaultSummary extends React.Component {
             <Widget>
               <Table className="table-hover " responsive>
                 <tbody className="text-dark">
-                  <tr  key={0}>
+                  <tr key={0}>
                     <td width="35%" className=" pl-0 fw-thin table-vaults-long-1">
                       <Link to="/app/home/vault-detail/5">
                         <span className={"d-flex  align-items-center fw-bold"}>
-                        <img src={p7} height={80} width={80} alt="" className={s.mobileImg} />
-                        <h4 className="text-info">
-                        kMPL/ETH LP Tokens
-                        </h4>
+                          <img src={p7} height={80} width={80} alt="" className={s.mobileImg} />
+                          <h4 className="text-info">kMPL/ETH LP Tokens</h4>
                         </span>
                       </Link>
                     </td>
                     <td width="35%" className=" pl-0 fw-thin table-vaults-short-1">
                       <Link to="/app/home/vault-detail/5">
                         <p className={"d-flex  align-items-center fw-bold mb-md mr-md"}>
-                        <img src={p7} height={80} width={80} alt="" className={s.mobileImg} />
+                          <img src={p7} height={80} width={80} alt="" className={s.mobileImg} />
                         </p>
-                        <h5 className="text-info" >
-                        kMPL/ETH <br></br>LP Tokens
+                        <h5 className="text-info">
+                          kMPL/ETH <br></br>LP Tokens
                         </h5>
                       </Link>
                       <Link to="/app/home/vault-detail/5">
                         <p>
-                          <Button color="primary" className="mb-md mr-md">Select</Button>
+                          <Button color="primary" className="mb-md mr-md">
+                            Select
+                          </Button>
                         </p>
                       </Link>
                     </td>
@@ -2020,9 +1921,11 @@ class VaultSummary extends React.Component {
 
                     <td width="10%" className={"pl-0 fw-normal table-vaults-long-1"}>
                       <Link to="/app/home/vault-detail/5">
-                      <p>
-                        <Button color="primary" className="mb-md mr-md">Select</Button>
-                      </p>
+                        <p>
+                          <Button color="primary" className="mb-md mr-md">
+                            Select
+                          </Button>
+                        </p>
                       </Link>
                     </td>
                   </tr>
@@ -2042,13 +1945,7 @@ class VaultSummary extends React.Component {
             >
               <Row style={{ marginTop: -36 }}>
                 <Col sm={12}>
-                  <ApexChart
-                    className="sparkline-chart"
-                    series={chartData.series}
-                    options={chartData.options}
-                    type={"area"}
-                    height={"350px"}
-                  />
+                  <ApexChart className="sparkline-chart" series={chartData.series} options={chartData.options} type={"area"} height={"350px"} />
                 </Col>
               </Row>
             </Widget>
@@ -2058,7 +1955,6 @@ class VaultSummary extends React.Component {
     );
   }
 }
-
 
 function mapStateToProps(store) {
   return {
@@ -2074,7 +1970,7 @@ function mapStateToProps(store) {
     anft_price: store.blockchain.anft_price,
     vault: store.vault,
     vaultValues: store.blockchain.vaultValues,
-    history: store.blockchain.history_tvl
+    history: store.blockchain.history_tvl,
   };
 }
 

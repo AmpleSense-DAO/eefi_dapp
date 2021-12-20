@@ -6,7 +6,7 @@ import {
 } from '../actions/navigation';
 
 const initialState = {
-  sidebarOpened: true,
+  sidebarOpened: false,
   sidebarStatic: false,
   activeItem: window.location.pathname,
 };

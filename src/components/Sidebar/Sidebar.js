@@ -9,8 +9,7 @@ import { changeActiveSidebarItem } from "../../actions/navigation";
 // import { logoutUser } from "../../actions/user";
 import cx from "classnames";
 
-import {  Link } from "react-router-dom";
-
+import { Link } from "react-router-dom";
 
 // white sidebar
 import lightDashboardIcon from "../../images/theme-icons/yellow/Dashboard_outlined.svg";
@@ -277,10 +276,7 @@ import darkSidebarMapsFilledBlue from "../../images/theme-icons/dark sidebar/blu
 import darkSidebarExtraOutlinedBlue from "../../images/theme-icons/dark sidebar/blue/Extra_outlined.svg";
 import darkSidebarExtraFilledBlue from "../../images/theme-icons/dark sidebar/blue/Extra_filled.svg";
 
-
 //import { WalletConnect, ProviderContext } from '../Wallet/walletConnect'
-
-
 
 class Sidebar extends React.Component {
   static propTypes = {
@@ -295,7 +291,7 @@ class Sidebar extends React.Component {
 
   static defaultProps = {
     sidebarStatic: true,
-    sidebarOpened: true,
+    sidebarOpened: false,
     activeItem: "",
   };
 
@@ -307,7 +303,7 @@ class Sidebar extends React.Component {
   }
 
   doLogout() {
-  //  this.props.dispatch(logoutUser());
+    //  this.props.dispatch(logoutUser());
   }
 
   themeIcons(currentPage) {
@@ -317,67 +313,37 @@ class Sidebar extends React.Component {
         case "warning":
           switch (currentPage) {
             case "dashboard":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarDashboardFilled
-                : darkSidebarDashboardOutlined;
+              return window.location.href.includes(currentPage) ? darkSidebarDashboardFilled : darkSidebarDashboardOutlined;
             case "ecommerce":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarEcommerceFilled
-                : darkSidebarEcommerceOutlined;
+              return window.location.href.includes(currentPage) ? darkSidebarEcommerceFilled : darkSidebarEcommerceOutlined;
             case "package":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarPackageFilled
-                : darkSidebarPackageOutlined;
+              return window.location.href.includes(currentPage) ? darkSidebarPackageFilled : darkSidebarPackageOutlined;
             case "profile":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarAccountFilled
-                : darkSidebarAccountOutlined;
+              return window.location.href.includes(currentPage) ? darkSidebarAccountFilled : darkSidebarAccountOutlined;
             case "settings":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarSettingsFilled
-                : darkSidebarSettingsOutlined;
+              return window.location.href.includes(currentPage) ? darkSidebarSettingsFilled : darkSidebarSettingsOutlined;
             case "logout":
               return darkSidebarLogout;
             case "email":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarEmailFilled
-                : darkSidebarEmailOutlined;
+              return window.location.href.includes(currentPage) ? darkSidebarEmailFilled : darkSidebarEmailOutlined;
             case "documentation":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarDocumentationFilled
-                : darkSidebarDocumentationOutlined;
+              return window.location.href.includes(currentPage) ? darkSidebarDocumentationFilled : darkSidebarDocumentationOutlined;
             case "core":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarCoreFilled
-                : darkSidebarCoreOutlined;
+              return window.location.href.includes(currentPage) ? darkSidebarCoreFilled : darkSidebarCoreOutlined;
             case "ui":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarUIFilled
-                : darkSidebarUIOutlined;
+              return window.location.href.includes(currentPage) ? darkSidebarUIFilled : darkSidebarUIOutlined;
             case "forms":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarFormsFilled
-                : darkSidebarFormsOutlined;
+              return window.location.href.includes(currentPage) ? darkSidebarFormsFilled : darkSidebarFormsOutlined;
             case "charts":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarChartsFilled
-                : darkSidebarChartsOutlined;
+              return window.location.href.includes(currentPage) ? darkSidebarChartsFilled : darkSidebarChartsOutlined;
             case "grid":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarGridFilled
-                : darkSidebarGridOutlined;
+              return window.location.href.includes(currentPage) ? darkSidebarGridFilled : darkSidebarGridOutlined;
             case "tables":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarTablesFilled
-                : darkSidebarTablesOutlined;
+              return window.location.href.includes(currentPage) ? darkSidebarTablesFilled : darkSidebarTablesOutlined;
             case "maps":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarMapsFilled
-                : darkSidebarMapsOutlined;
+              return window.location.href.includes(currentPage) ? darkSidebarMapsFilled : darkSidebarMapsOutlined;
             case "extra":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarExtraFilled
-                : darkSidebarExtraOutlined;
+              return window.location.href.includes(currentPage) ? darkSidebarExtraFilled : darkSidebarExtraOutlined;
             default:
               break;
           }
@@ -385,67 +351,37 @@ class Sidebar extends React.Component {
         case "danger":
           switch (currentPage) {
             case "dashboard":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarDashboardFilledDanger
-                : darkSidebarDashboardOutlinedDanger;
+              return window.location.href.includes(currentPage) ? darkSidebarDashboardFilledDanger : darkSidebarDashboardOutlinedDanger;
             case "ecommerce":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarEcommerceFilledDanger
-                : darkSidebarEcommerceOutlinedDanger;
+              return window.location.href.includes(currentPage) ? darkSidebarEcommerceFilledDanger : darkSidebarEcommerceOutlinedDanger;
             case "package":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarPackageFilledDanger
-                : darkSidebarPackageOutlinedDanger;
+              return window.location.href.includes(currentPage) ? darkSidebarPackageFilledDanger : darkSidebarPackageOutlinedDanger;
             case "profile":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarAccountFilledDanger
-                : darkSidebarAccountOutlinedDanger;
+              return window.location.href.includes(currentPage) ? darkSidebarAccountFilledDanger : darkSidebarAccountOutlinedDanger;
             case "settings":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarSettingsFilledDanger
-                : darkSidebarSettingsOutlinedDanger;
+              return window.location.href.includes(currentPage) ? darkSidebarSettingsFilledDanger : darkSidebarSettingsOutlinedDanger;
             case "logout":
               return darkSidebarLogoutDanger;
             case "email":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarEmailFilledDanger
-                : darkSidebarEmailOutlinedDanger;
+              return window.location.href.includes(currentPage) ? darkSidebarEmailFilledDanger : darkSidebarEmailOutlinedDanger;
             case "documentation":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarDocumentationFilledDanger
-                : darkSidebarDocumentationOutlinedDanger;
+              return window.location.href.includes(currentPage) ? darkSidebarDocumentationFilledDanger : darkSidebarDocumentationOutlinedDanger;
             case "core":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarCoreFilledDanger
-                : darkSidebarCoreOutlinedDanger;
+              return window.location.href.includes(currentPage) ? darkSidebarCoreFilledDanger : darkSidebarCoreOutlinedDanger;
             case "ui":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarUIFilledDanger
-                : darkSidebarUIOutlinedDanger;
+              return window.location.href.includes(currentPage) ? darkSidebarUIFilledDanger : darkSidebarUIOutlinedDanger;
             case "forms":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarFormsFilledDanger
-                : darkSidebarFormsOutlinedDanger;
+              return window.location.href.includes(currentPage) ? darkSidebarFormsFilledDanger : darkSidebarFormsOutlinedDanger;
             case "charts":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarChartsFilledDanger
-                : darkSidebarChartsOutlinedDanger;
+              return window.location.href.includes(currentPage) ? darkSidebarChartsFilledDanger : darkSidebarChartsOutlinedDanger;
             case "grid":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarGridFilledDanger
-                : darkSidebarGridOutlinedDanger;
+              return window.location.href.includes(currentPage) ? darkSidebarGridFilledDanger : darkSidebarGridOutlinedDanger;
             case "tables":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarTablesFilledDanger
-                : darkSidebarTablesOutlinedDanger;
+              return window.location.href.includes(currentPage) ? darkSidebarTablesFilledDanger : darkSidebarTablesOutlinedDanger;
             case "maps":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarMapsFilledDanger
-                : darkSidebarMapsOutlinedDanger;
+              return window.location.href.includes(currentPage) ? darkSidebarMapsFilledDanger : darkSidebarMapsOutlinedDanger;
             case "extra":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarExtraFilledDanger
-                : darkSidebarExtraOutlinedDanger;
+              return window.location.href.includes(currentPage) ? darkSidebarExtraFilledDanger : darkSidebarExtraOutlinedDanger;
             default:
               break;
           }
@@ -453,67 +389,37 @@ class Sidebar extends React.Component {
         case "success":
           switch (currentPage) {
             case "dashboard":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarDashboardFilledSuccess
-                : darkSidebarDashboardOutlinedSuccess;
+              return window.location.href.includes(currentPage) ? darkSidebarDashboardFilledSuccess : darkSidebarDashboardOutlinedSuccess;
             case "ecommerce":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarEcommerceFilledSuccess
-                : darkSidebarEcommerceOutlinedSuccess;
+              return window.location.href.includes(currentPage) ? darkSidebarEcommerceFilledSuccess : darkSidebarEcommerceOutlinedSuccess;
             case "package":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarPackageFilledSuccess
-                : darkSidebarPackageOutlinedSuccess;
+              return window.location.href.includes(currentPage) ? darkSidebarPackageFilledSuccess : darkSidebarPackageOutlinedSuccess;
             case "profile":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarAccountFilledSuccess
-                : darkSidebarAccountOutlinedSuccess;
+              return window.location.href.includes(currentPage) ? darkSidebarAccountFilledSuccess : darkSidebarAccountOutlinedSuccess;
             case "settings":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarSettingsFilledSuccess
-                : darkSidebarSettingsOutlinedSuccess;
+              return window.location.href.includes(currentPage) ? darkSidebarSettingsFilledSuccess : darkSidebarSettingsOutlinedSuccess;
             case "logout":
               return darkSidebarLogoutSuccess;
             case "email":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarEmailFilledSuccess
-                : darkSidebarEmailOutlinedSuccess;
+              return window.location.href.includes(currentPage) ? darkSidebarEmailFilledSuccess : darkSidebarEmailOutlinedSuccess;
             case "documentation":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarDocumentationFilledSuccess
-                : darkSidebarDocumentationOutlinedSuccess;
+              return window.location.href.includes(currentPage) ? darkSidebarDocumentationFilledSuccess : darkSidebarDocumentationOutlinedSuccess;
             case "core":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarCoreFilledSuccess
-                : darkSidebarCoreOutlinedSuccess;
+              return window.location.href.includes(currentPage) ? darkSidebarCoreFilledSuccess : darkSidebarCoreOutlinedSuccess;
             case "ui":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarUIFilledSuccess
-                : darkSidebarUIOutlinedSuccess;
+              return window.location.href.includes(currentPage) ? darkSidebarUIFilledSuccess : darkSidebarUIOutlinedSuccess;
             case "forms":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarFormsFilledSuccess
-                : darkSidebarFormsOutlinedSuccess;
+              return window.location.href.includes(currentPage) ? darkSidebarFormsFilledSuccess : darkSidebarFormsOutlinedSuccess;
             case "charts":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarChartsFilledSuccess
-                : darkSidebarChartsOutlinedSuccess;
+              return window.location.href.includes(currentPage) ? darkSidebarChartsFilledSuccess : darkSidebarChartsOutlinedSuccess;
             case "grid":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarGridFilledSuccess
-                : darkSidebarGridOutlinedSuccess;
+              return window.location.href.includes(currentPage) ? darkSidebarGridFilledSuccess : darkSidebarGridOutlinedSuccess;
             case "tables":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarTablesFilledSuccess
-                : darkSidebarTablesOutlinedSuccess;
+              return window.location.href.includes(currentPage) ? darkSidebarTablesFilledSuccess : darkSidebarTablesOutlinedSuccess;
             case "maps":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarMapsFilledSuccess
-                : darkSidebarMapsOutlinedSuccess;
+              return window.location.href.includes(currentPage) ? darkSidebarMapsFilledSuccess : darkSidebarMapsOutlinedSuccess;
             case "extra":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarExtraFilledSuccess
-                : darkSidebarExtraOutlinedSuccess;
+              return window.location.href.includes(currentPage) ? darkSidebarExtraFilledSuccess : darkSidebarExtraOutlinedSuccess;
             default:
               break;
           }
@@ -521,67 +427,37 @@ class Sidebar extends React.Component {
         case "info":
           switch (currentPage) {
             case "dashboard":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarDashboardFilledBlue
-                : darkSidebarDashboardOutlinedBlue;
+              return window.location.href.includes(currentPage) ? darkSidebarDashboardFilledBlue : darkSidebarDashboardOutlinedBlue;
             case "ecommerce":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarEcommerceFilledBlue
-                : darkSidebarEcommerceOutlinedBlue;
+              return window.location.href.includes(currentPage) ? darkSidebarEcommerceFilledBlue : darkSidebarEcommerceOutlinedBlue;
             case "package":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarPackageFilledBlue
-                : darkSidebarPackageOutlinedBlue;
+              return window.location.href.includes(currentPage) ? darkSidebarPackageFilledBlue : darkSidebarPackageOutlinedBlue;
             case "profile":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarAccountFilledBlue
-                : darkSidebarAccountOutlinedBlue;
+              return window.location.href.includes(currentPage) ? darkSidebarAccountFilledBlue : darkSidebarAccountOutlinedBlue;
             case "settings":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarSettingsFilledBlue
-                : darkSidebarSettingsOutlinedBlue;
+              return window.location.href.includes(currentPage) ? darkSidebarSettingsFilledBlue : darkSidebarSettingsOutlinedBlue;
             case "logout":
               return darkSidebarLogoutBlue;
             case "email":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarEmailFilledBlue
-                : darkSidebarEmailOutlinedBlue;
+              return window.location.href.includes(currentPage) ? darkSidebarEmailFilledBlue : darkSidebarEmailOutlinedBlue;
             case "documentation":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarDocumentationFilledBlue
-                : darkSidebarDocumentationOutlinedBlue;
+              return window.location.href.includes(currentPage) ? darkSidebarDocumentationFilledBlue : darkSidebarDocumentationOutlinedBlue;
             case "core":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarCoreFilledBlue
-                : darkSidebarCoreOutlinedBlue;
+              return window.location.href.includes(currentPage) ? darkSidebarCoreFilledBlue : darkSidebarCoreOutlinedBlue;
             case "ui":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarUIFilledBlue
-                : darkSidebarUIOutlinedBlue;
+              return window.location.href.includes(currentPage) ? darkSidebarUIFilledBlue : darkSidebarUIOutlinedBlue;
             case "forms":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarFormsFilledBlue
-                : darkSidebarFormsOutlinedBlue;
+              return window.location.href.includes(currentPage) ? darkSidebarFormsFilledBlue : darkSidebarFormsOutlinedBlue;
             case "charts":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarChartsFilledBlue
-                : darkSidebarChartsOutlinedBlue;
+              return window.location.href.includes(currentPage) ? darkSidebarChartsFilledBlue : darkSidebarChartsOutlinedBlue;
             case "grid":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarGridFilledBlue
-                : darkSidebarGridOutlinedBlue;
+              return window.location.href.includes(currentPage) ? darkSidebarGridFilledBlue : darkSidebarGridOutlinedBlue;
             case "tables":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarTablesFilledBlue
-                : darkSidebarTablesOutlinedBlue;
+              return window.location.href.includes(currentPage) ? darkSidebarTablesFilledBlue : darkSidebarTablesOutlinedBlue;
             case "maps":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarMapsFilledBlue
-                : darkSidebarMapsOutlinedBlue;
+              return window.location.href.includes(currentPage) ? darkSidebarMapsFilledBlue : darkSidebarMapsOutlinedBlue;
             case "extra":
-              return window.location.href.includes(currentPage)
-                ? darkSidebarExtraFilledBlue
-                : darkSidebarExtraOutlinedBlue;
+              return window.location.href.includes(currentPage) ? darkSidebarExtraFilledBlue : darkSidebarExtraOutlinedBlue;
             default:
               break;
           }
@@ -594,67 +470,37 @@ class Sidebar extends React.Component {
       case "warning":
         switch (currentPage) {
           case "dashboard":
-            return window.location.href.includes(currentPage)
-              ? darkDashboardIcon
-              : lightDashboardIcon;
+            return window.location.href.includes(currentPage) ? darkDashboardIcon : lightDashboardIcon;
           case "ecommerce":
-            return window.location.href.includes(currentPage)
-              ? eCommerceFilled
-              : eCommerceOutlined;
+            return window.location.href.includes(currentPage) ? eCommerceFilled : eCommerceOutlined;
           case "package":
-            return window.location.href.includes(currentPage)
-              ? packageFilled
-              : packageOutlined;
+            return window.location.href.includes(currentPage) ? packageFilled : packageOutlined;
           case "profile":
-            return window.location.href.includes(currentPage)
-              ? profileFilled
-              : profileOutlined;
+            return window.location.href.includes(currentPage) ? profileFilled : profileOutlined;
           case "settings":
-            return window.location.href.includes(currentPage)
-              ? settingsFilled
-              : settingsOutlined;
+            return window.location.href.includes(currentPage) ? settingsFilled : settingsOutlined;
           case "logout":
             return logoutIcon;
           case "email":
-            return window.location.href.includes(currentPage)
-              ? emailFilled
-              : emailOutlined;
+            return window.location.href.includes(currentPage) ? emailFilled : emailOutlined;
           case "documentation":
-            return window.location.href.includes(currentPage)
-              ? documentationFilled
-              : documentationOutlined;
+            return window.location.href.includes(currentPage) ? documentationFilled : documentationOutlined;
           case "core":
-            return window.location.href.includes(currentPage)
-              ? coreFilled
-              : coreOutlined;
+            return window.location.href.includes(currentPage) ? coreFilled : coreOutlined;
           case "ui":
-            return window.location.href.includes(currentPage)
-              ? darkUI
-              : lightUI;
+            return window.location.href.includes(currentPage) ? darkUI : lightUI;
           case "forms":
-            return window.location.href.includes(currentPage)
-              ? formsFilled
-              : formsOutlined;
+            return window.location.href.includes(currentPage) ? formsFilled : formsOutlined;
           case "charts":
-            return window.location.href.includes(currentPage)
-              ? chartsFilled
-              : chartsOutlined;
+            return window.location.href.includes(currentPage) ? chartsFilled : chartsOutlined;
           case "grid":
-            return window.location.href.includes(currentPage)
-              ? gridFilled
-              : gridOutlined;
+            return window.location.href.includes(currentPage) ? gridFilled : gridOutlined;
           case "tables":
-            return window.location.href.includes(currentPage)
-              ? tablesFilled
-              : tablesOutlined;
+            return window.location.href.includes(currentPage) ? tablesFilled : tablesOutlined;
           case "maps":
-            return window.location.href.includes(currentPage)
-              ? mapsFilled
-              : mapsOutlined;
+            return window.location.href.includes(currentPage) ? mapsFilled : mapsOutlined;
           case "extra":
-            return window.location.href.includes(currentPage)
-              ? extraFilled
-              : extraOutlined;
+            return window.location.href.includes(currentPage) ? extraFilled : extraOutlined;
           default:
             break;
         }
@@ -662,67 +508,37 @@ class Sidebar extends React.Component {
       case "danger":
         switch (currentPage) {
           case "dashboard":
-            return window.location.href.includes(currentPage)
-              ? darkDashboardIconDanger
-              : lightDashboardIconDanger;
+            return window.location.href.includes(currentPage) ? darkDashboardIconDanger : lightDashboardIconDanger;
           case "ecommerce":
-            return window.location.href.includes(currentPage)
-              ? eCommerceFilledDanger
-              : eCommerceOutlinedDanger;
+            return window.location.href.includes(currentPage) ? eCommerceFilledDanger : eCommerceOutlinedDanger;
           case "package":
-            return window.location.href.includes(currentPage)
-              ? packageFilledDanger
-              : packageOutlinedDanger;
+            return window.location.href.includes(currentPage) ? packageFilledDanger : packageOutlinedDanger;
           case "profile":
-            return window.location.href.includes(currentPage)
-              ? profileFilledDanger
-              : profileOutlinedDanger;
+            return window.location.href.includes(currentPage) ? profileFilledDanger : profileOutlinedDanger;
           case "settings":
-            return window.location.href.includes(currentPage)
-              ? settingsFilledDanger
-              : settingsOutlinedDanger;
+            return window.location.href.includes(currentPage) ? settingsFilledDanger : settingsOutlinedDanger;
           case "logout":
             return logoutIconDanger;
           case "email":
-            return window.location.href.includes(currentPage)
-              ? emailFilledDanger
-              : emailOutlinedDanger;
+            return window.location.href.includes(currentPage) ? emailFilledDanger : emailOutlinedDanger;
           case "documentation":
-            return window.location.href.includes(currentPage)
-              ? documentationFilledDanger
-              : documentationOutlinedDanger;
+            return window.location.href.includes(currentPage) ? documentationFilledDanger : documentationOutlinedDanger;
           case "core":
-            return window.location.href.includes(currentPage)
-              ? coreFilledDanger
-              : coreOutlinedDanger;
+            return window.location.href.includes(currentPage) ? coreFilledDanger : coreOutlinedDanger;
           case "ui":
-            return window.location.href.includes(currentPage)
-              ? darkUIDanger
-              : lightUIDanger;
+            return window.location.href.includes(currentPage) ? darkUIDanger : lightUIDanger;
           case "forms":
-            return window.location.href.includes(currentPage)
-              ? formsFilledDanger
-              : formsOutlinedDanger;
+            return window.location.href.includes(currentPage) ? formsFilledDanger : formsOutlinedDanger;
           case "charts":
-            return window.location.href.includes(currentPage)
-              ? chartsFilledDanger
-              : chartsOutlinedDanger;
+            return window.location.href.includes(currentPage) ? chartsFilledDanger : chartsOutlinedDanger;
           case "grid":
-            return window.location.href.includes(currentPage)
-              ? gridFilledDanger
-              : gridOutlinedDanger;
+            return window.location.href.includes(currentPage) ? gridFilledDanger : gridOutlinedDanger;
           case "tables":
-            return window.location.href.includes(currentPage)
-              ? tablesFilledDanger
-              : tablesOutlinedDanger;
+            return window.location.href.includes(currentPage) ? tablesFilledDanger : tablesOutlinedDanger;
           case "maps":
-            return window.location.href.includes(currentPage)
-              ? mapsFilledDanger
-              : mapsOutlinedDanger;
+            return window.location.href.includes(currentPage) ? mapsFilledDanger : mapsOutlinedDanger;
           case "extra":
-            return window.location.href.includes(currentPage)
-              ? extraFilledDanger
-              : extraOutlinedDanger;
+            return window.location.href.includes(currentPage) ? extraFilledDanger : extraOutlinedDanger;
           default:
             break;
         }
@@ -730,67 +546,37 @@ class Sidebar extends React.Component {
       case "success":
         switch (currentPage) {
           case "dashboard":
-            return window.location.href.includes(currentPage)
-              ? darkDashboardIconSuccess
-              : lightDashboardIconSuccess;
+            return window.location.href.includes(currentPage) ? darkDashboardIconSuccess : lightDashboardIconSuccess;
           case "ecommerce":
-            return window.location.href.includes(currentPage)
-              ? eCommerceFilledSuccess
-              : eCommerceOutlinedSuccess;
+            return window.location.href.includes(currentPage) ? eCommerceFilledSuccess : eCommerceOutlinedSuccess;
           case "package":
-            return window.location.href.includes(currentPage)
-              ? packageFilledSuccess
-              : packageOutlinedSuccess;
+            return window.location.href.includes(currentPage) ? packageFilledSuccess : packageOutlinedSuccess;
           case "profile":
-            return window.location.href.includes(currentPage)
-              ? profileFilledSuccess
-              : profileOutlinedSuccess;
+            return window.location.href.includes(currentPage) ? profileFilledSuccess : profileOutlinedSuccess;
           case "settings":
-            return window.location.href.includes(currentPage)
-              ? settingsFilledSuccess
-              : settingsOutlinedSuccess;
+            return window.location.href.includes(currentPage) ? settingsFilledSuccess : settingsOutlinedSuccess;
           case "logout":
             return logoutIconSuccess;
           case "email":
-            return window.location.href.includes(currentPage)
-              ? emailFilledSuccess
-              : emailOutlinedSuccess;
+            return window.location.href.includes(currentPage) ? emailFilledSuccess : emailOutlinedSuccess;
           case "documentation":
-            return window.location.href.includes(currentPage)
-              ? documentationFilledSuccess
-              : documentationOutlinedSuccess;
+            return window.location.href.includes(currentPage) ? documentationFilledSuccess : documentationOutlinedSuccess;
           case "core":
-            return window.location.href.includes(currentPage)
-              ? coreFilledSuccess
-              : coreOutlinedSuccess;
+            return window.location.href.includes(currentPage) ? coreFilledSuccess : coreOutlinedSuccess;
           case "ui":
-            return window.location.href.includes(currentPage)
-              ? darkUISuccess
-              : lightUISuccess;
+            return window.location.href.includes(currentPage) ? darkUISuccess : lightUISuccess;
           case "forms":
-            return window.location.href.includes(currentPage)
-              ? formsFilledSuccess
-              : formsOutlinedSuccess;
+            return window.location.href.includes(currentPage) ? formsFilledSuccess : formsOutlinedSuccess;
           case "charts":
-            return window.location.href.includes(currentPage)
-              ? chartsFilledSuccess
-              : chartsOutlinedSuccess;
+            return window.location.href.includes(currentPage) ? chartsFilledSuccess : chartsOutlinedSuccess;
           case "grid":
-            return window.location.href.includes(currentPage)
-              ? gridFilledSuccess
-              : gridOutlinedSuccess;
+            return window.location.href.includes(currentPage) ? gridFilledSuccess : gridOutlinedSuccess;
           case "tables":
-            return window.location.href.includes(currentPage)
-              ? tablesFilledSuccess
-              : tablesOutlinedSuccess;
+            return window.location.href.includes(currentPage) ? tablesFilledSuccess : tablesOutlinedSuccess;
           case "maps":
-            return window.location.href.includes(currentPage)
-              ? mapsFilledSuccess
-              : mapsOutlinedSuccess;
+            return window.location.href.includes(currentPage) ? mapsFilledSuccess : mapsOutlinedSuccess;
           case "extra":
-            return window.location.href.includes(currentPage)
-              ? extraFilledSuccess
-              : extraOutlinedSuccess;
+            return window.location.href.includes(currentPage) ? extraFilledSuccess : extraOutlinedSuccess;
           default:
             break;
         }
@@ -798,67 +584,37 @@ class Sidebar extends React.Component {
       case "info":
         switch (currentPage) {
           case "dashboard":
-            return window.location.href.includes(currentPage)
-              ? darkDashboardIconBlue
-              : lightDashboardIconBlue;
+            return window.location.href.includes(currentPage) ? darkDashboardIconBlue : lightDashboardIconBlue;
           case "ecommerce":
-            return window.location.href.includes(currentPage)
-              ? eCommerceFilledBlue
-              : eCommerceOutlinedBlue;
+            return window.location.href.includes(currentPage) ? eCommerceFilledBlue : eCommerceOutlinedBlue;
           case "package":
-            return window.location.href.includes(currentPage)
-              ? packageFilledBlue
-              : packageOutlinedBlue;
+            return window.location.href.includes(currentPage) ? packageFilledBlue : packageOutlinedBlue;
           case "profile":
-            return window.location.href.includes(currentPage)
-              ? profileFilledBlue
-              : profileOutlinedBlue;
+            return window.location.href.includes(currentPage) ? profileFilledBlue : profileOutlinedBlue;
           case "settings":
-            return window.location.href.includes(currentPage)
-              ? settingsFilledBlue
-              : settingsOutlinedBlue;
+            return window.location.href.includes(currentPage) ? settingsFilledBlue : settingsOutlinedBlue;
           case "logout":
             return logoutIconBlue;
           case "email":
-            return window.location.href.includes(currentPage)
-              ? emailFilledBlue
-              : emailOutlinedBlue;
+            return window.location.href.includes(currentPage) ? emailFilledBlue : emailOutlinedBlue;
           case "documentation":
-            return window.location.href.includes(currentPage)
-              ? documentationFilledBlue
-              : documentationOutlinedBlue;
+            return window.location.href.includes(currentPage) ? documentationFilledBlue : documentationOutlinedBlue;
           case "core":
-            return window.location.href.includes(currentPage)
-              ? coreFilledBlue
-              : coreOutlinedBlue;
+            return window.location.href.includes(currentPage) ? coreFilledBlue : coreOutlinedBlue;
           case "ui":
-            return window.location.href.includes(currentPage)
-              ? darkUIBlue
-              : lightUIBlue;
+            return window.location.href.includes(currentPage) ? darkUIBlue : lightUIBlue;
           case "forms":
-            return window.location.href.includes(currentPage)
-              ? formsFilledBlue
-              : formsOutlinedBlue;
+            return window.location.href.includes(currentPage) ? formsFilledBlue : formsOutlinedBlue;
           case "charts":
-            return window.location.href.includes(currentPage)
-              ? chartsFilledBlue
-              : chartsOutlinedBlue;
+            return window.location.href.includes(currentPage) ? chartsFilledBlue : chartsOutlinedBlue;
           case "grid":
-            return window.location.href.includes(currentPage)
-              ? gridFilledBlue
-              : gridOutlinedBlue;
+            return window.location.href.includes(currentPage) ? gridFilledBlue : gridOutlinedBlue;
           case "tables":
-            return window.location.href.includes(currentPage)
-              ? tablesFilledBlue
-              : tablesOutlinedBlue;
+            return window.location.href.includes(currentPage) ? tablesFilledBlue : tablesOutlinedBlue;
           case "maps":
-            return window.location.href.includes(currentPage)
-              ? mapsFilledBlue
-              : mapsOutlinedBlue;
+            return window.location.href.includes(currentPage) ? mapsFilledBlue : mapsOutlinedBlue;
           case "extra":
-            return window.location.href.includes(currentPage)
-              ? extraFilledBlue
-              : extraOutlinedBlue;
+            return window.location.href.includes(currentPage) ? extraFilledBlue : extraOutlinedBlue;
           default:
             break;
         }
@@ -886,16 +642,13 @@ class Sidebar extends React.Component {
   render() {
     return (
       <div
-        className={`${
-          !this.props.sidebarOpened && !this.props.sidebarStatic
-            ? s.sidebarClose
-            : ""
-        } ${s.sidebarWrapper} ${cx({
-          [`bg-transparent shadow-none`]:
-          this.props.sidebarType === "transparent",
+        className={`${this.props.sidebarStatic ? "" : !this.props.sidebarOpened ? s.sidebarClose : ""} ${s.sidebarWrapper} ${cx({
+          // className={`${!this.props.sidebarOpened && !this.props.sidebarStatic ? s.sidebarClose : ""} ${s.sidebarWrapper} ${cx({
+          [`bg-transparent shadow-none`]: this.props.sidebarType === "transparent",
         })}`}
         id={"sidebar-drawer"}
       >
+        {/* {console.log(this.props.sidebarOpened)} */}
         <nav
           className={`${s.root} ${cx({
             [`bg-transparent`]: this.props.sidebarType === "transparent",
@@ -910,38 +663,12 @@ class Sidebar extends React.Component {
           <section className={s.menuWrapper}>
             <h2 className={s.navTitle}>Vaults</h2>
             <ul className={s.nav}>
-              <LinksGroup
-                onActiveSidebarItemChange={activeItem =>
-                  this.props.dispatch(changeActiveSidebarItem(activeItem))
-                }
-                activeItem={this.props.activeItem}
-                header="Vault Summary"
-                isHeader
-                link="/app/home/vault-summary"
-                index="main">
-                {window.location.href.includes("vault-summary") ? (
-                  <img
-                    src={darkDashboardIcon}
-                    alt="lightDashboard"
-                    width={"24px"}
-                    height={"24px"}
-                  />
-                ) : (
-                  <img
-                    src={lightDashboardIcon}
-                    alt="lightDashboard"
-                    width={"24px"}
-                    height={"24px"}
-                  />
-                )}
+              <LinksGroup onActiveSidebarItemChange={(activeItem) => this.props.dispatch(changeActiveSidebarItem(activeItem))} activeItem={this.props.activeItem} header="Vault Summary" isHeader link="/app/home/vault-summary" index="main">
+                {window.location.href.includes("vault-summary") ? <img src={darkDashboardIcon} alt="lightDashboard" width={"24px"} height={"24px"} /> : <img src={lightDashboardIcon} alt="lightDashboard" width={"24px"} height={"24px"} />}
               </LinksGroup>
 
               <LinksGroup
-                onActiveSidebarItemChange={
-                  activeItem =>
-                  this.props.dispatch(changeActiveSidebarItem(activeItem))
-
-                }
+                onActiveSidebarItemChange={(activeItem) => this.props.dispatch(changeActiveSidebarItem(activeItem))}
                 // onActiveSidebarItemChange={
                 // 	activeItem => this.props.dispatch(setVaultType(0))
                 // }
@@ -950,29 +677,13 @@ class Sidebar extends React.Component {
                 header="Elastic Vault: AMPL -> EEFI"
                 isHeader
                 link="/app/home/vault-detail/0"
-                index="main">
-
-                {window.location.href.includes("vault-detail") ? (
-                  <img
-                    src={darkDashboardIcon}
-                    alt="lightDashboard"
-                    width={"24px"}
-                    height={"24px"}
-                  />
-                ) : (
-                  <img
-                    src={lightDashboardIcon}
-                    alt="lightDashboard"
-                    width={"24px"}
-                    height={"24px"}
-                  />
-                )}
+                index="main"
+              >
+                {window.location.href.includes("vault-detail") ? <img src={darkDashboardIcon} alt="lightDashboard" width={"24px"} height={"24px"} /> : <img src={lightDashboardIcon} alt="lightDashboard" width={"24px"} height={"24px"} />}
               </LinksGroup>
 
               <LinksGroup
-                onActiveSidebarItemChange={activeItem =>
-                  this.props.dispatch(changeActiveSidebarItem(activeItem))
-                }
+                onActiveSidebarItemChange={(activeItem) => this.props.dispatch(changeActiveSidebarItem(activeItem))}
                 // onActiveSidebarItemChange={
                 // 	activeItem => this.props.dispatch(setVaultType(3))
                 // }
@@ -981,141 +692,50 @@ class Sidebar extends React.Component {
                 header="EEFI/ETH LP Token Vault"
                 isHeader
                 link="/app/home/vault-detail/1"
-                index="main">
-                {window.location.href.includes("vault-detail") ? (
-                  <img
-                    src={darkDashboardIcon}
-                    alt="lightDashboard"
-                    width={"24px"}
-                    height={"24px"}
-                  />
-                ) : (
-                  <img
-                    src={lightDashboardIcon}
-                    alt="lightDashboard"
-                    width={"24px"}
-                    height={"24px"}
-                  />
-                )}
+                index="main"
+              >
+                {window.location.href.includes("vault-detail") ? <img src={darkDashboardIcon} alt="lightDashboard" width={"24px"} height={"24px"} /> : <img src={lightDashboardIcon} alt="lightDashboard" width={"24px"} height={"24px"} />}
               </LinksGroup>
 
-            <LinksGroup
-              onActiveSidebarItemChange={activeItem =>
-                this.props.dispatch(changeActiveSidebarItem(activeItem))
-              }
-              // onActiveSidebarItemChange={
-              //   activeItem => this.props.dispatch(setVaultType(2))
-              // }
+              <LinksGroup
+                onActiveSidebarItemChange={(activeItem) => this.props.dispatch(changeActiveSidebarItem(activeItem))}
+                // onActiveSidebarItemChange={
+                //   activeItem => this.props.dispatch(setVaultType(2))
+                // }
 
-              activeItem={this.props.activeItem}
-              header="Pioneer Vault II: kMPL"
-              isHeader
-              link="/app/home/vault-detail/2"
-              index="main">
-                {window.location.href.includes("vault-detail") ? (
-                  <img
-                    src={darkDashboardIcon}
-                    alt="lightDashboard"
-                    width={"24px"}
-                    height={"24px"}
-                  />
-                ) : (
-                  <img
-                    src={lightDashboardIcon}
-                    alt="lightDashboard"
-                    width={"24px"}
-                    height={"24px"}
-                  />
-                )}
-            </LinksGroup>
+                activeItem={this.props.activeItem}
+                header="Pioneer Vault II: kMPL"
+                isHeader
+                link="/app/home/vault-detail/2"
+                index="main"
+              >
+                {window.location.href.includes("vault-detail") ? <img src={darkDashboardIcon} alt="lightDashboard" width={"24px"} height={"24px"} /> : <img src={lightDashboardIcon} alt="lightDashboard" width={"24px"} height={"24px"} />}
+              </LinksGroup>
 
-    		    <LinksGroup
-              onActiveSidebarItemChange={activeItem =>
-                this.props.dispatch(changeActiveSidebarItem(activeItem))
-              }
-
-              activeItem={this.props.activeItem}
-              header="Pioneer Vault I: NFTs"
-              isHeader
-              link="/app/home/vault-nfts"
-              index="main"
-            >
-              {window.location.href.includes("vault-nfts") ? (
-                <img
-                  src={darkDashboardIcon}
-                  alt="lightDashboard"
-                  width={"24px"}
-                  height={"24px"}
-                />
-              ) : (
-                <img
-                  src={lightDashboardIcon}
-                  alt="lightDashboard"
-                  width={"24px"}
-                  height={"24px"}
-                />
-              )}
-            </LinksGroup>
-            <LinksGroup
-              onActiveSidebarItemChange={activeItem =>
-                this.props.dispatch(changeActiveSidebarItem(activeItem))
-              }
-              /*onActiveSidebarItemChange={
+              <LinksGroup onActiveSidebarItemChange={(activeItem) => this.props.dispatch(changeActiveSidebarItem(activeItem))} activeItem={this.props.activeItem} header="Pioneer Vault I: NFTs" isHeader link="/app/home/vault-nfts" index="main">
+                {window.location.href.includes("vault-nfts") ? <img src={darkDashboardIcon} alt="lightDashboard" width={"24px"} height={"24px"} /> : <img src={lightDashboardIcon} alt="lightDashboard" width={"24px"} height={"24px"} />}
+              </LinksGroup>
+              <LinksGroup
+                onActiveSidebarItemChange={(activeItem) => this.props.dispatch(changeActiveSidebarItem(activeItem))}
+                /*onActiveSidebarItemChange={
               	activeItem => this.props.dispatch(setVaultType(3))
               }*/
-              activeItem={this.props.activeItem}
-              header="Pioneer Vault III: kMPL/ETH"
-              isHeader
-              link="/app/home/vault-detail/5"
-              index="main"
-            >
-              {window.location.href.includes("vault-detail") ? (
-                <img
-                  src={darkDashboardIcon}
-                  alt="lightDashboard"
-                  width={"24px"}
-                  height={"24px"}
-                />
-              ) : (
-                <img
-                  src={lightDashboardIcon}
-                  alt="lightDashboard"
-                  width={"24px"}
-                  height={"24px"}
-                />
-              )}
-            </LinksGroup>
-			    </ul>
+                activeItem={this.props.activeItem}
+                header="Pioneer Vault III: kMPL/ETH"
+                isHeader
+                link="/app/home/vault-detail/5"
+                index="main"
+              >
+                {window.location.href.includes("vault-detail") ? <img src={darkDashboardIcon} alt="lightDashboard" width={"24px"} height={"24px"} /> : <img src={lightDashboardIcon} alt="lightDashboard" width={"24px"} height={"24px"} />}
+              </LinksGroup>
+            </ul>
             <p></p>
             <p></p>
             <p></p>
             <h5 className={s.navTitle}>Info and Docs</h5>
             <ul className={s.nav}>
-              <LinksGroup
-                onActiveSidebarItemChange={activeItem =>
-                  this.props.dispatch(changeActiveSidebarItem(activeItem))
-                }
-                activeItem={this.props.activeItem}
-                header="AmpleSense DAO"
-                isHeader
-                link="/app/home/vault-summary"
-                index="main"
-              >
-                {window.location.href.includes("dashboard") ? (
-                  <img
-                    src={darkDashboardIcon}
-                    alt="lightDashboard"
-                    width={"24px"}
-                    height={"24px"}
-                  />
-                ) : (
-                  <img
-                    src={lightDashboardIcon}
-                    alt="lightDashboard"
-                    width={"24px"}
-                    height={"24px"}
-                  />
-                )}
+              <LinksGroup onActiveSidebarItemChange={(activeItem) => this.props.dispatch(changeActiveSidebarItem(activeItem))} activeItem={this.props.activeItem} header="AmpleSense DAO" isHeader link="/app/home/vault-summary" index="main">
+                {window.location.href.includes("dashboard") ? <img src={darkDashboardIcon} alt="lightDashboard" width={"24px"} height={"24px"} /> : <img src={lightDashboardIcon} alt="lightDashboard" width={"24px"} height={"24px"} />}
               </LinksGroup>
 
               {/* <LinksGroup
@@ -1145,31 +765,8 @@ class Sidebar extends React.Component {
                 )}
               </LinksGroup> */}
 
-              <LinksGroup
-                onActiveSidebarItemChange={activeItem =>
-                  this.props.dispatch(changeActiveSidebarItem(activeItem))
-                }
-                activeItem={this.props.activeItem}
-                header="Vault Docs"
-                isHeader
-                link="/app/home/vault-summary"
-                index="main"
-              >
-                {window.location.href.includes("dashboard") ? (
-                  <img
-                    src={darkDashboardIcon}
-                    alt="lightDashboard"
-                    width={"24px"}
-                    height={"24px"}
-                  />
-                ) : (
-                  <img
-                    src={lightDashboardIcon}
-                    alt="lightDashboard"
-                    width={"24px"}
-                    height={"24px"}
-                  />
-                )}
+              <LinksGroup onActiveSidebarItemChange={(activeItem) => this.props.dispatch(changeActiveSidebarItem(activeItem))} activeItem={this.props.activeItem} header="Vault Docs" isHeader link="/app/home/vault-summary" index="main">
+                {window.location.href.includes("dashboard") ? <img src={darkDashboardIcon} alt="lightDashboard" width={"24px"} height={"24px"} /> : <img src={lightDashboardIcon} alt="lightDashboard" width={"24px"} height={"24px"} />}
               </LinksGroup>
             </ul>
           </section>
@@ -1189,8 +786,7 @@ function mapStateToProps(store) {
     sidebarColor: store.layout.sidebarColor,
     sidebarType: store.layout.sidebarType,
     themeColor: store.layout.themeColor,
-    vault_type : store.blockchain.vault_type,
-
+    vault_type: store.blockchain.vault_type,
   };
 }
 
