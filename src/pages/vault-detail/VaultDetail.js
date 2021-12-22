@@ -540,13 +540,21 @@ class VaultDetail extends React.Component {
         </div>
       );
     }
-
-    const staking_token_balance_formatted = parseFloat(web3.utils.fromWei(staking_token_balance, contract.stakingTokenPrecisionName())).toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: contract.maxStakingTokenDisplayPrecision() });
-    const claimable_formatted = parseFloat(web3.utils.fromWei(claimable, contract.stakingTokenPrecisionName())).toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: contract.maxStakingTokenDisplayPrecision() });
-    const staking_token_withdraw_formatted = parseFloat(web3.utils.fromWei(staking_token_withdraw, contract.stakingTokenPrecisionName())).toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: contract.maxStakingTokenDisplayPrecision() });
-    const ampl_eth_reward_formatted = parseFloat(web3.utils.fromWei(reward.eth, "ether")).toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 3 });
+    const displayNumber = (arg, limit) => {
+      arg = Math.floor(arg * Math.pow(10, limit));
+      arg = arg / (Math.pow(10, limit) * 1.0);
+      arg = arg.toLocaleString("en-US", {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: limit,
+      });
+      return arg;
+    };
+    const staking_token_balance_formatted = displayNumber(parseFloat(web3.utils.fromWei(staking_token_balance, contract.stakingTokenPrecisionName())), contract.maxStakingTokenDisplayPrecision());
+    const claimable_formatted = displayNumber(parseFloat(web3.utils.fromWei(claimable, contract.stakingTokenPrecisionName())), contract.maxStakingTokenDisplayPrecision());
+    const staking_token_withdraw_formatted = displayNumber(parseFloat(web3.utils.fromWei(staking_token_withdraw, contract.stakingTokenPrecisionName())), contract.maxStakingTokenDisplayPrecision());
+    const ampl_eth_reward_formatted = displayNumber(parseFloat(web3.utils.fromWei(reward.eth, "ether")), 3);
     //in case of pioneer1 there is no token reward
-    const ampl_token_reward_formatted = parseFloat(web3.utils.fromWei(reward.token ? reward.token : "0", contract.rewardTokenPrecisionName())).toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 3 });
+    const ampl_token_reward_formatted = displayNumber(parseFloat(web3.utils.fromWei(reward.token ? reward.token : "0", contract.rewardTokenPrecisionName())), 3);
     return (
       <div className={s.root}>
         <div className={s.headerImg}>
