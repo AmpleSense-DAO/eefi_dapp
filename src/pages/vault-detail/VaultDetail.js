@@ -468,9 +468,6 @@ class VaultDetail extends React.Component {
     const valueWei = contract.getValueWei(toValidNumber(this.state.amountToDeposit).value);
     const current_time = Math.floor(Date.now() / 1000);
     this.props.dispatch(makeDeposit(vaultTypeFromID[this.getId()], web3, account, valueWei, { id: current_time, transactionHash: null, allowanceHash: null, returnValues: { amount: valueWei.toString() }, timestamp: current_time, mined: false, allowanceMined: false }));
-    this.setState({
-      amountToDeposit: 0,
-    });
   }
 
   getVaultType() {
@@ -484,9 +481,6 @@ class VaultDetail extends React.Component {
     const valueWei = web3.utils.toWei(toValidNumber(this.state.amountToWithdraw).value, contract.stakingTokenPrecisionName());
     const current_time = Math.floor(Date.now() / 1000);
     this.props.dispatch(makeWithdrawal(vaultTypeFromID[this.getId()], web3, account, valueWei, { id: current_time, transactionHash: null, returnValues: { amount: valueWei.toString() }, timestamp: current_time, mined: false }));
-    this.setState({
-      amountToWithdraw: 0,
-    });
   }
 
   render() {

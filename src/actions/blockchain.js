@@ -341,10 +341,6 @@ export function fetchTotalBalances(web3, account) {
         } else {
           rewardAdjustedBalance = rewardTokenAdjustedBalance;
         }
-        console.log(type)
-        console.log(stakedAdustedBalance)
-        console.log(totalStakedAdjustedBalance)
-        console.log(rewardAdjustedBalance)
         dispatch({
           type: FETCH_VAULT_VALUE,
           payload: {vaultType : type, stakedBalance : stakedAdustedBalance, totalStakedBalance: totalStakedAdjustedBalance, rewardBalance : rewardAdjustedBalance}
