@@ -12,16 +12,17 @@ export const FETCH_REWARD = 'FETCH_REWARD';
 export const FETCH_ALLOWANCE = 'FETCH_ALLOWANCE';
 export const MAKE_DEPOSIT = 'MAKE_DEPOSIT';
 export const MAKE_WITHDRAWAL = 'MAKE_WITHDRAWAL';
+export const MAKE_CLAIM = "MAKE_CLAIM";
 export const FETCH_GAS_PRICE_FASTEST = 'FETCH_GAS_PRICE_FASTEST';
 export const FETCH_GAS_PRICE_FAST = 'FETCH_GAS_PRICE_FAST';
 export const FETCH_GAS_PRICE_AVERAGE = 'FETCH_GAS_PRICE_AVERAGE';
 export const FETCH_DEPOSITS = 'FETCH_DEPOSITS';
 export const FETCH_WITHDRAWALS = 'FETCH_WITHDRAWALS';
+export const FETCH_CLAIMINGS = 'FETCH_CLAIMINGS';
 export const FETCH_STAKABLE_NFTS = 'FETCH_STAKABLE_NFTS';
 export const ADD_DEPOSIT = 'ADD_DEPOSIT';
 export const ADD_WITHDRAWAL = 'ADD_WITHDRAWAL';
 export const FETCH_CLAIMABLE_AMPLESENSE_BALANCE = 'FETCH_CLAIMABLE_AMPLESENSE_BALANCE';
-export const MAKE_CLAIM = "MAKE_CLAIM";
 export const FETCH_TOTAL_STAKED = "FETCH_TOTAL_STAKED";
 export const FETCH_VAULT_VALUE = "FETCH_VAULT_VALUE";
 export const FETCH_TVL_VALUE = "FETCH_TVL_VALUE";
@@ -196,12 +197,26 @@ export function makeDeposit(vaultTypes, web3, account, valueWei, tx) {
     });
   };
 }
-export function makeClaim(hash, mined) {
-  return {
-    type: MAKE_CLAIM,
-    payload: {hash: hash, mined: mined}
+
+export function makeClaim(vaultTypes, web3, account) {
+  const contract = new VaultContract(vaultTypes, web3, account);
+  const current_time = Math.floor(Date.now()/1000);
+  return function(dispatch) {
+    contract.claim().once('transactionHash', hash => {
+      //got tx
+      dispatch({
+        type: MAKE_CLAIM,
+        payload: {claim_tx: {id: current_time, transactionHash: hash, timestamp: current_time}}
+      });
+    }).then(receipt => {
+      dispatch({
+        type: MAKE_CLAIM,
+        payload: {claim_tx: {id: current_time, mined: true}}
+      });
+    });
   };
 }
+
 export function makeWithdrawal(vaultTypes, web3, account, valueWei, tx) {
   const contract = new VaultContract(vaultTypes, web3, account);
   const current_time = Math.floor(Date.now()/1000);
@@ -293,6 +308,29 @@ export function fetchWithdrawals(vaultType, web3, account) {
         })
         dispatch({
           type: FETCH_WITHDRAWALS,
+          payload: {events : events}
+        });
+      })
+    })
+  };
+}
+
+export function fetchClaimings(vaultType, web3, account) {
+  const contract = new VaultContract(vaultType, web3, account);
+  return function(dispatch) {
+    //fetch passed events
+    contract.getClaimEvent().then(events => {
+      //add timestamps
+      let block_promises = events.map(event => {
+        return web3.eth.getBlock(event.blockNumber);
+      })
+      Promise.all(block_promises).then(blocks => {
+        events = blocks.map((block, index) => {
+          events[index].timestamp = block.timestamp;
+          return events[index];
+        })
+        dispatch({
+          type: FETCH_CLAIMINGS,
           payload: {events : events}
         });
       })

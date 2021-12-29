@@ -197,7 +197,7 @@ function mapStateToProps(store) {
     reward: store.blockchain.reward,
     deposits: store.blockchain.deposits,
     withdrawals: store.blockchain.withdrawals,
-    claim_tx: store.blockchain.claim_tx,
+    claimings: store.blockchain.claimings,
     vault_type: store.blockchain.vault_type
   };
 }

@@ -5,11 +5,10 @@ import { FETCH_CLAIMABLE_AMPLESENSE_BALANCE } from "../actions/blockchain";
 import { FETCH_KMPL_PRICE, FETCH_EEFI_PRICE, FETCH_AMPL_PRICE, FETCH_ETH_PRICE, FETCH_TVL_VALUE, FETCH_ZNFT_PRICE, FETCH_ANFT_PRICE } from "../actions/blockchain";
 import { FETCH_REWARD } from "../actions/blockchain";
 import { FETCH_ALLOWANCE } from "../actions/blockchain";
-import { MAKE_DEPOSIT, MAKE_WITHDRAWAL, FETCH_DEPOSITS, FETCH_WITHDRAWALS, FETCH_STAKABLE_NFTS, FETCH_VAULT_VALUE } from "../actions/blockchain";
+import { MAKE_DEPOSIT, MAKE_WITHDRAWAL, MAKE_CLAIM, FETCH_DEPOSITS, FETCH_WITHDRAWALS, FETCH_CLAIMINGS, FETCH_STAKABLE_NFTS, FETCH_VAULT_VALUE } from "../actions/blockchain";
 import { FETCH_GAS_PRICE_FASTEST } from "../actions/blockchain";
 import { FETCH_GAS_PRICE_FAST } from "../actions/blockchain";
 import { FETCH_GAS_PRICE_AVERAGE } from "../actions/blockchain";
-import { MAKE_CLAIM } from "../actions/blockchain";
 import { FETCH_TOTAL_STAKED } from "../actions/blockchain";
 
 const defaultState = {
@@ -27,7 +26,7 @@ const defaultState = {
   total_staked: "0",
   deposits: [],
   withdrawals: [],
-  claim_tx: { hash: "", mined: false },
+  claimings: [],
   vaultValues: {},
 };
 
@@ -154,6 +153,27 @@ export default function blockchainReducer(state = defaultState, action) {
       return Object.assign({}, state, {
         withdrawals: new_withdrawals2,
       });
+      case MAKE_CLAIM:
+        let new_claims = state.claimings.slice();
+        did_find2 = false;
+        new_claims.map((claim) => {
+          console.log("claim", action.payload)
+          if (claim.id === action.payload.claim_tx.id) {
+            did_find2 = true;
+            // updating existing entry
+            if (action.payload.claim_tx.mined) {
+              claim.mined = true;
+            }
+            if (action.payload.claim_tx.transactionHash) claim.transactionHash = action.payload.claim_tx.transactionHash;
+          }
+          return console.log(claim);
+        });
+        if (!did_find2) {
+          new_claims.push(action.payload.claim_tx);
+        }
+        return Object.assign({}, state, {
+          claimings: new_claims,
+        });
     case FETCH_DEPOSITS:
       return Object.assign({}, state, {
         deposits: action.payload.events,
@@ -162,21 +182,13 @@ export default function blockchainReducer(state = defaultState, action) {
       return Object.assign({}, state, {
         withdrawals: action.payload.events,
       });
+    case FETCH_CLAIMINGS:
+      return Object.assign({}, state, {
+        claimings: action.payload.events,
+      });
     case FETCH_STAKABLE_NFTS:
       return Object.assign({}, state, {
         stakableNFTs: action.payload.stakableNfts,
-      });
-    case MAKE_CLAIM:
-      let claim_tx = state.claim_tx;
-      console.log("state")
-      console.log(state)
-      console.log("action.payload.hash")
-      console.log(action.payload.hash)
-      
-      if (action.payload.hash) claim_tx.hash = action.payload.hash;
-      claim_tx.mined = action.payload.mined;
-      return Object.assign({}, state, {
-        claim_tx: claim_tx,
       });
     default:
       return state;

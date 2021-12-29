@@ -438,28 +438,7 @@ class VaultDetail extends React.Component {
   doClaim() {
     const { account, web3 } = this.props;
 
-    console.log("-------------------------");
-    console.log(vaultTypeFromID[this.getId()]);
-    console.log("-------------------------");
-    console.log(web3);
-    console.log("-------------------------");
-    console.log(account);
-    const contract = new VaultContract(vaultTypeFromID[this.getId()], web3, account);
-
-    contract
-      .claim()
-      .once("transactionHash", (hash) => {
-        this.props.dispatch(makeClaim(hash, false));
-      })
-      .then((receipt) => {
-        console.log("result");
-        console.log(receipt);
-        this.props.dispatch(makeClaim(null, true));
-      })
-      .catch((err) => {
-        console.log("err");
-        console.log(err);
-      });
+    this.props.dispatch(makeClaim(vaultTypeFromID[this.getId()], web3, account));
   }
 
   doDeposit() {
@@ -496,6 +475,7 @@ class VaultDetail extends React.Component {
       web3,
       deposits,
       withdrawals,
+      claimings,
     } = this.props;
 
     const contract = new VaultContract(vaultTypeFromID[this.getId()], web3, account);
@@ -549,6 +529,7 @@ class VaultDetail extends React.Component {
     const ampl_eth_reward_formatted = displayNumber(parseFloat(web3.utils.fromWei(reward.eth, "ether")), 3);
     //in case of pioneer1 there is no token reward
     const ampl_token_reward_formatted = displayNumber(parseFloat(web3.utils.fromWei(reward.token ? reward.token : "0", contract.rewardTokenPrecisionName())), 3);
+    console.log("claimings",claimings)
     return (
       <div className={s.root}>
         <div className={s.headerImg}>
@@ -761,11 +742,6 @@ class VaultDetail extends React.Component {
                         <Button color="primary" className="mb-md mr-md" disabled={reward.token === "0" && reward.eth === "0"} onClick={this.doClaim}>
                           Claim
                         </Button>
-                        {this.props.claim_tx.hash && this.props.claim_tx.hash.substr(0, 8) + "..." && (
-                          <a href={"https://www.etherscan.io/tx/" + this.props.claim_tx.hash} target="_blank" rel="noopener noreferrer">
-                            Link {this.props.claim_tx.mined === false && "(pending)"}
-                          </a>
-                        )}
                       </p>
                     </td>
                   </tr>
@@ -862,6 +838,52 @@ class VaultDetail extends React.Component {
                     })}
                 </tbody>
               </Table>
+              <h3>Your Claiming History</h3>
+              <Table className="table-hover table-bordered" responsive>
+                <thead>
+                  <tr>
+                    <th width="50%" key={0} scope="col" className={"pl-0"}>
+                      &nbsp;Claim Date
+                    </th>
+                    <th width="25%" key={1} scope="col" className={"pl-0"}>
+                      &nbsp;Amount
+                    </th>
+                    <th key={2} scope="col" className={"pl-0"}>
+                      &nbsp;Tx Link
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="text-dark">
+                  {claimings
+                    .slice(0)
+                    .reverse()
+                    .map((claim) => {
+                      return (
+                        <tr key={claim.transactionHash}>
+                          <td className="fw-normal pl-0 fw-thin">&nbsp;{new Date(claim.timestamp * 1000).toUTCString()}</td>
+                          {claim.returnValues? 
+                          <td className={"pl-0 fw-thin"}>
+                            &nbsp;{parseFloat(web3.utils.fromWei(claim.returnValues.token, contract.rewardTokenPrecisionName())).toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 4 })} {"EEFI"}
+                            &nbsp;{parseFloat(web3.utils.fromWei(claim.returnValues.eth)).toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 4 })} {"ETH"}
+                          </td>
+                          :
+                          <td className={"pl-0 fw-thin"}>Computing rewards...</td>
+                          }
+                          <td className={"pl-0 fw-thin"}>
+                            {claim.transactionHash && (
+                              <div>
+                                {claim.transactionHash.substr(0, 8) + "..."}{" "}
+                                <a href={"https://www.etherscan.io/tx/" + claim.transactionHash} target="_blank" rel="noopener noreferrer">
+                                  Link {claim.mined === false && "(pending)"}
+                                </a>
+                              </div>
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                </tbody>
+              </Table>
             </Widget>
           </Col>
         </Row>
@@ -881,7 +903,7 @@ function mapStateToProps(store) {
     reward: store.blockchain.reward,
     deposits: store.blockchain.deposits,
     withdrawals: store.blockchain.withdrawals,
-    claim_tx: store.blockchain.claim_tx,
+    claimings: store.blockchain.claimings,
     stakableNFTs: store.blockchain.stakableNFTs,
   };
 }

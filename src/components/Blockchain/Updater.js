@@ -6,6 +6,7 @@ import {
   fetchStakingTokenBalance,
   fetchDeposits,
   fetchWithdrawals,
+  fetchClaimings,
   fetchStakedBalance,
   fetchClaimableBalance,
   fetchTotalStaked,
@@ -307,6 +308,11 @@ export class VaultContract {
     }
   }
 
+  getClaimEvent() {
+    const contract = new this.state.web3.eth.Contract(this.state.type.vault_abi.abi, this.state.type.vault);
+    return contract.getPastEvents("Claimed", { fromBlock: 0, filter: { account:  this.state.account } });
+  }
+
   getStakeChangedEvent() {
     const contract = new this.state.web3.eth.Contract(this.state.type.vault_abi.abi, this.state.type.vault);
     return contract.getPastEvents("StakeChanged", { fromBlock: 0 });
@@ -333,6 +339,7 @@ class BlockchainUpdater extends React.Component {
     this.pull();
     this.props.dispatch(fetchDeposits(vaultTypeFromID[vault_type], web3, account));
     this.props.dispatch(fetchWithdrawals(vaultTypeFromID[vault_type], web3, account));
+    this.props.dispatch(fetchClaimings(vaultTypeFromID[vault_type], web3, account));
     this.props.dispatch(fetchTotalBalances(web3, account));
     this.props.dispatch(fetchTVLHistory(web3, account));
     // uncomment if you need to access stake nft list
