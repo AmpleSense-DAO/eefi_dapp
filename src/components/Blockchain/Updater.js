@@ -20,6 +20,7 @@ import {
   fetchGasPriceFast,
   fetchGasPriceAverage,
   fetchReward,
+  fetchAllowance,
   fetchStakableNFTs,
   fetchTotalBalances,
   fetchTVLHistory
@@ -54,8 +55,8 @@ export const VaultType = {
   AMPLESENSE : {vault: CONTRACT_ADDRESSES.AMPLE_SENSE_VAULT, staking_token: CONTRACT_ADDRESSES.AMPLE_CONTRACT, vault_abi: AmplesenseVaultAbi, staking_token_abi: erc20Abi, staking_symbol: "AMPL", precision: 9, reward_token_precision: 18, name: "Elastic Vault: AMPL > EEFI"},
   LPSTAKING : {vault: CONTRACT_ADDRESSES.LPSTAKING_CONTRACT, staking_token: CONTRACT_ADDRESSES.Balancer_EEFI_ETH_CONTRACT, vault_abi: StakingERC20Abi, staking_token_abi: erc20Abi, staking_symbol: "Balancer LP", precision: 18, reward_token_precision: 18, name: "EEFI/ETH LP Token Vault"},
   PIONEER2 : {vault: CONTRACT_ADDRESSES.PIONEER2_CONTRACT, staking_token: CONTRACT_ADDRESSES.KMPL_CONTRACT, vault_abi: StakingERC20Abi, staking_token_abi: erc20Abi, staking_symbol: "kMPL", precision: 9, reward_token_precision: 18, name: "Pioneer Fund Vault II: kMPL"},
-  PIONEER1A : {vault: CONTRACT_ADDRESSES.PIONEER1_CONTRACT, staking_token: CONTRACT_ADDRESSES.NFT1_CONTRACT, vault_abi: StakingERC721Abi, staking_token_abi: erc721Abi, staking_symbol: "ZNFT", precision: 1, reward_token_precision: 18, name: "Pioneer Fund Vault I: ZEUS"},
-  PIONEER1B : {vault: CONTRACT_ADDRESSES.PIONEER1_CONTRACT, staking_token: CONTRACT_ADDRESSES.NFT2_CONTRACT, vault_abi: StakingERC721Abi, staking_token_abi: erc721Abi, staking_symbol: "ANFT", precision: 1, reward_token_precision: 18, name: "Pioneer Fund Vault I: APOLLO"},
+  PIONEER1A : {vault: CONTRACT_ADDRESSES.PIONEER1_CONTRACT, staking_token: CONTRACT_ADDRESSES.NFT1_CONTRACT, vault_abi: StakingERC721Abi, staking_token_abi: erc721Abi, staking_symbol: "ZNFT", precision: 0, reward_token_precision: 18, name: "Pioneer Fund Vault I: ZEUS"},
+  PIONEER1B : {vault: CONTRACT_ADDRESSES.PIONEER1_CONTRACT, staking_token: CONTRACT_ADDRESSES.NFT2_CONTRACT, vault_abi: StakingERC721Abi, staking_token_abi: erc721Abi, staking_symbol: "ANFT", precision: 0, reward_token_precision: 18, name: "Pioneer Fund Vault I: APOLLO"},
   PIONEER3 : {vault: CONTRACT_ADDRESSES.PIONEER3_CONTRACT, staking_token: CONTRACT_ADDRESSES.Univ3_KMPL_ETH_CONTRACT, vault_abi: StakingERC20Abi, staking_token_abi: erc20Abi, staking_symbol: "UniswapV2", precision: 18, reward_token_precision: 18, name: "Pioneer Fund Vault III: KMPL/ETH"},
 }
 
@@ -117,6 +118,7 @@ export class VaultContract {
   }
 
   stakingTokenPrecisionName() {
+    if(this.state.type.precision === 0) return "wei";
     if(this.state.type.precision === 1) return "wei";
     if(this.state.type.precision === 9) return "gwei";
     return "ether";
@@ -212,7 +214,7 @@ export class VaultContract {
     }
   }
 
-  approve(amount) {
+  approve() {
     const contract = new this.state.web3.eth.Contract(this.state.type.staking_token_abi.abi, this.state.type.staking_token);
     if(this.state.type === VaultType.PIONEER1A || this.state.type === VaultType.PIONEER1B) {
       return contract.methods.setApprovalForAll(CONTRACT_ADDRESSES.PIONEER1_CONTRACT, true).send({from: this.state.account});
@@ -340,6 +342,7 @@ class BlockchainUpdater extends React.Component {
     this.props.dispatch(fetchDeposits(vaultTypeFromID[vault_type], web3, account));
     this.props.dispatch(fetchWithdrawals(vaultTypeFromID[vault_type], web3, account));
     this.props.dispatch(fetchClaimings(vaultTypeFromID[vault_type], web3, account));
+    this.props.dispatch(fetchAllowance(vaultTypeFromID[vault_type], web3, account));
     this.props.dispatch(fetchTotalBalances(web3, account));
     this.props.dispatch(fetchTVLHistory(web3, account));
     // uncomment if you need to access stake nft list
@@ -414,6 +417,8 @@ class BlockchainUpdater extends React.Component {
     this.props.dispatch(fetchTotalStaked(vaultTypeFromID[vault_type], web3, account));
 
     this.props.dispatch(fetchReward(vaultTypeFromID[vault_type], web3, account));
+
+    this.props.dispatch(fetchAllowance(vaultTypeFromID[vault_type], web3, account));
 
     // get pas prices
     axios.get('https://data-api.defipulse.com/api/v1/egs/api/ethgasAPI.json?api-key=db84e1509032bc4cc4f96d1c8791d92b667d28adc606bda9480c9a616310').then(ethGasStationResponse => {

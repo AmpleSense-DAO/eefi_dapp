@@ -18,7 +18,7 @@ import p4 from "../../images/tokens/apollo_cropped_edited_sm.png";
 import p5 from "../../images/tokens/ethereum-eth-logo.svg";
 import p7 from "../../images/tokens/kmpl_uni_logo.png";
 
-import { setVaultType, checkAllowance, makeDeposit, makeWithdrawal, makeClaim } from "../../actions/blockchain";
+import { setVaultType, checkAllowance, makeDeposit, makeAllowance, makeWithdrawal, makeClaim } from "../../actions/blockchain";
 
 import { FormGroup, Label, Input, InputGroup, InputGroupAddon } from "reactstrap";
 
@@ -370,6 +370,7 @@ class VaultDetail extends React.Component {
     super(props);
     this.forceUpdate = this.forceUpdate.bind(this);
     this.doDeposit = this.doDeposit.bind(this);
+    this.doAllowance = this.doAllowance.bind(this);
     this.doWithdraw = this.doWithdraw.bind(this);
     this.handleChangeToDeposit = this.handleChangeToDeposit.bind(this);
     this.calculateAmountToDeposit = this.calculateAmountToDeposit.bind(this);
@@ -449,6 +450,11 @@ class VaultDetail extends React.Component {
     this.props.dispatch(makeDeposit(vaultTypeFromID[this.getId()], web3, account, valueWei, { id: current_time, transactionHash: null, allowanceHash: null, returnValues: { amount: valueWei.toString() }, timestamp: current_time, mined: false, allowanceMined: false }));
   }
 
+  doAllowance() {
+    const { account, web3 } = this.props;
+    this.props.dispatch(makeAllowance(vaultTypeFromID[this.getId()], web3, account));
+  }
+
   getVaultType() {
     return vaultTypeFromID[this.getId()];
   }
@@ -476,6 +482,7 @@ class VaultDetail extends React.Component {
       deposits,
       withdrawals,
       claimings,
+      allowance
     } = this.props;
 
     const contract = new VaultContract(vaultTypeFromID[this.getId()], web3, account);
@@ -529,7 +536,7 @@ class VaultDetail extends React.Component {
     const ampl_eth_reward_formatted = displayNumber(parseFloat(web3.utils.fromWei(reward.eth, "ether")), 3);
     //in case of pioneer1 there is no token reward
     const ampl_token_reward_formatted = displayNumber(parseFloat(web3.utils.fromWei(reward.token ? reward.token : "0", contract.rewardTokenPrecisionName())), 3);
-    console.log("claimings",claimings)
+    
     return (
       <div className={s.root}>
         <div className={s.headerImg}>
@@ -610,9 +617,14 @@ class VaultDetail extends React.Component {
                 </FormGroup>
                 {contract.stakingTokenSymbol() === "AMPL" && <p className="fs-mini text-muted">{contract.stakingTokenSymbol()} deposits locked for 90 days.</p>}
                 <p className={"d-flex align-items-center "} align="center">
-                  <Button color="default" size="lg" align="center" className="mb-md mr-sm" disabled={this.state.amountToDeposit === "0"} onClick={this.doDeposit}>
+                  {allowance > 0? <Button color="default" size="lg" align="center" className="mb-md mr-sm" disabled={this.state.amountToDeposit === "0"} onClick={this.doDeposit}>
                     Deposit
                   </Button>
+                  :
+                  <Button color="default" size="lg" align="center" className="mb-md mr-sm" onClick={this.doAllowance}>
+                    Unlock account
+                  </Button>
+                  }
                 </p>
               </div>
             </Widget>
@@ -905,6 +917,7 @@ function mapStateToProps(store) {
     withdrawals: store.blockchain.withdrawals,
     claimings: store.blockchain.claimings,
     stakableNFTs: store.blockchain.stakableNFTs,
+    allowance: store.blockchain.allowance
   };
 }
 

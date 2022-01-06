@@ -72,7 +72,19 @@ export function fetchClaimableBalance(vaultTypes, web3, account) {
 
 export function fetchTotalStaked(vaultTypes, web3, account) {
   const contract = new VaultContract(vaultTypes, web3, account);
-  return function(dispatch) {
+  // special case for NFT vault, since it allows staking 2 tokens we check the token balance directly instead of
+  // asking the contract, which will return the total of both tokens staked
+  if(vaultTypes.name == "Pioneer Fund Vault I: ZEUS" || vaultTypes.name == "Pioneer Fund Vault I: APOLLO") {
+    return function(dispatch) {
+      const tokenContract = new web3.eth.Contract(vaultTypes.staking_token_abi.abi, vaultTypes.staking_token);
+      tokenContract.methods.balanceOf(vaultTypes.vault).call().then(balance => {
+        dispatch({
+          type: FETCH_TOTAL_STAKED,
+          payload: balance
+        });
+      });
+    };
+  } else return function(dispatch) {
     contract.totalStaked().then(balance => {
       dispatch({
         type: FETCH_TOTAL_STAKED,
@@ -136,12 +148,25 @@ export function fetchReward(vaultTypes, web3, account) {
   };
 }
 
-export function checkAllowance(amount) {
-  return {
-    type: FETCH_ALLOWANCE,
-    payload: amount
+export function fetchAllowance(vaultTypes, web3, account) {
+  const contract = new VaultContract(vaultTypes, web3, account);
+  return function(dispatch) {
+    contract.allowance().then(allowance => {
+      dispatch({
+        type: FETCH_ALLOWANCE,
+        payload: allowance
+      });
+    });
   };
 }
+
+export function makeAllowance(vaultTypes, web3, account) {
+  const contract = new VaultContract(vaultTypes, web3, account);
+  return function(dispatch) {
+    contract.approve().once('transactionHash', hash_allowance => {});
+  };
+}
+
 export function makeDeposit(vaultTypes, web3, account, valueWei, tx) {
   const contract = new VaultContract(vaultTypes, web3, account);
   const current_time = Math.floor(Date.now()/1000);
@@ -150,50 +175,20 @@ export function makeDeposit(vaultTypes, web3, account, valueWei, tx) {
       type: MAKE_DEPOSIT,
       payload: {deposit_tx: tx}
     });
-    contract.allowance().then(allowance => {
-      const all = new web3.utils.BN(allowance.toString());
-      checkAllowance(all);
-      const to_allow = new web3.utils.BN(valueWei.gt(all)? valueWei.sub(all) : "0");
-      if(to_allow > 0 || allowance === false /*NFT case*/) {
-        contract.approve(valueWei).once('transactionHash', hash_allowance => {
-          contract.getStakableNFTTokens().then(tokens => {
-            contract.stake(valueWei.toString())
-            .once('transactionHash', hash_deposit => {
-                dispatch({
-                  type: MAKE_DEPOSIT,
-                  payload: {deposit_tx: {id: current_time, transactionHash: hash_deposit, allowanceHash: hash_allowance, returnValues: {amount: valueWei.toString()}, timestamp: current_time, mined: false, allowanceMined: false}}
-                });
-              }).then(receipt => {
-                //after it's mined, update
-                dispatch({
-                  type: MAKE_DEPOSIT,
-                  payload: {deposit_tx: {id: current_time, mined: true}}
-                });
-              });
-          })
+    contract.getStakableNFTTokens().then(tokens => {
+      contract.stake(valueWei)
+      .once('transactionHash', hash_deposit => {
+          dispatch({
+            type: MAKE_DEPOSIT,
+            payload: {deposit_tx: {id: current_time, transactionHash: hash_deposit, returnValues: {amount: valueWei.toString()}, timestamp: current_time, mined: false}}
+          });
         }).then(receipt => {
           //after it's mined, update
           dispatch({
             type: MAKE_DEPOSIT,
-            payload: {deposit_tx: {id: current_time, allowanceMined: true}}
+            payload: {deposit_tx: {id: current_time, mined: true}}
           });
         });
-      } else {
-        contract.getStakableNFTTokens().then(tokens => {
-          contract.stake(valueWei).once('transactionHash', hash_deposit => {
-            dispatch({
-              type: MAKE_DEPOSIT,
-              payload: {deposit_tx: {id: current_time, transactionHash: hash_deposit, allowanceHash: null}}
-            });
-          }).then(receipt => {
-            //after it's mined, update
-            dispatch({
-              type: MAKE_DEPOSIT,
-              payload: {deposit_tx: {id: current_time, mined: true}}
-            });
-          });
-        });
-      }
     });
   };
 }
@@ -379,10 +374,25 @@ export function fetchTotalBalances(web3, account) {
         } else {
           rewardAdjustedBalance = rewardTokenAdjustedBalance;
         }
-        dispatch({
-          type: FETCH_VAULT_VALUE,
-          payload: {vaultType : type, stakedBalance : stakedAdustedBalance, totalStakedBalance: totalStakedAdjustedBalance, rewardBalance : rewardAdjustedBalance}
-        });
+        // special case for NFT vault, since it allows staking 2 tokens we check the token balance directly instead of
+        // asking the contract, which will return the total of both tokens staked
+        if(type.name == "Pioneer Fund Vault I: ZEUS" || type.name == "Pioneer Fund Vault I: APOLLO") {
+          const tokenContract = new web3.eth.Contract(type.staking_token_abi.abi, type.staking_token);
+          tokenContract.methods.balanceOf(type.vault).call().then(balance => {
+            const totalStakedAdjustedBalanceReal = balance / 10**contract.stakingTokenPrecision();
+            dispatch({
+              type: FETCH_VAULT_VALUE,
+              payload: {vaultType : type, stakedBalance : stakedAdustedBalance, totalStakedBalance: totalStakedAdjustedBalanceReal, rewardBalance : rewardAdjustedBalance}
+            });
+          }).catch(err => {
+            console.log(err)
+          })
+        } else {
+          dispatch({
+            type: FETCH_VAULT_VALUE,
+            payload: {vaultType : type, stakedBalance : stakedAdustedBalance, totalStakedBalance: totalStakedAdjustedBalance, rewardBalance : rewardAdjustedBalance}
+          });
+        }
       }).catch((err)=> {
         console.log(err)
       })

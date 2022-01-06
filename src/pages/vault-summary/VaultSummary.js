@@ -1261,7 +1261,7 @@ class VaultSummary extends React.Component {
   }
 
   render() {
-    const { kmpl_price, eefi_price, ampl_price, eth_price, history } = this.props;
+    const { kmpl_price, eefi_price, ampl_price, eth_price, history, anft_price, znft_price } = this.props;
 
     const amplesensevaultValues = this.props.vaultValues["Elastic Vault: AMPL > EEFI"];
     const pioneer1AValues = this.props.vaultValues["Pioneer Fund Vault I: APOLLO"];
@@ -1269,12 +1269,10 @@ class VaultSummary extends React.Component {
     const pioneer2Values = this.props.vaultValues["Pioneer Fund Vault II: kMPL"];
     const pioneer3Values = this.props.vaultValues["Pioneer Fund Vault III: KMPL/ETH"];
     const lpStakingValues = this.props.vaultValues["EEFI/ETH LP Token Vault"];
-
-    console.log(pioneer1AValues, pioneer1BValues);
-
+    console.log("values", pioneer1AValues, pioneer1BValues);
     const amplesenseVaultStaking = amplesensevaultValues ? amplesensevaultValues.stakedBalance * ampl_price : 0;
-    const pioneer1AStaking = pioneer1AValues ? pioneer1AValues.stakedBalance * 0 : 0;
-    const pioneer1BStaking = pioneer1BValues ? pioneer1BValues.stakedBalance * 0 : 0;
+    const pioneer1AStaking = pioneer1AValues ? pioneer1AValues.stakedBalance * znft_price * eth_price : 0;
+    const pioneer1BStaking = pioneer1BValues ? pioneer1BValues.stakedBalance * anft_price * eth_price : 0;
     const pioneer2Staking = pioneer2Values ? pioneer2Values.stakedBalance * kmpl_price : 0;
     const pioneer3Staking = pioneer3Values ? pioneer3Values.stakedBalance * 0 : 0;
     const lpStakingStaking = lpStakingValues ? lpStakingValues.stakedBalance * 0 : 0;
@@ -1287,8 +1285,8 @@ class VaultSummary extends React.Component {
     const lpStakingReward = lpStakingValues ? lpStakingValues.rewardBalance.token * eefi_price + lpStakingValues.rewardBalance.eth * eth_price : 0;
 
     const amplesenseVaultTVL = amplesensevaultValues ? amplesensevaultValues.totalStakedBalance * ampl_price : 0;
-    const pioneer1ATVL = pioneer1AValues ? pioneer1AValues.totalStakedBalance * 0 : 0;
-    const pioneer1BTVL = pioneer1BValues ? pioneer1BValues.totalStakedBalance * 0 : 0;
+    const pioneer1ATVL = pioneer1AValues ? pioneer1AValues.totalStakedBalance * znft_price * eth_price : 0;
+    const pioneer1BTVL = pioneer1BValues ? pioneer1BValues.totalStakedBalance * anft_price * eth_price : 0;
     const pioneer2TVL = pioneer2Values ? pioneer2Values.totalStakedBalance * kmpl_price : 0;
     const pioneer3TVL = pioneer3Values ? pioneer3Values.totalStakedBalance * 0 : 0;
     const lpStakingTVL = lpStakingValues ? lpStakingValues.totalStakedBalance * 0 : 0;
