@@ -3,6 +3,7 @@
 .root {
   z-index: 100;
   background: var(--navbar-bg);
+  background: transparent;
   box-shadow: var(--navbar-shadow);
   height: $navbar-height;
   flex-wrap: nowrap;

@@ -1,35 +1,8 @@
 /* eslint-disable */
-import React from 'react';
+import React from "react";
 
-
-import {
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  UncontrolledTooltip,
-  UncontrolledButtonDropdown,
-  InputGroup,
-  InputGroupAddon,
-  ButtonGroup,
-  ButtonToolbar,
-  ButtonDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  Row,
-  Col,
-  Table,
-  Button,
-  TabContent,
-  TabPane,
-  Nav,
-  NavItem,
-  NavLink,
-  Collapse,
-  UncontrolledDropdown
-} from 'reactstrap';
-import classnames from 'classnames';
+import { Form, FormGroup, Label, Input, UncontrolledTooltip, UncontrolledButtonDropdown, InputGroup, InputGroupAddon, ButtonGroup, ButtonToolbar, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, Row, Col, Table, Button, TabContent, TabPane, Nav, NavItem, NavLink, Collapse, UncontrolledDropdown } from "reactstrap";
+import classnames from "classnames";
 
 import { withRouter } from "react-router";
 import { connect } from "react-redux";
@@ -39,7 +12,7 @@ import VaultDetail from "../../pages/vault-detail/VaultDetail";
 import { setVaultType } from "../../actions/blockchain";
 import PropTypes from "prop-types";
 
-import s from './VaultNFTs.module.scss'
+import s from "./VaultNFTs.module.scss";
 
 //tokens
 import p1 from "../../images/tokens/ample.png";
@@ -48,12 +21,9 @@ import p3 from "../../images/tokens/kappa_logo_kmpl.png";
 import p4 from "../../images/tokens/apollo_cropped_edited_sm.png";
 import p5 from "../../images/tokens/ethereum-eth-logo.svg";
 
-
-
 class VaultNFTs extends React.Component {
-
   static propTypes = {
-    dispatch: PropTypes.func.isRequired
+    dispatch: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -61,33 +31,43 @@ class VaultNFTs extends React.Component {
     this.toggleFirstTabs = this.toggleFirstTabs.bind(this);
     this.toggleAccordionFirst = this.toggleAccordionFirst.bind(this);
     this.state = {
-      activeFirstTab: 'tab11',
-      activeSecondTab: 'tab22',
-      activeThirdTab: 'tab31',
+      activeFirstTab: "tab11",
+      activeSecondTab: "tab22",
+      activeThirdTab: "tab31",
       dropdownOpen: false,
       accordionFirst: [false, false, false],
       accordionSecond: [false, true, false],
-      accordionSecondContent: [{
-        title: 'Collapsible Group Item', body: ` Get base styles and flexible support for collapsible components like accordions and navigation.
+      accordionSecondContent: [
+        {
+          title: "Collapsible Group Item",
+          body: ` Get base styles and flexible support for collapsible components like accordions and navigation.
           Using the collapse plugin, we built a simple accordion by extending the panel component.`,
-      }, {
-        title: 'Normal Text Insertion', body: `
+        },
+        {
+          title: "Normal Text Insertion",
+          body: `
         Why don't use Lore Ipsum? I think if some one says don't use lore ipsum it's very
               controversial point. I think the opposite actually. Everyone knows what is lore ipsum
               - it is easy to understand if text is lore ipsum. You'll automatically skip -
               because you know - it's just non-informative stub. But what if there some text like
               this one? You start to read it! But the goal of this text is different. The goal is
               the example. So a bit of Lore Ipsum is always very good practice. Keep it in mind!`,
-      }, {
-        title: 'Check It',
-        body: ' Why don\'t use Lore Ipsum? I think if some one says don\'t use lore ipsum it\'s very controversial point. I think the opposite actually.',
-      }],
+        },
+        {
+          title: "Check It",
+          body: " Why don't use Lore Ipsum? I think if some one says don't use lore ipsum it's very controversial point. I think the opposite actually.",
+        },
+      ],
 
-      accordionFirstContent: [{
-        title: 'Collapsible Group Item', body: ` Get base styles and flexible support for collapsible components like accordions and navigation.
+      accordionFirstContent: [
+        {
+          title: "Collapsible Group Item",
+          body: ` Get base styles and flexible support for collapsible components like accordions and navigation.
           Using the collapse plugin, we built a simple accordion by extending the panel component.`,
-      }, {
-        title: 'Random from the Web', body: `
+        },
+        {
+          title: "Random from the Web",
+          body: `
         <p><span class="fw-semi-bold">Light Blue</span> - is a next generation admin template based
         on the latest Metro design. There are few reasons we want to tell you, why we have created it:
         We didn't like the darkness of most of admin templates, so we created this light one.
@@ -96,10 +76,12 @@ class VaultNFTs extends React.Component {
         deep background - is what makes widgets look real.
         </p>
         <p class="no-margin text-muted"><em>- Some One</em></p>`,
-      }, {
-        title: 'Check It',
-        body: ' Why don\'t use Lore Ipsum? I think if some one says don\'t use lore ipsum it\'s very controversial point. I think the opposite actually.',
-      }],
+        },
+        {
+          title: "Check It",
+          body: " Why don't use Lore Ipsum? I think if some one says don't use lore ipsum it's very controversial point. I think the opposite actually.",
+        },
+      ],
     };
   }
 
@@ -109,7 +91,7 @@ class VaultNFTs extends React.Component {
 
   toggleFirstTabs(tab) {
     if (this.state.activeFirstTab !== tab) {
-      this.props.dispatch(setVaultType(tab == 'tab11'? 3 : 4));
+      this.props.dispatch(setVaultType(tab == "tab11" ? 3 : 4));
       this.setState({
         activeFirstTab: tab,
       });
@@ -137,13 +119,19 @@ class VaultNFTs extends React.Component {
   }
 
   render() {
+    if (!this.props.account) {
+      return (
+        <div className={s.root}>
+          <h2>Pioneer Fund Vault I: NFTs</h2>
+          <h3>Connect wallet to view vault details.</h3>
+        </div>
+      );
+    }
     return (
       <div>
         <div className={s.headerImg}>
           <img src="/tables/media/apollo_cropped_edited_sm.png" height={80} width={80} alt="" className={s.mobileImg} />
-          <h2 className={s.headerText}>
-            Pioneer Fund Vault I: NTFs
-          </h2>
+          <h2 className={s.headerText}>Pioneer Fund Vault I: NFTs</h2>
         </div>
         {/* Tabs */}
         <Row>
@@ -152,38 +140,40 @@ class VaultNFTs extends React.Component {
               <Nav tabs className={`float-left ${s.coloredNav} shadow`}>
                 <NavItem>
                   <NavLink
-                    className={classnames({ active: this.state.activeFirstTab === 'tab11' })}
-                    onClick={() => { this.toggleFirstTabs('tab11'); }}
+                    className={classnames({ active: this.state.activeFirstTab === "tab11" })}
+                    onClick={() => {
+                      this.toggleFirstTabs("tab11");
+                    }}
                   >
                     <span>Manage Zeus NFTs</span>
                   </NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink
-                    className={classnames({ active: this.state.activeFirstTab === 'tab12' })}
-                    onClick={() => { this.toggleFirstTabs('tab12'); }}
+                    className={classnames({ active: this.state.activeFirstTab === "tab12" })}
+                    onClick={() => {
+                      this.toggleFirstTabs("tab12");
+                    }}
                   >
                     <span>Manage Apollo NFTs</span>
                   </NavLink>
                 </NavItem>
               </Nav>
             </div>
-            <div className={s.nftTitle}>
-              {this.props.account && this.props.vault_type && <VaultDetail key={""+this.props.vault_type} forcedId={this.props.vault_type}/>}
-            </div>
+            <div className={s.nftTitle}>{this.props.account && this.props.vault_type && <VaultDetail key={"" + this.props.vault_type} forcedId={this.props.vault_type} claimTxt={true} claimWithdrawTxt={true} />}</div>
             {/* <TabContent className='mb-lg shadow' activeTab={this.state.activeFirstTab}> */}
-              {/* <TabPane tabId="tab11"> */}
-                {/* {this.props.account && <VaultDetail forcedId={2}/> } */}
-              {/* </TabPane> */}
-              {/* <TabPane tabId="tab12"> */}
-                {/* {this.props.account && <VaultDetail forcedId={4}/> } */}
-              {/* </TabPane> */}
+            {/* <TabPane tabId="tab11"> */}
+            {/* {this.props.account && <VaultDetail forcedId={2}/> } */}
+            {/* </TabPane> */}
+            {/* <TabPane tabId="tab12"> */}
+            {/* {this.props.account && <VaultDetail forcedId={4}/> } */}
+            {/* </TabPane> */}
             {/* </TabContent> */}
           </Col>
         </Row>
-      </div>);
+      </div>
+    );
   }
-
 }
 
 function mapStateToProps(store) {
@@ -198,7 +188,7 @@ function mapStateToProps(store) {
     deposits: store.blockchain.deposits,
     withdrawals: store.blockchain.withdrawals,
     claimings: store.blockchain.claimings,
-    vault_type: store.blockchain.vault_type
+    vault_type: store.blockchain.vault_type,
   };
 }
 

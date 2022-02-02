@@ -19,6 +19,7 @@ import ordersDangerImg from "../../images/theme-icons/red/Orders.svg";
 import ordersSuccessImg from "../../images/theme-icons/green/Orders.svg";
 import ordersInfoImg from "../../images/theme-icons/blue/Orders.svg";
 import stocksImg from "../../images/stocks.svg";
+import stocksDownImg from "../../images/stocksDown.svg";
 
 import { chartData } from "./chartsMock";
 
@@ -1295,7 +1296,6 @@ class VaultSummary extends React.Component {
     const portfolio = amplesenseVaultStaking + pioneer1AStaking + pioneer1BStaking + pioneer2Staking + pioneer3Staking + lpStakingStaking + amplesenseVaultReward + pioneer1AReward + pioneer1BReward + pioneer2Reward + pioneer3Reward + lpStakingReward;
 
     const tvl = amplesenseVaultTVL + pioneer1ATVL + pioneer1BTVL + pioneer2TVL + pioneer3TVL + lpStakingTVL;
-
     let all_tvl = [];
     history &&
       history.forEach((tvl_event) => {
@@ -1417,7 +1417,9 @@ class VaultSummary extends React.Component {
                 </Col>
                 <Col sm={4} className={"d-flex align-items-center justify-content-end"}>
                   <img src={stocksImg} alt="" className={"mr-1"} />
-                  <p className={"text-success mb-0"}>N/A</p>
+                  {/* <p className={"mb-0"}>N/A</p>
+                  <img src={stocksDownImg} alt="" className={"mr-1"} /> */}
+                  <p className={"mb-0"}>N/A</p>
                 </Col>
               </Row>
               <Row style={{ marginBottom: -9, marginTop: -1 }}></Row>
@@ -1438,7 +1440,7 @@ class VaultSummary extends React.Component {
                 </Col>
                 <Col sm={4} className={"d-flex align-items-center justify-content-end"}>
                   <img src={stocksImg} alt="" className={"mr-1"} />
-                  <p className={"text-success mb-0"}>N/A</p>
+                  <p className={"mb-0"}>N/A</p>
                 </Col>
               </Row>
               <Row style={{ marginBottom: -9, marginTop: -1 }}></Row>
@@ -1461,7 +1463,7 @@ class VaultSummary extends React.Component {
                 </Col>
                 <Col sm={4} className={"d-flex align-items-center justify-content-end"}>
                   <img src={stocksImg} alt="" className={"mr-1"} />
-                  <p className={"text-success mb-0"}>N/A</p>
+                  <p className={"mb-0"}>N/A</p>
                 </Col>
               </Row>
               <Row style={{ marginBottom: -9, marginTop: -1 }}></Row>
@@ -1484,7 +1486,7 @@ class VaultSummary extends React.Component {
                 </Col>
                 <Col sm={4} className={"d-flex align-items-center justify-content-end"}>
                   <img src={stocksImg} alt="" className={"mr-1"} />
-                  <p className={"text-success mb-0"}>N/A</p>
+                  <p className={"mb-0"}>N/A</p>
                 </Col>
               </Row>
               <Row style={{ marginBottom: -9, marginTop: -1 }}></Row>

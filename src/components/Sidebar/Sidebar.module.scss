@@ -9,6 +9,7 @@
   height: 100vh;
   //border-right: $sidebar-border;
   background-color: var(--sidebar-bg-color);
+  background: transparent;
   color: var(--sidebar-color);
   transition: background-color 0.2s ease, margin 0.2s ease;
 
@@ -31,15 +32,24 @@
   overflow-y: hidden;
   overflow-x: hidden;
   min-width: $sidebar-width-open;
-  transition: min-width $sidebar-transition-time ease-in-out;
   background-color: var(--sidebar-bg-color);
+  background: transparent;
+  transition: min-width $sidebar-transition-time ease-in-out;
   z-index: 999;
   box-shadow: 4px 4px 25px rgba(109, 105, 105, 0.15);
 }
 
+.sidebarWrapper {
+  @include media-breakpoint-down(sm) {
+    background: url("../../images/back.png");
+    background-size: auto 100%;
+    background-position: left;
+  }
+}
 .sidebarClose.sidebarWrapper {
   @include media-breakpoint-down(sm) {
     min-width: 0;
+    background: transparent;
   }
   & .root {
     @include media-breakpoint-down(sm) {
@@ -55,6 +65,7 @@
   align-items: center;
   height: 66px;
   background-color: var(--logo-background-color);
+  background: transparent;
   font-size: 30px;
   width: 100%;
   font-weight: $font-weight-light;
@@ -102,7 +113,6 @@
     opacity: 1;
   }
 }
-
 
 .staticSidebar .navTitle {
   opacity: 1;

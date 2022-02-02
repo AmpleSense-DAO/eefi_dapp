@@ -9,6 +9,7 @@ import axios from 'axios';
 import App from './components/App';
 import config from './config';
 import reducers from './reducers';
+import "./styles/app.css"
 
 axios.defaults.baseURL = config.baseURLApi;
 axios.defaults.headers.common['Content-Type'] = "application/json";

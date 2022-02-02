@@ -482,7 +482,7 @@ class VaultDetail extends React.Component {
       deposits,
       withdrawals,
       claimings,
-      allowance
+      allowance,
     } = this.props;
 
     const contract = new VaultContract(vaultTypeFromID[this.getId()], web3, account);
@@ -517,7 +517,7 @@ class VaultDetail extends React.Component {
       return (
         <div className={s.root}>
           <h2>{contract.vaultName()}</h2>
-          <h3>Connect your wallet to view vault details</h3>
+          <h3>Connect wallet to view vault details.</h3>
         </div>
       );
     }
@@ -536,19 +536,11 @@ class VaultDetail extends React.Component {
     const ampl_eth_reward_formatted = displayNumber(parseFloat(web3.utils.fromWei(reward.eth, "ether")), 3);
     //in case of pioneer1 there is no token reward
     const ampl_token_reward_formatted = displayNumber(parseFloat(web3.utils.fromWei(reward.token ? reward.token : "0", contract.rewardTokenPrecisionName())), 3);
-    
+
     return (
       <div className={s.root}>
         <div className={s.headerImg}>
-          {contract.stakingTokenSymbol() === "AMPL" && (
-            <img
-              src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAMAAACdt4HsAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAJeUExURUxpcQAAAAAAAD8/PwAAAFVVVQAAAAAAAAAAAAAAAAAAAP///39/fwAAAA4ODgEBAQEBAQAAAP///wsLC////8bGxgoKCv///woKCg4ODgAAAA0NDQAAAExMTC4uLjMzMwoKChISEi0tLRQUFH9/f1ZWVkJCQjo6OhQUFCYmJhcXFw8PDw8PDwsLCwkJCUdHRyIiIgAAABkZGRAQEEhISFJSUhISEtfX1////zMzMxkZGUFBQSoqKg8PD0hISP///xUVFXt7eyEhISoqKhgYGCkpKR0dHR0dHQoKChAQEBQUFHFxcRoaGjg4OFlZWQkJCSQkJCIiIv///yUlJSUlJTIyMgsLCx0dHU1NTbS0tDAwMAoKChgYGBUVFQAAAAEBAQEBARISEnV1dTk5ORISEh8fHxMTE9DQ0EFBQQcHByUlJRwcHDk5OQ0NDRkZGQoKChISEgEBATk5OUlJSRgYGA8PD+Li4iYmJpubmxgYGBsbGzg4OA8PDw4ODh0dHRgYGFxcXAgICBwcHBEREZubmywsLCgoKKqqql1dXRcXFzAwMBoaGg4ODjMzMw0NDaWlpQsLCx4eHjU1NUNDQxAQEEdHRygoKA4ODhAQEAoKCnZ2diIiIjAwMDMzMzo6OikpKQ8PDxsbG0ZGRq+vr39/fxwcHFZWVhMTExISEggICB8fHwUFBb+/v2traw8PD6KiohEREQgICOXl5RYWFj09PRsbGyQkJBoaGgEBATw8PAwMDAICAiMjI2lpaSIiIgAAAAEBAQUFBQICAgQEBAgICAMDAwkJCQ0NDQYGBgcHB7CGDNAAAAC/dFJOUwD3/QQCA/4BAwT5AwL6yP78+wLWBBLKAfvH+MkGCpt31fRxxRovaFxxg8/Xxsg2TpT8y9M8PugNBU/cOoXJLgfWI5AGwoC/r/725BvERCj6XCwIlWZ+8pwuEYn9r8sH+vnrGlTsieYLPvyBs0f1ysnZ+1Uts+QJjBLHqFvx4JPNL/mg7hdbdwwmw1616QXwFPOyUVP3J3/G+/kcf2qqcW/DtzYgHMYs1NP1mfwUGsgW2fsKy0uuqq33WPn8hymLeTbbhQAAAhlJREFUWMPtVWVz3DAQXfscr3SXuzCnTVNmZkyZmZmZmSkpp8zMzMztygdp+6/qeOo2M/1QSzf95vfB49HM0+q93ScB+PDhwxMMTI6fJN3m16+VDJ9Do9K69lfdgMy2VA8MdT70HJSe3wBS1BXMF5pooqwBceF2fTW1C6FiLwJ4Kv6d9Kr2qhoY3Hh0RYTFWPtPBalwO//+rQsmLRijauG1xCW4Q0FrmZoGDN37cRevxjRRrqSBwU3reh4+OW5SxSaVTDB4mLgMxVBJwdhWCCjE6NjRBxfhCO6NFdJSBQ0cDkVPADNgzzYyl8+xeyKdg4PiJHK79BazMDoOZcc5BXbFD++3hQRwrhWkYdKR5LCRdlQrR5g8j/SRIyR3QNiw3lrkWMdhotCi/SUjyXFNdFW2k0IGw60wlWWjpIXraIlbtNcQyqjqIDXOqXBg9+K1vygc+ggtrbWUBg5naWcmug3pFm9DHTtJjDPiy+e0zy2J2LkrZVhdkEnE4LX14szvxnHoLjRzIMhs8MZ8FcI/QzVpqm5OGIqG57vwy0fxucbwGqHpFEyMh77eDLBP+o5iH6DYLWjMgCk0S5+dA8ybimdfrfef3j6usZIzLT08M21Ab0+v+ejN56kap1eMcnxn2KrfYGeFvjUtyTP+6V/LrNxzTyNFBSuzGju+M2jYLLegKBLp0bxFndqKN7zsi+birwVE8OHDh4//hp9kzYDsFysvpQAAAABJRU5ErkJggg=="
-              height={80}
-              width={80}
-              alt=""
-              className={s.mobileImg}
-            />
-          )}
+          {contract.stakingTokenSymbol() === "AMPL" && <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAMAAACdt4HsAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAJeUExURUxpcQAAAAAAAD8/PwAAAFVVVQAAAAAAAAAAAAAAAAAAAP///39/fwAAAA4ODgEBAQEBAQAAAP///wsLC////8bGxgoKCv///woKCg4ODgAAAA0NDQAAAExMTC4uLjMzMwoKChISEi0tLRQUFH9/f1ZWVkJCQjo6OhQUFCYmJhcXFw8PDw8PDwsLCwkJCUdHRyIiIgAAABkZGRAQEEhISFJSUhISEtfX1////zMzMxkZGUFBQSoqKg8PD0hISP///xUVFXt7eyEhISoqKhgYGCkpKR0dHR0dHQoKChAQEBQUFHFxcRoaGjg4OFlZWQkJCSQkJCIiIv///yUlJSUlJTIyMgsLCx0dHU1NTbS0tDAwMAoKChgYGBUVFQAAAAEBAQEBARISEnV1dTk5ORISEh8fHxMTE9DQ0EFBQQcHByUlJRwcHDk5OQ0NDRkZGQoKChISEgEBATk5OUlJSRgYGA8PD+Li4iYmJpubmxgYGBsbGzg4OA8PDw4ODh0dHRgYGFxcXAgICBwcHBEREZubmywsLCgoKKqqql1dXRcXFzAwMBoaGg4ODjMzMw0NDaWlpQsLCx4eHjU1NUNDQxAQEEdHRygoKA4ODhAQEAoKCnZ2diIiIjAwMDMzMzo6OikpKQ8PDxsbG0ZGRq+vr39/fxwcHFZWVhMTExISEggICB8fHwUFBb+/v2traw8PD6KiohEREQgICOXl5RYWFj09PRsbGyQkJBoaGgEBATw8PAwMDAICAiMjI2lpaSIiIgAAAAEBAQUFBQICAgQEBAgICAMDAwkJCQ0NDQYGBgcHB7CGDNAAAAC/dFJOUwD3/QQCA/4BAwT5AwL6yP78+wLWBBLKAfvH+MkGCpt31fRxxRovaFxxg8/Xxsg2TpT8y9M8PugNBU/cOoXJLgfWI5AGwoC/r/725BvERCj6XCwIlWZ+8pwuEYn9r8sH+vnrGlTsieYLPvyBs0f1ysnZ+1Uts+QJjBLHqFvx4JPNL/mg7hdbdwwmw1616QXwFPOyUVP3J3/G+/kcf2qqcW/DtzYgHMYs1NP1mfwUGsgW2fsKy0uuqq33WPn8hymLeTbbhQAAAhlJREFUWMPtVWVz3DAQXfscr3SXuzCnTVNmZkyZmZmZmSkpp8zMzMztygdp+6/qeOo2M/1QSzf95vfB49HM0+q93ScB+PDhwxMMTI6fJN3m16+VDJ9Do9K69lfdgMy2VA8MdT70HJSe3wBS1BXMF5pooqwBceF2fTW1C6FiLwJ4Kv6d9Kr2qhoY3Hh0RYTFWPtPBalwO//+rQsmLRijauG1xCW4Q0FrmZoGDN37cRevxjRRrqSBwU3reh4+OW5SxSaVTDB4mLgMxVBJwdhWCCjE6NjRBxfhCO6NFdJSBQ0cDkVPADNgzzYyl8+xeyKdg4PiJHK79BazMDoOZcc5BXbFD++3hQRwrhWkYdKR5LCRdlQrR5g8j/SRIyR3QNiw3lrkWMdhotCi/SUjyXFNdFW2k0IGw60wlWWjpIXraIlbtNcQyqjqIDXOqXBg9+K1vygc+ggtrbWUBg5naWcmug3pFm9DHTtJjDPiy+e0zy2J2LkrZVhdkEnE4LX14szvxnHoLjRzIMhs8MZ8FcI/QzVpqm5OGIqG57vwy0fxucbwGqHpFEyMh77eDLBP+o5iH6DYLWjMgCk0S5+dA8ybimdfrfef3j6usZIzLT08M21Ab0+v+ejN56kap1eMcnxn2KrfYGeFvjUtyTP+6V/LrNxzTyNFBSuzGju+M2jYLLegKBLp0bxFndqKN7zsi+birwVE8OHDh4//hp9kzYDsFysvpQAAAABJRU5ErkJggg==" height={80} width={80} alt="" className={s.mobileImg} />}
           {contract.stakingTokenSymbol() === "Balancer LP" && <img src={p2} height={80} width={80} alt="" className={s.mobileImg} />}
           {contract.stakingTokenSymbol() === "kMPL" && <img src={p3} height={80} width={80} alt="" className={s.mobileImg} />}
           {contract.stakingTokenSymbol() === "ZNFT" && <div></div>}
@@ -617,14 +609,15 @@ class VaultDetail extends React.Component {
                 </FormGroup>
                 {contract.stakingTokenSymbol() === "AMPL" && <p className="fs-mini text-muted">{contract.stakingTokenSymbol()} deposits locked for 90 days.</p>}
                 <p className={"d-flex align-items-center "} align="center">
-                  {allowance > 0? <Button color="default" size="lg" align="center" className="mb-md mr-sm" disabled={this.state.amountToDeposit === "0"} onClick={this.doDeposit}>
-                    Deposit
-                  </Button>
-                  :
-                  <Button color="default" size="lg" align="center" className="mb-md mr-sm" onClick={this.doAllowance}>
-                    Unlock account
-                  </Button>
-                  }
+                  {allowance > 0 ? (
+                    <Button color="default" size="lg" align="center" className="mb-md mr-sm" disabled={this.state.amountToDeposit === "0"} onClick={this.doDeposit}>
+                      Deposit
+                    </Button>
+                  ) : (
+                    <Button color="default" size="lg" align="center" className="mb-md mr-sm" onClick={this.doAllowance}>
+                      Unlock account
+                    </Button>
+                  )}
                 </p>
               </div>
             </Widget>
@@ -691,15 +684,37 @@ class VaultDetail extends React.Component {
                     </thead>
                   </Table>
                 </FormGroup>
-
                 {/* <p className="fs-mini text-muted">
                   Unlocked {contract.stakingTokenSymbol()}
                 </p> */}
                 <p className={"d-flex align-items-center "}>
-                  <Button color="default" size="lg" className="mb-md mr-sm" disabled={this.state.amountToWithdraw === "0"} onClick={this.doWithdraw}>
+                  <Button
+                    color="default"
+                    size="lg"
+                    className="mb-md mr-sm hoverPrimaryBtn"
+                    disabled={this.state.amountToWithdraw === "0"}
+                    onClick={this.doWithdraw}
+                    style={{
+                      hover: {
+                        background: "#007BC6",
+                        color: "white",
+                      },
+                    }}
+                  >
                     Claim/Withdraw
                   </Button>
                 </p>
+                {this.props.claimWithdrawTxt && (
+                  <p>
+                    {
+                      <>
+                        ETH will be claimable by stakers when there is more than 40,000 AMPL in the Pioneer vault and AMPL experiences positive rebases.
+                        <br />
+                        Currently there is {this.state.amountToWithdraw} AMPL in the Vault.
+                      </>
+                    }
+                  </p>
+                )}
               </div>
             </Widget>
           </Col>
@@ -732,7 +747,6 @@ class VaultDetail extends React.Component {
                       <br></br>
                       {tokenDetailedData[tokenId].staked_section_desc_2 ? tokenDetailedData[tokenId].staked_section_desc_2 : null}
                     </td>
-
                     <td className={"pl-0 fw-thin"}>
                       <h4>
                         {contract.stakingTokenSymbol() !== "ANFT" && contract.stakingTokenSymbol() !== "ZNFT" && (
@@ -751,10 +765,21 @@ class VaultDetail extends React.Component {
                         </p>
                       </h4>
                       <p>
-                        <Button color="primary" className="mb-md mr-md" disabled={reward.token === "0" && reward.eth === "0"} onClick={this.doClaim}>
+                        <Button color="primary" className="mb-md mr-md hoverPrimaryBtn" disabled={reward.token === "0" && reward.eth === "0"} onClick={this.doClaim}>
                           Claim
                         </Button>
                       </p>
+                      {this.props.claimTxt && (
+                        <p>
+                          {
+                            <>
+                              ETH is claimable when there is more than 40,000 AMPL in the Pioneer Vault, and AMPL experiences positive rebases.
+                              <br />
+                              Currently there is {ampl_eth_reward_formatted} AMPL in the vault.
+                            </>
+                          }
+                        </p>
+                      )}
                     </td>
                   </tr>
                 </tbody>
@@ -873,14 +898,14 @@ class VaultDetail extends React.Component {
                       return (
                         <tr key={claim.transactionHash}>
                           <td className="fw-normal pl-0 fw-thin">&nbsp;{new Date(claim.timestamp * 1000).toUTCString()}</td>
-                          {claim.returnValues? 
-                          <td className={"pl-0 fw-thin"}>
-                            &nbsp;{parseFloat(web3.utils.fromWei(claim.returnValues.token, contract.rewardTokenPrecisionName())).toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 4 })} {"EEFI"}
-                            &nbsp;{parseFloat(web3.utils.fromWei(claim.returnValues.eth)).toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 4 })} {"ETH"}
-                          </td>
-                          :
-                          <td className={"pl-0 fw-thin"}>Computing rewards...</td>
-                          }
+                          {claim.returnValues ? (
+                            <td className={"pl-0 fw-thin"}>
+                              &nbsp;{parseFloat(web3.utils.fromWei(claim.returnValues.token, contract.rewardTokenPrecisionName())).toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 4 })} {"EEFI"}
+                              &nbsp;{parseFloat(web3.utils.fromWei(claim.returnValues.eth)).toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 4 })} {"ETH"}
+                            </td>
+                          ) : (
+                            <td className={"pl-0 fw-thin"}>Computing rewards...</td>
+                          )}
                           <td className={"pl-0 fw-thin"}>
                             {claim.transactionHash && (
                               <div>
@@ -917,7 +942,7 @@ function mapStateToProps(store) {
     withdrawals: store.blockchain.withdrawals,
     claimings: store.blockchain.claimings,
     stakableNFTs: store.blockchain.stakableNFTs,
-    allowance: store.blockchain.allowance
+    allowance: store.blockchain.allowance,
   };
 }
 

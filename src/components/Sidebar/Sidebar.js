@@ -734,7 +734,7 @@ class Sidebar extends React.Component {
             <p></p>
             <h5 className={s.navTitle}>Info and Docs</h5>
             <ul className={s.nav}>
-              <LinksGroup onActiveSidebarItemChange={(activeItem) => this.props.dispatch(changeActiveSidebarItem(activeItem))} activeItem={this.props.activeItem} header="AmpleSense DAO" isHeader link="/app/home/vault-summary" index="main">
+              <LinksGroup onActiveSidebarItemChange={(activeItem) => this.props.dispatch(changeActiveSidebarItem(activeItem))} activeItem={this.props.activeItem} header="AmpleSense DAO" isHeader link="https://amplesense.io" index="main">
                 {window.location.href.includes("dashboard") ? <img src={darkDashboardIcon} alt="lightDashboard" width={"24px"} height={"24px"} /> : <img src={lightDashboardIcon} alt="lightDashboard" width={"24px"} height={"24px"} />}
               </LinksGroup>
 
