@@ -336,7 +336,7 @@ class Header extends React.Component {
               <img src={gasSmallImg} alt="" className={"mr-31"} />
             </Label>
             <Col className={s.select1}>
-              <Select id="gasGroup" className="selectCustomization" options={this.state.selectDefaultData} defaultValue={this.state.selectDefaultData[1]} value={this.state.selectDefaultData[index]} onChange={(value) => this.handleChange(value)} />
+              <Select id="gasGroup" className={s.selectCustomization} options={this.state.selectDefaultData} defaultValue={this.state.selectDefaultData[1]} value={this.state.selectDefaultData[index]} onChange={(value) => this.handleChange(value)} />
             </Col>
           </FormGroup>
         </Form>

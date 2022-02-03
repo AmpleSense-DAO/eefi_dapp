@@ -266,6 +266,22 @@
 .gasLabel {
   margin: auto 0px;
 }
+.selectCustomization {
+  width: 100px;
+  > div:first-child {
+    display: flex;
+    align-items: center;
+    > div:first-child {
+      display: flex;
+      align-items: center;
+      flex-wrap: nowrap;
+      > div:first-child {
+        position: relative;
+        transform: none;
+      }
+    }
+  }
+}
 @media (max-width: 1044px) {
   .fullVersionBtn {
     // height: 100%;
@@ -278,6 +294,11 @@
   }
   .select1 {
     width: fit-content;
+    flex: 1;
+    flex-basis: auto;
+  }
+  .selectCustomization {
+    width: 100px;
   }
   .formGroup {
     flex-wrap: nowrap;
