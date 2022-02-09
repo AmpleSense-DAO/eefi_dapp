@@ -28,6 +28,7 @@ class Widget extends React.Component {
     customControls: PropTypes.bool,
     options: PropTypes.object, //eslint-disable-line,
     fetchingData: PropTypes.bool,
+    isBuyButton: PropTypes.bool
   };
 
   static defaultProps = {
@@ -55,6 +56,7 @@ class Widget extends React.Component {
     options: {},
     fetchingData: false,
     widgetType: "",
+    isBuyButton: false
   };
 
   constructor(props) {
@@ -168,35 +170,35 @@ class Widget extends React.Component {
             typeof title === "string" ? (
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <h5 className={s.title}>{title}</h5>
-                {isBuyButton && pagelink === 2 ? (
-                  <a href={"https://app.uniswap.org/#/swap?inputCurrency=ETH&outputCurrency=0xe8d17542dfe79ff4fbd4b850f2d39dc69c4489a2"} style={{ marginTop: "20px" }}>
+                {pagelink === 2 ? (
+                  isBuyButton && (<a href={"https://app.uniswap.org/#/swap?inputCurrency=ETH&outputCurrency=0xe8d17542dfe79ff4fbd4b850f2d39dc69c4489a2"} style={{ marginTop: "20px" }}>
                     <Button color="primary" className="mb-md mr-md" size="sm">
                       BUY
                     </Button>
-                  </a>
+                  </a>)
                 ) : (
-                  <Link to={`/app/home/vault-detail/${pagelink}`} style={{ marginTop: "20px" }}>
+                  isBuyButton && (<Link to={`/app/home/vault-detail/${pagelink}`} style={{ marginTop: "20px" }}>
                     <Button color="primary" className="mb-md mr-md" size="sm">
                       BUY
                     </Button>
-                  </Link>
+                  </Link>)
                 )}
               </div>
             ) : (
               <div style={{ display: "flex", justifyContent: "center" }}>
                 <header className={s.title}>{title}</header>
-                {isBuyButton && pagelink === 2 ? (
-                  <a href={"https://app.uniswap.org/#/swap?inputCurrency=ETH&outputCurrency=0xe8d17542dfe79ff4fbd4b850f2d39dc69c4489a2"} style={{ marginTop: "20px" }}>
+                {pagelink === 2 ? (
+                  isBuyButton && (<a href={"https://app.uniswap.org/#/swap?inputCurrency=ETH&outputCurrency=0xe8d17542dfe79ff4fbd4b850f2d39dc69c4489a2"} style={{ marginTop: "20px" }}>
                     <Button color="primary" className="mb-md mr-md" size="sm">
                       BUY
                     </Button>
-                  </a>
+                  </a>)
                 ) : (
-                  <Link to={`/app/home/vault-detail/${pagelink}`} style={{ marginTop: "20px" }}>
+                  isBuyButton && (<Link to={`/app/home/vault-detail/${pagelink}`} style={{ marginTop: "20px" }}>
                     <Button color="primary" className="mb-md mr-md" size="sm">
                       BUY
                     </Button>
-                  </Link>
+                  </Link>)
                 )}
               </div>
             )
