@@ -346,11 +346,11 @@ class BlockchainUpdater extends React.Component {
       .get(`https://api.coingecko.com/api/v3/coins/ethereum/contract/${CONTRACT_ADDRESSES.KMPL_CONTRACT}`)
       .then((resp) => {
         const kMPLPrice = resp.data.market_data.current_price.usd;
-        this.props.dispatch(fetchKMPLPrice(kMPLPrice));
+        this.props.dispatch(fetchKMPLPrice(kMPLPrice,resp.data.market_data.price_change_24h));
       })
       .catch((e) => {
         // in case of failure set price to $50
-        this.props.dispatch(fetchKMPLPrice(50));
+        this.props.dispatch(fetchKMPLPrice(50, "0"));
       });
 
     //get kMPL price
@@ -358,11 +358,11 @@ class BlockchainUpdater extends React.Component {
       .get(`https://api.coingecko.com/api/v3/coins/ethereum/contract/${CONTRACT_ADDRESSES.EEFI_CONTRACT}`)
       .then((resp) => {
         const eefiPrice = resp.data.market_data.current_price.usd;
-        this.props.dispatch(fetchEEFIPrice(eefiPrice));
+        this.props.dispatch(fetchEEFIPrice(eefiPrice, resp.data.market_data.price_change_24h));
       })
       .catch((e) => {
         // in case of failure set price to $100
-        this.props.dispatch(fetchEEFIPrice(100));
+        this.props.dispatch(fetchEEFIPrice(100, "0"));
       });
 
     //get AMPL price
@@ -370,11 +370,11 @@ class BlockchainUpdater extends React.Component {
       .get(`https://api.coingecko.com/api/v3/coins/ethereum/contract/${CONTRACT_ADDRESSES.AMPLE_CONTRACT}`)
       .then((resp) => {
         const amplPrice = resp.data.market_data.current_price.usd;
-        this.props.dispatch(fetchAMPLPrice(amplPrice));
+        this.props.dispatch(fetchAMPLPrice(amplPrice,resp.data.market_data.price_change_24h));
       })
       .catch((e) => {
         // in case of failure set price to $500
-        this.props.dispatch(fetchAMPLPrice(500));
+        this.props.dispatch(fetchAMPLPrice(500, "0"));
       });
 
     //get ETH price
@@ -382,11 +382,11 @@ class BlockchainUpdater extends React.Component {
       .get(`https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd`)
       .then((resp) => {
         const ethPrice = resp.data.ethereum.usd;
-        this.props.dispatch(fetchETHPrice(ethPrice));
+        this.props.dispatch(fetchETHPrice(ethPrice, "0"));
       })
       .catch((e) => {
         // in case of failure set price to $4000
-        this.props.dispatch(fetchETHPrice(4000));
+        this.props.dispatch(fetchETHPrice(4000, "0"));
       });
 
     //get ZNFT price

@@ -1271,24 +1271,24 @@ class VaultSummary extends React.Component {
     const pioneer3Values = this.props.vaultValues["Pioneer Fund Vault III: KMPL/ETH"];
     const lpStakingValues = this.props.vaultValues["EEFI/ETH LP Token Vault"];
     console.log("values", pioneer1AValues, pioneer1BValues);
-    const amplesenseVaultStaking = amplesensevaultValues ? amplesensevaultValues.stakedBalance * ampl_price : 0;
-    const pioneer1AStaking = pioneer1AValues ? pioneer1AValues.stakedBalance * znft_price * eth_price : 0;
-    const pioneer1BStaking = pioneer1BValues ? pioneer1BValues.stakedBalance * anft_price * eth_price : 0;
-    const pioneer2Staking = pioneer2Values ? pioneer2Values.stakedBalance * kmpl_price : 0;
+    const amplesenseVaultStaking = amplesensevaultValues ? amplesensevaultValues.stakedBalance * ampl_price.price : 0;
+    const pioneer1AStaking = pioneer1AValues ? pioneer1AValues.stakedBalance * znft_price * eth_price.price : 0;
+    const pioneer1BStaking = pioneer1BValues ? pioneer1BValues.stakedBalance * anft_price * eth_price.price : 0;
+    const pioneer2Staking = pioneer2Values ? pioneer2Values.stakedBalance * kmpl_price.price : 0;
     const pioneer3Staking = pioneer3Values ? pioneer3Values.stakedBalance * 0 : 0;
     const lpStakingStaking = lpStakingValues ? lpStakingValues.stakedBalance * 0 : 0;
 
-    const amplesenseVaultReward = amplesensevaultValues ? amplesensevaultValues.rewardBalance.token * eefi_price + amplesensevaultValues.rewardBalance.eth * eth_price : 0;
-    const pioneer1AReward = pioneer1AValues ? pioneer1AValues.rewardBalance * eth_price : 0;
-    const pioneer1BReward = pioneer1BValues ? pioneer1BValues.rewardBalance * eth_price : 0;
-    const pioneer2Reward = pioneer2Values ? pioneer2Values.rewardBalance.token * eefi_price + pioneer2Values.rewardBalance.eth * eth_price : 0;
-    const pioneer3Reward = pioneer3Values ? pioneer3Values.rewardBalance.token * eefi_price + pioneer3Values.rewardBalance.eth * eth_price : 0;
-    const lpStakingReward = lpStakingValues ? lpStakingValues.rewardBalance.token * eefi_price + lpStakingValues.rewardBalance.eth * eth_price : 0;
+    const amplesenseVaultReward = amplesensevaultValues ? amplesensevaultValues.rewardBalance.token * eefi_price.price + amplesensevaultValues.rewardBalance.eth * eth_price.price : 0;
+    const pioneer1AReward = pioneer1AValues ? pioneer1AValues.rewardBalance * eth_price.price : 0;
+    const pioneer1BReward = pioneer1BValues ? pioneer1BValues.rewardBalance * eth_price.price : 0;
+    const pioneer2Reward = pioneer2Values ? pioneer2Values.rewardBalance.token * eefi_price.price + pioneer2Values.rewardBalance.eth * eth_price.price : 0;
+    const pioneer3Reward = pioneer3Values ? pioneer3Values.rewardBalance.token * eefi_price.price + pioneer3Values.rewardBalance.eth * eth_price.price : 0;
+    const lpStakingReward = lpStakingValues ? lpStakingValues.rewardBalance.token * eefi_price.price + lpStakingValues.rewardBalance.eth * eth_price.price : 0;
 
-    const amplesenseVaultTVL = amplesensevaultValues ? amplesensevaultValues.totalStakedBalance * ampl_price : 0;
-    const pioneer1ATVL = pioneer1AValues ? pioneer1AValues.totalStakedBalance * znft_price * eth_price : 0;
-    const pioneer1BTVL = pioneer1BValues ? pioneer1BValues.totalStakedBalance * anft_price * eth_price : 0;
-    const pioneer2TVL = pioneer2Values ? pioneer2Values.totalStakedBalance * kmpl_price : 0;
+    const amplesenseVaultTVL = amplesensevaultValues ? amplesensevaultValues.totalStakedBalance * ampl_price.price : 0;
+    const pioneer1ATVL = pioneer1AValues ? pioneer1AValues.totalStakedBalance * znft_price * eth_price.price : 0;
+    const pioneer1BTVL = pioneer1BValues ? pioneer1BValues.totalStakedBalance * anft_price * eth_price.price : 0;
+    const pioneer2TVL = pioneer2Values ? pioneer2Values.totalStakedBalance * kmpl_price.price : 0;
     const pioneer3TVL = pioneer3Values ? pioneer3Values.totalStakedBalance * 0 : 0;
     const lpStakingTVL = lpStakingValues ? lpStakingValues.totalStakedBalance * 0 : 0;
 
@@ -1306,7 +1306,7 @@ class VaultSummary extends React.Component {
           let adjustedAmount = change.returnValues.total;
           if (contract.stakingTokenPrecision() > 0) adjustedAmount /= 10 ** contract.stakingTokenPrecision();
 
-          tvl.push({ total: adjustedAmount * contract.getStakingTokenPrice(kmpl_price, ampl_price, 0, 0, 0, 0), timestamp: change.returnValues.timestamp, name: contract.vaultName() });
+          tvl.push({ total: adjustedAmount * contract.getStakingTokenPrice(kmpl_price.price, ampl_price.price, 0, 0, 0, 0), timestamp: change.returnValues.timestamp, name: contract.vaultName() });
         });
         all_tvl.push(tvl);
       });
@@ -1416,10 +1416,6 @@ class VaultSummary extends React.Component {
                   <h6 className={"fw-semi-bold mb-0"}>$ {this.numberWithCommas(tvl)}</h6>
                 </Col>
                 <Col sm={4} className={"d-flex align-items-center justify-content-end"}>
-                  <img src={stocksImg} alt="" className={"mr-1"} />
-                  {/* <p className={"mb-0"}>N/A</p>
-                  <img src={stocksDownImg} alt="" className={"mr-1"} /> */}
-                  <p className={"mb-0"}>N/A</p>
                 </Col>
               </Row>
               <Row style={{ marginBottom: -9, marginTop: -1 }}></Row>
@@ -1439,8 +1435,6 @@ class VaultSummary extends React.Component {
                   <h6 className={"fw-semi-bold mb-0"}>$ {this.numberWithCommas(portfolio)}</h6>
                 </Col>
                 <Col sm={4} className={"d-flex align-items-center justify-content-end"}>
-                  <img src={stocksImg} alt="" className={"mr-1"} />
-                  <p className={"mb-0"}>N/A</p>
                 </Col>
               </Row>
               <Row style={{ marginBottom: -9, marginTop: -1 }}></Row>
@@ -1459,11 +1453,11 @@ class VaultSummary extends React.Component {
             >
               <Row className={`justify-content-between mt-3`} noGutters>
                 <Col sm={8} className={"d-flex align-items-center"}>
-                  <h6 className={"fw-semi-bold mb-0"}>$ {this.numberWithCommas(kmpl_price)} </h6>
+                  <h6 className={"fw-semi-bold mb-0"}>$ {this.numberWithCommas(kmpl_price.price)} </h6>
                 </Col>
                 <Col sm={4} className={"d-flex align-items-center justify-content-end"}>
-                  <img src={stocksImg} alt="" className={"mr-1"} />
-                  <p className={"mb-0"}>N/A</p>
+                  <img src={kmpl_price.change < 0? stocksDownImg : stocksImg} alt="" className={"mr-1"} />
+                  <p className={"mb-0"}>{this.numberWithCommas(kmpl_price.change)}</p>
                 </Col>
               </Row>
               <Row style={{ marginBottom: -9, marginTop: -1 }}></Row>
@@ -1482,11 +1476,11 @@ class VaultSummary extends React.Component {
             >
               <Row className={`justify-content-between mt-3`} noGutters>
                 <Col sm={8} className={"d-flex align-items-center"}>
-                  <h6 className={"fw-semi-bold mb-0"}>$ {this.numberWithCommas(eefi_price)}</h6>
+                  <h6 className={"fw-semi-bold mb-0"}>$ {this.numberWithCommas(eefi_price.price)}</h6>
                 </Col>
                 <Col sm={4} className={"d-flex align-items-center justify-content-end"}>
-                  <img src={stocksImg} alt="" className={"mr-1"} />
-                  <p className={"mb-0"}>N/A</p>
+                  <img src={eefi_price.change < 0? stocksDownImg : stocksImg} alt="" className={"mr-1"} />
+                  <p className={"mb-0"}>{this.numberWithCommas(eefi_price.change)}</p>
                 </Col>
               </Row>
               <Row style={{ marginBottom: -9, marginTop: -1 }}></Row>

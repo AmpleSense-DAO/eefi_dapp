@@ -94,17 +94,17 @@ export function fetchTotalStaked(vaultTypes, web3, account) {
   };
 }
 
-export function fetchAMPLPrice(price) {
+export function fetchAMPLPrice(price, change) {
   return {
     type: FETCH_AMPL_PRICE,
-    payload: price
+    payload: {price, change}
   };
 }
 
-export function fetchKMPLPrice(price) {
+export function fetchKMPLPrice(price, change) {
   return {
     type: FETCH_KMPL_PRICE,
-    payload: price
+    payload: {price, change}
   };
 }
 
@@ -122,17 +122,17 @@ export function fetchANFTPrice(price) {
   };
 }
 
-export function fetchEEFIPrice(price) {
+export function fetchEEFIPrice(price, change) {
   return {
     type: FETCH_EEFI_PRICE,
-    payload: price
+    payload: {price, change}
   };
 }
 
-export function fetchETHPrice(price) {
+export function fetchETHPrice(price, change) {
   return {
     type: FETCH_ETH_PRICE,
-    payload: price
+    payload: {price, change}
   };
 }
 
