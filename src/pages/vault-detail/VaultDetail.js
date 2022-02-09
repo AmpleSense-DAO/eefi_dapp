@@ -614,7 +614,7 @@ class VaultDetail extends React.Component {
                     </Button>
                   ) : (
                     <Button color="default" size="lg" align="center" className="mb-md mr-sm" onClick={this.doAllowance}>
-                      Unlock account
+                      Approve Tokens
                     </Button>
                   )}
                 </p>
