@@ -1412,11 +1412,10 @@ class VaultSummary extends React.Component {
               }
             >
               <Row className={`justify-content-between mt-3`} noGutters>
-                <Col sm={8} className={"d-flex align-items-center"}>
+                <Col sm={8} className={s.smCenter + " d-flex align-items-center"}>
                   <h6 className={"fw-semi-bold mb-0"}>$ {this.numberWithCommas(tvl)}</h6>
                 </Col>
-                <Col sm={4} className={"d-flex align-items-center justify-content-end"}>
-                </Col>
+                <Col sm={4} className={s.smCenter + " d-flex align-items-center justify-content-end"}></Col>
               </Row>
               <Row style={{ marginBottom: -9, marginTop: -1 }}></Row>
             </Widget>
@@ -1431,11 +1430,10 @@ class VaultSummary extends React.Component {
               }
             >
               <Row className={`justify-content-between mt-3`} noGutters>
-                <Col sm={8} className={"d-flex align-items-center"}>
+                <Col sm={8} className={s.smCenter + " d-flex align-items-center"}>
                   <h6 className={"fw-semi-bold mb-0"}>$ {this.numberWithCommas(portfolio)}</h6>
                 </Col>
-                <Col sm={4} className={"d-flex align-items-center justify-content-end"}>
-                </Col>
+                <Col sm={4} className={s.smCenter + " d-flex align-items-center justify-content-end"}></Col>
               </Row>
               <Row style={{ marginBottom: -9, marginTop: -1 }}></Row>
             </Widget>
@@ -1452,11 +1450,11 @@ class VaultSummary extends React.Component {
               pagelink={2}
             >
               <Row className={`justify-content-between mt-3`} noGutters>
-                <Col sm={8} className={"d-flex align-items-center"}>
+                <Col sm={8} className={s.smCenter + " d-flex align-items-center"}>
                   <h6 className={"fw-semi-bold mb-0"}>$ {this.numberWithCommas(kmpl_price.price)} </h6>
                 </Col>
-                <Col sm={4} className={"d-flex align-items-center justify-content-end"}>
-                  <img src={kmpl_price.change < 0? stocksDownImg : stocksImg} alt="" className={"mr-1"} />
+                <Col sm={4} className={s.smCenter + " d-flex align-items-center justify-content-end"}>
+                  <img src={kmpl_price.change < 0 ? stocksDownImg : stocksImg} alt="" className={"mr-1"} />
                   <p className={"mb-0"}>{this.numberWithCommas(kmpl_price.change)}</p>
                 </Col>
               </Row>
@@ -1475,11 +1473,11 @@ class VaultSummary extends React.Component {
               pagelink={3}
             >
               <Row className={`justify-content-between mt-3`} noGutters>
-                <Col sm={8} className={"d-flex align-items-center"}>
+                <Col sm={8} className={s.smCenter + " d-flex align-items-center"}>
                   <h6 className={"fw-semi-bold mb-0"}>$ {this.numberWithCommas(eefi_price.price)}</h6>
                 </Col>
-                <Col sm={4} className={"d-flex align-items-center justify-content-end"}>
-                  <img src={eefi_price.change < 0? stocksDownImg : stocksImg} alt="" className={"mr-1"} />
+                <Col sm={4} className={s.smCenter + " d-flex align-items-center justify-content-end"}>
+                  <img src={eefi_price.change < 0 ? stocksDownImg : stocksImg} alt="" className={"mr-1"} />
                   <p className={"mb-0"}>{this.numberWithCommas(eefi_price.change)}</p>
                 </Col>
               </Row>
