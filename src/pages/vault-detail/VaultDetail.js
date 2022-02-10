@@ -551,7 +551,7 @@ class VaultDetail extends React.Component {
         </div>
         <Row>
           {/* Color options */}
-          <Col md={6} sm={12} xs={12}>
+          <Col lg={6} md={12} sm={12} xs={12}>
             <Widget
               title={
                 <p style={{ fontWeight: 700 }}>
@@ -609,11 +609,11 @@ class VaultDetail extends React.Component {
                 {contract.stakingTokenSymbol() === "AMPL" && <p className="fs-mini text-muted">{contract.stakingTokenSymbol()} deposits locked for 90 days.</p>}
                 <p className={"d-flex align-items-center "} align="center">
                   {allowance > 0 ? (
-                    <Button color="default" size="lg" align="center" className="mb-md mr-sm" disabled={this.state.amountToDeposit === "0"} onClick={this.doDeposit}>
+                    <Button color="primary" size="lg" align="center" className="mb-md mr-sm" disabled={this.state.amountToDeposit === "0"} onClick={this.doDeposit}>
                       Deposit
                     </Button>
                   ) : (
-                    <Button color="default" size="lg" align="center" className="mb-md mr-sm" onClick={this.doAllowance}>
+                    <Button color="primary" size="lg" align="center" className="mb-md mr-sm" onClick={this.doAllowance}>
                       Approve Tokens
                     </Button>
                   )}
@@ -623,7 +623,7 @@ class VaultDetail extends React.Component {
           </Col>
 
           {/* Size variants */}
-          <Col md={6} sm={12} xs={12}>
+          <Col lg={6} md={12} sm={12} xs={12}>
             <Widget
               title={
                 <p style={{ fontWeight: 700 }}>
@@ -688,7 +688,7 @@ class VaultDetail extends React.Component {
                 </p> */}
                 <p className={"d-flex align-items-center "}>
                   <Button
-                    color="default"
+                    color="primary"
                     size="lg"
                     className="mb-md mr-sm hoverPrimaryBtn"
                     disabled={this.state.amountToWithdraw === "0"}
@@ -746,39 +746,36 @@ class VaultDetail extends React.Component {
                       <br></br>
                       {tokenDetailedData[tokenId].staked_section_desc_2 ? tokenDetailedData[tokenId].staked_section_desc_2 : null}
                     </td>
-                    <td className={"pl-0 fw-thin"}>
-                      <h4>
-                        {contract.stakingTokenSymbol() !== "ANFT" && contract.stakingTokenSymbol() !== "ZNFT" && (
+                    <td className={"pl-0 fw-thin"} style={{whiteSpace: "pre-wrap"}}>
+                      <div className="d-flex flex-column">
+                        <h4>
+                          {contract.stakingTokenSymbol() !== "ANFT" && contract.stakingTokenSymbol() !== "ZNFT" && (
+                            <p>
+                              <img height="30" src={p2} alt="" className={"mr-3"} />
+                              <span align="right">
+                                &nbsp;{ampl_token_reward_formatted} {tokenDetailedData[tokenId].rewards_token_1}
+                              </span>
+                            </p>
+                          )}
                           <p>
-                            <img height="30" src={p2} alt="" className={"mr-3"} />
+                            <img height="30" src={p5} alt="" className={"mr-3"} />
                             <span align="right">
-                              &nbsp;{ampl_token_reward_formatted} {tokenDetailedData[tokenId].rewards_token_1}
+                              &nbsp;{ampl_eth_reward_formatted} {tokenDetailedData[tokenId].rewards_token_2}
                             </span>
                           </p>
+                        </h4>
+                        <p>
+                          <Button color="primary" className="mb-md mr-md hoverPrimaryBtn" disabled={reward.token === "0" && reward.eth === "0"} onClick={this.doClaim}>
+                            Claim
+                          </Button>
+                        </p>
+                        {this.props.claimTxt && (
+                          <>
+                            <div>ETH is claimable when there is more than 40,000 AMPL in the Pioneer Vault, and AMPL experiences positive rebases.</div>
+                            Currently there is {ampl_eth_reward_formatted} AMPL in the vault.
+                          </>
                         )}
-                        <p>
-                          <img height="30" src={p5} alt="" className={"mr-3"} />
-                          <span align="right">
-                            &nbsp;{ampl_eth_reward_formatted} {tokenDetailedData[tokenId].rewards_token_2}
-                          </span>
-                        </p>
-                      </h4>
-                      <p>
-                        <Button color="primary" className="mb-md mr-md hoverPrimaryBtn" disabled={reward.token === "0" && reward.eth === "0"} onClick={this.doClaim}>
-                          Claim
-                        </Button>
-                      </p>
-                      {this.props.claimTxt && (
-                        <p>
-                          {
-                            <>
-                              ETH is claimable when there is more than 40,000 AMPL in the Pioneer Vault, and AMPL experiences positive rebases.
-                              <br />
-                              Currently there is {ampl_eth_reward_formatted} AMPL in the vault.
-                            </>
-                          }
-                        </p>
-                      )}
+                      </div>
                     </td>
                   </tr>
                 </tbody>
