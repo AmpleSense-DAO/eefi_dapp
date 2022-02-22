@@ -319,13 +319,13 @@ class Header extends React.Component {
         <Button id="button-connected" className={`btn ${s.fullVersionBtn}`} onClick={this.doLogin}>
           {account ? account.substr(0, 8) + "..." : "Connect Wallet"}
         </Button>
-        <Button id="getampl" onClick={() => {this.getAMPL()}}>DEBUG Get AMPL</Button>
+        {/* <Button id="getampl" onClick={() => {this.getAMPL()}}>DEBUG Get AMPL</Button>
         <Button id="getkmpl" onClick={() => {this.getKMPL()}}>DEBUG Get KMPL</Button>
         <Button id="geteefi" onClick={() => {this.getEEFI()}}>DEBUG Get EEFI</Button>
         <Button id="getkmpleth" onClick={() => {this.getKMPLETHLP()}}>DEBUG Get KMPL/ETH LP</Button>
         <Button id="geteefieth" onClick={() => {this.getEEFIETHLP()}}>DEBUG Get EEFI/ETH LP</Button>
         <Button id="geteefieth" onClick={() => {this.getANFT()}}>DEBUG Get ANFT</Button>
-        <Button id="geteefieth" onClick={() => {this.getZNFT()}}>DEBUG Get ZNFT</Button>
+        <Button id="geteefieth" onClick={() => {this.getZNFT()}}>DEBUG Get ZNFT</Button> */}
         {/* <div className={s.gasStation}>
           <img className={s.gasImg} src={gasImage} alt="gas"></img>
           <p></p>
