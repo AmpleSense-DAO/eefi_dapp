@@ -765,7 +765,7 @@ class Sidebar extends React.Component {
                 )}
               </LinksGroup> */}
 
-              <LinksGroup onActiveSidebarItemChange={(activeItem) => this.props.dispatch(changeActiveSidebarItem(activeItem))} activeItem={this.props.activeItem} header="Vault Docs" isHeader link="/app/home/vault-summary" index="main">
+              <LinksGroup onActiveSidebarItemChange={(activeItem) => this.props.dispatch(changeActiveSidebarItem(activeItem))} activeItem={this.props.activeItem} header="Vault Docs" isHeader link="https://docs.eefi.finance" index="main">
                 {window.location.href.includes("dashboard") ? <img src={darkDashboardIcon} alt="lightDashboard" width={"24px"} height={"24px"} /> : <img src={lightDashboardIcon} alt="lightDashboard" width={"24px"} height={"24px"} />}
               </LinksGroup>
             </ul>
