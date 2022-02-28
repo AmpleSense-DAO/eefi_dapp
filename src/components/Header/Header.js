@@ -34,30 +34,20 @@ const TokenDistributorAbi = require("../../contracts/TokenDistributor.json");
 const { CONTRACT_ADDRESSES } = require("../../components/Blockchain/Updater.js");
 
 const providerOptions = {
-  /*injected: {
-      display: {
-        logo: "data:image/gif;base64,INSERT_BASE64_STRING",
-        name: "Injected",
-        description: "Connect with the provider in your Browser"
-      },
-      package: null
-    },*/
   walletconnect: {
     package: WalletConnectProvider, // required
     options: {
-      infuraId: "4372ea8a08ea4629bf10104f4c86a900", // required
-    },
-  },
-  fortmatic: {
-    package: Fortmatic, // required
-    options: {
-      key: "FORTMATIC_KEY", // required
+      rpc: {
+        1: "https://eth-mainnet.gateway.pokt.network/v1/lb/6203e99dcbab27003989bceb",
+      },
     },
   },
   mewconnect: {
     package: MewConnect, // required
     options: {
-      infuraId: "4372ea8a08ea4629bf10104f4c86a900", // required
+      rpc: {
+        1: "https://eth-mainnet.gateway.pokt.network/v1/lb/6203e99dcbab27003989bceb",
+      },
     },
   },
   authereum: {
