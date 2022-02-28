@@ -145,7 +145,7 @@ class VaultNFTs extends React.Component {
                       this.toggleFirstTabs("tab11");
                     }}
                   >
-                    <span>Manage Zeus NFTs</span>
+                    <span>Manage Apollo NFTs</span>
                   </NavLink>
                 </NavItem>
                 <NavItem>
@@ -155,7 +155,7 @@ class VaultNFTs extends React.Component {
                       this.toggleFirstTabs("tab12");
                     }}
                   >
-                    <span>Manage Apollo NFTs</span>
+                    <span>Manage Zeus NFTs</span>
                   </NavLink>
                 </NavItem>
               </Nav>
