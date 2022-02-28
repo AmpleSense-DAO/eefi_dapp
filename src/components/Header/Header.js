@@ -169,10 +169,30 @@ class Header extends React.Component {
     web3Modal
       .connect()
       .then((provider) => {
-        // let web3 = new Web3(provider);
-        // web3.eth.getAccounts().then((accounts) => {
-        //   this.props.dispatch(loginUser(web3, accounts[0]));
-        // });
+        let web3 = new Web3(provider);
+        web3.eth.getAccounts().then((accounts) => {
+          this.props.dispatch(loginUser(web3, accounts[0]));
+        });
+
+        // Subscribe to accounts change
+        provider.on("accountsChanged", (accounts) => {
+          this.props.dispatch(loginUser(web3, accounts[0]));
+        });
+
+        // Subscribe to chainId change
+        provider.on("chainChanged", (chainId) => {
+          console.log(chainId);
+        });
+
+        // Subscribe to provider connection
+        provider.on("connect", (info) => {
+          console.log(info);
+        });
+
+        // Subscribe to provider disconnection
+        provider.on("disconnect", (error) => {
+          this.props.dispatch(logoutUser());
+        });
       })
       .catch((err) => {
         this.props.dispatch(loginError(err));
@@ -180,8 +200,8 @@ class Header extends React.Component {
   }
   componentDidMount() {
     var self = this;
-    let web3 = new Web3(window.web3.currentProvider);
-    window.setInterval(function () {
+    if(window.ethereum) {
+      let web3 = new Web3(window.ethereum);
       web3.eth.getAccounts().then((accounts) => {
         var account = accounts[0];
         if (!account) {
@@ -190,15 +210,7 @@ class Header extends React.Component {
           self.props.dispatch(loginUser(web3, account));
         }
       });
-    }, 200);
-    // web3.eth.getAccounts().then((accounts) => {
-    //   if (accounts[0]) {
-    //     console.log(accounts[0]);
-    //     this.props.dispatch(loginUser(web3, accounts[0]));
-    //   } else {
-    //     // this.props.dispatch(logoutUser());
-    //   }
-    // });
+    }
   }
   changeArrowImg() {
     this.setState({
