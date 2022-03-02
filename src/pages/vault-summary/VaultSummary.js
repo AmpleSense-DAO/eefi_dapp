@@ -1,6 +1,7 @@
 import React from "react";
 import { Row, Col, Table, Button } from "reactstrap";
 import { Link } from "react-router-dom";
+import bigDecimal from 'js-big-decimal';
 
 import usersImg from "../../images/usersImg.svg";
 import usersDangerImg from "../../images/theme-icons/red/Users.svg";
@@ -1225,7 +1226,7 @@ class VaultSummary extends React.Component {
   }
 
   numberWithCommas(x) {
-    return String(parseFloat(x).toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 2 })).replace(/(?<!\..*)(\d)(?=(?:\d{3})+(?:\.|$))/g, "$1,");
+    return new bigDecimal(x).getPrettyValue(2,",");
   }
 
   componentDidMount() {
