@@ -1226,7 +1226,7 @@ class VaultSummary extends React.Component {
   }
 
   numberWithCommas(x) {
-    return new bigDecimal(x).getPrettyValue(2,",");
+    return new bigDecimal(x).getPrettyValue();
   }
 
   componentDidMount() {
@@ -1526,7 +1526,7 @@ class VaultSummary extends React.Component {
                     </td>
                     <td width="25%" className={"pl-0 fw-thin table-vaults-long-1"}>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>TVL: </strong> &nbsp; $ {this.numberWithCommas(amplesenseVaultTVL)}
+                        <strong>TVL: </strong> &nbsp; $ {this.numberWithCommas(parseFloat(amplesenseVaultTVL).toFixed(0))}
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
                         <strong>APY: </strong>&nbsp; N/A
@@ -1543,7 +1543,7 @@ class VaultSummary extends React.Component {
                         <strong> Earn:</strong> &nbsp;EEFI, ETH
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>TVL: </strong> &nbsp; $ {this.numberWithCommas(amplesenseVaultTVL)}
+                        <strong>TVL: </strong> &nbsp; $ {this.numberWithCommas(parseFloat(amplesenseVaultTVL).toFixed(0))}
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
                         <strong>APY: </strong>&nbsp; N/A
@@ -1614,7 +1614,7 @@ class VaultSummary extends React.Component {
                     </td>
                     <td width="25%" className={"pl-0 fw-thin table-vaults-long-1"}>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>TVL: </strong> &nbsp; $ {this.numberWithCommas(lpStakingTVL)}
+                        <strong>TVL: </strong> &nbsp; $ {this.numberWithCommas(parseFloat(lpStakingTVL).toFixed(0))}
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
                         <strong>APY: </strong>&nbsp; N/A
@@ -1631,7 +1631,7 @@ class VaultSummary extends React.Component {
                         <strong> Earn:</strong> &nbsp;EEFI, USDC
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>TVL: </strong> &nbsp; $ {this.numberWithCommas(lpStakingTVL)}
+                        <strong>TVL: </strong> &nbsp; $ {this.numberWithCommas(parseFloat(lpStakingTVL).toFixed(0))}
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
                         <strong>APY: </strong>&nbsp; N/A
@@ -1712,7 +1712,7 @@ class VaultSummary extends React.Component {
                     </td>
                     <td width="25%" className={"pl-0 fw-thin table-vaults-long-1"}>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>TVL: </strong> &nbsp; $ {this.numberWithCommas(pioneer2TVL)}
+                        <strong>TVL: </strong> &nbsp; $ {this.numberWithCommas(parseFloat(pioneer2TVL).toFixed(0))}
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
                         <strong>APY: </strong>&nbsp; N/A
@@ -1729,7 +1729,7 @@ class VaultSummary extends React.Component {
                         <strong> Earn:</strong> &nbsp;EEFI, ETH
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>TVL: </strong> &nbsp; $ {this.numberWithCommas(pioneer2TVL)}
+                        <strong>TVL: </strong> &nbsp; $ {this.numberWithCommas(parseFloat(pioneer2TVL).toFixed(0))}
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
                         <strong>APY: </strong>&nbsp; N/A
@@ -1800,7 +1800,7 @@ class VaultSummary extends React.Component {
                     </td>
                     <td width="25%" className={"pl-0 fw-thin table-vaults-long-1"}>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>TVL: </strong> &nbsp; $ {this.numberWithCommas(pioneer1ATVL + pioneer1BTVL)}
+                        <strong>TVL: </strong> &nbsp; $ {this.numberWithCommas(parseFloat(pioneer1ATVL + pioneer1BTVL).toFixed(0))}
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
                         <strong>APY: </strong>&nbsp; N/A
@@ -1817,7 +1817,7 @@ class VaultSummary extends React.Component {
                         <strong> Earn:</strong> &nbsp;ETH
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>TVL: </strong> &nbsp; $ {this.numberWithCommas(pioneer1ATVL + pioneer1BTVL)}
+                        <strong>TVL: </strong> &nbsp; $ {this.numberWithCommas(parseFloat(pioneer1ATVL + pioneer1BTVL).toFixed(0))}
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
                         <strong>APY: </strong>&nbsp; N/A
@@ -1885,7 +1885,7 @@ class VaultSummary extends React.Component {
                     </td>
                     <td width="25%" className={"pl-0 fw-thin table-vaults-long-1"}>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>TVL: </strong> &nbsp; $ {this.numberWithCommas(pioneer3TVL)}
+                        <strong>TVL: </strong> &nbsp; $ {this.numberWithCommas(parseFloat(pioneer3TVL).toFixed(0))}
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
                         <strong>APY: </strong>&nbsp; N/A
@@ -1902,7 +1902,7 @@ class VaultSummary extends React.Component {
                         <strong> Earn:</strong> &nbsp;EEFI, ETH
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>TVL: </strong> &nbsp; $ {this.numberWithCommas(pioneer3TVL)}
+                        <strong>TVL: </strong> &nbsp; $ {this.numberWithCommas(parseFloat(pioneer3TVL).toFixed(0))}
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
                         <strong>APY: </strong>&nbsp; N/A

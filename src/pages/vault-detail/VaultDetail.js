@@ -408,7 +408,7 @@ class VaultDetail extends React.Component {
     const maxStakingTokenPrecision = new VaultContract(this.getVaultType(), web3, account).maxStakingTokenDisplayPrecision();
     const decimal = new bigDecimal(web3.utils.fromWei(staking_token_balance, precisionName));
     const decimal2 = decimal.multiply(new bigDecimal(evt.target.value));
-    const value = maxStakingTokenPrecision > 0? decimal2.getPrettyValue(maxStakingTokenPrecision,',') : decimal2.getValue();
+    const value = maxStakingTokenPrecision > 0? decimal2.getPrettyValue() : decimal2.getValue();
     this.setState({
       amountToDeposit: value
     });
@@ -420,7 +420,7 @@ class VaultDetail extends React.Component {
     const maxStakingTokenPrecision = new VaultContract(this.getVaultType(), web3, account).maxStakingTokenDisplayPrecision();
     const decimal = new bigDecimal(web3.utils.fromWei(claimable, precisionName));
     const decimal2 = decimal.multiply(new bigDecimal(evt.target.value));
-    const value = maxStakingTokenPrecision > 0? decimal2.getPrettyValue(maxStakingTokenPrecision,',') : decimal2.getValue();
+    const value = maxStakingTokenPrecision > 0? decimal2.getPrettyValue() : decimal2.getValue();
     
     this.setState({
       amountToWithdraw: value
@@ -523,12 +523,12 @@ class VaultDetail extends React.Component {
       );
     }
     const precision = contract.maxStakingTokenDisplayPrecision() > 0? contract.maxStakingTokenDisplayPrecision() : 1; //must be at least 1 for the pretty function
-    const staking_token_balance_formatted = new bigDecimal(web3.utils.fromWei(staking_token_balance, contract.stakingTokenPrecisionName())).getPrettyValue(precision, ",");
-    const claimable_formatted = new bigDecimal(web3.utils.fromWei(claimable, contract.stakingTokenPrecisionName())).getPrettyValue(precision, ",");
-    const staking_token_withdraw_formatted = new bigDecimal(web3.utils.fromWei(staking_token_withdraw, contract.stakingTokenPrecisionName())).getPrettyValue(precision, ",");
-    const ampl_eth_reward_formatted = new bigDecimal(web3.utils.fromWei(reward.eth, "ether")).getPrettyValue(3, ",");
+    const staking_token_balance_formatted = new bigDecimal(web3.utils.fromWei(staking_token_balance, contract.stakingTokenPrecisionName())).getPrettyValue();
+    const claimable_formatted = new bigDecimal(web3.utils.fromWei(claimable, contract.stakingTokenPrecisionName())).getPrettyValue();
+    const staking_token_withdraw_formatted = new bigDecimal(web3.utils.fromWei(staking_token_withdraw, contract.stakingTokenPrecisionName())).getPrettyValue();
+    const ampl_eth_reward_formatted = new bigDecimal(web3.utils.fromWei(reward.eth, "ether")).getPrettyValue();
     //in case of pioneer1 there is no token reward
-    const ampl_token_reward_formatted = new bigDecimal(web3.utils.fromWei(reward.token ? reward.token : "0", contract.rewardTokenPrecisionName())).getPrettyValue(3, ",");
+    const ampl_token_reward_formatted = new bigDecimal(web3.utils.fromWei(reward.token ? reward.token : "0", contract.rewardTokenPrecisionName())).getPrettyValue();
 
     return (
       <div className={s.root}>
@@ -799,7 +799,7 @@ class VaultDetail extends React.Component {
                         <tr key={deposit.transactionHash}>
                           <td className="fw-normal pl-0 fw-thin">&nbsp;{new Date(deposit.timestamp * 1000).toUTCString()}</td>
                           <td className={"pl-0 fw-thin"}>
-                            &nbsp;{new bigDecimal(web3.utils.fromWei(deposit.returnValues.amount, contract.stakingTokenPrecisionName())).getPrettyValue(contract.maxStakingTokenDisplayPrecision(),",")} {contract.stakingTokenSymbol()}
+                            &nbsp;{new bigDecimal(web3.utils.fromWei(deposit.returnValues.amount, contract.stakingTokenPrecisionName())).getPrettyValue()} {contract.stakingTokenSymbol()}
                           </td>
                           <td className={"pl-0 fw-thin"}>
                             {deposit.allowanceHash && (
@@ -848,7 +848,7 @@ class VaultDetail extends React.Component {
                         <tr key={withdrawal.transactionHash}>
                           <td className="fw-normal pl-0 fw-thin">&nbsp;{new Date(withdrawal.timestamp * 1000).toUTCString()}</td>
                           <td className={"pl-0 fw-thin"}>
-                            &nbsp;{new bigDecimal(web3.utils.fromWei(withdrawal.returnValues.amount, contract.stakingTokenPrecisionName())).getPrettyValue(contract.maxStakingTokenDisplayPrecision(),",")} {contract.stakingTokenSymbol()}
+                            &nbsp;{new bigDecimal(web3.utils.fromWei(withdrawal.returnValues.amount, contract.stakingTokenPrecisionName())).getPrettyValue()} {contract.stakingTokenSymbol()}
                           </td>
                           <td className={"pl-0 fw-thin"}>
                             {withdrawal.transactionHash && (
@@ -890,8 +890,8 @@ class VaultDetail extends React.Component {
                           <td className="fw-normal pl-0 fw-thin">&nbsp;{new Date(claim.timestamp * 1000).toUTCString()}</td>
                           {claim.returnValues ? (
                             <td className={"pl-0 fw-thin"}>
-                              &nbsp;{new bigDecimal(web3.utils.fromWei(claim.returnValues.token, contract.rewardTokenPrecisionName())).getPrettyValue(4,",")} {"EEFI"}
-                              &nbsp;{new bigDecimal(web3.utils.fromWei(claim.returnValues.eth)).getPrettyValue(4,",")} {"ETH"}
+                              &nbsp;{new bigDecimal(web3.utils.fromWei(claim.returnValues.token, contract.rewardTokenPrecisionName())).getPrettyValue()} {"EEFI"}
+                              &nbsp;{new bigDecimal(web3.utils.fromWei(claim.returnValues.eth)).getPrettyValue()} {"ETH"}
                             </td>
                           ) : (
                             <td className={"pl-0 fw-thin"}>Computing rewards...</td>
