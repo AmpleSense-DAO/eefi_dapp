@@ -317,6 +317,7 @@ export class VaultContract {
 
 class BlockchainUpdater extends React.Component {
   timer = null;
+  timer2 = null;
 
   // constructor(props) {
   //   super(props);
@@ -324,6 +325,7 @@ class BlockchainUpdater extends React.Component {
 
   componentWillUnmount() {
     clearInterval(this.timer);
+    clearInterval(this.timer2);
   }
 
   componentDidMount() {
@@ -331,7 +333,10 @@ class BlockchainUpdater extends React.Component {
 
     const that = this;
     this.timer = setInterval(this.pull, 5000);
+    this.timer2 = setInterval(this.pullGas, 10000);
+
     this.pull();
+    this.pullGas();
     if(account) {
       this.props.dispatch(fetchDeposits(vaultTypeFromID[vault_type], web3, account));
       this.props.dispatch(fetchWithdrawals(vaultTypeFromID[vault_type], web3, account));
@@ -431,7 +436,9 @@ class BlockchainUpdater extends React.Component {
     }
     
     this.props.dispatch(fetchTotalStaked(vaultTypeFromID[vault_type], web3, account, provider));
+  };
 
+  pullGas = () => {
     // get pas prices
     axios
       .get("https://data-api.defipulse.com/api/v1/egs/api/ethgasAPI.json?api-key=db84e1509032bc4cc4f96d1c8791d92b667d28adc606bda9480c9a616310")
