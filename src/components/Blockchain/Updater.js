@@ -333,10 +333,8 @@ class BlockchainUpdater extends React.Component {
 
     const that = this;
     this.timer = setInterval(this.pull, 5000);
-    this.timer2 = setInterval(this.pullGas, 10000);
 
     this.pull();
-    this.pullGas();
     if(account) {
       this.props.dispatch(fetchDeposits(vaultTypeFromID[vault_type], web3, account));
       this.props.dispatch(fetchWithdrawals(vaultTypeFromID[vault_type], web3, account));

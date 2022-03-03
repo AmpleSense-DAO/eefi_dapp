@@ -364,7 +364,7 @@ class Header extends React.Component {
           <img className={s.gasImg} src={gasImage} alt="gas"></img>
           <p></p>
         </div> */}
-        <Form className={`form-label-left ${s.form}`}>
+        {/* <Form className={`form-label-left ${s.form}`}>
           <FormGroup row className={s.formGroup}>
             <Label className={`right ${s.gasLabel}`}>
               <img src={gasSmallImg} alt="" className={"mr-31"} />
@@ -373,7 +373,7 @@ class Header extends React.Component {
               <Select id="gasGroup" className={s.selectCustomization} options={this.state.selectDefaultData} defaultValue={this.state.selectDefaultData[1]} value={this.state.selectDefaultData[index]} onChange={(value) => this.handleChange(value)} />
             </Col>
           </FormGroup>
-        </Form>
+        </Form> */}
       </Navbar>
     );
   }
