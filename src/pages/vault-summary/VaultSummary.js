@@ -1532,7 +1532,7 @@ class VaultSummary extends React.Component {
                         <strong>APY: </strong>&nbsp; N/A
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>Your Balance: </strong>&nbsp;$ {this.numberWithCommas(amplesenseVaultStaking + amplesenseVaultReward)}
+                        <strong>Your Balance: </strong>&nbsp;$ {this.numberWithCommas(parseFloat(amplesenseVaultStaking + amplesenseVaultReward).toFixed(0))}
                       </p>
                     </td>
                     <td width="30%" className={"pl-0 fw-thin table-vaults-short-1"}>
@@ -1549,7 +1549,7 @@ class VaultSummary extends React.Component {
                         <strong>APY: </strong>&nbsp; N/A
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>Your Balance: </strong>&nbsp;$ {this.numberWithCommas(amplesenseVaultStaking + amplesenseVaultReward)}
+                        <strong>Your Balance: </strong>&nbsp;$ {this.numberWithCommas(parseFloat(amplesenseVaultStaking + amplesenseVaultReward).toFixed(0))}
                       </p>
                     </td>
 
@@ -1620,7 +1620,7 @@ class VaultSummary extends React.Component {
                         <strong>APY: </strong>&nbsp; N/A
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>Your Balance: </strong>&nbsp;$ {this.numberWithCommas(lpStakingStaking + lpStakingReward)}
+                        <strong>Your Balance: </strong>&nbsp;$ {this.numberWithCommas(parseFloat(lpStakingStaking + lpStakingReward).toFixed(0))}
                       </p>
                     </td>
                     <td width="30%" className={"pl-0 fw-thin table-vaults-short-1"}>
@@ -1637,7 +1637,7 @@ class VaultSummary extends React.Component {
                         <strong>APY: </strong>&nbsp; N/A
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>Your Balance: </strong>&nbsp;$ {this.numberWithCommas(lpStakingStaking + lpStakingReward)}
+                        <strong>Your Balance: </strong>&nbsp;$ {this.numberWithCommas(parseFloat(lpStakingStaking + lpStakingReward).toFixed(0))}
                       </p>
                     </td>
 
@@ -1718,7 +1718,7 @@ class VaultSummary extends React.Component {
                         <strong>APY: </strong>&nbsp; N/A
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>Your Balance: </strong>&nbsp;$ {this.numberWithCommas(pioneer2Staking + pioneer2Reward)}
+                        <strong>Your Balance: </strong>&nbsp;$ {this.numberWithCommas(parseFloat(pioneer2Staking + pioneer2Reward).toFixed(0))}
                       </p>
                     </td>
                     <td width="30%" className={"pl-0 fw-thin table-vaults-short-1"}>
@@ -1735,7 +1735,7 @@ class VaultSummary extends React.Component {
                         <strong>APY: </strong>&nbsp; N/A
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>Your Balance: </strong>&nbsp;$ {this.numberWithCommas(pioneer2Staking + pioneer2Reward)}
+                        <strong>Your Balance: </strong>&nbsp;$ {this.numberWithCommas(parseFloat(pioneer2Staking + pioneer2Reward).toFixed(0))}
                       </p>
                     </td>
 
@@ -1806,7 +1806,7 @@ class VaultSummary extends React.Component {
                         <strong>APY: </strong>&nbsp; N/A
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>Your Balance: </strong>&nbsp; $ {this.numberWithCommas(pioneer1AStaking + pioneer1BStaking + pioneer1AReward + pioneer1BReward)}
+                        <strong>Your Balance: </strong>&nbsp; $ {this.numberWithCommas(parseFloat(pioneer1AStaking + pioneer1BStaking + pioneer1AReward + pioneer1BReward).toFixed(0))}
                       </p>
                     </td>
                     <td width="30%" className={"pl-0 fw-thin table-vaults-short-1"}>
@@ -1823,7 +1823,7 @@ class VaultSummary extends React.Component {
                         <strong>APY: </strong>&nbsp; N/A
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>Your Balance: </strong>&nbsp; $ {this.numberWithCommas(pioneer1AStaking + pioneer1BStaking + pioneer1AReward + pioneer1BReward)}
+                        <strong>Your Balance: </strong>&nbsp; $ {this.numberWithCommas(parseFloat(pioneer1AStaking + pioneer1BStaking + pioneer1AReward + pioneer1BReward).toFixed(0))}
                       </p>
                     </td>
 
@@ -1891,7 +1891,7 @@ class VaultSummary extends React.Component {
                         <strong>APY: </strong>&nbsp; N/A
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>Your Balance: </strong>&nbsp; $ {this.numberWithCommas(pioneer3Staking + pioneer3Reward)}
+                        <strong>Your Balance: </strong>&nbsp; $ {this.numberWithCommas(parseFloat(pioneer3Staking + pioneer3Reward).toFixed(0))}
                       </p>
                     </td>
                     <td width="30%" className={"pl-0 fw-thin table-vaults-short-1"}>
@@ -1908,7 +1908,7 @@ class VaultSummary extends React.Component {
                         <strong>APY: </strong>&nbsp; N/A
                       </p>
                       <p className={"d-flex  align-items-center text-info"}>
-                        <strong>Your Balance: </strong>&nbsp; $ {this.numberWithCommas(pioneer3Staking + pioneer3Reward)}
+                        <strong>Your Balance: </strong>&nbsp; $ {this.numberWithCommas(parseFloat(pioneer3Staking + pioneer3Reward).toFixed(0))}
                       </p>
                     </td>
 
