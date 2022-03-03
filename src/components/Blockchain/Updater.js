@@ -366,8 +366,8 @@ class BlockchainUpdater extends React.Component {
         this.props.dispatch(fetchEEFIPrice(eefiPrice, resp.data.market_data.price_change_24h));
       })
       .catch((e) => {
-        // in case of failure set price to $100
-        this.props.dispatch(fetchEEFIPrice(100, "0"));
+        // in case of failure set price to $45
+        this.props.dispatch(fetchEEFIPrice(45, "0"));
       });
 
     //get AMPL price
