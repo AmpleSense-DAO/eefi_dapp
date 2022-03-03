@@ -130,7 +130,7 @@ class VaultNFTs extends React.Component {
     return (
       <div>
         <div className={s.headerImg}>
-          <img src="/tables/media/apollo_cropped_edited_sm.png" height={80} width={80} alt="" className={s.mobileImg} />
+          <img src={p4} height={80} width={80} alt="" className={s.mobileImg} />
           <h2 className={s.headerText}>Pioneer Fund Vault I: NFTs</h2>
         </div>
         {/* Tabs */}
