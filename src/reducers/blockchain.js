@@ -93,9 +93,10 @@ export default function blockchainReducer(state = defaultState, action) {
     case FETCH_VAULT_VALUE:
       let vaultValues = state.vaultValues;
       const vault = action.payload;
-      vaultValues[vault.vaultType.name] = vault;
+      const values = { ... vaultValues }
+      values[vault.vaultType.name] = vault;
       return Object.assign({}, state, {
-        vaultValues: vaultValues,
+        vaultValues : values,
       });
     case FETCH_TVL_VALUE:
       return Object.assign({}, state, {

@@ -35,9 +35,10 @@ export function receiveProvider() {
   };
 }
 
-export function loginUser(web3, account) {
+export function loginUser(web3, account, provider) {
   return (dispatch) => {
-    dispatch(requestLogin({ web3, account }));
+    console.log("login", account, web3, provider);
+    dispatch(requestLogin({ web3, account, provider }));
     // dispatch(receiveLogin());
   };
 }

@@ -161,12 +161,12 @@ class Header extends React.Component {
       .then((provider) => {
         let web3 = new Web3(provider);
         web3.eth.getAccounts().then((accounts) => {
-          this.props.dispatch(loginUser(web3, accounts[0]));
+          this.props.dispatch(loginUser(web3, accounts[0], provider));
         });
 
         // Subscribe to accounts change
         provider.on("accountsChanged", (accounts) => {
-          this.props.dispatch(loginUser(web3, accounts[0]));
+          this.props.dispatch(loginUser(web3, accounts[0], provider));
         });
 
         // Subscribe to chainId change
@@ -188,20 +188,52 @@ class Header extends React.Component {
         this.props.dispatch(loginError(err));
       });
   }
+
+  doFree() {
+    if(this.props.provider) {
+      this.props.provider.removeAllListeners();
+    }
+  }
+
   componentDidMount() {
     var self = this;
     if(window.ethereum) {
       let web3 = new Web3(window.ethereum);
+
+      // Subscribe to accounts change
+      window.ethereum.on("accountsChanged", (accounts) => {
+        this.props.dispatch(loginUser(web3, accounts[0], window.ethereum));
+      });
+
+      // Subscribe to chainId change
+      window.ethereum.on("chainChanged", (chainId) => {
+        console.log(chainId);
+      });
+
+      // Subscribe to provider connection
+      window.ethereum.on("connect", (info) => {
+        console.log(info);
+      });
+
+      // Subscribe to provider disconnection
+      window.ethereum.on("disconnect", (error) => {
+        this.props.dispatch(logoutUser());
+      });
       web3.eth.getAccounts().then((accounts) => {
         var account = accounts[0];
         if (!account) {
           self.props.dispatch(logoutUser());
         } else if (account !== self.props.account) {
-          self.props.dispatch(loginUser(web3, account));
+          self.props.dispatch(loginUser(web3, account, window.ethereum));
         }
       });
     }
   }
+
+  componentWillUnmount() {
+    this.doFree();
+  }
+
   changeArrowImg() {
     this.setState({
       arrowImg: arrowActive,
@@ -355,6 +387,7 @@ function mapStateToProps(store) {
     navbarColor: store.layout.navbarColor,
     web3: store.auth.web3,
     account: store.auth.account,
+    provider: store.auth.provider,
     gas_price_fastest: store.blockchain.gas_price_fastest,
     gas_price_fast: store.blockchain.gas_price_fast,
     gas_price_average: store.blockchain.gas_price_average,

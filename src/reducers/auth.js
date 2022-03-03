@@ -6,6 +6,7 @@ export default function auth(
     isAuthenticated: false,
     web3: undefined,
     account: undefined,
+    provider: undefined
   },
   action
 ) {
@@ -17,6 +18,7 @@ export default function auth(
         isAuthenticated: false,
         web3: action.payload.web3,
         account: action.payload.account,
+        provider: action.payload.provider
       });
     case LOGOUT_REQUEST:
       return Object.assign({}, state, {

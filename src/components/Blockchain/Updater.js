@@ -327,17 +327,22 @@ class BlockchainUpdater extends React.Component {
   }
 
   componentDidMount() {
-    const { web3, account, vault_type } = this.props;
+    const { web3, account, vault_type, provider } = this.props;
 
     const that = this;
     this.timer = setInterval(this.pull, 5000);
     this.pull();
-    this.props.dispatch(fetchDeposits(vaultTypeFromID[vault_type], web3, account));
-    this.props.dispatch(fetchWithdrawals(vaultTypeFromID[vault_type], web3, account));
-    this.props.dispatch(fetchClaimings(vaultTypeFromID[vault_type], web3, account));
-    this.props.dispatch(fetchAllowance(vaultTypeFromID[vault_type], web3, account));
-    this.props.dispatch(fetchTotalBalances(web3, account));
-    this.props.dispatch(fetchTVLHistory(web3, account));
+    if(account) {
+      this.props.dispatch(fetchDeposits(vaultTypeFromID[vault_type], web3, account));
+      this.props.dispatch(fetchWithdrawals(vaultTypeFromID[vault_type], web3, account));
+      this.props.dispatch(fetchClaimings(vaultTypeFromID[vault_type], web3, account));
+      this.props.dispatch(fetchAllowance(vaultTypeFromID[vault_type], web3, account));
+    }
+
+    this.props.dispatch(fetchTotalBalances(web3, account, provider));
+    
+    
+    this.props.dispatch(fetchTVLHistory(web3, account, provider));
     // uncomment if you need to access stake nft list
     //this.props.dispatch(fetchStakableNFTs(vaultTypeFromID[vault_type], web3, account));
 
@@ -415,20 +420,17 @@ class BlockchainUpdater extends React.Component {
   }
 
   pull = () => {
-    const { web3, account, vault_type } = this.props;
+    const { web3, account, vault_type, provider } = this.props;
     // const contract = new VaultContract(vaultTypeFromID[vault_type], web3, account);
-
-    this.props.dispatch(fetchStakingTokenBalance(vaultTypeFromID[vault_type], web3, account));
-
-    this.props.dispatch(fetchStakedBalance(vaultTypeFromID[vault_type], web3, account));
-
-    this.props.dispatch(fetchClaimableBalance(vaultTypeFromID[vault_type], web3, account));
-
-    this.props.dispatch(fetchTotalStaked(vaultTypeFromID[vault_type], web3, account));
-
-    this.props.dispatch(fetchReward(vaultTypeFromID[vault_type], web3, account));
-
-    this.props.dispatch(fetchAllowance(vaultTypeFromID[vault_type], web3, account));
+    if(account) {
+      this.props.dispatch(fetchStakingTokenBalance(vaultTypeFromID[vault_type], web3, account));
+      this.props.dispatch(fetchStakedBalance(vaultTypeFromID[vault_type], web3, account));
+      this.props.dispatch(fetchClaimableBalance(vaultTypeFromID[vault_type], web3, account));
+      this.props.dispatch(fetchReward(vaultTypeFromID[vault_type], web3, account));
+      this.props.dispatch(fetchAllowance(vaultTypeFromID[vault_type], web3, account));
+    }
+    
+    this.props.dispatch(fetchTotalStaked(vaultTypeFromID[vault_type], web3, account, provider));
 
     // get pas prices
     axios
@@ -449,6 +451,7 @@ function mapStateToProps(store) {
   return {
     web3: store.auth.web3,
     account: store.auth.account,
+    provider: store.auth.provider,
     deposits: store.blockchain.deposits,
     withdrawals: store.blockchain.withdrawals,
     vault_type: store.blockchain.vault_type,

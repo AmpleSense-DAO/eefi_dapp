@@ -166,7 +166,7 @@ class Layout extends React.Component {
                   </Switch>
                 </CSSTransition>
               </TransitionGroup>
-              {this.props.account && <BlockchainUpdater key={"" + this.props.vault_type} />}
+              {this.props.web3 && <BlockchainUpdater key={"" + this.props.vault_type} />}
             </main>
           </Hammer>
         </div>
@@ -183,6 +183,7 @@ function mapStateToProps(store) {
     sidebarType: store.layout.sidebarType,
     sidebarColor: store.layout.sidebarColor,
     account: store.auth.account,
+    web3: store.auth.web3,
     vault_type: store.blockchain.vault_type,
   };
 }

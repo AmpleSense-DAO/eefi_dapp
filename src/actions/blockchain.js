@@ -70,8 +70,8 @@ export function fetchClaimableBalance(vaultTypes, web3, account) {
   };
 }
 
-export function fetchTotalStaked(vaultTypes, web3, account) {
-  const contract = new VaultContract(vaultTypes, web3, account);
+export function fetchTotalStaked(vaultTypes, web3, account, provider) {
+  const contract = new VaultContract(vaultTypes, web3, provider);
   // special case for NFT vault, since it allows staking 2 tokens we check the token balance directly instead of
   // asking the contract, which will return the total of both tokens staked
   if(vaultTypes.name == "Pioneer Fund Vault I: ZEUS" || vaultTypes.name == "Pioneer Fund Vault I: APOLLO") {
@@ -333,11 +333,11 @@ export function fetchClaimings(vaultType, web3, account) {
   };
 }
 
-export function fetchTVLHistory(web3, account) {
+export function fetchTVLHistory(web3, account, provider) {
   return function(dispatch) {
     let promises = [];
     vaultTypeFromID.forEach(type => {
-      const contract = new VaultContract(type, web3, account);
+      const contract = new VaultContract(type, web3, provider);
       promises.push(new Promise(async (resolve, reject) => {
         const changes = await contract.getStakeChangedEvent();
         resolve({changes, contract});
@@ -354,15 +354,23 @@ export function fetchTVLHistory(web3, account) {
   };
 }
 
-export function fetchTotalBalances(web3, account) {
+function getPromiseResolvingToZero() {
+  return new Promise((resolve, reject) => {
+    resolve("0");
+  })
+}
+
+export function fetchTotalBalances(web3, account, provider) {
   return function(dispatch) {
     vaultTypeFromID.forEach(type => {
-      const contract = new VaultContract(type, web3, account);
-      Promise.all([
-        contract.stakedTokenTotalBalance(),
-        contract.getReward(),
-        contract.totalStaked()
-      ]).then(([stakedBalance, rewardBalance, totalStakedBalance]) => {
+      const contract = new VaultContract(type, web3, account? account: provider);
+      let toFetch = [];
+      toFetch.push(account? contract.stakedTokenTotalBalance() : getPromiseResolvingToZero());
+      toFetch.push(account? contract.getReward() : getPromiseResolvingToZero());
+      toFetch.push(contract.totalStaked())
+      Promise.all(
+        toFetch
+      ).then(([stakedBalance, rewardBalance, totalStakedBalance]) => {
         const stakedAdustedBalance = stakedBalance / 10**contract.stakingTokenPrecision();
         const totalStakedAdjustedBalance = totalStakedBalance / 10**contract.stakingTokenPrecision();
         //sometimes the reward has token + eth, sometimes just the token, in which case rewardBalance isnt an object

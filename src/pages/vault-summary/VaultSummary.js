@@ -1271,10 +1271,10 @@ class VaultSummary extends React.Component {
     const pioneer2Values = this.props.vaultValues["Pioneer Fund Vault II: kMPL"];
     const pioneer3Values = this.props.vaultValues["Pioneer Fund Vault III: KMPL/ETH"];
     const lpStakingValues = this.props.vaultValues["EEFI/ETH LP Token Vault"];
-    console.log("values", pioneer1AValues, pioneer1BValues);
+
     const amplesenseVaultStaking = amplesensevaultValues ? amplesensevaultValues.stakedBalance * ampl_price.price : 0;
-    const pioneer1AStaking = pioneer1AValues ? pioneer1AValues.stakedBalance * znft_price * eth_price.price : 0;
-    const pioneer1BStaking = pioneer1BValues ? pioneer1BValues.stakedBalance * anft_price * eth_price.price : 0;
+    const pioneer1AStaking = pioneer1AValues ? pioneer1AValues.stakedBalance * anft_price * eth_price.price : 0;
+    const pioneer1BStaking = pioneer1BValues ? pioneer1BValues.stakedBalance * znft_price * eth_price.price : 0;
     const pioneer2Staking = pioneer2Values ? pioneer2Values.stakedBalance * kmpl_price.price : 0;
     const pioneer3Staking = pioneer3Values ? pioneer3Values.stakedBalance * 0 : 0;
     const lpStakingStaking = lpStakingValues ? lpStakingValues.stakedBalance * 0 : 0;
@@ -1287,8 +1287,9 @@ class VaultSummary extends React.Component {
     const lpStakingReward = lpStakingValues ? lpStakingValues.rewardBalance.token * eefi_price.price + lpStakingValues.rewardBalance.eth * eth_price.price : 0;
 
     const amplesenseVaultTVL = amplesensevaultValues ? amplesensevaultValues.totalStakedBalance * ampl_price.price : 0;
-    const pioneer1ATVL = pioneer1AValues ? pioneer1AValues.totalStakedBalance * znft_price * eth_price.price : 0;
-    const pioneer1BTVL = pioneer1BValues ? pioneer1BValues.totalStakedBalance * anft_price * eth_price.price : 0;
+    console.log("values", pioneer1AValues)
+    const pioneer1ATVL = pioneer1AValues ? pioneer1AValues.totalStakedBalance * anft_price * eth_price.price : 0;
+    const pioneer1BTVL = pioneer1BValues ? pioneer1BValues.totalStakedBalance * znft_price * eth_price.price : 0;
     const pioneer2TVL = pioneer2Values ? pioneer2Values.totalStakedBalance * kmpl_price.price : 0;
     const pioneer3TVL = pioneer3Values ? pioneer3Values.totalStakedBalance * 0 : 0;
     const lpStakingTVL = lpStakingValues ? lpStakingValues.totalStakedBalance * 0 : 0;
@@ -1306,8 +1307,7 @@ class VaultSummary extends React.Component {
         changes.forEach((change) => {
           let adjustedAmount = change.returnValues.total;
           if (contract.stakingTokenPrecision() > 0) adjustedAmount /= 10 ** contract.stakingTokenPrecision();
-
-          tvl.push({ total: adjustedAmount * contract.getStakingTokenPrice(kmpl_price.price, ampl_price.price, 0, 0, 0, 0), timestamp: change.returnValues.timestamp, name: contract.vaultName() });
+          tvl.push({ total: adjustedAmount * contract.getStakingTokenPrice(kmpl_price.price, ampl_price.price, anft_price * eth_price.price, znft_price * eth_price.price, 0, 0), timestamp: change.returnValues.timestamp, name: contract.vaultName() });
         });
         all_tvl.push(tvl);
       });
@@ -1414,7 +1414,7 @@ class VaultSummary extends React.Component {
             >
               <Row className={`justify-content-between mt-3`} noGutters>
                 <Col sm={8} className={s.smCenter + " d-flex align-items-center"}>
-                  <h6 className={"fw-semi-bold mb-0"}>$ {this.numberWithCommas(tvl)}</h6>
+                  <h6 className={"fw-semi-bold mb-0"}>$ {this.numberWithCommas(parseFloat(tvl).toFixed(0))}</h6>
                 </Col>
                 <Col sm={4} className={s.smCenter + " d-flex align-items-center justify-content-end"}></Col>
               </Row>
