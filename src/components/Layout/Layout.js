@@ -21,6 +21,8 @@ import s from "./Layout.module.scss";
 import { DashboardThemes } from "../../reducers/layout";
 import Helper from "../Helper";
 
+import s2 from "./Tables.modules.scss";
+
 class Layout extends React.Component {
   static propTypes = {
     sidebarStatic: PropTypes.bool,
