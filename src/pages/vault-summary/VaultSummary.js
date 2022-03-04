@@ -1304,7 +1304,8 @@ class VaultSummary extends React.Component {
         let tvl = [];
         const changes = tvl_event.changes;
         const contract = tvl_event.contract;
-        changes.forEach((change) => {
+        //ignore pioneer1B events as they are the same
+        contract.vaultName() != "Pioneer Fund Vault I: ZEUS" && changes.forEach((change) => {
           let adjustedAmount = change.returnValues.total;
           if (contract.stakingTokenPrecision() > 0) adjustedAmount /= 10 ** contract.stakingTokenPrecision();
           tvl.push({ total: adjustedAmount * contract.getStakingTokenPrice(kmpl_price.price, ampl_price.price, anft_price * eth_price.price, znft_price * eth_price.price, 0, 0), timestamp: change.returnValues.timestamp, name: contract.vaultName() });
@@ -1432,7 +1433,7 @@ class VaultSummary extends React.Component {
             >
               <Row className={`justify-content-between mt-3`} noGutters>
                 <Col sm={8} className={s.smCenter + " d-flex align-items-center"}>
-                  <h6 className={"fw-semi-bold mb-0"}>$ {this.numberWithCommas(portfolio)}</h6>
+                  <h6 className={"fw-semi-bold mb-0"}>$ {this.numberWithCommas(parseFloat(portfolio).toFixed(0))}</h6>
                 </Col>
                 <Col sm={4} className={s.smCenter + " d-flex align-items-center justify-content-end"}></Col>
               </Row>

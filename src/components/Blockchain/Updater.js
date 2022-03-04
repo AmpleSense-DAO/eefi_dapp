@@ -398,23 +398,25 @@ class BlockchainUpdater extends React.Component {
       });
 
     //get ZNFT price
-    axios
-      .get(`https://api.opensea.io/api/v1/collection/zeus-kgeyser-pioneer-nft/stats`)
-      .then((resp) => {
-        this.props.dispatch(fetchZNFTPrice(resp.data.stats.floor_price));
-      })
-      .catch((e) => {
-        this.props.dispatch(fetchZNFTPrice(0));
-      });
+    // axios
+    //   .get(`https://api.opensea.io/api/v1/collection/zeus-kgeyser-pioneer-nft/stats`)
+    //   .then((resp) => {
+    //     this.props.dispatch(fetchZNFTPrice(resp.data.stats.floor_price));
+    //   })
+    //   .catch((e) => {
+    //     this.props.dispatch(fetchZNFTPrice(0));
+    //   });
 
     //get ANFT price
     axios
       .get(`https://api.opensea.io/api/v1/collection/apollo-kgeyser-pioneer-nft-v2/stats`)
       .then((resp) => {
         this.props.dispatch(fetchANFTPrice(resp.data.stats.floor_price));
+        this.props.dispatch(fetchZNFTPrice(resp.data.stats.floor_price)); //temp use same value
       })
       .catch((e) => {
         this.props.dispatch(fetchANFTPrice(0));
+        this.props.dispatch(fetchZNFTPrice(0));//temp use same value
       });
   }
 
