@@ -290,7 +290,30 @@ export class VaultContract {
     const contract = new this.state.web3.eth.Contract(this.state.type.vault_abi.abi, this.state.type.vault);
     if (this.state.type === VaultType.AMPLESENSE) {
       return contract.getPastEvents("Deposit", { fromBlock: 0, filter: { account: this.state.account } });
-    } else {
+    } else if (this.state.type === VaultType.PIONEER1A || this.state.type === VaultType.PIONEER1B) {
+      return new Promise((resolve, reject) => {
+        contract.getPastEvents("Staked", { fromBlock: 0, filter: { addr: this.state.account, account: this.state.account } }).then(events => {
+          const augmentedEvents = events.map(async event => {
+            const txData = await this.state.web3.eth.getTransaction(event.transactionHash);
+            const isTokenA = txData.input.substr(137,1) == "1";
+            return isTokenA;
+          })
+          Promise.all(augmentedEvents).then(resolved => {
+            let filteredEvents = [];
+            for(let i= 0; i < events.length; i++) {
+              if(resolved[i] == (this.state.type === VaultType.PIONEER1A))
+              filteredEvents.push(events[i]);
+            }
+            resolve(filteredEvents);
+          }).catch(err => {
+            reject(err);
+          });
+        }).catch(err => {
+          reject(err);
+        })
+      })
+    }
+     else {
       return contract.getPastEvents("Staked", { fromBlock: 0, filter: { addr: this.state.account, account: this.state.account } });
     }
   }
@@ -299,7 +322,28 @@ export class VaultContract {
     const contract = new this.state.web3.eth.Contract(this.state.type.vault_abi.abi, this.state.type.vault);
     if (this.state.type === VaultType.AMPLESENSE) {
       return contract.getPastEvents("Withdrawal", { fromBlock: 0, filter: { account: this.state.account } });
-    } else {
+    } else if(this.state.type === VaultType.PIONEER1A || this.state.type === VaultType.PIONEER1B) {
+      return new Promise((resolve, reject) => {
+        contract.getPastEvents("Unstaked", { fromBlock: 0, filter: { addr: this.state.account, account: this.state.account } }).then(events => {
+          const augmentedEvents = events.map(async event => {
+            const txData = await this.state.web3.eth.getTransaction(event.transactionHash);
+            const isTokenA = txData.input.substr(137,1) == "1";
+            return isTokenA;
+          })
+          Promise.all(augmentedEvents).then(resolved => {
+            let filteredEvents = [];
+            for(let i= 0; i < events.length; i++) {
+              if(resolved[i] == (this.state.type === VaultType.PIONEER1A))
+              filteredEvents.push(events[i]);
+            }
+            resolve(filteredEvents);
+          }).catch(err => {
+            reject(err);
+          });
+        });
+      });
+    } 
+    else {
       return contract.getPastEvents("Unstaked", { fromBlock: 0, filter: { addr: this.state.account, account: this.state.account } });
     }
   }
