@@ -1287,7 +1287,6 @@ class VaultSummary extends React.Component {
     const lpStakingReward = lpStakingValues ? lpStakingValues.rewardBalance.token * eefi_price.price + lpStakingValues.rewardBalance.eth * eth_price.price : 0;
 
     const amplesenseVaultTVL = amplesensevaultValues ? amplesensevaultValues.totalStakedBalance * ampl_price.price : 0;
-    console.log("values", pioneer1AValues)
     const pioneer1ATVL = pioneer1AValues ? pioneer1AValues.totalStakedBalance * anft_price * eth_price.price : 0;
     const pioneer1BTVL = pioneer1BValues ? pioneer1BValues.totalStakedBalance * znft_price * eth_price.price : 0;
     const pioneer2TVL = pioneer2Values ? pioneer2Values.totalStakedBalance * kmpl_price.price : 0;
@@ -1457,7 +1456,7 @@ class VaultSummary extends React.Component {
                 </Col>
                 <Col sm={4} className={s.smCenter + " d-flex align-items-center justify-content-end"}>
                   <img src={kmpl_price.change < 0 ? stocksDownImg : stocksImg} alt="" className={"mr-1"} />
-                  <p className={"mb-0"}>{this.numberWithCommas(kmpl_price.change)}</p>
+                  <p className={"mb-0"}>{this.numberWithCommas(parseFloat(kmpl_price.change).toFixed(2))}</p>
                 </Col>
               </Row>
               <Row style={{ marginBottom: -9, marginTop: -1 }}></Row>
@@ -1480,7 +1479,7 @@ class VaultSummary extends React.Component {
                 </Col>
                 <Col sm={4} className={s.smCenter + " d-flex align-items-center justify-content-end"}>
                   <img src={eefi_price.change < 0 ? stocksDownImg : stocksImg} alt="" className={"mr-1"} />
-                  <p className={"mb-0"}>{this.numberWithCommas(eefi_price.change)}</p>
+                  <p className={"mb-0"}>{this.numberWithCommas(parseFloat(eefi_price.change).toFixed(2))}</p>
                 </Col>
               </Row>
               <Row style={{ marginBottom: -9, marginTop: -1 }}></Row>
