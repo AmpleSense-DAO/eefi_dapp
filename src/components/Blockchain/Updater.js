@@ -153,6 +153,11 @@ export class VaultContract {
 
   totalStaked() {
     const contract = new this.state.web3.eth.Contract(this.state.type.vault_abi.abi, this.state.type.vault);
+    if (this.state.type === VaultType.AMPLESENSE) {
+      //in case of ample vault, check the total amount of ampl in the vault now
+      const contractAMPL = new this.state.web3.eth.Contract(this.state.type.staking_token_abi.abi, this.state.type.staking_token);
+      return contractAMPL.methods.balanceOf(this.state.type.vault).call();
+    } else
     return contract.methods.totalStaked().call();
   }
 
