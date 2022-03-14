@@ -264,6 +264,33 @@ export class VaultContract {
     }
   }
 
+  computeSlippage(amount) {
+    const contract = new this.state.web3.eth.Contract(this.state.type.vault_abi.abi, this.state.type.vault);
+    const totalStaked = contract.methods.totalStaked().call();
+    const contractAMPL = new this.state.web3.eth.Contract(this.state.type.staking_token_abi.abi, this.state.type.staking_token);
+    const amplBalance = contractAMPL.methods.balanceOf(this.state.type.vault).call();
+
+    const BN = this.state.web3.utils.BN;
+    return new Promise((resolve, reject) => {
+      Promise.all([totalStaked, amplBalance]).then(([staked, ampl]) => {
+        const stakedBN = new BN(staked);
+        const amplBN = new BN(ampl);
+        const amountBN = new BN(amount);
+        const futureAmpl = amplBN.add(amountBN);
+        const futureStakedBN = stakedBN.add(amountBN);
+        const sim = futureAmpl.mul(amountBN).div(futureStakedBN);
+        const eefiToMint = amountBN.div(new BN(10000)).mul(new BN(10**9));
+        const depositFee = eefiToMint.mul(new BN(65)).div(new BN(10000));
+        const poolSharePrice = amountBN.toNumber() / sim.toNumber();
+        const percent = poolSharePrice * 100 - 100;
+        resolve({deposited: amountBN.sub(sim).toString(), eefiReward: eefiToMint.sub(depositFee).toString(), poolSharePrice:poolSharePrice.toFixed(2), eefiBonus: percent.toFixed(0)});
+      }).catch(err => {
+        console.log("error:",err);
+        reject(err)
+      })
+    });
+  }
+
   unstake(amount) {
     const contract = new this.state.web3.eth.Contract(this.state.type.vault_abi.abi, this.state.type.vault);
     if (this.state.type === VaultType.AMPLESENSE) {

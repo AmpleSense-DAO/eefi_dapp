@@ -371,6 +371,7 @@ class VaultDetail extends React.Component {
     super(props);
     this.forceUpdate = this.forceUpdate.bind(this);
     this.doDeposit = this.doDeposit.bind(this);
+    this.doDepositSimulation = this.doDepositSimulation.bind(this);
     this.doAllowance = this.doAllowance.bind(this);
     this.doWithdraw = this.doWithdraw.bind(this);
     this.handleChangeToDeposit = this.handleChangeToDeposit.bind(this);
@@ -388,12 +389,17 @@ class VaultDetail extends React.Component {
     splineArea: { ...splineArea },
     amountToDeposit: "0",
     amountToWithdraw: "0",
+    simulatedDeposit : "0",
+    eefiReward : "0",
+    eefiBonusPercent : "0",
+    poolSharePrice : "1"
   };
 
   handleChangeToDeposit(evt) {
     this.setState({
       amountToDeposit: toValidString(evt.target.value),
     });
+    this.doDepositSimulation(toValidString(evt.target.value));
   }
 
   handleChangeToWithdraw(evt) {
@@ -412,6 +418,7 @@ class VaultDetail extends React.Component {
     this.setState({
       amountToDeposit: value
     });
+    this.doDepositSimulation(value);
   }
 
   calculateAmountToWithdraw(evt) {
@@ -450,6 +457,24 @@ class VaultDetail extends React.Component {
     const valueWei = contract.getValueWei(toValidNumber(this.state.amountToDeposit).value);
     const current_time = Math.floor(Date.now() / 1000);
     this.props.dispatch(makeDeposit(vaultTypeFromID[this.getId()], web3, account, valueWei, { id: current_time, transactionHash: null, allowanceHash: null, returnValues: { amount: valueWei.toString() }, timestamp: current_time, mined: false, allowanceMined: false }));
+  }
+
+  doDepositSimulation(value) {
+    const { account, web3 } = this.props;
+    const contract = new VaultContract(vaultTypeFromID[this.getId()], web3, account);
+    if(contract.stakingTokenSymbol() === "AMPL") {
+      const valueWei = contract.getValueWei(toValidNumber(value).value);
+      contract.computeSlippage(valueWei).then(res => {
+        this.setState({
+          simulatedDeposit: res.deposited,
+          eefiReward: res.eefiReward,
+          eefiBonusPercent: res.eefiBonus,
+          poolSharePrice: res.poolSharePrice
+        });
+      }).catch(err => {
+        console.log("sim", err);
+      })
+    }
   }
 
   doAllowance() {
@@ -529,7 +554,12 @@ class VaultDetail extends React.Component {
     const ampl_eth_reward_formatted = new bigDecimal(web3.utils.fromWei(reward.eth, "ether")).getPrettyValue();
     //in case of pioneer1 there is no token reward
     const ampl_token_reward_formatted = new bigDecimal(web3.utils.fromWei(reward.token ? reward.token : "0", contract.rewardTokenPrecisionName())).getPrettyValue();
-
+    const deposit_simulation_formatted = new bigDecimal(parseFloat(web3.utils.fromWei(this.state.simulatedDeposit, contract.stakingTokenPrecisionName())).toFixed(2)).getPrettyValue();
+    const deposit_reward_formatted = new bigDecimal(parseFloat(web3.utils.fromWei(this.state.eefiReward, contract.rewardTokenPrecisionName())).toFixed(2)).getPrettyValue();
+    const deposit_usd_price = new bigDecimal(parseFloat(web3.utils.fromWei(this.state.simulatedDeposit, contract.stakingTokenPrecisionName()) * this.props.ampl_price.price).toFixed(2)).getPrettyValue();
+    const deposit_usd_reward = new bigDecimal(parseFloat(web3.utils.fromWei(this.state.eefiReward, contract.rewardTokenPrecisionName()) * this.props.eefi_price.price).toFixed(2)).getPrettyValue();
+    const eefiBonusPercent = this.state.eefiBonusPercent;
+    const poolSharePrice = this.state.poolSharePrice;
     return (
       <div className={s.root}>
         <div className={s.headerImg}>
@@ -600,7 +630,13 @@ class VaultDetail extends React.Component {
                     </thead>
                   </Table>
                 </FormGroup>
-                {contract.stakingTokenSymbol() === "AMPL" && <p className="fs-mini text-muted">{contract.stakingTokenSymbol()} deposits locked for 90 days.</p>}
+                {contract.stakingTokenSymbol() === "AMPL" && <p className="fs-mini text-muted">
+                {contract.stakingTokenSymbol()} deposits locked for 90 days.<br/>
+                Deposit cost: {deposit_simulation_formatted} AMPL (${deposit_usd_price})<br/>
+                Share cost: {poolSharePrice} AMPL<br/>
+                Reward: {deposit_reward_formatted} EEFI (rebase bonus: {eefiBonusPercent}%) (${deposit_usd_reward})<br/>
+                <a href="https://docs.eefi.finance/docs/tutorial-extras%20copy%202/staking_shares_overview">Learn more</a>
+                </p>}
                 <p className={"d-flex align-items-center "} align="center">
                   {allowance > 0 ? (
                     <Button color="primary" size="lg" align="center" className="mb-md mr-sm" disabled={this.state.amountToDeposit === "0"} onClick={this.doDeposit}>
@@ -932,6 +968,8 @@ function mapStateToProps(store) {
     claimings: store.blockchain.claimings,
     stakableNFTs: store.blockchain.stakableNFTs,
     allowance: store.blockchain.allowance,
+    eefi_price: store.blockchain.eefi_price,
+    ampl_price: store.blockchain.ampl_price
   };
 }
 
