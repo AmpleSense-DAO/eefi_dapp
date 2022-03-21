@@ -194,11 +194,11 @@ class Widget extends React.Component {
                     </Button>
                   </a>)
                 ) : (
-                  isBuyButton && (<Link to={`/app/home/vault-detail/${pagelink}`} style={{ marginTop: "20px" }}>
+                  isBuyButton && (<a href={"https://app.balancer.fi/#/trade/ether/0x92915c346287DdFbcEc8f86c8EB52280eD05b3A3"} style={{ marginTop: "20px" }}>
                     <Button color="primary" className="mb-md mr-md" size="sm">
                       BUY
                     </Button>
-                  </Link>)
+                  </a>)
                 )}
               </div>
             )
