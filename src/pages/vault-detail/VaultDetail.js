@@ -652,7 +652,8 @@ class VaultDetail extends React.Component {
                 Learn how to provide EEFI/ETH liquidity: Click <a href="https://docs.eefi.finance/docs/tutorial-extras-copy-2/eefi_eth_liquidity">here</a>
                 </p>}
                 {contract.stakingTokenSymbol() === "kMPL/ETH Uniswap v2" && <p className="fs-mini text-muted">
-                Provide kMPL/ETH liquidity: Click <a href="https://app.uniswap.org/#/add/v2/ETH/0xe8D17542dfe79Ff4FBd4b850f2d39DC69c4489a2?chain=mainnet">here</a>
+                Provide kMPL/ETH liquidity: Click <a href="https://app.uniswap.org/#/add/v2/ETH/0xe8D17542dfe79Ff4FBd4b850f2d39DC69c4489a2?chain=mainnet">here</a><br/>
+                Note: kMPL/ETH LP provider stakers will earn 2x EEFI rewards from March 2022 to August 2022: Learn <a href="https://forum.amplesense.io/bonus-eefi-rewards-for-kmpl-eth-stakers-eefi-airdrop-reminder">more</a>
                 </p>}
               </div>
             </Widget>
