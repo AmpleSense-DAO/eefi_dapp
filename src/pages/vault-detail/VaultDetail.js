@@ -635,7 +635,7 @@ class VaultDetail extends React.Component {
                 Deposit cost: {deposit_simulation_formatted} AMPL (${deposit_usd_price})<br/>
                 Share cost: {poolSharePrice} AMPL<br/>
                 Reward: {deposit_reward_formatted} EEFI (rebase bonus: {eefiBonusPercent}%) (${deposit_usd_reward})<br/>
-                <a href="https://docs.eefi.finance/docs/tutorial-extras%20copy%202/staking_shares_overview">Learn more</a>
+                <a href="https://docs.eefi.finance/docs/tutorial-extras-copy-2/staking_shares_overview">Learn more</a>
                 </p>}
                 <p className={"d-flex align-items-center "} align="center">
                   {allowance > 0 ? (
@@ -650,6 +650,9 @@ class VaultDetail extends React.Component {
                 </p>
                 {contract.stakingTokenSymbol() === "Balancer LP" && <p className="fs-mini text-muted">
                 Learn how to provide EEFI/ETH liquidity: Click <a href="https://docs.eefi.finance/docs/tutorial-extras-copy-2/eefi_eth_liquidity">here</a>
+                </p>}
+                {contract.stakingTokenSymbol() === "kMPL/ETH Uniswap v2" && <p className="fs-mini text-muted">
+                Provide kMPL/ETH liquidity: Click <a href="https://app.uniswap.org/#/add/v2/ETH/0xe8D17542dfe79Ff4FBd4b850f2d39DC69c4489a2?chain=mainnet">here</a>
                 </p>}
               </div>
             </Widget>
