@@ -648,6 +648,9 @@ class VaultDetail extends React.Component {
                     </Button>
                   )}
                 </p>
+                {contract.stakingTokenSymbol() === "Balancer LP" && <p className="fs-mini text-muted">
+                Learn how to provide EEFI/ETH liquidity: Click <a href="https://docs.eefi.finance/docs/tutorial-extras-copy-2/eefi_eth_liquidity">here</a>
+                </p>}
               </div>
             </Widget>
           </Col>
