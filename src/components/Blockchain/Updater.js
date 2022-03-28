@@ -430,19 +430,20 @@ class BlockchainUpdater extends React.Component {
       .get(`https://api.coingecko.com/api/v3/coins/ethereum/contract/${CONTRACT_ADDRESSES.KMPL_CONTRACT}`)
       .then((resp) => {
         const kMPLPrice = resp.data.market_data.current_price.usd;
-        this.props.dispatch(fetchKMPLPrice(kMPLPrice,resp.data.market_data.price_change_24h));
+        console.log(resp.data.market_data)
+        this.props.dispatch(fetchKMPLPrice(kMPLPrice,resp.data.market_data.price_change_24h != null?resp.data.market_data.price_change_24h : "0"));
       })
       .catch((e) => {
         // in case of failure set price to $50
         this.props.dispatch(fetchKMPLPrice(50, "0"));
       });
 
-    //get kMPL price
+    //get EEFI price
     axios
-      .get(`https://api.coingecko.com/api/v3/coins/ethereum/contract/${CONTRACT_ADDRESSES.EEFI_CONTRACT}`)
+      .get(`https://api.dexscreener.io/latest/dex/tokens/${CONTRACT_ADDRESSES.EEFI_CONTRACT}`)
       .then((resp) => {
-        const eefiPrice = resp.data.market_data.current_price.usd;
-        this.props.dispatch(fetchEEFIPrice(eefiPrice, resp.data.market_data.price_change_24h));
+        const eefiPrice = resp.data.pairs[0].priceUsd;
+        this.props.dispatch(fetchEEFIPrice(eefiPrice, resp.data.pairs[0].priceChange.h24));
       })
       .catch((e) => {
         // in case of failure set price to $45
